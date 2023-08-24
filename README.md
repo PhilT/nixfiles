@@ -10,7 +10,7 @@
 sudo -s
 mkdir /usb
 mount /dev/disk/by-label/NIXFILES /usb
-cd /usb/nixfiles
+cd /usb
 ./wifi.sh
 ping google.com
 ./bootstrap.sh -dpf <disk> $(mkpasswd)
