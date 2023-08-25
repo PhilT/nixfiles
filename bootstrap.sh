@@ -6,11 +6,25 @@ create_partitions() {
   echo [BOOTSTRAP] Partitioning drives
   wait
 
+  # 1 GB EFI boot partition
+  # The rest will be an LVM partition
+
   parted -s $ssd -- mklabel gpt
-  parted -s $ssd -- mkpart primary 512MB -8GB
-  parted -s $ssd -- mkpart primary linux-swap -8GB 100%
-  parted -s $ssd -- mkpart ESP fat32 1MB 512MB
-  parted -s $ssd -- set 3 esp on
+  parted -s $ssd -- mkpart ESP fat32 1MB 1GB
+  parted -s $ssd -- mkpart primary 1GB 100%
+  parted -s $ssd -- set 1 esp on
+}
+
+setup_encryption() {
+  echo [BOOTSTRAP] Setting up encryption
+  wait
+
+  cryptsetup luksFormat $lvm_partition         # Asks for an encryption password
+  cryptsetup luksOpen $lvm_partition nixos-enc # Decrypt partition
+  pvcreate /dev/mapper/nixos-enc               # LVM Physical volume
+  vgcreate nixos-vg /dev/mapper/nixos-enc      # Volume Group
+  lvcreate -L 32G -n swap nixos-vg             # Swap (logical volume)
+  lvcreate -l 100%FREE -n root nixos-vg        # Root (main) filesystem (logical volume)
 }
 
 format_partitions() {
@@ -19,21 +33,25 @@ format_partitions() {
   echo [BOOTSTRAP] Formatting partitions
   wait
 
-  mkfs.ext4 -F -L nixos $nixos_partition
-  mount /dev/disk/by-label/nixos /mnt
+  mkfs.vfat -n boot $boot_partition
+  mkfs.ext4 -F -L nixos /dev/nixos-vg/root
+  mkswap -q -L swap /dev/nixos-vg/swap
+  swapon /dev/nixos-vg/swap
+}
 
-  mkswap -q -L swap $swap_partition
-  swapon $swap_partition
+mount_partitions() {
+  echo [BOOTSTRAP] Mounting partitions
+  wait
 
-  mkfs.fat -F 32 -n boot $boot_partition
+  mount /dev/nixos-vg/root /mnt
   mkdir -p /mnt/boot
-  mount /dev/disk/by-label/boot /mnt/boot
+  mount $boot_partition /mnt/boot
 }
 
 wait() {
   [ "$quiet" -eq "1" ] && return
 
-  echo Press ENTER to continue
+  echo "(press enter)"
   read
 }
 
@@ -70,19 +88,22 @@ if [ -z "$ssd" ]; then
   exit 0
 fi
 
-nixos_partition=${ssd}p1
-swap_partition=${ssd}p2
-boot_partition=${ssd}p3
+boot_partition=${ssd}p1
+lvm_partition=${ssd}p2
 
 create_partitions
-
+setup_encryption
 format_partitions
+mount_partitions
 
 echo [BOOTSTRAP] Creating hardware config file
 wait
 nixos-generate-config --root /mnt
 cp ./bootstrap.nix /mnt/etc/nixos/configuration.nix
-sed -i "s!HASHED_PASSWORD!$password!" /mnt/etc/nixos/configuration.nix
+mkdir -p /mnt/run/secrets
+cp ./wireless.env /mnt/run/secrets/
+sed -i "s|HASHED_PASSWORD|$password|" /mnt/etc/nixos/configuration.nix
+sed -i "s|LVM_PARTITION|$lvm_partition|" /mnt/etc/nixos/configuration.nix
 
 echo [BOOTSTRAP] Installing NixOS
 wait

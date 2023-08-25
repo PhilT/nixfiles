@@ -14,6 +14,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.initrd.luks.devices = {
+    root = {
+      device = "LVM_PARTITION";
+      preLVM = true;
+    };
+  };
+
   # Pick only one of the below networking options.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.wireless.environmentFile = "/run/secrets/wireless.env";
@@ -47,8 +54,10 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
+    htop
     neovim
     wget
+    which
   ];
 
   # Services
