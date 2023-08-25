@@ -21,12 +21,8 @@
     };
   };
 
-  # Pick only one of the below networking options.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.wireless.environmentFile = "/run/secrets/wireless.env";
-  networking.wireless.networks = {
-    Thompson.psk = "@PSK_HOME@";
-  };
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

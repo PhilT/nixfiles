@@ -20,8 +20,7 @@ ping google.com # To check Wifi connected correctly
 
 For later
 ```
-nmcli --ask dev wifi connect <NameofWifi> # Connect to Wifi network
-nmcli dev wifi list                       # List Wifi networks
+iwctl --passphrase=PASSPHRASE station wlan0 connect <NETWORK NAME (SSID)>
 ```
 
 ## TODO

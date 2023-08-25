@@ -15,12 +15,18 @@ create_partitions() {
   parted -s $ssd -- set 1 esp on
 }
 
+decrypt_drive() {
+  cryptsetup luksOpen $lvm_partition nixos-enc # Decrypt partition
+}
+
 setup_encryption() {
+  [ "$partition" -eq "0" ] && return
+
   echo [BOOTSTRAP] Setting up encryption
   wait
 
   cryptsetup luksFormat $lvm_partition         # Asks for an encryption password
-  cryptsetup luksOpen $lvm_partition nixos-enc # Decrypt partition
+  decrypt_drive
   pvcreate /dev/mapper/nixos-enc               # LVM Physical volume
   vgcreate nixos-vg /dev/mapper/nixos-enc      # Volume Group
   lvcreate -L 32G -n swap nixos-vg             # Swap (logical volume)
@@ -79,12 +85,10 @@ password=$2
 
 if [ -z "$ssd" ]; then
   echo "Usage: $0 [-pfq] </dev/disk> <password>" >&2
-  echo "  e"
   echo "  -p Create partitions" >&2
   echo "  -f Format partitions" >&2
   echo "  -q No user input" >&2
-  echo "  -d "
-  echo " Example: $0 -pf /dev/nvme0n1 \$(mkpasswd)"
+  echo " Example: $0 -pf /dev/nvme0n1 \$(mkpasswd)" >&2
   exit 0
 fi
 
@@ -94,14 +98,14 @@ lvm_partition=${ssd}p2
 create_partitions
 setup_encryption
 format_partitions
+
+[ "$partition" -eq "0" ] && decrypt_drive
 mount_partitions
 
 echo [BOOTSTRAP] Creating hardware config file
 wait
 nixos-generate-config --root /mnt
 cp ./bootstrap.nix /mnt/etc/nixos/configuration.nix
-mkdir -p /mnt/run/secrets
-cp ./wireless.env /mnt/run/secrets/
 sed -i "s|HASHED_PASSWORD|$password|" /mnt/etc/nixos/configuration.nix
 sed -i "s|LVM_PARTITION|$lvm_partition|" /mnt/etc/nixos/configuration.nix
 
