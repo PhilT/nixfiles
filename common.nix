@@ -18,10 +18,8 @@
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs {
         src = builtins.fetchGit {
-          #url = "https://github.com/PhilT/dwm.git";
-          #ref = "main"; # Could move this to machine specific config to have diff configs
-          url = "https://github.com/bakkeby/dusk.git";
-          ref = "master";
+          url = "https://github.com/PhilT/dwm.git";
+          ref = "main"; # Could move this to machine specific config to have diff configs
         };
       };
     };
@@ -41,8 +39,8 @@
   # Environment variables
   environment.sessionVariables = rec {
     CDPATH   = "${CODE_DIR}";
-    CODE_DIR = "${HOME}/code";
-    DOTNET_CLI_TELEMETRY_OPTOUT = true;
+    CODE_DIR = "/home/phil/code";
+    DOTNET_CLI_TELEMETRY_OPTOUT = "true";
     EDITOR = "$VISUAL";
     FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
     HISTCONTROL = "ignoreboth:erasedups";
@@ -57,14 +55,7 @@
     ripgrep
     ungoogled-chromium
     unzip
-    xorg.libX11
-    xorg.libXfixes
-    xorg.libXft
-    xorg.libXi
-    xorg.libXinerama
-    xorg.libxcb
     xscreensaver
-    yajl
     zip
   ];
 
