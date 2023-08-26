@@ -26,8 +26,6 @@ cd /usb
 
 ## TODO
 
-[ ] Display Battery (DWM)
-
 Prepare desktop config (for development)
 
 [ ] Dotfiles

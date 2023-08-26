@@ -5,20 +5,28 @@
     ./bootstrap.nix
   ];
 
+  # Environment variables
+  environment.sessionVariables = rec {
+    CODE_DIR = "$HOME/code";
+  };
+
   # Enable the X11 windowing system
   services = {
     xserver = {
       enable = true;
       layout = "gb";
       libinput.enable = true; # Touchpad support
+      displayManager = {
+	lightdm.enable = false;
+        startx.enable = true;
+      };
       windowManager.dwm.enable = true;
-#      windowManager.dwm.package = pkgs.dwm.overrideAttrs {
-#        src = builtins.fetchGit {
-#          url = "https://github.com/PhilT/dwm.git";
-#          ref = "master"; # Could move this to machine specific config to have diff configs
-#        };
-#      };
-      displayManager.defaultSession = "none+dwm";
+      windowManager.dwm.package = pkgs.dwm.overrideAttrs {
+        src = builtins.fetchGit {
+          url = "https://github.com/PhilT/dwm.git";
+          ref = "main"; # Could move this to machine specific config to have diff configs
+        };
+      };
     };
   };
 
