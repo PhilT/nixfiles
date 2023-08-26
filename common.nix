@@ -5,11 +5,6 @@
     ./bootstrap.nix
   ];
 
-  # Environment variables
-  environment.sessionVariables = rec {
-    CODE_DIR = "$HOME/code";
-  };
-
   # Enable the X11 windowing system
   services = {
     xserver = {
@@ -17,14 +12,16 @@
       layout = "gb";
       libinput.enable = true; # Touchpad support
       displayManager = {
-	lightdm.enable = false;
+        lightdm.enable = false;
         startx.enable = true;
       };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs {
         src = builtins.fetchGit {
-          url = "https://github.com/PhilT/dwm.git";
-          ref = "main"; # Could move this to machine specific config to have diff configs
+          #url = "https://github.com/PhilT/dwm.git";
+          #ref = "main"; # Could move this to machine specific config to have diff configs
+          url = "https://github.com/bakkeby/dusk.git";
+          ref = "master";
         };
       };
     };
@@ -41,11 +38,23 @@
     #jack.enable = true;
   };
 
+  # Environment variables
+  environment.sessionVariables = rec {
+    CDPATH   = "${CODE_DIR}";
+    CODE_DIR = "${HOME}/code";
+    DOTNET_CLI_TELEMETRY_OPTOUT = true;
+    EDITOR = "$VISUAL";
+    FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
+    HISTCONTROL = "ignoreboth:erasedups";
+    VISUAL = "nvim";
+  };
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
     dmenu
-    imlib2
+    feh
+    ripgrep
     ungoogled-chromium
     unzip
     xorg.libX11
