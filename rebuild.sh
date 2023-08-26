@@ -24,10 +24,7 @@ echo "[REBUILD] $machine"
 # Setup Wifi if not already
 ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wlan0 connect $ssid
 
-sudo cp ./bootstrap.nix /etc/nixos/bootstrap.nix
-sudo cp ./common.nix /etc/nixos/common.nix
-sudo cp ./$machine.nix /etc/nixos/configuration.nix
-sudo ./replace_vars.sh $machine /etc/nixos/bootstrap.nix
+./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
 
 cd ~                   # Needed as rebuild symlinks the result from the current path
 sudo nixos-rebuild test
