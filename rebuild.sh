@@ -1,6 +1,10 @@
 #!/bin/sh
 
-machine=$1 || $(hostname)
+if [ -z "$1" ]; then
+  machine=$(hostname)
+else
+  machine=$1
+fi
 
 case $machine in
   "darko")
@@ -19,13 +23,16 @@ source ./$machine.env
 echo "[REBUILD] $machine"
 
 # Copy SSH dir if not already
-[ -d "~/.ssh" ] || cp -R ./.ssh ~/
+if [ ! -d "~/.ssh" ]; then
+  cp -R ./.ssh ~/
+  chmod 600 ~/.ssh/*
+fi
 
 # Setup Wifi if not already
 ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wlan0 connect $ssid
 
 ./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
 
-cd ~                   # Needed as rebuild symlinks the result from the current path
+cd ~ # Needed as rebuild symlinks the result from the current path
 sudo nixos-rebuild test
 cd -

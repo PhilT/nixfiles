@@ -12,12 +12,12 @@
       layout = "gb";
       libinput.enable = true; # Touchpad support
       windowManager.dwm.enable = true;
-      windowManager.dwm.package = pkgs.dwm.overrideAttrs {
-        src = builtins.fetchGit {
-          url = "https://github.com/PhilT/dwm.git";
-          ref = "main"; # Could move this to machine specific config to have diff configs
-        };
-      };
+#      windowManager.dwm.package = pkgs.dwm.overrideAttrs {
+#        src = builtins.fetchGit {
+#          url = "https://github.com/PhilT/dwm.git";
+#          ref = "master"; # Could move this to machine specific config to have diff configs
+#        };
+#      };
       displayManager.defaultSession = "none+dwm";
     };
   };
@@ -37,9 +37,17 @@
   environment.systemPackages = with pkgs; [
     alacritty
     dmenu
+    imlib2
     ungoogled-chromium
     unzip
+    xorg.libX11
+    xorg.libXfixes
+    xorg.libXft
+    xorg.libXi
+    xorg.libXinerama
+    xorg.libxcb
     xscreensaver
+    yajl
     zip
   ];
 
