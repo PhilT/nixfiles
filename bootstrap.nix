@@ -38,7 +38,7 @@
     uid = 1000;
     description = "Phil Thompson";
     hashedPassword = "USER_PASSWORD";
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "cdrom" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
   users.mutableUsers = false;
 
