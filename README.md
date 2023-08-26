@@ -26,9 +26,8 @@ cd /usb
 
 ## TODO
 
-[ ] Not tested new bootstraped wifi connection setup and waiting
-
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
 * https://qfpl.io/posts/installing-nixos/
 * https://nixos.org/manual/nixos/stable/
+* https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488

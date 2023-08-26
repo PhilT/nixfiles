@@ -1,6 +1,0 @@
-network={
-    ssid="Name of Wifi network"
-    psk="Password of Wifi network"
-    key_mgmt=WPA-PSK
-    scan_ssid=1
-}
