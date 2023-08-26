@@ -5,27 +5,28 @@
 ## Bootstrapping a new machine
 
 * Copy this repo to a USB stick
+* Add the ssh key to GitHub
 * Create another USB stick with the minimal NixOS ISO from https://nixos.org/download
 * Boot up NixOS ISO then run the following commands:
-
 ```
 sudo -s
 mkdir /usb
 mount /dev/disk/by-label/NIXFILES /usb
 cd /usb
-./wifi.sh
-ping google.com # To check Wifi connected correctly
-./bootstrap.sh -pf <disk> $(mkpasswd)     # Partition and format the drives
+./bootstrap -pf <darko|spruce>     # Partition and format the drives
 ```
 
-For later
+After first boot, run:
 ```
-iwctl --passphrase=PASSPHRASE station wlan0 connect <NETWORK NAME (SSID)>
+sudo mkdir /usb
+sudo mount /dev/disk/by-label/NIXFILES /usb
+cd /usb
+./rebuild.sh <darko|spruce> # Subsequent runs can omit the param as the hostname is used
 ```
 
 ## TODO
-[ ] Clone repo on target drive
 
+[ ] Not tested new bootstraped wifi connection setup and waiting
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
