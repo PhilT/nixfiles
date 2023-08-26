@@ -26,6 +26,16 @@ cd /usb
 
 ## TODO
 
+[ ] Display Battery (DWM)
+
+Prepare desktop config (for development)
+
+[ ] Dotfiles
+[ ] Docker
+
+
+
+
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
 * https://qfpl.io/posts/installing-nixos/
