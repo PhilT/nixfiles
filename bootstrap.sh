@@ -1,5 +1,23 @@
 #!/bin/sh
 
+source ./common.env
+lvm_partition=${ssd}p2
+
+setup_wifi() {
+  echo [BOOTSTRAP] Connecting Wifi
+
+  wpa_passphrase $ssid $psk > /etc/wpa_supplicant.conf
+  systemctl restart wpa_supplicant.service
+}
+
+check_wifi() {
+  while ! ping -c 1 google.com > /dev/null 2>&1; do
+    sleep 3
+  done
+
+  echo [BOOTSTRAP] Wifi connected
+}
+
 create_partitions() {
   [ "$partition" -eq "0" ] && return
 
@@ -54,6 +72,22 @@ mount_partitions() {
   mount $boot_partition /mnt/boot
 }
 
+generate_config() {
+  echo [BOOTSTRAP] Creating hardware config file
+  wait
+
+  nixos-generate-config --root /mnt
+  cp ./bootstrap.nix /mnt/etc/nixos/configuration.nix
+  ./replace_vars.sh $machine /mnt/etc/nixos/configuration.nix
+}
+
+install_nixos() {
+  echo [BOOTSTRAP] Installing NixOS
+  wait
+
+  nixos-install --no-root-password 2>&1 | tee /usb/nixos-install.log
+}
+
 wait() {
   [ "$quiet" -eq "1" ] && return
 
@@ -80,38 +114,29 @@ while getopts 'pfq' OPTION; do
 done
 shift $(($OPTIND - 1))
 
-ssd=$1
-password=$2
+machine=$1
 
 if [ -z "$ssd" ]; then
-  echo "Usage: $0 [-pfq] </dev/disk> <password>" >&2
+  echo "Usage: $0 [-pfq] </dev/disk>" >&2
   echo "  -p Create partitions" >&2
   echo "  -f Format partitions" >&2
   echo "  -q No user input" >&2
-  echo " Example: $0 -pf /dev/nvme0n1 \$(mkpasswd)" >&2
+  echo " Example: $0 -pf <darko|spruce>" >&2
   exit 0
 fi
 
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
 
+setup_wifi
 create_partitions
 setup_encryption
 format_partitions
-
-[ "$partition" -eq "0" ] && decrypt_drive
+[ "$partition" -eq "0" ] && decrypt_drive # If we've not already decrypted the drive
 mount_partitions
-
-echo [BOOTSTRAP] Creating hardware config file
-wait
-nixos-generate-config --root /mnt
-cp ./bootstrap.nix /mnt/etc/nixos/configuration.nix
-sed -i "s|HASHED_PASSWORD|$password|" /mnt/etc/nixos/configuration.nix
-sed -i "s|LVM_PARTITION|$lvm_partition|" /mnt/etc/nixos/configuration.nix
-
-echo [BOOTSTRAP] Installing NixOS
-wait
-nixos-install 2>&1 | tee /usb/nixos-install.log
+generate_config
+check_wifi
+install_nixos
 
 echo [BOOTSTRAP] All done.
-echo '`reboot` to finish.'
+echo '`reboot` to finish!'

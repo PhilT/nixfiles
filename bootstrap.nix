@@ -10,10 +10,9 @@
     allowUnfree = true;
   };
 
-  # Use the systemd-boot EFI boot loader.
+  # Use the systemd-boot EFI boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   boot.initrd.luks.devices = {
     root = {
       device = "LVM_PARTITION";
@@ -24,29 +23,25 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
+  # Internationalisation
   i18n.defaultLocale = "en_GB.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     useXkbConfig = true;
   };
-  services.xserver.enable = false;
   services.xserver.layout = "gb";
+  services.xserver.xkbOptions = "ctrl:swapcaps";
 
-   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.phil = {
-    description = "Phil Thompson";
+  # User account
+  users.extraUsers.phil = {
     isNormalUser = true;
-    hashedPassword = "HASHED_PASSWORD";
+    uid = 1000;
+    description = "Phil Thompson";
+    hashedPassword = "USER_PASSWORD";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
   users.mutableUsers = false;
 
-  # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
