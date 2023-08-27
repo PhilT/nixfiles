@@ -43,7 +43,7 @@
     uid = 1000;
     description = "USER_FULLNAME";
     hashedPassword = "USER_PASSWORD";
-    extraGroups = [ "wheel" "cdrom" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "networkmanager" "video" "wheel" ];
   };
   users.mutableUsers = false;
 

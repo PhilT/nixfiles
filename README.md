@@ -28,6 +28,7 @@ cd /usb
 
 ### Prepare desktop config (for development)
 [x] Bash
+[ ] keymaps for backlight
 [ ] Neovim
 [ ] Dotfiles
 [ ] Docker

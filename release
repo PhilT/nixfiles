@@ -3,14 +3,19 @@
 git diff-index --quiet HEAD --
 if [ "$?" -eq "0" ]; then
   BOOT_LABEL=$(git lo -1 | grep "\(.*\)")
-  BOOT_LABEL=$(echo $BOOT_LABEL | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-  sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" /etc/nixos/minimal.nix
-
-  sudo echo "[LABEL] $BOOT_LABEL"
-  sudo nixos-rebuild switch
-
-  sudo sed -i "s|$BOOT_LABEL|BOOT_LABEL|" /etc/nixos/minimal.nix
+elif [ ! -z "$1" ]; then
+  BOOT_LABEL="$1"
+  git commit -am "$1"
 else
   echo "Uncommited files, did you mean this?"
+  exit
 fi
 
+
+BOOT_LABEL=$(echo $BOOT_LABEL | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
+sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" /etc/nixos/minimal.nix
+
+sudo echo "[LABEL] $BOOT_LABEL"
+sudo nixos-rebuild switch
+
+sudo sed -i "s|$BOOT_LABEL|BOOT_LABEL|" /etc/nixos/minimal.nix
