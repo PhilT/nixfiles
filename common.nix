@@ -40,6 +40,7 @@
   environment.sessionVariables = rec {
     CDPATH   = "${CODE_DIR}";
     CODE_DIR = "/home/phil/code";
+    TXT_DIR  = "/home/phil/txt";
     DOTNET_CLI_TELEMETRY_OPTOUT = "true";
     FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
     HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
