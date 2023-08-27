@@ -45,7 +45,6 @@
     HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
     HISTFILESIZE = "";                       # Unlimited history
     HISTSIZE = "";                           # Unlimited history
-    PROMPT_COMMAND = "history -a";           # Append previous command to history
   };
 
   # $ nix search wget
@@ -55,9 +54,7 @@
     feh
     ripgrep
     ungoogled-chromium
-    unzip
     xscreensaver
-    zip
   ];
 
 }
