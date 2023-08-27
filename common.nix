@@ -48,6 +48,12 @@
   };
 
   # File management
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-media-tags-plugin
+    thunar-volman
+  ];
   services.gvfs.enable = true;               # Automount USB drives
 
   # $ nix search wget
@@ -55,7 +61,6 @@
     alacritty
     dmenu
     feh
-    pcmanfm
     ripgrep
     ungoogled-chromium
     xscreensaver
