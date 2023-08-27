@@ -9,6 +9,7 @@
       ./hardware-configuration.nix
     ];
 
+  system.nixos.label = "BOOT_LABEL";
   nixpkgs.config = {
     allowUnfree = true;
   };

@@ -34,5 +34,5 @@ ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wl
 ./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
 
 cd ~ # Needed as rebuild symlinks the result from the current path
-sudo nixos-rebuild switch
+sudo nixos-rebuild test
 cd -
