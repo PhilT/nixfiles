@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./bootstrap.nix
+    ./minimal.nix
   ];
 
   # Enable the X11 windowing system
@@ -10,7 +10,7 @@
     xserver = {
       enable = true;
       layout = "gb";
-      libinput.enable = true; # Touchpad support
+      libinput.enable = true;                # Touchpad support
       displayManager = {
         lightdm.enable = false;
         startx.enable = true;
@@ -19,7 +19,7 @@
       windowManager.dwm.package = pkgs.dwm.overrideAttrs {
         src = builtins.fetchGit {
           url = "https://github.com/PhilT/dwm.git";
-          ref = "main"; # Could move this to machine specific config to have diff configs
+          ref = "main";                      # Could move this to machine specific config to have diff configs
         };
       };
     };
@@ -41,13 +41,11 @@
     CDPATH   = "${CODE_DIR}";
     CODE_DIR = "/home/phil/code";
     DOTNET_CLI_TELEMETRY_OPTOUT = "true";
-    EDITOR = "$VISUAL";
     FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
-    HISTCONTROL = "ignoreboth:erasedups";
-    HISTFILESIZE = "";  # Unlimited history
-    HISTSIZE = "";      # Unlimited history
-    PROMPT_COMMAND = "history -a";
-    VISUAL = "nvim";
+    HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
+    HISTFILESIZE = "";                       # Unlimited history
+    HISTSIZE = "";                           # Unlimited history
+    PROMPT_COMMAND = "history -a";           # Append previous command to history
   };
 
   # $ nix search wget

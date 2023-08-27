@@ -1,3 +1,6 @@
+# This is minimal config to get a bootable NixOS system with a single user.
+# It could be used if the other configs don't boot a machine correctly into NixOS.
+
 { config, pkgs, ... }:
 
 {
@@ -33,20 +36,25 @@
   services.xserver.xkbOptions = "ctrl:swapcaps";
 
   # User account
-  users.extraUsers.phil = {
+  users.extraUsers.USER_NAME = {
     isNormalUser = true;
     uid = 1000;
-    description = "Phil Thompson";
+    description = "USER_FULLNAME";
     hashedPassword = "USER_PASSWORD";
     extraGroups = [ "wheel" "cdrom" "networkmanager" ]; # Enable ‘sudo’ for the user.
   };
   users.mutableUsers = false;
 
+  # Neovim
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
     htop
-    neovim
     wget
     which
   ];
