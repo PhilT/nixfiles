@@ -17,3 +17,6 @@ RUN "sudo sed -i 's|USER_FULLNAME|$user_full_name|' $nixos_dir/minimal.nix"
 RUN "sudo sed -i 's|USER_PASSWORD|$user_password|' $nixos_dir/minimal.nix"
 RUN "sudo sed -i 's|LVM_PARTITION|$lvm_partition|' $nixos_dir/minimal.nix"
 
+STATE "NVIM" "Copy Neovim config"
+RUN "sudo rm -rf $nixos_dir/neovim"
+RUN "sudo cp -r neovim $nixos_dir"

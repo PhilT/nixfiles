@@ -53,3 +53,4 @@ cd /usb
 * https://qfpl.io/posts/installing-nixos/
 * https://nixos.org/manual/nixos/stable/
 * https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488
+* https://nixos.wiki/wiki/Backlight
