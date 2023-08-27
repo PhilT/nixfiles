@@ -44,6 +44,9 @@
     EDITOR = "$VISUAL";
     FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
     HISTCONTROL = "ignoreboth:erasedups";
+    HISTFILESIZE = "";  # Unlimited history
+    HISTSIZE = "";      # Unlimited history
+    PROMPT_COMMAND = "history -a";
     VISUAL = "nvim";
   };
 
