@@ -47,11 +47,15 @@
     HISTSIZE = "";                           # Unlimited history
   };
 
+  # File management
+  services.gvfs.enable = true;               # Automount USB drives
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
     dmenu
     feh
+    pcmanfm
     ripgrep
     ungoogled-chromium
     xscreensaver
