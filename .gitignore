@@ -1,4 +1,4 @@
 hardware-configuration.nix
-wpa_supplicant.conf
 *.env
 .ssh
+result
