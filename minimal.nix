@@ -43,7 +43,7 @@
     uid = 1000;
     description = "USER_FULLNAME";
     hashedPassword = "USER_PASSWORD";
-    extraGroups = [ "networkmanager" "video" "wheel" ];
+    extraGroups = [ "wheel" "networkmanager" "video" ];
   };
   users.mutableUsers = false;
 
