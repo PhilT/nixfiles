@@ -26,11 +26,24 @@ cd /usb
 
 ## TODO
 
-Prepare desktop config (for development)
-
+### Prepare desktop config (for development)
+[x] Bash
+[ ] Neovim
 [ ] Dotfiles
 [ ] Docker
+[ ] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
+[ ] Sync/ Syncthing
+[ ] Ruby https://nixos.org/manual/nixpkgs/stable/#sec-language-ruby
 
+### Game development
+[ ] Setup Vulkcan SDK
+[ ] nVidia drivers
+[ ] 
+
+### Games
+[ ] Proton
+[ ] Steam
+[ ] VR drivers 
 
 
 
