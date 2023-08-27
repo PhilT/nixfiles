@@ -47,6 +47,14 @@
     HISTSIZE = "";                           # Unlimited history
   };
 
+  environment.interactiveShellInit = ''
+    alias ss='feh -F -D 15'
+
+    if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
+      startx
+    fi
+  '';
+
   # File management
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
