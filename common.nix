@@ -46,10 +46,11 @@
     HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
     HISTFILESIZE = "";                       # Unlimited history
     HISTSIZE = "";                           # Unlimited history
+    XDG_CONFIG_HOME = "$HOME/.config";
   };
 
   environment.interactiveShellInit = ''
-    alias ss='feh -F -D 15'
+    alias ss='feh -Z -F -D 15'
 
     if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
       startx
@@ -66,16 +67,14 @@
       mode = "444";
     };
 
-    "xdg/nvim/colors/greyscale.vim" = {
-      source = ./neovim/colors/greyscale.vim;
-      mode = "444";
-    };
+    "xdg/nvim/colors/greyscale.vim" = { source = ./neovim/colors/greyscale.vim; };
+    "gitconfig" = { source = ./dotfiles/gitconfig; };
+    "gitignore" = { source = ./dotfiles/gitignore; };
+    "ignore" = { source = ./dotfiles/ignore; };
   };
 
   environment.extraInit = ''
-    echo "************* Running extraInit"
-
-    ln -fs /etc/config/alacritty.yml /home/phil/.config/alacritty.yml 
+    ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml 
   '';
   environment.pathsToLink = [ "/share" "/bin" ];
 
