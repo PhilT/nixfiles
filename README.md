@@ -42,14 +42,11 @@ cd /usb
 ### Game development
 [ ] Setup Vulkcan SDK
 [ ] nVidia drivers
-[ ] 
 
 ### Games
 [ ] Proton
 [ ] Steam
-[ ] VR drivers 
-
-
+[ ] VR drivers
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
