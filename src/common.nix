@@ -18,8 +18,10 @@
   services = {
     xserver = {
       enable = true;
-      layout = "gb";
       libinput.enable = true;                # Touchpad support
+      xautolock.enable = true;
+
+      layout = "gb";
       displayManager = {
         lightdm.enable = false;
         startx.enable = true;
@@ -89,8 +91,7 @@
   environment.pathsToLink = [ "/share" "/bin" ];
 
   # Programs
-  programs.slock.enable = true;
-  programs.xautolock.enable = true;
+  programs.slock.enable = true;              # xautolock also added in services
 
   # File management
   programs.thunar.enable = true;
@@ -182,6 +183,8 @@
     fsautocomplete
     ripgrep
     ungoogled-chromium
+    unzip
+    zip
   ];
 
 }
