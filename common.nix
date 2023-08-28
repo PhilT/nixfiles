@@ -75,8 +75,9 @@
   environment.extraInit = ''
     echo "************* Running extraInit"
 
-    sudo ln -fs /etc/config/alacritty.yml $HOME/.config/alacritty.yml 
+    ln -fs /etc/config/alacritty.yml /home/phil/.config/alacritty.yml 
   '';
+  environment.pathsToLink = [ "/share" "/bin" ];
 
   # File management
   programs.thunar.enable = true;
