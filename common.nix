@@ -46,6 +46,7 @@
     HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
     HISTFILESIZE = "";                       # Unlimited history
     HISTSIZE = "";                           # Unlimited history
+    XDG_CONFIG_HOME = "/etc";                # Force apps to look in /etc for config (e.g. alacritty)
   };
 
   environment.interactiveShellInit = ''
@@ -55,6 +56,17 @@
       startx
     fi
   '';
+
+  environment.etc = {
+    "alacritty.yml" = {
+      text = ''
+        font:
+          size: 8
+        '';
+
+      mode = "444";
+    };
+  };
 
   # File management
   programs.thunar.enable = true;
