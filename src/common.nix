@@ -87,6 +87,7 @@
 
   environment.extraInit = ''
     ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
+    update-desktop-database
   '';
   environment.pathsToLink = [ "/share" "/bin" ];
 
@@ -178,6 +179,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
+    desktop-file-utils
     dmenu
     feh
     fsautocomplete
