@@ -49,7 +49,7 @@ source src/$machine.env
 echo "[$action] $machine"
 
 configuration_nix=src/$machine.nix
-./copy_config.sh $machine 0 # 0 - No dryrun
+./copy_config.sh $machine /etc/nixos 0 # 0=No dryrun
 
 if [ "$cleanup" = "1" ]; then
   sudo nix-collect-garbage -d
