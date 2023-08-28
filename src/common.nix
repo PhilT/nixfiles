@@ -30,7 +30,8 @@
       windowManager.dwm.package = pkgs.dwm.overrideAttrs {
         src = builtins.fetchGit {
           url = "https://github.com/PhilT/dwm.git";
-          ref = "main";                      # Could move this to machine specific config to have diff configs
+          ref = "main";
+          rev = "225b4fa052ecd2eac5ad9fe8978bfeb73ac53038";   # Could move this to machine specific config to have diff configs
         };
       };
     };
@@ -89,14 +90,13 @@
   environment.extraInit = ''
     ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
   '';
-  environment.pathsToLink = [ "/share" "/bin" ];
 
   # Programs
   #-----------
   programs.slock.enable = true;              # xautolock also added in services
 
   # Autorun nix-shell when entering a dir with a shell.nix (e.g. a .NET project)
-  programs.direnv.enable = true;    
+  programs.direnv.enable = true;
 
   programs.neovim = {
     configure = {

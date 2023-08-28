@@ -32,7 +32,8 @@ cd /usb
 [x] keymaps for backlight
 [x] Neovim
 [x] Dotfiles
-[ ] Dotnet / fsautocomplete package
+[x] Dotnet / fsautocomplete package
+[ ] Release a NixOS package for vim-fsharp
 [ ] Docker
 [ ] invoice script
 [ ] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
