@@ -1,12 +1,17 @@
 #!/bin/sh
 
 action=REBUILD
-while getopts 'hr:m:' OPTION; do
+cleanup=0
+while getopts 'hdr:' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-r [commit message]]"
-      echo " -r [commit message] - rebuild & switch, with optional git commit"
+      echo "Usage: $0 [-dr [commit message]]"
+      echo "  -d                   run nix-collect-garbage"
+      echo "  -r [commit message]  rebuild & switch, with optional git commit"
       exit 0
+      ;;
+    d)
+      cleanup=1
       ;;
     r)
       action=RELEASE
@@ -44,6 +49,10 @@ source ./$machine.env
 echo "[$action] $machine"
 
 ./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
+
+if [ "$cleanup" = "1" ]; then
+  sudo nix-collect-garbage -d
+fi
 
 if [ -z "$commit_msg" ]; then
   sudo nixos-rebuild test
