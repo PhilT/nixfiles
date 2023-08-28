@@ -2,3 +2,4 @@ hardware-configuration.nix
 *.env
 .ssh
 result
+minimal.nix

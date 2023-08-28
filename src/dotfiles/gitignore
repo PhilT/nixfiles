@@ -1,0 +1,13 @@
+.fake
+.git
+.ionide
+.scratch.txt
+.stignore
+.tags
+.vscode
+AppData/
+Local Settings/
+Thumbs.db
+node_modules
+startup
+Session.vim

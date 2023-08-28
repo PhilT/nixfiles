@@ -2,10 +2,10 @@
 
 action=REBUILD
 cleanup=0
-while getopts 'hdr:' OPTION; do
+while getopts 'hdr' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-dr [commit message]]"
+      echo "Usage: $0 [-dr] [commit message]"
       echo "  -d                   run nix-collect-garbage"
       echo "  -r [commit message]  rebuild & switch, with optional git commit"
       exit 0
@@ -15,7 +15,8 @@ while getopts 'hdr:' OPTION; do
       ;;
     r)
       action=RELEASE
-      commit_msg="$OPTARG"
+      shift $(($OPTIND - 1))
+      commit_msg="$1"
 
       if [ -z "$commit_msg" ]; then
         git diff-index --quiet HEAD --
@@ -32,7 +33,6 @@ while getopts 'hdr:' OPTION; do
       ;;
   esac
 done
-shift $(($OPTIND - 1))
 
 if [ -z "$machine" ]; then
   machine=$(hostname)
@@ -43,24 +43,25 @@ if [ "$machine" != "darko" ] && [ "$machine" != "spruce" ]; then
   exit
 fi
 
-source ./common.env
-source ./$machine.env
+source src/common.env
+source src/$machine.env
 
 echo "[$action] $machine"
 
-./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
+configuration_nix=src/$machine.nix
+./copy_config.sh $machine 0 # 0 - No dryrun
 
 if [ "$cleanup" = "1" ]; then
   sudo nix-collect-garbage -d
 fi
 
 if [ -z "$commit_msg" ]; then
-  sudo nixos-rebuild test
+  sudo nixos-rebuild test -I nixos-config=$configuration_nix
 else
   BOOT_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-  sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" /etc/nixos/minimal.nix
+  sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" src/minimal.nix
 
   sudo echo "[LABEL] $BOOT_LABEL"
-  sudo nixos-rebuild switch
+  sudo nixos-rebuild switch -I nixos-config=$configuration_nix
 fi
 
