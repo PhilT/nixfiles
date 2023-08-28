@@ -46,6 +46,7 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
   };
+  services.gvfs.enable = true;               # Automount USB drives
 
   # Environment variables
   environment.sessionVariables = rec {
@@ -91,10 +92,11 @@
   environment.pathsToLink = [ "/share" "/bin" ];
 
   # Programs
+  #-----------
   programs.slock.enable = true;              # xautolock also added in services
 
-  # File management
-  services.gvfs.enable = true;               # Automount USB drives
+  # Autorun nix-shell when entering a dir with a shell.nix (e.g. a .NET project)
+  programs.direnv.enable = true;    
 
   programs.neovim = {
     configure = {
@@ -168,8 +170,6 @@
     };
   };
 
-
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
     dmenu
