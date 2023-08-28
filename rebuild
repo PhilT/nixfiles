@@ -1,36 +1,57 @@
 #!/bin/sh
 
-if [ -z "$1" ]; then
+action=REBUILD
+while getopts 'hr:m:' OPTION; do
+  case "$OPTION" in
+    h)
+      echo "Usage: $0 [-r [commit message]]"
+      echo " -r [commit message] - rebuild & switch, with optional git commit"
+      exit 0
+      ;;
+    r)
+      action=RELEASE
+      commit_msg="$OPTARG"
+
+      if [ -z "$commit_msg" ]; then
+        git diff-index --quiet HEAD --
+        if [ "$?" -eq "0" ]; then
+          commit_msg=$(git lo -1 | grep "\(.*\)")
+        else
+          echo "Can't release with uncommited files."
+          exit 1
+        fi
+      else
+        git commit -am "$commit_msg"
+      fi
+
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "$machine" ]; then
   machine=$(hostname)
-else
-  machine=$1
 fi
 
-case $machine in
-  "darko")
-    ;;
-  "spruce")
-    ;;
-  *)
-    echo "Usage: $0 <darko|spruce>"
-    exit
-    ;;
-esac
+if [ "$machine" != "darko" ] && [ "$machine" != "spruce" ]; then
+  echo "Machine name not recognised, use `hostname <darko|spruce>` to set"
+  exit
+fi
 
 source ./common.env
 source ./$machine.env
 
-echo "[REBUILD] $machine"
-
-# Copy SSH dir if not already
-if [ ! -d "$HOME/.ssh" ]; then
-  cp -R ./.ssh ~/
-  chmod 600 $HOME/.ssh/*
-fi
-
-# Setup Wifi if not already
-ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wlan0 connect $ssid
+echo "[$action] $machine"
 
 ./copy_config.sh $machine /etc/nixos 0 # 0 - No dryrun
 
-sudo nixos-rebuild test
+if [ -z "$commit_msg" ]; then
+  sudo nixos-rebuild test
+else
+  BOOT_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
+  sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" /etc/nixos/minimal.nix
+
+  sudo echo "[LABEL] $BOOT_LABEL"
+  sudo nixos-rebuild switch
+fi
+
