@@ -87,7 +87,7 @@
 
   environment.extraInit = ''
     ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
-    update-desktop-database
+    sudo update-desktop-database
   '';
   environment.pathsToLink = [ "/share" "/bin" ];
 
