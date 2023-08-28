@@ -40,6 +40,7 @@
   # User account
   users.extraUsers.USER_NAME = {
     isNormalUser = true;
+    createHome = true;
     uid = 1000;
     description = "USER_FULLNAME";
     hashedPassword = "USER_PASSWORD";
@@ -54,7 +55,7 @@
     configure = {
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
-          nvim-lspconfig               # Language server client settings
+          nvim-lspconfig             # Language server client settings
           plenary-nvim               # Required by Telescope
           vim-tmux-navigator
           lualine-nvim
@@ -62,7 +63,7 @@
           nvim-tree-lua
           telescope-nvim
           telescope-fzy-native-nvim
-#          scratch-vim
+          #scratch-vim
           auto-pairs
           vim-indentwise
           vim-surround
@@ -84,7 +85,6 @@
 
       };
       customRC = ''
-
         lua << LUADOC
           vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
           vim.g.loaded_netrwPlugin = 1

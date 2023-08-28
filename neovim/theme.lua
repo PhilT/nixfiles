@@ -1,6 +1,7 @@
 local cmd = vim.cmd
 
-cmd.colorscheme('greyscale')
+-- No need to set it as it's sourced
+-- cmd.colorscheme('greyscale')
 
 function set_theme_dark()
   vim.opt.background = 'dark'
