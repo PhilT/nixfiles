@@ -66,14 +66,14 @@
       mode = "444";
     };
 
-    "xdg/nvim/sysinit/colors.greyscale.vim" = {
+    "xdg/nvim/colors/greyscale.vim" = {
       source = ./neovim/colors/greyscale.vim;
       mode = "444";
-    }
+    };
   };
 
   environment.extraInit = ''
-    ln -s /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml 
+    ln -fs /etc/config/alacritty.yml $HOME/.config/alacritty.yml 
   '';
 
   # File management
