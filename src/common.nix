@@ -88,6 +88,10 @@
   '';
   environment.pathsToLink = [ "/share" "/bin" ];
 
+  # Programs
+  programs.slock.enable = true;
+  programs.xautolock.enable = true;
+
   # File management
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
@@ -169,14 +173,15 @@
     };
   };
 
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
     dmenu
     feh
+    fsautocomplete
     ripgrep
     ungoogled-chromium
-    xscreensaver
   ];
 
 }
