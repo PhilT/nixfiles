@@ -39,14 +39,13 @@
   # Environment variables
   environment.sessionVariables = rec {
     CDPATH   = "${CODE_DIR}";
-    CODE_DIR = "/home/phil/code";
-    TXT_DIR  = "/home/phil/txt";
+    CODE_DIR = "$HOME/code";
+    TXT_DIR  = "$HOME/txt";
     DOTNET_CLI_TELEMETRY_OPTOUT = "true";
     FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
     HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
     HISTFILESIZE = "";                       # Unlimited history
     HISTSIZE = "";                           # Unlimited history
-    XDG_CONFIG_HOME = "/etc";                # Force apps to look in /etc for config (e.g. alacritty)
   };
 
   environment.interactiveShellInit = ''
@@ -58,7 +57,7 @@
   '';
 
   environment.etc = {
-    "alacritty.yml" = {
+    "config/alacritty.yml" = {
       text = ''
         font:
           size: 8
@@ -66,7 +65,16 @@
 
       mode = "444";
     };
+
+    "xdg/nvim/sysinit/colors.greyscale.vim" = {
+      source = ./neovim/colors/greyscale.vim;
+      mode = "444";
+    }
   };
+
+  environment.extraInit = ''
+    ln -s /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml 
+  '';
 
   # File management
   programs.thunar.enable = true;
