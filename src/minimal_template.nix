@@ -131,9 +131,6 @@
     which
   ];
 
-  # Services
-  services.automatic-timezoned.enable = true;
-
   # Security
   security.sudo.wheelNeedsPassword = false;
 

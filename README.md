@@ -31,8 +31,10 @@ cd /usb
 [x] Bash
 [x] keymaps for backlight
 [x] Neovim
-[ ] Dotfiles
+[x] Dotfiles
+[ ] Dotnet / fsautocomplete package
 [ ] Docker
+[ ] invoice script
 [ ] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
 [ ] Sync/ Syncthing
 [ ] Ruby https://nixos.org/manual/nixpkgs/stable/#sec-language-ruby
