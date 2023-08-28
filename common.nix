@@ -73,7 +73,9 @@
   };
 
   environment.extraInit = ''
-    ln -fs /etc/config/alacritty.yml $HOME/.config/alacritty.yml 
+    echo "************* Running extraInit"
+
+    sudo ln -fs /etc/config/alacritty.yml $HOME/.config/alacritty.yml 
   '';
 
   # File management

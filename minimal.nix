@@ -85,6 +85,8 @@
 
       };
       customRC = ''
+        source ${./neovim/colors/greyscale.vim}
+
         lua << LUADOC
           vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
           vim.g.loaded_netrwPlugin = 1
