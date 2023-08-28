@@ -87,7 +87,6 @@
 
   environment.extraInit = ''
     ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
-    sudo update-desktop-database
   '';
   environment.pathsToLink = [ "/share" "/bin" ];
 
@@ -95,12 +94,6 @@
   programs.slock.enable = true;              # xautolock also added in services
 
   # File management
-  programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-media-tags-plugin
-    thunar-volman
-  ];
   services.gvfs.enable = true;               # Automount USB drives
 
   programs.neovim = {
@@ -179,14 +172,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     alacritty
-    desktop-file-utils
     dmenu
     feh
     fsautocomplete
+    pcmanfm
     ripgrep
     ungoogled-chromium
     unzip
-    xarchiver
     zip
   ];
 
