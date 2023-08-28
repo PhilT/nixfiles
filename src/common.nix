@@ -68,6 +68,7 @@
     };
 
     "xdg/nvim/colors/greyscale.vim" = { source = ./neovim/colors/greyscale.vim; };
+    "tmux/tmux.conf" = { source = ./dotfiles/tmux.conf; };
     "gitconfig" = { source = ./dotfiles/gitconfig; };
     "gitignore" = { source = ./dotfiles/gitignore; };
     "ignore" = { source = ./dotfiles/ignore; };
