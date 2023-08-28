@@ -184,6 +184,7 @@
     ripgrep
     ungoogled-chromium
     unzip
+    xarchiver
     zip
   ];
 
