@@ -21,15 +21,16 @@ After first boot, run:
 sudo mkdir /usb
 sudo mount /dev/disk/by-label/NIXFILES /usb
 cd /usb
-./rebuild.sh <darko|spruce> # Subsequent runs can omit the param as the hostname is used
+./initialize
+./rebuild -r
 ```
 
 ## TODO
 
 ### Prepare desktop config (for development)
 [x] Bash
-[ ] keymaps for backlight
-[ ] Neovim
+[x] keymaps for backlight
+[x] Neovim
 [ ] Dotfiles
 [ ] Docker
 [ ] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
