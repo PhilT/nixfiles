@@ -53,7 +53,7 @@
 
   programs = {
     # xautolock also added in services
-    programs.slock.enable = true;
+    slock.enable = true;
 
     # Autorun nix-shell when entering a dir with a shell.nix (e.g. a .NET project)
     direnv.enable = true;
@@ -62,5 +62,4 @@
       ss = "feh -Z -F -D 15";
     };
   };
-
 }
