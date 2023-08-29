@@ -25,6 +25,30 @@ cd /usb
 ./rebuild -r
 ```
 
+## Directory structure
+
+```
+USB/
+  common/
+    .bash.private
+    common.env
+  machine/
+    .ssh/
+    machine_name.env
+    syncthing.cert.pem
+    syncthing.key.pem
+  src/
+    dotfiles/   # dotfiles imported by Nix
+    neovim/     # Lua and vim file imported by Nix
+    *.nix # Nix source configuration
+    minimal_template.nix # outputs to minimal.nix with vars interpolated from .env files
+  bootstrap   # Build script for clean machine
+  initialize  # Setup a few things after initial install is complete, private keys etc
+  rebuild     # Build script for NixOS machine
+  *.sh        # additional build scripts used by bootstrap and rebuild
+```
+
+
 ## TODO
 
 ### Prepare desktop config (for development)

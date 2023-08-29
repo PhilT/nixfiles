@@ -4,3 +4,4 @@ hardware-configuration.nix
 .ssh
 result
 minimal.nix
+common/
