@@ -43,9 +43,6 @@ if [ "$machine" != "darko" ] && [ "$machine" != "spruce" ]; then
   exit
 fi
 
-source src/common.env
-source src/$machine.env
-
 echo "[$action] $machine"
 
 configuration_nix=src/$machine.nix
