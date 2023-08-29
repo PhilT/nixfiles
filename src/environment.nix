@@ -37,17 +37,5 @@
       [ -f $HOME/.bash.private ] && source $HOME/.bash.private
       ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
     '';
-
-    systemPackages = with pkgs; [
-      alacritty
-      dmenu
-      feh
-      fsautocomplete
-      pcmanfm
-      ripgrep
-      ungoogled-chromium
-      unzip
-      zip
-    ];
   };
 }

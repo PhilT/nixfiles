@@ -62,4 +62,20 @@
       ss = "feh -Z -F -D 15";
     };
   };
+
+  environment = {
+    systemPackages = with pkgs; [
+      alacritty
+      dmenu
+      feh
+      fsautocomplete
+      gimp
+      inkscape
+      pcmanfm
+      ripgrep
+      ungoogled-chromium
+      unzip
+      zip
+    ];
+  };
 }
