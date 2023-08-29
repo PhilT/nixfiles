@@ -44,7 +44,7 @@
     uid = 1000;
     description = "USER_FULLNAME";
     hashedPassword = "USER_PASSWORD";
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = [ "wheel" "syncthing" "networkmanager" "video" ];
   };
   users.mutableUsers = false;
 

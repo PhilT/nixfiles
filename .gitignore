@@ -1,5 +1,6 @@
 hardware-configuration.nix
 *.env
+*.pem
 .ssh
 result
 minimal.nix

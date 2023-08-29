@@ -33,6 +33,7 @@ cd /usb
 [x] Neovim
 [x] Dotfiles
 [x] Dotnet / fsautocomplete package
+[ ] Syncthing
 [ ] Release a NixOS package for vim-fsharp
 [ ] Docker
 [ ] invoice script

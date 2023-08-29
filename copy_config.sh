@@ -3,8 +3,8 @@ nixos_dir=$2
 dryrun=$3
 
 source ./commands.sh
-source src/common.env
-source src/$machine.env
+source ./common.env
+source ./$machine/$machine.env
 
 lvm_partition=${ssd}p2
 

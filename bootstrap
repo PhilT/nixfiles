@@ -31,7 +31,7 @@ fi
 
 source ./commands.sh
 source ./common.env
-source ./$machine.env
+source ./$machine/$machine.env
 
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
