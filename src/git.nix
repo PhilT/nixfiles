@@ -1,0 +1,80 @@
+{ config, pkgs, ... }:
+
+{
+  apply = {
+    whitespace = "nowarn";
+  }
+  user = {
+    name = "Phil Thompson";
+    email = "phil@electricvisions.com";
+  }
+  color = {
+    ui = "true";
+  }
+  alias = {
+    ap = "!git add -N . && git add -p";
+    cf = "clean -fd --exclude=.scratch.txt";
+    ss = "stash";
+    sd = "stash -- $\\\\(git diff --staged --name-only\\\\)";
+    pp = "stash pop";
+    cl = "branch -d $(git branch --merged | grep -v '\\(\\*\\|develop\\|master\\)')";
+    st = "status -s";
+    ci = "commit";
+    br = "branch";
+    co = "checkout";
+    df = "diff HEAD";
+    ds = "diff --staged";
+    lg = "log -p";
+    lo = "log --oneline --no-merges";
+    lf = "log --name-only --oneline";
+    lfd = "log --name-only --oneline --diff-filter=ACMRTUXB";
+    pf = "push --force-with-lease";
+    rem = "!git fetch && git rebase origin/master";
+    pm = "!git co master && git pull";
+    rc = "rebase --continue";
+    ra = "rebase --abort";
+    rs = "rebase --skip";
+    ri = "rebase -i";
+    x = "update-index --chmod=+x";
+  }
+
+  branch = {
+    autosetupmerge = "true";
+    autosetuprebase = "always";
+  }
+
+  push = {
+    default = "current";
+    autoSetupRemote = "true";
+  }
+
+  core = {
+    whitespace = "-trailing-space";
+    excludesfile = "~/.gitignore";
+    autocrlf = "false";
+    eol = "lf";
+    editor = "nvim";
+  }
+
+  github = {
+    user = "PhilT";
+  }
+
+  merge = {
+    tool = "vimdiff";
+  }
+
+  mergetool = {
+    path = "nvim";
+  }
+
+  init = {
+    defaultBranch = "main";
+  }
+  diff = {
+    wsErrorHighlight = "all";
+  }
+  pull = {
+    rebase = "true";
+  }
+}
