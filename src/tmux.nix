@@ -3,7 +3,7 @@
 {
   programs.tmux = {
     enable = true;
-    terminial = "tmux-direct";
+    terminal = "tmux-direct";
     extraConfig = ''
       # Smart pane switching with awareness of Vim splits.
       # See: https://github.com/christoomey/vim-tmux-navigator
