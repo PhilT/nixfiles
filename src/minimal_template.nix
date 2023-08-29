@@ -54,9 +54,11 @@
     defaultEditor = true;
   };
 
+  # Git
+  programs.git.enable = true;
+
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
     htop
     wget
     which
