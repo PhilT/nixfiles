@@ -30,7 +30,7 @@ if [ -z "$machine" ]; then
 fi
 
 source ./commands.sh
-source ./common.env
+source ./common/common.env
 source ./$machine/$machine.env
 
 boot_partition=${ssd}p1
