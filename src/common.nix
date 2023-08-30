@@ -49,6 +49,11 @@
         };
       };
     };
+
+    dwm-status = {
+      enable = true;
+      order = [ "audio" "backlight" "battery" "cpu_load" "network" "time" ];
+    };
   };
 
   programs = {
