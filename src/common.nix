@@ -38,8 +38,8 @@
 
       layout = "gb";
       displayManager = {
-        lightdm.enable = false;
-        startx.enable = true;
+        autoLogin.enable = true;
+        autoLogin.user = "phil";
       };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs {
@@ -48,11 +48,6 @@
           ref = "main";
         };
       };
-    };
-
-    dwm-status = {
-      enable = true;
-      order = [ "audio" "backlight" "battery" "cpu_load" "network" "time" ];
     };
   };
 
