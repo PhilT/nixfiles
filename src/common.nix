@@ -61,6 +61,11 @@
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
     };
+
+    chromium = {
+      enable = true;
+      extensions = [ "cgbcahbpdhpcegmbfconppldiemgcoii" ];
+    };
   };
 
   virtualisation.docker.enable = true;
