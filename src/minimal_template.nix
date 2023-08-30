@@ -14,7 +14,6 @@
     allowUnfree = true;
   };
 
-  # Use the systemd-boot EFI boot loader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices = {
@@ -27,7 +26,6 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
 
-  # Internationalisation
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
   console = {
@@ -37,7 +35,6 @@
   services.xserver.layout = "gb";
   services.xserver.xkbOptions = "ctrl:swapcaps";
 
-  # User account
   users.extraUsers.USER_NAME = {
     isNormalUser = true;
     createHome = true;
@@ -48,23 +45,19 @@
   };
   users.mutableUsers = false;
 
-  # Neovim
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
 
-  # Git
   programs.git.enable = true;
 
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     htop
     wget
     which
   ];
 
-  # Security
   security.sudo.wheelNeedsPassword = false;
 
   system.stateVersion = "23.05"; # Did you read the comment?

@@ -3,9 +3,11 @@
 {
   environment = {
     sessionVariables = rec {
-      CDPATH   = "${CODE_DIR}";
-      CODE_DIR = "$HOME/code";
-      TXT_DIR  = "$HOME/txt";
+      DATA = "/data"
+      CODE = "${DATA}/code";
+      SRC = "${CODE}/nixos-files"
+      TXT  = "${DATA}/txt";
+      CDPATH   = "${CODE}";
       DOTNET_CLI_TELEMETRY_OPTOUT = "true";
       FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
       HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
@@ -35,6 +37,7 @@
 
     extraInit = ''
       [ -f $HOME/.bash.private ] && source $HOME/.bash.private
+      mkdir -p $XDG_CONFIG_HOME
       ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
     '';
   };

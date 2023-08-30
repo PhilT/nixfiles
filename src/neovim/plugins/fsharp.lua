@@ -1,7 +1,7 @@
 local is_windows = vim.fn.has('win32') == 1
 local group = vim.api.nvim_create_augroup('mygroup', { clear = true })
 local autocmd = vim.api.nvim_create_autocmd
-local todo_path = file_exist('TODO.md') and 'TODO.md' or os.getenv('TXT_DIR')..'/todo.txt'      -- Set TODO file to local project if it exists otherwise main todo.txt in D:\txt
+local todo_path = file_exist('TODO.md') and 'TODO.md' or os.getenv('TXT')..'/todo.txt'      -- Set TODO file to local project if it exists otherwise main todo.txt in D:\txt
 
 function _G.term_run(command)                                                   -- Run a build command e.g. 'run', 'test', 'build'
   autocmd('TermEnter', {                                                        -- When entering insert mode in terminal switch back out of it
