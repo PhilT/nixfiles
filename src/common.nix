@@ -65,6 +65,8 @@
     chromium = {
       enable = true;
       extensions = [ "cgbcahbpdhpcegmbfconppldiemgcoii" ];
+      defaultSearchProviderEnabled = false;
+      homepageLocation = "https://startpage.com";
     };
   };
 
