@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ./common.nix
       ./nvidia.nix
+      ./nvidia_offload.nix
     ];
 
   networking.hostName = "darko";
