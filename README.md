@@ -51,6 +51,9 @@ USB/
 
 ## TODO
 
+[ ] Neomutt (Email client)
+[ ] Dark theme
+
 ### Prepare desktop config (for development)
 [x] Bash
 [x] keymaps for backlight
@@ -59,20 +62,23 @@ USB/
 [x] Dotnet / fsautocomplete package
 [x] Syncthing
 [x] Keepass
-[ ] Release a NixOS package for vim-fsharp
 [ ] Docker
+[ ] Screenshot ( setup in dwm: `gimp -b '(plug-in-screenshot 0 FALSE 0 0 0 0 0)'` )
 [ ] invoice script
 [x] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
 [ ] Ruby https://nixos.org/manual/nixpkgs/stable/#sec-language-ruby
 
 ### Game development
 [ ] Setup Vulkcan SDK
-[ ] nVidia drivers
+[x] nVidia drivers
+[ ] Release a NixOS package for vim-fsharp
 
 ### Games
-[ ] Proton
-[ ] Steam
 [ ] VR drivers
+[ ] Vulkcan
+[ ] Wine
+[ ] Steam
+[ ] Lutris
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
