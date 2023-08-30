@@ -63,6 +63,8 @@
     };
   };
 
+  virtualisation.docker.enable = true;
+
   environment = {
     systemPackages = with pkgs; [
       alacritty
@@ -71,6 +73,8 @@
       fsautocomplete
       gimp
       inkscape
+      keepassxc
+      keepmenu
       pcmanfm
       ripgrep
       ungoogled-chromium

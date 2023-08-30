@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ./common.nix
+      ./nvidia.nix
     ];
 
   networking.hostName = "spruce";

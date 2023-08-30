@@ -57,12 +57,12 @@ USB/
 [x] Neovim
 [x] Dotfiles
 [x] Dotnet / fsautocomplete package
-[ ] Syncthing
+[x] Syncthing
+[x] Keepass
 [ ] Release a NixOS package for vim-fsharp
 [ ] Docker
 [ ] invoice script
-[ ] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
-[ ] Sync/ Syncthing
+[x] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
 [ ] Ruby https://nixos.org/manual/nixpkgs/stable/#sec-language-ruby
 
 ### Game development
