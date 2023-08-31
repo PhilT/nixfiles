@@ -16,15 +16,7 @@
       XDG_CONFIG_HOME = "$HOME/.config";
     };
 
-    #loginShellInit = ''
-    #  [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]] && startx    # Start X unless already started
-    #'';
-
     etc = {
-      "chrom" = {
-        mode = "555";
-        text = "chromium --force-dark-mode https://www.startpage.com/sp/search?query=\"$@\" &";
-      };
       "config/alacritty.yml" = {
         mode = "444";
         text = ''
