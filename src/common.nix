@@ -74,6 +74,8 @@
 
   environment = {
     systemPackages = with pkgs; [
+      (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
+
       alacritty
       dmenu
       feh
