@@ -1,0 +1,47 @@
+# Mailbox
+set mbox_type=Maildir
+set folder=/data/mail
+set header_cache=~/.cache/neomutt
+set mbox=+mbox
+set record=+outbox
+set postponed=+drafts
+set move=yes
+set signature="/data/code/nixos-files/src/dotfiles/signature"
+set sort=threads
+set sort_browser=reverse-date
+
+
+# IMAP Settings
+set imap_pass="8T9JJAeedeR3Ygm"
+set imap_user="phil@electricvisions.com"
+set imap_check_subscribed=yes
+set spool_file="imaps://mail.privateemail.com"
+
+# SMTP Settings
+set real_name="Phil Thompson"
+set from="phil@electricvisions.com"
+set use_from=yes
+set smtp_url="smtps://mail.privateemail.com"
+set smtp_user="phil@electricvisions.com"
+set smtp_pass="8T9JJAeedeR3Ygm"
+
+# Colours/Theme?
+source /etc/xdg/neomutt/dracula.muttrc
+
+# Enable sidebar
+set sidebar_visible
+set sidebar_format = "%B%<F? [%F]>%* %<N?%N/>%S"
+set mail_check_stats
+
+# Keys
+bind pager G bottom	# just like vi and less
+
+# Headers
+ignore *		# this means "ignore all lines by default"
+
+# I do want to see these fields, though!
+unignore	from: subject to cc mail-followup-to \
+		date x-mailer x-url # this shows how nicely wrap long lines
+
+
+mailboxes $spool_file

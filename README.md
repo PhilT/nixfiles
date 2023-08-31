@@ -51,8 +51,8 @@ USB/
 
 ## TODO
 
-[ ] Neomutt (Email client)
-[ ] Dark theme
+[x] Neomutt (Email client) - Basic functionality working
+[x] Dark theme - Just Chromium for now
 
 ### Prepare desktop config (for development)
 [x] Bash

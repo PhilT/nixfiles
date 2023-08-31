@@ -27,6 +27,8 @@
       };
       ".bashrc.local".source = ../common/bashrc.local;
       "xdg/nvim/colors/greyscale.vim".source = ./neovim/colors/greyscale.vim;
+      "xdg/neomutt/neomuttrc".source = ./dotfiles/neomuttrc;
+      "xdg/neomutt/dracula.muttrc".source = ./dotfiles/dracula.muttrc;
       "gitignore".source = ./dotfiles/gitignore;
       "ignore".source = ./dotfiles/ignore;
     };
