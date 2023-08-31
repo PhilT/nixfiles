@@ -84,6 +84,7 @@
       inkscape
       keepassxc
       keepmenu
+      neomutt
       pcmanfm
       ripgrep
       ungoogled-chromium
