@@ -52,7 +52,10 @@ USB/
 ## TODO
 
 [x] Neomutt (Email client) - Basic functionality working
+    * View HTML email (better formatting needed)
+    * How to switch to sidebar?
 [x] Dark theme - Just Chromium for now
+    * Look into i3 DM (https://www.reddit.com/r/unixporn/comments/fltmar/i3gaps_nixos_arch_my_incredible_nixos_desktop/?rdt=57618)
 
 ### Prepare desktop config (for development)
 [x] Bash
@@ -72,6 +75,7 @@ USB/
 [ ] Setup Vulkcan SDK
 [x] nVidia drivers
 [ ] Release a NixOS package for vim-fsharp
+[ ] Test Metter
 
 ### Games
 [ ] VR drivers
