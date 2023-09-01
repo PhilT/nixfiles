@@ -56,6 +56,7 @@ USB/
     * How to switch to sidebar?
 [x] Dark theme - Just Chromium for now
     * Look into i3 DM (https://www.reddit.com/r/unixporn/comments/fltmar/i3gaps_nixos_arch_my_incredible_nixos_desktop/?rdt=57618)
+[ ] Check out keepmenu config (change editor?)
 
 ### Prepare desktop config (for development)
 [x] Bash
