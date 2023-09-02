@@ -6,7 +6,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware.nix
     ];
 
   system.nixos.label = "BOOT_LABEL";
@@ -35,7 +35,7 @@
   services.xserver.layout = "gb";
   services.xserver.xkbOptions = "ctrl:swapcaps";
 
-  users.extraUsers.USER_NAME = {
+  users.users.USER_NAME = {
     isNormalUser = true;
     createHome = true;
     uid = 1000;

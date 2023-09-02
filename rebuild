@@ -1,8 +1,9 @@
 #!/bin/sh
 
 action=REBUILD
+command=test
 cleanup=0
-while getopts 'hdr' OPTION; do
+while getopts 'hdsr' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-dr] [commit message]"
@@ -13,8 +14,13 @@ while getopts 'hdr' OPTION; do
     d)
       cleanup=1
       ;;
+    s)
+      action=SWITCH
+      command=switch
+      ;;
     r)
       action=RELEASE
+      command=switch
       shift $(($OPTIND - 1))
       commit_msg="$1"
 
@@ -33,6 +39,9 @@ while getopts 'hdr' OPTION; do
       ;;
   esac
 done
+shift $(($OPTIND - 1))
+
+test "$1" && commit_msg=$1
 
 if [ -z "$machine" ]; then
   machine=$(hostname)
@@ -46,19 +55,12 @@ fi
 echo "[$action] $machine"
 
 configuration_nix=src/$machine.nix
-./copy_config.sh $machine /etc/nixos 0 # 0=No dryrun
 
 if [ "$cleanup" = "1" ]; then
   sudo nix-collect-garbage -d
 fi
 
-if [ -z "$commit_msg" ]; then
-  sudo nixos-rebuild test -I nixos-config=$configuration_nix
-else
-  BOOT_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-  sudo sed -i "s|BOOT_LABEL|$BOOT_LABEL|" src/minimal.nix
-
-  sudo echo "[LABEL] $BOOT_LABEL"
-  sudo nixos-rebuild switch -I nixos-config=$configuration_nix
-fi
+export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
+echo "[LABEL] $NIXOS_LABEL"
+sudo nixos-rebuild $command -I nixos-config=$configuration_nix
 

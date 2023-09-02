@@ -3,7 +3,6 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
       ./common.nix
       ./nvidia.nix
       ./nvidia_offload.nix
@@ -23,8 +22,8 @@
       ];
     };
 
-    syncthing.key = "./darko/syncthing.key.pem";
-    syncthing.cert = "./darko/syncthing.cert.pem";
+    syncthing.key = "../darko/syncthing.key.pem";
+    syncthing.cert = "../darko/syncthing.cert.pem";
   };
 
   programs.light.enable = true;

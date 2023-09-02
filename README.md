@@ -51,12 +51,18 @@ USB/
 
 ## TODO
 
-[x] Neomutt (Email client) - Basic functionality working
-    * View HTML email (better formatting needed)
-    * How to switch to sidebar?
+[ ] Make ./bootstrap use the generated configuration for the first install
+[ ] Move all env config secrets to secrets/ (e.g. common/, darko/, spruce/, plus any I missed)
+[ ] Neomutt (Email client)
+    [x] Basic functionality working
+    [ ] View HTML email (better formatting needed)
+    [ ] How to switch to sidebar?
+    [ ] Clickable links
+    [ ] View images?
 [x] Dark theme - Just Chromium for now
     * Look into i3 DM (https://www.reddit.com/r/unixporn/comments/fltmar/i3gaps_nixos_arch_my_incredible_nixos_desktop/?rdt=57618)
 [ ] Check out keepmenu config (change editor?)
+[ ] Volume controls
 
 ### Prepare desktop config (for development)
 [x] Bash
