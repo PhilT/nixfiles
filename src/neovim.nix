@@ -35,7 +35,7 @@
 
       };
       customRC = ''
-        source ${./neovim/colors/greyscale.vim}
+        source ${../neovim/colors/greyscale.vim}
 
         lua << LUADOC
           vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
@@ -54,21 +54,21 @@
           end
         LUADOC
 
-        luafile ${./neovim/functions.lua}
-        luafile ${./neovim/vars.lua}
-        luafile ${./neovim/opts.lua}
-        luafile ${./neovim/theme.lua}
-        luafile ${./neovim/keys.lua}
-        luafile ${./neovim/autocmds.lua}
-        luafile ${./neovim/plugins/lualine.lua}
-        luafile ${./neovim/plugins/fugitive.lua}
-        luafile ${./neovim/plugins/nvimtree.lua}
-        luafile ${./neovim/plugins/purescript.lua}
-        luafile ${./neovim/plugins/ripgrep.lua}
-        luafile ${./neovim/plugins/ruby.lua}
-        luafile ${./neovim/plugins/scratch.lua}
-        luafile ${./neovim/plugins/telescope.lua}
-        luafile ${./neovim/plugins/fsharp.lua}
+        luafile ${../neovim/functions.lua}
+        luafile ${../neovim/vars.lua}
+        luafile ${../neovim/opts.lua}
+        luafile ${../neovim/theme.lua}
+        luafile ${../neovim/keys.lua}
+        luafile ${../neovim/autocmds.lua}
+        luafile ${../neovim/plugins/lualine.lua}
+        luafile ${../neovim/plugins/fugitive.lua}
+        luafile ${../neovim/plugins/nvimtree.lua}
+        luafile ${../neovim/plugins/purescript.lua}
+        luafile ${../neovim/plugins/ripgrep.lua}
+        luafile ${../neovim/plugins/ruby.lua}
+        luafile ${../neovim/plugins/scratch.lua}
+        luafile ${../neovim/plugins/telescope.lua}
+        luafile ${../neovim/plugins/fsharp.lua}
       '';
     };
   };

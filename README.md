@@ -29,19 +29,18 @@ cd /usb
 
 ```
 USB/
-  common/
-    .bash.private
+  secrets/
+    bashrc.local
     common.env
-  machine/
-    .ssh/
-    machine_name.env
-    syncthing.cert.pem
-    syncthing.key.pem
+    machine/
+      ssh/
+      device                # SSD
+      syncthing.cert.pem
+      syncthing.key.pem
+  dotfiles/   # dotfiles imported by Nix
+  neovim/     # Lua and vim file imported by Nix
   src/
-    dotfiles/   # dotfiles imported by Nix
-    neovim/     # Lua and vim file imported by Nix
-    *.nix # Nix source configuration
-    minimal_template.nix # outputs to minimal.nix with vars interpolated from .env files
+    *.nix     # Nix source configuration files
   bootstrap   # Build script for clean machine
   initialize  # Setup a few things after initial install is complete, private keys etc
   rebuild     # Build script for NixOS machine
@@ -52,6 +51,7 @@ USB/
 ## TODO
 
 [ ] Make ./bootstrap use the generated configuration for the first install
+[ ] Get rid of minimal_template and see if I can load vars through machine specific config
 [ ] Move all env config secrets to secrets/ (e.g. common/, darko/, spruce/, plus any I missed)
 [ ] Neomutt (Email client)
     [x] Basic functionality working

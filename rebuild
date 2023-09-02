@@ -43,9 +43,7 @@ shift $(($OPTIND - 1))
 
 test "$1" && commit_msg=$1
 
-if [ -z "$machine" ]; then
-  machine=$(hostname)
-fi
+machine=$(hostname)
 
 if [ "$machine" != "darko" ] && [ "$machine" != "spruce" ]; then
   echo "Machine name not recognised, use `hostname <darko|spruce>` to set"

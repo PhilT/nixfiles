@@ -6,7 +6,7 @@ set mbox=+mbox
 set record=+outbox
 set postponed=+drafts
 set move=yes
-set signature="/data/code/nixos-files/src/dotfiles/signature"
+set signature="/data/code/nixos-files/dotfiles/signature"
 set sort=threads
 set sort_browser=reverse-date
 
