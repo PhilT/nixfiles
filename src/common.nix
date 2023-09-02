@@ -33,8 +33,8 @@
 
     xserver = {
       enable = true;
-      libinput.enable = true;                # Touchpad support
-      xautolock.enable = true;
+      libinput.enable = true;  # Touchpad support
+      xautolock.enable = true; # Lock the screen
 
       layout = "gb";
       displayManager = {
@@ -64,7 +64,11 @@
 
     chromium = {
       enable = true;
-      extensions = [ "cgbcahbpdhpcegmbfconppldiemgcoii" ];
+      extensions = [
+        "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
+        "fgmjlmbojbkmdpofahffgcpkhkngfpef" # Startpage
+        "cdkhedhmncjnpabolpjceohohlefegak" # Startpage privacy protection
+      ];
       defaultSearchProviderEnabled = false;
       homepageLocation = "https://startpage.com";
     };
@@ -87,7 +91,7 @@
       neomutt
       pcmanfm
       ripgrep
-      ungoogled-chromium
+      chromium
       unzip
       zip
     ];

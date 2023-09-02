@@ -1,7 +1,3 @@
-hardware-configuration.nix
-*.env
-*.pem
-.ssh
 result
-minimal.nix
-common/
+secrets/*
+!secrets/*.template

@@ -9,16 +9,14 @@
       ./hardware.nix
     ];
 
-  system.nixos.label = "BOOT_LABEL";
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.luks.devices.root.preLVM = true;
   boot.initrd.luks.devices = {
     root = {
-      device = "LVM_PARTITION";
+      device = (builtins.readFile ./secrets/${hostname}/device);
       preLVM = true;
     };
   };
@@ -35,13 +33,13 @@
   services.xserver.layout = "gb";
   services.xserver.xkbOptions = "ctrl:swapcaps";
 
-  users.users.USER_NAME = {
+  users.users.phil = {
     isNormalUser = true;
     createHome = true;
     uid = 1000;
-    description = "USER_FULLNAME";
-    hashedPassword = "USER_PASSWORD";
-    extraGroups = [ "wheel" "docker" "networkmanager" "video" ];
+    description = "Phil Thompson";
+    hashedPassword = (builtins.readFile ./secrets/hashedPassword);
+    extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };
   users.mutableUsers = false;
 

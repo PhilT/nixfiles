@@ -31,7 +31,7 @@ map('n', '<C-l>', '<C-w>l')                                                     
 map('n', '<C-c>', '<C-w>c')                                                     -- 'CTRL+c' to close window
 
 -- Neovim
-vim.keymap.set('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload config (NOT WORKING YET)
+vim.keymap.set('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload config (Sort of working)
 
 -- Toggles
 map('n', '<Leader>i', '<cmd>setlocal number!<CR>')                              -- Toggle line numbers
@@ -45,7 +45,7 @@ vim.keymap.set('n', '<C-p>', function()                                         
     builtin.find_files({layout_config=calc_telescope_layout()})
   end)
 vim.keymap.set('n', '<C-b>', builtin.buffers, {desc='Open fuzzy buffer finder'})-- CTRL+b to open fuzzy buffer finder
-vim.keymap.set('n', '<C-g>', builtin.live_grep, {desc = 'Open live grep'})    -- CTRL+g to open folder-wide live grep using Ripgrep
+vim.keymap.set('n', '<C-g>', builtin.live_grep, {desc = 'Open live grep'})      -- CTRL+g to open folder-wide live grep using Ripgrep
 vim.keymap.set('n', '<Leader>t', '<cmd>Telescope<CR>')
 vim.keymap.set('n', '<Leader>k', builtin.keymaps, {desc = 'Open keymaps'})
 

@@ -25,13 +25,13 @@
           '';
 
       };
-      ".bashrc.local".source = ../common/bashrc.local;
-      "xdg/nvim/colors/greyscale.vim".source = ./neovim/colors/greyscale.vim;
-      "xdg/neomutt/neomuttrc".source = ./dotfiles/neomuttrc;
-      "xdg/neomutt/secrets.muttrc".source = ../common/secrets.muttrc;
-      "xdg/neomutt/dracula.muttrc".source = ./dotfiles/dracula.muttrc;
-      "gitignore".source = ./dotfiles/gitignore;
-      "ignore".source = ./dotfiles/ignore;
+      ".bashrc.local".source = ../secrets/bashrc.local;
+      "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim;
+      "xdg/neomutt/neomuttrc".source = ../dotfiles/neomuttrc;
+      "xdg/neomutt/secrets.muttrc".source = ../secrets/secrets.muttrc;
+      "xdg/neomutt/dracula.muttrc".source = ../dotfiles/dracula.muttrc;
+      "gitignore".source = ../dotfiles/gitignore;
+      "ignore".source = ../dotfiles/ignore;
     };
 
     extraInit = ''

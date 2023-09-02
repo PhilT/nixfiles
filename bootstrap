@@ -30,9 +30,9 @@ if [ -z "$machine" ]; then
 fi
 
 source ./commands.sh
-source ./common/common.env
-source ./$machine/$machine.env
+source ./secrets/common.env
 
+ssd=$(cat ./secrets/$machine/device)
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
 
@@ -78,14 +78,16 @@ RUN "mount $boot_partition /mnt/boot"
 
 STATE "GEN " "Generate config"
 RUN "nixos-generate-config --root /mnt"
-./copy_config.sh $machine /mnt/etc/nixos $dryrun
+STATE "LESS" "Inspect generated hardware-configuration.nix"
+less /mnt/etc/nixos/hardware-configuration.nix
+STATE "LESS" "Inspect generated configuration.nix"
+less /mnt/etc/nixos/configuration.nix
 
-STATE "INST" "Install NixOS"
-WAIT "Continue?"
-RUN "nix-env -iA nixos.git"
+STATE "INST" "Install NixOS (unstable channel)"
+WAIT "Install NixOS?"
 RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
 RUN "nix-channel --update"
-RUN "nixos-install --no-root-password"
+RUN "nixos-install --no-root-password --system ./$machine.nix"
 
 STATE "DONE" "Complete"
 
