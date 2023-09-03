@@ -11,7 +11,7 @@
 ```
 sudo -s
 mkdir /usb
-mount /dev/disk/by-label/NIXFILES /usb
+mount /dev/disk/by-label/nixos-files /usb
 cd /usb
 ./bootstrap -pf <darko|spruce>     # Partition and format the drives
 ```
@@ -19,10 +19,10 @@ cd /usb
 After first boot, run:
 ```
 sudo mkdir /usb
-sudo mount /dev/disk/by-label/NIXFILES /usb
+sudo mount /dev/disk/by-label/nixos-files /usb
 cd /usb
 ./initialize
-./rebuild -s Initial
+./build -s
 ```
 
 ## Directory structure
@@ -63,8 +63,9 @@ USB/
     * Look into i3 DM (https://www.reddit.com/r/unixporn/comments/fltmar/i3gaps_nixos_arch_my_incredible_nixos_desktop/?rdt=57618)
 [ ] Check out keepmenu config (change editor?)
 [x] Volume controls
-[ ] Remove Label stuff for now
+[x] Remove Label stuff for now
 [ ] Fix problem with USBs only mounting when loading PCManFM
+[ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm
 
 ### Prepare desktop config (for development)
 [x] Bash
