@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ./alacritty.nix
+    ./browser.nix
     ./environment.nix
     ./git.nix
     ./neovim.nix

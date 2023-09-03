@@ -11,26 +11,10 @@
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
     };
-
-    chromium = {
-      enable = true;
-      extensions = [
-        "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
-        "cdkhedhmncjnpabolpjceohohlefegak" # Startpage privacy protection
-        "paoafodbgcjnmijjepmpgnlhnogaahme" # Material Dark theme
-      ];
-      defaultSearchProviderEnabled = true;
-      defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}&cat=web&pl=chrome";
-      homepageLocation = "https://www.startpage.com";
-    };
   };
 
   environment = {
     systemPackages = with pkgs; [
-      (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
-
-      alacritty
-      chromium
       dmenu
       feh
       fsautocomplete
@@ -46,8 +30,4 @@
       zip
     ];
   };
-
-  system.userActivationScripts.alacritty = ''
-    [ -e $XDG_CONFIG_HOME/alacritty.yml ] || ln -s /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
-  '';
 }
