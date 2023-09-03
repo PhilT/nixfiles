@@ -18,14 +18,6 @@
     };
 
     etc = {
-      "config/alacritty.yml" = {
-        mode = "444";
-        text = ''
-          font:
-            size: 8
-          '';
-
-      };
       ".bashrc.local".source = ../secrets/bashrc.local;
       "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim;
       "xdg/neomutt/neomuttrc".source = ../dotfiles/neomuttrc;
@@ -37,7 +29,7 @@
   };
 
   system.activationScripts.dataDir = ''
-    [ -d "$DATA" ] || (mkdir -p $DATA && chown phil:users $DATA)
+    [ -d "$CODE" ] || (mkdir -p $CODE && chown phil:users $CODE)
   '';
 
   system.userActivationScripts.xdgConfigHome = ''
