@@ -14,6 +14,7 @@
       HISTFILESIZE = "";                       # Unlimited history
       HISTSIZE = "";                           # Unlimited history
       XDG_CONFIG_HOME = "$HOME/.config";
+      GTK_THEME = "Adwaita:dark";
     };
 
     etc = {
