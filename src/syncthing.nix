@@ -27,6 +27,11 @@
             devices = [ "spruce" "darko" "mev" ];   # Which devices to share the folder with
             enabled = true;
           };
+          "Documents" = {
+            path = "/data/documents";
+            devices = [ "spruce" "darko" "mev" ];
+            enabled = lib.mkDefault false;
+          };
           "Music" = {
             path = "/data/music";
             devices = [ "spruce" "darko" "mev" ];
