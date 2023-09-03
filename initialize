@@ -5,14 +5,38 @@ source ./commands.sh
 source ./secrets/common.env
 machine=$(hostname)
 
+# Duplicated in environment.nix
+DATA=/data
+CODE=$DATA/code
+
 STATE 'INIT'
 
 # Copy .ssh/
-RUN "[ -d "$HOME/.ssh" ] || cp -r secrets/$machine/ssh $HOME/.ssh"
+if [ ! -d "$HOME/.ssh" ]; then
+  cp -r secrets/$machine/ssh $HOME/.ssh
+  chmod 700 $HOME/.ssh
+  chmod 644 $HOME/.ssh/id_rsa.pub
+  chmod 600 $HOME/.ssh/id_rsa $HOME/.ssh/known_hosts
+fi
 
 # Copy any custom private config needed for machine
 RUN "[ -f secrets/.bashrc.local ] && cp -f secrets/bashrc.local $HOME/.bashrc.local"
 
 # Setup Wifi if not already
 RUN "ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wlan0 connect $ssid"
+
+# Pull down git repos unless they exist
+sudo mkdir -p $DATA
+chown phil:users $DATA
+mkdir -p $CODE
+clone_unless_exists() {
+  [ -d "$CODE/$1" ] || git clone git@github.com:PhilT/$1.git $CODE/$1
+}
+
+clone_unless_exists 'nixos-files'
+clone_unless_exists 'matter'
+clone_unless_exists 'dwm'
+clone_unless_exists 'cv_builder'
+clone_unless_exists 'vim-fsharp'
+clone_unless_exists 'sheetzi'
 

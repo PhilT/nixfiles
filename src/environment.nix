@@ -3,6 +3,7 @@
 {
   environment = {
     sessionVariables = rec {
+      # Duplicated in ./initialize
       DATA = "/data";
       CODE = "${DATA}/code";
       SRC = "${CODE}/nixos-files";
@@ -29,7 +30,7 @@
   };
 
   system.activationScripts.dataDir = ''
-    [ -d "$CODE" ] || (mkdir -p $CODE && chown phil:users $CODE)
+    [ -d "$DATA" ] || (mkdir -p $DATA && chown phil:users $DATA)
   '';
 
   system.userActivationScripts.xdgConfigHome = ''
