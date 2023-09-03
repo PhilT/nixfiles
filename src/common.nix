@@ -4,7 +4,6 @@
   imports = [
     ./environment.nix
     ./git.nix
-    ./minimal.nix
     ./neovim.nix
     ./syncthing.nix
     ./tmux.nix
@@ -69,7 +68,7 @@
         "fgmjlmbojbkmdpofahffgcpkhkngfpef" # Startpage
         "cdkhedhmncjnpabolpjceohohlefegak" # Startpage privacy protection
       ];
-      defaultSearchProviderEnabled = false;
+      #defaultSearchProviderEnabled = false;
       homepageLocation = "https://startpage.com";
     };
   };
@@ -81,6 +80,7 @@
       (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
 
       alacritty
+      chromium
       dmenu
       feh
       fsautocomplete
@@ -90,10 +90,14 @@
       keepmenu
       neomutt
       pcmanfm
+      pulseaudio
       ripgrep
-      chromium
       unzip
       zip
     ];
   };
+
+  system.userActivationScripts.alacritty = ''
+    [ -e $XDG_CONFIG_HOME/alacritty.yml ] || ln -s /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
+  '';
 }

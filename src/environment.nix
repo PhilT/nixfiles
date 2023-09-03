@@ -33,10 +33,13 @@
       "gitignore".source = ../dotfiles/gitignore;
       "ignore".source = ../dotfiles/ignore;
     };
-
-    extraInit = ''
-      mkdir -p $XDG_CONFIG_HOME
-      ln -fs /etc/config/alacritty.yml $XDG_CONFIG_HOME/alacritty.yml
-    '';
   };
+
+  system.activationScripts.dataDir = ''
+    [ -d "$DATA" ] || (mkdir -p $DATA && chown phil:users $DATA)
+  ''
+
+  system.userActivationScripts.xdgConfigHome = ''
+    [ -d $XDG_CONFIG_HOME ] || mkdir -p $XDG_CONFIG_HOME
+  '';
 }

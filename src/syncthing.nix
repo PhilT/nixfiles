@@ -25,18 +25,22 @@
           "Sync" = {                                # Name (and ID) of folder in Syncthing
             path = "/data/sync";                    # Which folder to add to Syncthing
             devices = [ "spruce" "darko" "mev" ];   # Which devices to share the folder with
+            enabled = true;
           };
           "Music" = {
             path = "/data/music";
             devices = [ "spruce" "darko" "mev" ];
+            enabled = mkDefault false;
           };
           "Camera" = {
             path = "/data/pictures/camera";
             devices = [ "spruce" "darko" "mev" ];
+            enabled = mkDefault false;
           };
           "Txt" = {
             path = "/data/txt";
             devices = [ "spruce" "darko" "mev" ];
+            enabled = mkDefault false;
           };
         };
       };

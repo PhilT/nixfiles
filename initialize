@@ -2,7 +2,7 @@
 
 dryrun=0
 source ./commands.sh
-source ./common/common.env
+source ./secrets/common.env
 machine=$(hostname)
 
 STATE 'INIT'
@@ -11,7 +11,7 @@ STATE 'INIT'
 RUN "[ -d "$HOME/.ssh" ] || cp -r secrets/$machine/ssh $HOME/.ssh"
 
 # Copy any custom private config needed for machine
-RUN "[ -f $machine/.bashrc.local ] && cp -f secrets/$machine/bashrc.local $HOME/.bashrc.local"
+RUN "[ -f secrets/.bashrc.local ] && cp -f secrets/bashrc.local $HOME/.bashrc.local"
 
 # Setup Wifi if not already
 RUN "ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk station wlan0 connect $ssid"

@@ -14,12 +14,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices.root.preLVM = true;
-  boot.initrd.luks.devices = {
-    root = {
-      device = (builtins.readFile ./secrets/${hostname}/device);
-      preLVM = true;
-    };
-  };
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
@@ -38,7 +32,7 @@
     createHome = true;
     uid = 1000;
     description = "Phil Thompson";
-    hashedPassword = (builtins.readFile ./secrets/hashedPassword);
+    hashedPassword = (builtins.readFile ../secrets/hashedPassword);
     extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };
   users.mutableUsers = false;

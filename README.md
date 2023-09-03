@@ -22,7 +22,7 @@ sudo mkdir /usb
 sudo mount /dev/disk/by-label/NIXFILES /usb
 cd /usb
 ./initialize
-./rebuild -r
+./rebuild -s Initial
 ```
 
 ## Directory structure
@@ -50,9 +50,9 @@ USB/
 
 ## TODO
 
-[ ] Make ./bootstrap use the generated configuration for the first install
-[ ] Get rid of minimal_template and see if I can load vars through machine specific config
-[ ] Move all env config secrets to secrets/ (e.g. common/, darko/, spruce/, plus any I missed)
+[x] Make ./bootstrap use the generated configuration for the first install
+[x] Get rid of minimal_template and see if I can load vars through machine specific config
+[x] Move all env config secrets to secrets/ (e.g. common/, darko/, spruce/, plus any I missed)
 [ ] Neomutt (Email client)
     [x] Basic functionality working
     [ ] View HTML email (better formatting needed)
@@ -62,7 +62,8 @@ USB/
 [x] Dark theme - Just Chromium for now
     * Look into i3 DM (https://www.reddit.com/r/unixporn/comments/fltmar/i3gaps_nixos_arch_my_incredible_nixos_desktop/?rdt=57618)
 [ ] Check out keepmenu config (change editor?)
-[ ] Volume controls
+[x] Volume controls
+[ ] Remove Label stuff for now
 
 ### Prepare desktop config (for development)
 [x] Bash
