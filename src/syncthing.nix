@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   services = {
@@ -30,17 +30,17 @@
           "Music" = {
             path = "/data/music";
             devices = [ "spruce" "darko" "mev" ];
-            enabled = mkDefault false;
+            enabled = lib.mkDefault false;
           };
           "Camera" = {
             path = "/data/pictures/camera";
             devices = [ "spruce" "darko" "mev" ];
-            enabled = mkDefault false;
+            enabled = lib.mkDefault false;
           };
           "Txt" = {
             path = "/data/txt";
             devices = [ "spruce" "darko" "mev" ];
-            enabled = mkDefault false;
+            enabled = lib.mkDefault false;
           };
         };
       };

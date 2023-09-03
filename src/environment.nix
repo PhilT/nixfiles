@@ -37,7 +37,7 @@
 
   system.activationScripts.dataDir = ''
     [ -d "$DATA" ] || (mkdir -p $DATA && chown phil:users $DATA)
-  ''
+  '';
 
   system.userActivationScripts.xdgConfigHome = ''
     [ -d $XDG_CONFIG_HOME ] || mkdir -p $XDG_CONFIG_HOME

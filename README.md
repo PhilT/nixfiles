@@ -64,6 +64,7 @@ USB/
 [ ] Check out keepmenu config (change editor?)
 [x] Volume controls
 [ ] Remove Label stuff for now
+[ ] Fix problem with USBs only mounting when loading PCManFM
 
 ### Prepare desktop config (for development)
 [x] Bash
