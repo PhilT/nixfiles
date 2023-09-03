@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  # TODO: Add repos
+
   programs.git.config = {
     apply.whitespace = "nowarn";
     branch.autosetupmerge = "true";

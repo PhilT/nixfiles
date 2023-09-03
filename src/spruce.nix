@@ -3,14 +3,13 @@
 {
   imports =
     [
+      ./spruce-minimal.nix
       ./common.nix
       ./nvidia.nix
     ];
 
-  networking.hostName = "spruce";
-
-  services.syncthing.key = "../spruce/syncthing.key.pem";
-  services.syncthing.cert = "../spruce/syncthing.cert.pem";
+  services.syncthing.key = "../secrets/spruce/syncthing.key.pem";
+  services.syncthing.cert = "../secrets/spruce/syncthing.cert.pem";
 
   environment.systemPackages = with pkgs; [
   ];

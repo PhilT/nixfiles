@@ -6,12 +6,11 @@ in
 {
   imports =
     [
+      ./darko-minimal.nix
       ./common.nix
       ./nvidia.nix
       ./nvidia_offload.nix
     ];
-
-  networking.hostName = "darko";
 
   services = {
     auto-cpufreq.enable = true;
@@ -28,8 +27,8 @@ in
       ];
     };
 
-    syncthing.key = "../darko/syncthing.key.pem";
-    syncthing.cert = "../darko/syncthing.cert.pem";
+    syncthing.key = "${../secrets/darko/syncthing.key.pem}";
+    syncthing.cert = "${../secrets/darko/syncthing.cert.pem}";
   };
 
   programs.light.enable = true;

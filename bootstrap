@@ -76,6 +76,10 @@ RUN "mount /dev/nixos-vg/root /mnt"
 RUN "mkdir -p /mnt/boot"
 RUN "mount $boot_partition /mnt/boot"
 
+STATE "CHAN" "Switch to unstable channel"
+RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
+RUN "nix-channel --update"
+
 STATE "GEN " "Generate config"
 RUN "nixos-generate-config --root /mnt"
 STATE "LESS" "Inspect generated hardware-configuration.nix"
@@ -83,11 +87,10 @@ less /mnt/etc/nixos/hardware-configuration.nix
 STATE "LESS" "Inspect generated configuration.nix"
 less /mnt/etc/nixos/configuration.nix
 
-STATE "INST" "Install NixOS (unstable channel)"
+STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"
-RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
-RUN "nix-channel --update"
-RUN "nixos-install --no-root-password --system ./$machine.nix"
+RUN_WITH_RESULT "nix-build -I nixos-config=src/$machine-minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
+RUN "nixos-install --no-root-password --system $run_result"
 
 STATE "DONE" "Complete"
 
