@@ -1,0 +1,3 @@
+text/html;      surf "%s" ; test=RunningX
+text/html;      links -dump %s; copiousoutput
+image/*;        feh %s

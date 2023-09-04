@@ -16,6 +16,9 @@
 
   environment = {
     systemPackages = with pkgs; [
+      (writeShellScriptBin "kp" ''keepmenu'')
+      (writeShellScriptBin "mail" ''neomutt'')
+
       dmenu
       feh
       fsautocomplete
@@ -23,10 +26,14 @@
       inkscape
       keepassxc
       keepmenu
+      links2
+      nerdfonts
       neomutt
       pcmanfm
       pulseaudio
       ripgrep
+      runningx
+      surf
       unzip
       whatsapp-for-linux
       zip
