@@ -14,6 +14,7 @@
           opacity: 0.6
         font:
           size: 8
+          family: hack
         '';
       };
     };

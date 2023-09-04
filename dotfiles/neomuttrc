@@ -3,7 +3,7 @@ set mbox_type=Maildir
 set folder=/data/mail
 set header_cache=~/.cache/neomutt
 set mbox=+mbox
-set record=+outbox
+set record=+Sent
 set postponed=+drafts
 set move=yes
 set signature="/data/code/nixos-files/dotfiles/signature"
@@ -13,12 +13,16 @@ set sort_browser=reverse-date
 source /etc/xdg/neomutt/secrets.muttrc
 
 # IMAP Settings
+set imap_user=$my_user
+set imap_pass=$my_pass
 set imap_check_subscribed=yes
 set spool_file="imaps://mail.privateemail.com"
 
 # SMTP Settings
+set smtp_user=$my_user
+set smtp_pass=$my_pass
 set real_name="Phil Thompson"
-set from="phil@electricvisions.com"
+set from=$my_user
 set use_from=yes
 set smtp_url="smtps://mail.privateemail.com"
 
@@ -29,9 +33,15 @@ source /etc/xdg/neomutt/dracula.muttrc
 set sidebar_visible
 set sidebar_format = "%B%<F? [%F]>%* %<N?%N/>%S"
 set mail_check_stats
+bind index "\Cj" sidebar-next
+bind index "\Ck" sidebar-prev
+bind index "\Co" sidebar-open
 
 # Keys
 bind pager G bottom	# just like vi and less
+
+# Autoview
+auto_view text/html
 
 # Headers
 ignore *		# this means "ignore all lines by default"
