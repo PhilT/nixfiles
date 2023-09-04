@@ -5,6 +5,7 @@
     ./alacritty.nix
     ./browser.nix
     ./environment.nix
+    ./fonts.nix
     ./git.nix
     ./neovim.nix
     ./syncthing.nix

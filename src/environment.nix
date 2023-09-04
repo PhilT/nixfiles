@@ -24,8 +24,8 @@
       "xdg/neomutt/neomuttrc".source = ../dotfiles/neomuttrc;
       "xdg/neomutt/secrets.muttrc".source = ../secrets/secrets.muttrc;
       "xdg/neomutt/dracula.muttrc".source = ../dotfiles/dracula.muttrc;
-      "gitignore".source = ../dotfiles/gitignore;
-      "ignore".source = ../dotfiles/ignore;
+      ".gitignore".source = ../dotfiles/gitignore;
+      ".ignore".source = ../dotfiles/ignore;
     };
   };
 

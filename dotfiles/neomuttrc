@@ -10,8 +10,9 @@ set signature="/data/code/nixos-files/dotfiles/signature"
 set sort=threads
 set sort_browser=reverse-date
 
-# IMAP Settings
 source /etc/xdg/neomutt/secrets.muttrc
+
+# IMAP Settings
 set imap_check_subscribed=yes
 set spool_file="imaps://mail.privateemail.com"
 
@@ -20,8 +21,6 @@ set real_name="Phil Thompson"
 set from="phil@electricvisions.com"
 set use_from=yes
 set smtp_url="smtps://mail.privateemail.com"
-set smtp_user="phil@electricvisions.com"
-set smtp_pass="8T9JJAeedeR3Ygm"
 
 # Colours/Theme?
 source /etc/xdg/neomutt/dracula.muttrc
@@ -41,5 +40,7 @@ ignore *		# this means "ignore all lines by default"
 unignore	from: subject to cc mail-followup-to \
 		date x-mailer x-url # this shows how nicely wrap long lines
 
+# Aliases
+alias adam    Adam Sowter <adam@evantistechnology.com>
 
 mailboxes $spool_file
