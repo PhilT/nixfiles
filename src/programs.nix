@@ -28,6 +28,7 @@
       pulseaudio
       ripgrep
       unzip
+      whatsapp-for-linux
       zip
     ];
   };
