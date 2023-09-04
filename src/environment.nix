@@ -19,7 +19,7 @@
     };
 
     etc = {
-      ".bashrc.local".source = ../secrets/bashrc.local;
+      "bashrc.local".source = ../secrets/bashrc.local;
       "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim;
       "xdg/neomutt/neomuttrc".source = ../dotfiles/neomuttrc;
       "xdg/neomutt/secrets.muttrc".source = ../secrets/secrets.muttrc;
