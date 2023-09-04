@@ -49,7 +49,7 @@
 
     core = {
       whitespace = "-trailing-space";
-      excludesfile = "~/.gitignore";
+      excludesfile = "/etc/gitignore";
       autocrlf = "false";
       eol = "lf";
       editor = "nvim";

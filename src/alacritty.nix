@@ -10,6 +10,8 @@
       "config/alacritty.yml" = {
         mode = "444";
         text = ''
+        window:
+          opacity: 0.6
         font:
           size: 8
         '';
