@@ -4,6 +4,7 @@
   imports = [
     ./alacritty.nix
     ./browser.nix
+    ./carwow.nix
     ./environment.nix
     ./fonts.nix
     ./git.nix
