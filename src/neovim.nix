@@ -1,36 +1,74 @@
 { config, pkgs, ... }:
 
+let
+  fsharp = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "vim-fsharp";
+    src = pkgs.fetchFromGitHub {
+      owner = "PhilT";
+      repo = "vim-fsharp";
+      rev = "68bb8429a40f921f2ef62fd044a64170dc5458a1";
+      hash = "sha256-Tj5Rul9POz8ViQVytwiY+vDnlx7c1EWgNiBVZrYmnx8=";
+    };
+  };
+  scratch = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "scratch,vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "mtth";
+      repo = "scratch.vim";
+      rev = "adf826b1ac067cdb4168cb6066431cff3a2d37a3";
+      hash = "sha256-P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
+    };
+  };
+  winresizer = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "winresizer";
+    src = pkgs.fetchFromGitHub {
+      owner = "simeji";
+      repo = "winresizer";
+      rev = "9bd559a03ccec98a458e60c705547119eb5350f3";
+      hash = "sha256-5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
+    };
+  };
+  slim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "vim-slim";
+    src = pkgs.fetchFromGitHub {
+      owner = "slim-template";
+      repo = "vim-slim";
+      rev = "f0758ea1c585d53b9c239177a8b891d8bbbb6fbb";
+      hash = "sha256-dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
+    };
+  };
+in
 {
   programs.neovim = {
     configure = {
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
-          nvim-lspconfig             # Language server client settings
-          plenary-nvim               # Required by Telescope
-          vim-tmux-navigator
-          lualine-nvim
-          vim-css-color
-          nvim-tree-lua
-          telescope-nvim
-          telescope-fzy-native-nvim
-          #scratch-vim
           auto-pairs
-          vim-indentwise
-          vim-surround
-          vim-repeat
-          vim-dispatch
-          quickfix-reflector-vim
-          todo-txt-vim
-          #winresizer
-          vim-fugitive
-          vim-markdown
-          editorconfig-vim
-          vim-abolish
           completion-nvim
-          vim-fsharp
+          editorconfig-vim
+          fsharp
+          lualine-nvim
+          nvim-lspconfig             # Language server client settings
+          nvim-tree-lua
+          plenary-nvim               # Required by Telescope
+          quickfix-reflector-vim
+          scratch
+          slim
+          telescope-fzy-native-nvim
+          telescope-nvim
+          todo-txt-vim
           vader-vim
+          vim-abolish
+          vim-css-color
+          vim-dispatch
+          vim-fugitive
+          vim-indentwise
+          vim-markdown
+          vim-repeat
           vim-scriptease
-          #vim-slim
+          vim-surround
+          vim-tmux-navigator
+          winresizer
         ];
 
       };

@@ -81,14 +81,14 @@ USB/
 [x] Docker
 [ ] Screenshot ( setup in dwm: `gimp -b '(plug-in-screenshot 0 FALSE 0 0 0 0 0)'` )
 [x] invoice script
-    [ ]
+    [ ] Mail company on generation (add mailto option to client config.yml)
 [x] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
 [ ] Ruby https://nixos.org/manual/nixpkgs/stable/#sec-language-ruby
 
 ### Game development
 [ ] Setup Vulkcan SDK
 [x] nVidia drivers
-[ ] Release a NixOS package for vim-fsharp
+[x] Release a NixOS package for vim-fsharp (Just pulled plugins from Github)
 [ ] Test Metter
 
 ### Games
