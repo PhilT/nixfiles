@@ -12,6 +12,13 @@
       defaultSearchProviderEnabled = true;
       defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}&cat=web&pl=chrome";
       homepageLocation = "https://www.startpage.com";
+      extraOpts = {
+        "BrowserSignin" = 0;
+        "SyncDisabled" = true;
+        "PasswordManagerEnabled" = false;
+        "SpellcheckEnabled" = true;
+        "SpellcheckLanguage" = [ "en-GB" ];
+      };
     };
   };
 
