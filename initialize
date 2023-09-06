@@ -26,14 +26,13 @@ RUN "ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk stati
 sudo mkdir -p $DATA
 chown phil:users $DATA
 mkdir -p $CODE
-clone_unless_exists() {
+git_clone() {
   [ -d "$CODE/$1" ] || git clone git@github.com:PhilT/$1.git $CODE/$1
 }
 
-clone_unless_exists 'nixos-files'
-clone_unless_exists 'matter'
-clone_unless_exists 'dwm'
-clone_unless_exists 'cv_builder'
-clone_unless_exists 'vim-fsharp'
-clone_unless_exists 'sheetzi'
-
+git_clone 'nixos-files'
+git_clone 'matter'
+git_clone 'dwm'
+git_clone 'cv_builder'
+git_clone 'vim-fsharp'
+git_clone 'sheetzi'

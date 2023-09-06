@@ -21,7 +21,7 @@ in
       bindings = [
         { keys = [ 224 ]; events = [ "key" ]; command = "${bin}/light -U 5"; }
         { keys = [ 225 ]; events = [ "key" ]; command = "${bin}/light -A 5"; }
-        { keys = [ 113 ]; events = [ "key" ]; command = "${bin}/pactl set-sink-volume 0 0"; }
+        { keys = [ 113 ]; events = [ "key" ]; command = "${bin}/pactl set-sink-volume 0 toggle"; }
         { keys = [ 114 ]; events = [ "key" ]; command = "${bin}/pactl set-sink-volume 0 -5%"; }
         { keys = [ 115 ]; events = [ "key" ]; command = "${bin}/pactl set-sink-volume 0 +5%"; }
       ];
