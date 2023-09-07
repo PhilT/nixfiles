@@ -1,8 +1,20 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./dwm/slstatus.nix
+  ];
+
   services = {
-    picom.enable = true; # Compositor
+    # Compositor
+    picom = {
+      enable = true;
+      fade = true;
+      fadeDelta = 20;
+      inactiveOpacity = 0.6;
+      activeOpacity = 0.9;
+    };
+
     xserver = {
       enable = true;
       libinput.enable = true;  # Touchpad support
@@ -15,22 +27,12 @@
       };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs (finalAttrs: previousAttrs: {
-        src = /data/code/dusk;
+        src = /data/code/dwm;
         prePatch = previousAttrs.prePatch + ''
           sed -i "s@/usr/share/xsessions@$out/share/applications/@g" Makefile
         '';
-        buildInputs = previousAttrs.buildInputs ++ [
-          pkgs.imlib2
-          pkgs.yajl
-          pkgs.xorg.libXi
-          pkgs.xorg.libXfixes
-        ];
 #        src = builtins.fetchGit {
-#          url = "https://github.com/bakkeby/dusk.git";
-#          ref = "master";
-#        };
-#        src = builtins.fetchGit {
-#          url = "https://github.com/PhilT/dusk.git";
+#          url = "https://github.com/PhilT/dwm.git";
 #          ref = "master";
 #        };
       });

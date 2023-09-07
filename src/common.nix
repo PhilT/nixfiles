@@ -10,6 +10,7 @@
     ./fonts.nix
     ./git.nix
     ./neovim.nix
+    ./neomutt.nix
     ./syncthing.nix
     ./tmux.nix
     ./programs.nix
