@@ -10,7 +10,7 @@
     picom = {
       enable = true;
       fade = true;
-      fadeDelta = 20;
+      fadeDelta = 12;
       inactiveOpacity = 0.8;
       activeOpacity = 0.9;
       settings = {
@@ -42,9 +42,20 @@
     };
   };
 
-  system.userActivationScripts.dwm_autostart = ''
-    mkdir -p $HOME/.local/share/dwm
-    cat ${../dotfiles/dwm_autostart} > $HOME/.local/share/dwm/autostart.sh
-    chmod +x $HOME/.local/share/dwm/autostart.sh
+  environment = {
+    etc = {
+      "xdg/wallpaper.jpg".source = ../media/wallpaper.jpg;
+    };
+
+    systemPackages = [
+      (pkgs.writeShellScriptBin "autostart.sh" ''
+        feh --no-fehbg --bg-scale /etc/xdg/wallpaper.jpg
+        slstatus &
+      '')
+    ];
+  };
+
+  system.userActivationScripts.dwm-autostart = ''
+    ln -fs /run/current-system/sw/bin/autostart.sh $HOME/.local/share/dwm/autostart.sh
   '';
 }
