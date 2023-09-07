@@ -14,13 +14,9 @@
     };
   };
 
-  system.userActivationScripts.background = ''
-    [ -f $HOME/.fehbg ] && $HOME/.fehbg
-  '';
-
   environment = {
     systemPackages = with pkgs; [
-      (writeShellScriptBin "kp" ''keepmenu'')
+      (writeShellScriptBin "kp" "keepmenu")
 
       dmenu
       feh

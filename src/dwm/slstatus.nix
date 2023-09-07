@@ -7,8 +7,4 @@
       src = /data/code/slstatus;
     }))
   ];
-
-  system.activationScripts.slstatus = ''
-    /run/current-system/sw/bin/slstatus &
-  '';
 }
