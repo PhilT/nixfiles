@@ -11,8 +11,11 @@
       enable = true;
       fade = true;
       fadeDelta = 20;
-      inactiveOpacity = 0.6;
+      inactiveOpacity = 0.8;
       activeOpacity = 0.9;
+      settings = {
+        inactive-dim = 0.4;
+      };
     };
 
     xserver = {
@@ -38,4 +41,10 @@
       });
     };
   };
+
+  system.userActivationScripts.dwm_autostart = ''
+    mkdir -p $HOME/.local/share/dwm
+    cat ${../dotfiles/dwm_autostart} > $HOME/.local/share/dwm/autostart.sh
+    chmod +x $HOME/.local/share/dwm/autostart.sh
+  '';
 }
