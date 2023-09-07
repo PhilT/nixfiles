@@ -14,10 +14,13 @@
     };
   };
 
+  system.userActivationScripts.background = ''
+    [ -f $HOME/.fehbg ] && $HOME/.fehbg
+  '';
+
   environment = {
     systemPackages = with pkgs; [
       (writeShellScriptBin "kp" ''keepmenu'')
-      (writeShellScriptBin "mail" ''neomutt'')
 
       dmenu
       feh
@@ -28,7 +31,6 @@
       keepmenu
       links2
       nerdfonts
-      neomutt
       pcmanfm
       pulseaudio
       ripgrep
