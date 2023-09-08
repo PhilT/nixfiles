@@ -12,7 +12,7 @@
       fade = true;
       fadeDelta = 12;
       inactiveOpacity = 0.8;
-      activeOpacity = 0.9;
+      activeOpacity = 0.95;
       settings = {
         inactive-dim = 0.4;
       };

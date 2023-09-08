@@ -15,6 +15,7 @@ opt.swapfile = false                                                            
 
 opt.autowrite = true                                                            -- Autosave files before running make
 opt.backup = false                                                              -- Don't create backups
+opt.clipboard = vim.o.clipboard..'unnamedplus'                                  -- Use system clipboard
 opt.fileformats = 'unix,dos'                                                    -- Recognise unix or dos line-endings, save new files as unix
 opt.hidden = true                                                               -- hide buffers instead of closing
 opt.ignorecase = true                                                           -- See smartcase
