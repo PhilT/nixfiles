@@ -6,6 +6,8 @@
       (writeShellScriptBin "mail" "neomutt")
 
       neomutt
+      links2        # For rendering HTML inline
+      runningx      # Check if X is running so a browser can be started to view pages
     ];
 
     etc = {

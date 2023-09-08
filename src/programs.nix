@@ -21,19 +21,20 @@
       dmenu
       feh
       fsautocomplete
+      dbeaver                   # SQL client
       gimp
       inkscape
       keepassxc
       keepmenu
-      links2
-      nerdfonts
+      nerdfonts                 # FIXME: Not sure this is working. Might need to apply to actual fonts or something
       pcmanfm
       pulseaudio
       ripgrep
-      runningx
+      slack
       surf
       unzip
       whatsapp-for-linux
+      xclip                     # Used by Neovim among other things for copy/paste from/to system clipboard
       zip
     ];
   };
