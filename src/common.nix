@@ -8,12 +8,13 @@
     ./carwow.nix
     ./environment.nix
     ./fonts.nix
+    ./gaming.nix
     ./git.nix
-    ./neovim.nix
     ./neomutt.nix
+    ./neovim.nix
+    ./programs.nix
     ./syncthing.nix
     ./tmux.nix
-    ./programs.nix
     ./xserver.nix
   ];
 
