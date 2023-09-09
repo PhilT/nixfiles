@@ -36,3 +36,11 @@ git_clone 'dwm'
 git_clone 'cv_builder'
 git_clone 'vim-fsharp'
 git_clone 'sheetzi'
+
+# Add bluetooth devices
+alias btc=bluetoothctl
+btc power on
+WH1000XM3=CC:98:8B:93:74:BF
+mifo_O5=19:04:31:79:04:ED
+btc pair $WH1000XM3
+btc pair $mifo_O5
