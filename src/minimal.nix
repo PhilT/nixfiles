@@ -5,8 +5,9 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      ./hardware.nix
+    [ 
+      ./hardware.nix  # Include the results of the hardware scan.
+      ./bluetooth.nix # So devices can be added through ./initialize
     ];
 
   nixpkgs.config.allowUnfree = true;
