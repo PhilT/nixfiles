@@ -12,5 +12,9 @@
       #jack.enable = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    pavucontrol           # Audio control panel
+  ];
 }
 
