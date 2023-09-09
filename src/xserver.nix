@@ -5,14 +5,22 @@
     ./dwm/slstatus.nix
   ];
 
+  # FIXME: (or remove) Not sure what this is doing. Look up.
+  xdg.portal = {
+    enable = true;
+    # wlr.enable = true;
+    # gtk portal needed to make gtk apps happy
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   services = {
     # Compositor
     picom = {
       enable = true;
       fade = true;
       fadeDelta = 12;
-      inactiveOpacity = 0.8;
-      activeOpacity = 0.95;
+      inactiveOpacity = 0.9;
+      activeOpacity = 1.0;
       settings = {
         inactive-dim = 0.4;
       };

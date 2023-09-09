@@ -5,7 +5,7 @@
 
 {
   imports =
-    [ 
+    [
       ./hardware.nix  # Include the results of the hardware scan.
       ./bluetooth.nix # So devices can be added through ./initialize
     ];
@@ -22,7 +22,8 @@
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
   console = {
-    font = "Lat2-Terminus16";
+    packages=[ pkgs.terminus_font ];
+    font="${pkgs.terminus_font}/share/consolefonts/ter-i18b.psf.gz";
     useXkbConfig = true;
   };
   services.xserver.layout = "gb";
