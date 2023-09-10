@@ -15,6 +15,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices.root.preLVM = true;
+  boot.initrd.systemd.enable = true;
+  boot.plymouth.enable = true;                  # Graphical login for drive encryption
+  boot.kernelParams = [ "quiet" ];              # Don't log boot up to screen
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
