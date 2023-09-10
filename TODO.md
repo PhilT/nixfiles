@@ -36,7 +36,7 @@
 [ ] Setup Vulkcan SDK
 [x] nVidia drivers
 [x] Release a NixOS package for vim-fsharp (Just pulled plugins from Github)
-[ ] Test Metter
+[x] Test Matter
 
 ### Games
 [ ] VR drivers
