@@ -29,11 +29,11 @@
       feh
       fsautocomplete
       dbeaver             # SQL client
+      flameshot           # Screnshot tool
       gimp
       inkscape
       keepassxc
       keepmenu
-      nerdfonts           # FIXME: Not sure this is working. Might need to apply to actual fonts or something
       pcmanfm
       pulseaudio
       ripgrep
