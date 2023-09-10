@@ -6,14 +6,13 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-emoji
-      font-awesome
       source-sans
-      (nerdfonts.override { fonts = [ "DroidSansMono" ]; })
+      (nerdfonts.override { fonts = [ "Ubuntu" "UbuntuMono" ]; })
     ];
     fontconfig = {
       enable = true;
       defaultFonts = {
-	      monospace = [ "DroidSansMono Nerd Font Complete Mono" ];
+	      monospace = [ "UbuntuMono Nerd Font Mono" ];
 	      serif = [ "Noto Serif" ];
 	      sansSerif = [ "Noto Sans" ];
       };
