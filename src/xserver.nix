@@ -49,7 +49,7 @@
 
     systemPackages = [
       (pkgs.writeShellScriptBin "autostart.sh" ''
-        feh --no-fehbg --bg-scale /etc/xdg/wallpaper.jpg
+        feh --no-fehbg --bg-scale /etc/xdg/wallpaper.jpg &
         slstatus &
       '')
     ];

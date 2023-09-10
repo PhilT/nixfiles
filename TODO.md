@@ -17,6 +17,12 @@
 [ ] Fix problem with USBs only mounting when loading PCManFM
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm
 
+### DWM
+[x] Wifi icon
+[x] Volume icon
+[ ] Bluetooth icon
+[x] Remove seconds from time
+
 ### Prepare desktop config (for development)
 [x] Bash
 [x] keymaps for backlight
@@ -41,8 +47,8 @@
 ### Games
 [ ] VR drivers
 [ ] Vulkcan
-[ ] Wine
-[ ] Steam
+[x] Wine
+[x] Steam
 [ ] Lutris
 
 ### Surf
