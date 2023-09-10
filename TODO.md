@@ -26,7 +26,7 @@
 [x] Syncthing
 [x] Keepass
 [x] Docker
-[ ] Screenshot ( setup in dwm: `gimp -b '(plug-in-screenshot 0 FALSE 0 0 0 0 0)'` )
+[x] Screenshot (Flameshot)
 [x] invoice script
     [ ] Mail company on generation (add mailto option to client config.yml)
 [x] Copy `.bashrc_local` to USB. Can be copied as part of bootstrap process
