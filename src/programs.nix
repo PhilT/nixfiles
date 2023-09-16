@@ -45,6 +45,11 @@
     systemPackages = with pkgs; [
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini")
 
+      (dmenu.overrideAttrs (oldAttrs: {
+        name = "dmenu-philt-custom";
+        src = /data/code/dmenu;
+      }))
+
       #deadbeef-with-plugins # Music player
       cmus                # Terminal based music player
       dmenu
