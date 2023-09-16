@@ -10,7 +10,7 @@
         "paoafodbgcjnmijjepmpgnlhnogaahme" # Material Dark theme
       ];
       defaultSearchProviderEnabled = true;
-      defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}&cat=web&pl=chrome";
+      defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}";
       homepageLocation = "https://www.startpage.com";
       extraOpts = {
         "BrowserSignin" = 0;

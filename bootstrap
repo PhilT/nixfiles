@@ -89,7 +89,7 @@ less /mnt/etc/nixos/configuration.nix
 
 STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"
-RUN_WITH_RESULT "nix-build -I nixos-config=src/$machine-minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
+RUN_WITH_RESULT "nix-build -I nixos-config=src/$machine/minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
 RUN "nixos-install --no-root-password --system $run_result"
 
 STATE "DONE" "Complete"

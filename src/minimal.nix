@@ -17,7 +17,8 @@
   boot.initrd.luks.devices.root.preLVM = true;
   boot.initrd.systemd.enable = true;
   boot.plymouth.enable = true;                  # Graphical login for drive encryption
-  boot.kernelParams = [ "quiet" ];              # Don't log boot up to screen
+  boot.kernelParams = [ "quiet" "nosgx" ];      # Don't log boot up to screen, turn off warning about sgx
+  boot.kernel.sysctl."net.core.rmem_max" = 2500000;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
