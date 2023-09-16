@@ -4,7 +4,7 @@
   imports = [
     ./alacritty.nix
     ./audio.nix
-    ./browser.nix
+    ./firefox.nix
     ./carwow.nix
     ./environment.nix
     ./fonts.nix
@@ -29,7 +29,15 @@
   };
 
   services = {
-    # Only seems to work after opening PCManFM
-    gvfs.enable = true; # Automount USB drives
+    # Automount USB drives
+    gvfs.enable = true;
+    udisks2.enable = true;
+    devmon.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    (callPackage ./studio.nix {})
+
+    wineWowPackages.full # Needed for FL Studdio installer
+  ];
 }

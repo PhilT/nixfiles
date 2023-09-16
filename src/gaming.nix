@@ -32,7 +32,7 @@
       monado        # Open source OpenXR VR drivers with support for VR
       proton-caller # Play Steam games designed to run on Windows
       protonup-ng   # Manage Proton from commandline
-      wine          # Recommended to install via package management by lutris
+#      wine          # Recommended to install via package management by lutris ** Conflicts with wineWowPackages.full
       python3Minimal# Needed by proton-caller
     ];
 

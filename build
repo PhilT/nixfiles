@@ -52,7 +52,7 @@ fi
 
 echo "[$action] $machine"
 
-configuration_nix=src/$machine.nix
+configuration_nix=src/$machine
 
 if [ "$cleanup" = "1" ]; then
   sudo nix-collect-garbage -d

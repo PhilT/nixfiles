@@ -45,6 +45,7 @@ auto_view text/html
 
 # Headers
 ignore *		# this means "ignore all lines by default"
+set display_filter="exec sed -r \"s/^Date:\\s*(([F-Wa-u]{3},\\s*)?[[:digit:]]{1,2}\\s+[A-Sa-y]{3}\\s+[[:digit:]]{4}\\s+[[:digit:]]{1,2}:[[:digit:]]{1,2}(:[[:digit:]]{1,2})?\\s+[+-][[:digit:]]{4})/date +'Date: %a, %d %b %Y %H:%M:%S %z' -d '\\1'/e\""
 
 # I do want to see these fields, though!
 unignore	from: subject to cc mail-followup-to \

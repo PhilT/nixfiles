@@ -1,3 +1,8 @@
+[x] Setup custom config for fred (Done for now)
+[x] Finish configuring syncthing
+[-] Setup derivation for FLStudio (Audio a bit wonky, need to test)
+
+
 [x] Make ./bootstrap use the generated configuration for the first install
 [x] Get rid of minimal_template and see if I can load vars through machine specific config
 [x] Move all env config secrets to secrets/ (e.g. common/, darko/, spruce/, plus any I missed)
@@ -15,7 +20,8 @@
 [x] Whatsapp
 [x] Remove Label stuff for now
 [ ] Fix problem with USBs only mounting when loading PCManFM
-[ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm
+[ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
+    Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
 ### DWM
 [x] Wifi icon
@@ -45,11 +51,11 @@
 [x] Test Matter
 
 ### Games
-[ ] VR drivers
-[ ] Vulkcan
+[?] VR drivers - Installed monado, need to test
+[x] Vulkcan - I think this works by default now
 [x] Wine
-[x] Steam
-[ ] Lutris
+[x] Steam - Need to try steam-run, hopefully it works with Proton GE
+[?] Lutris - Needs configuring I think
 
 ### Surf
 [ ] chromebar

@@ -9,6 +9,7 @@
     # Compositor
     picom = {
       enable = true;
+      vSync = true;
       fade = true;
       fadeDelta = 12;
       inactiveOpacity = 0.9;
