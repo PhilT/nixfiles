@@ -31,7 +31,6 @@
     useXkbConfig = true;
   };
   services.xserver.layout = "gb";
-  services.xserver.xkbOptions = "ctrl:swapcaps";
 
   users.users.phil = {
     isNormalUser = true;
