@@ -4,6 +4,6 @@
   imports = [ ../minimal.nix ];
 
   networking.hostName = "spruce";
-  boot.initrd.luks.devices.root.device = "/dev/nvme0n2p2";
+  boot.initrd.luks.devices.root.device = "/dev/nvme2n1p2";
 }
 

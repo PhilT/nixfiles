@@ -7,7 +7,7 @@ let
       owner = "PhilT";
       repo = "vim-fsharp";
       rev = "68bb8429a40f921f2ef62fd044a64170dc5458a1";
-      hash = "sha256-Tj5Rul9POz8ViQVytwiY+vDnlx7c1EWgNiBVZrYmnx8=";
+      sha256 = "IJQp6GeJkotjJkHbosJay7mUwaa6QhE8bLx6+TerVHU=";
     };
   };
   scratch = pkgs.vimUtils.buildVimPluginFrom2Nix {
@@ -16,7 +16,7 @@ let
       owner = "mtth";
       repo = "scratch.vim";
       rev = "adf826b1ac067cdb4168cb6066431cff3a2d37a3";
-      hash = "sha256-P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
+      sha256 = "P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
     };
   };
   winresizer = pkgs.vimUtils.buildVimPluginFrom2Nix {
@@ -25,7 +25,7 @@ let
       owner = "simeji";
       repo = "winresizer";
       rev = "9bd559a03ccec98a458e60c705547119eb5350f3";
-      hash = "sha256-5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
+      sha256 = "5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
     };
   };
   slim = pkgs.vimUtils.buildVimPluginFrom2Nix {
@@ -34,7 +34,7 @@ let
       owner = "slim-template";
       repo = "vim-slim";
       rev = "f0758ea1c585d53b9c239177a8b891d8bbbb6fbb";
-      hash = "sha256-dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
+      sha256 = "dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
     };
   };
 in

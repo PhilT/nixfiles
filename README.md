@@ -4,6 +4,12 @@
 
 ## Bootstrapping a new machine
 
+WARNING: Disk needs to be set in 2 places at the moment: secrets/machine/device
+and src/machine/minimal.nix. Need to set minimal.nix to pull from device
+
+Initial build is expecting to find dmenu, dwm and slstatus in the /data/code directory
+
+
 * Copy this repo to a USB stick
 * Add the ssh key to GitHub
 * Create another USB stick with the minimal NixOS ISO from https://nixos.org/download
