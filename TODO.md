@@ -1,18 +1,15 @@
-[ ] Don't fade/reduce opacity of Feh images
+[ ] Screen tearing in Firefox even with vsync on nvidia drivers
 [ ] Add /data to CDPATH
 [ ] Package dbgate SQL Client (or use the AppImage)
 [ ] Can't view (and click on) HTML email links in Neomutt
 [ ] keepmenu still a bit weird on pasting some passwords (e.g. privateemail)
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)
-[x] How to switch screens (keyboard shortcut) -- WIN+.
 [ ] Commit any Neovim changes on laptop (system clipboard stuff)
 [ ] Fix squashed Telescope view for Grep
 [ ] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
     find /var/www/html -type d -print0 | xargs -0 chmod 755
     find /var/www/html -type f -print0 | xargs -0 chmod 644
 [ ] slstatus - Need separate branch for spruce
-[ ] Screen tearing in Firefox even with vsync on
-[x] How to update NixOS? - sudo nix-channel --update
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
 [ ] Setup dmenu bookmarks
 [ ] Investigate journalctl -b warnings:
@@ -47,6 +44,9 @@
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] Don't fade/reduce opacity of Feh images
+[x] How to switch screens (keyboard shortcut) -- WIN+.
+[x] How to update NixOS? - sudo nix-channel --update
 [x] Setup custom config for fred (Done for now)
 [x] Finish configuring syncthing
 [-] Setup derivation for FLStudio (Audio a bit wonky, need to test)
