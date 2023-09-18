@@ -44,6 +44,7 @@
 
     systemPackages = with pkgs; [
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini")
+      (callPackage ./studio.nix {})
 
       (dmenu.overrideAttrs (oldAttrs: {
         name = "dmenu-philt-custom";
@@ -51,30 +52,29 @@
       }))
 
       #deadbeef-with-plugins # Music player
-      cmus                # Terminal based music player
-      dmenu
-      fd                  # Alternative to find
+      cmus                  # Terminal based music player
+      fd                    # Alternative to find
       feh
       fsautocomplete
-      dbeaver             # SQL client
       discord
-      flameshot           # Screnshot tool
+      flameshot             # Screnshot tool
       gimp
       inkscape
       keepassxc
       keepmenu
       libreoffice
-      lxde.lxmenu-data    # List apps to run in PCManFM
+      lxde.lxmenu-data      # List apps to run in PCManFM
       pcmanfm
       pulseaudio
       ripgrep
-      shared-mime-info    # Recognise different file types
+      shared-mime-info      # Recognise different file types
       slack
       surf
       unzip
-      vengi-tools         # Voxel tools including VoxEdit
+      vengi-tools           # Voxel tools including VoxEdit
       whatsapp-for-linux
-      xclip               # Used by Neovim among other things for copy/paste from/to system clipboard
+      wineWowPackages.full  # Needed for FL Studdio installer
+      xclip                 # Used by Neovim among other things for copy/paste from/to system clipboard
       zip
     ];
   };

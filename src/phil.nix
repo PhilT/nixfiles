@@ -34,10 +34,4 @@
     udisks2.enable = true;
     devmon.enable = true;
   };
-
-  environment.systemPackages = with pkgs; [
-    (callPackage ./studio.nix {})
-
-    wineWowPackages.full # Needed for FL Studdio installer
-  ];
 }
