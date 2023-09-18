@@ -9,6 +9,7 @@
     # Compositor
     picom = {
       enable = true;
+      backend = "glx";
       vSync = true;
       fade = true;
       fadeDelta = 10;
