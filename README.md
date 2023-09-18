@@ -1,6 +1,8 @@
 # My NixOS Setup
 
-# LUKS full drive encryption
+## Prerequesites
+* Ensure dwm, dmenu, slstatus and nixos code is committed and pushed with clean stage
+*
 
 ## Bootstrapping a new machine
 

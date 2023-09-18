@@ -1,7 +1,55 @@
+[ ] Don't fade/reduce opacity of Feh images
+[ ] Add /data to CDPATH
+[ ] Package dbgate SQL Client (or use the AppImage)
+[ ] Can't view (and click on) HTML email links in Neomutt
+[ ] keepmenu still a bit weird on pasting some passwords (e.g. privateemail)
+[ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)
+[x] How to switch screens (keyboard shortcut) -- WIN+.
+[ ] Commit any Neovim changes on laptop (system clipboard stuff)
+[ ] Fix squashed Telescope view for Grep
+[ ] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
+    find /var/www/html -type d -print0 | xargs -0 chmod 755
+    find /var/www/html -type f -print0 | xargs -0 chmod 644
+[ ] slstatus - Need separate branch for spruce
+[ ] Screen tearing in Firefox even with vsync on
+[x] How to update NixOS? - sudo nix-channel --update
+[ ] FIREFOX: Remove Getting started and import bookmark bookmarks
+[ ] Setup dmenu bookmarks
+[ ] Investigate journalctl -b warnings:
+    [ ] efifb: Ignoring BGRT: unexpected or invalid BMP data
+    [ ] nvme nvme0: missing or invalid SUBNQN field
+    [ ] usb: port power management may be unreliable
+    [ ] kernel: usb 1-8.4.1: current rate 16000 is different from the runtime rate 32000
+        kernel: usb 1-8.4.1: current rate 24000 is different from the runtime rate 16000
+        kernel: usb 1-8.4.1: 3:3: cannot set freq 24000 to ep 0x82
+    [ ] iwlwifi 0000:00:14.3: api flags index 2 larger than supported by driver
+    [ ] thermal thermal_zone2: failed to read out thermal zone (-61)
+    [ ] warning: logrotate in debug mode does nothing except printing debug messages!  Consider using verbose mode (-v) instead if this is not what you want.
+    [ ] dbus-daemon[1307]: dbus[1307]: Unknown username "pulse" in message bus configuration file
+    [ ] dbus-daemon[1307]: dbus[1307]: Unknown group "netdev" in message bus configuration file
+
+    [ ] (uetoothd)[1303]: ConfigurationDirectory 'bluetooth' already exists but the mode is different. (File system: 755 ConfigurationDirectoryMode: 555)
+    [ ] bluetoothd[1303]: src/main.c:check_options() Unknown key Enable for group General in /etc/bluetooth/main.conf
+    [ ] bluetoothd[1303]: profiles/audio/vcp.c:vcp_init() D-Bus experimental not enabled
+        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init vcp plugin
+        bluetoothd[1303]: profiles/audio/mcp.c:mcp_init() D-Bus experimental not enabled
+        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init mcp plugin
+        bluetoothd[1303]: profiles/audio/bap.c:bap_init() D-Bus experimental not enabled
+        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init bap plugin
+    [ ] nfmqh57cb7y6hq6qhkx8m5l2avl6xvj4-merge-syncthing-config[1627]: curl: (7) Failed to connect to 127.0.0.1 port 8384 after 1 ms: Couldn't connect to server
+    [ ] nfmqh57cb7y6hq6qhkx8m5l2avl6xvj4-merge-syncthing-config[2632]: parse error: Invalid numeric literal at line 1, column 5
+    [ ] ln: failed to create symbolic link '/home/phil/.config/alacritty.yml': Permission denied
+    [ ] exFAT-fs (sdb1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+    [ ] xhci_hcd 0000:00:14.0: xHC error in resume, USBSTS 0x411, Reinit
+    [ ] Error getting 'loop0' information: Failed to get status of the device loop0: No such device or address (g-bd-loop-error-quark, 2)
+[ ] Rebuild failures:
+    [ ] warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash.
+[ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
+    Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
+
 [x] Setup custom config for fred (Done for now)
 [x] Finish configuring syncthing
 [-] Setup derivation for FLStudio (Audio a bit wonky, need to test)
-
 
 [x] Make ./bootstrap use the generated configuration for the first install
 [x] Get rid of minimal_template and see if I can load vars through machine specific config
@@ -19,9 +67,7 @@
 [x] Volume controls
 [x] Whatsapp
 [x] Remove Label stuff for now
-[ ] Fix problem with USBs only mounting when loading PCManFM
-[ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
-    Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
+[x] Fix problem with USBs only mounting when loading PCManFM
 
 ### DWM
 [x] Wifi icon

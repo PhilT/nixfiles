@@ -5,15 +5,12 @@
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
 
   programs.firefox.preferences = {
-    "general.smoothScroll" = true;
     "browser.warnOnQuit" = false;
-    "mousewheel.acceleration.factor" = "4"; # For some reason the following prefs can't be set for "stability reasons"
-    "mousewheel.acceleration.start" = "2";
-    "mousewheel.default.delta_multiplier_y" = "50";
   };
 
-  # https://mozilla.github.io/policy-templates/#permissions
+  # https://mozilla.github.io/policy-templates
   programs.firefox.policies = {
+    HardwareAcceleration = true;
     DisableTelemetry = true;
     DefaultDownloadDirectory = "/data/downloads"; # FIXME: should really pass in $DATA
     DisableAppUpdate = true;
