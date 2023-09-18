@@ -55,3 +55,8 @@ unignore	from: subject to cc mail-followup-to \
 alias adam    Adam Sowter <adam@evantistechnology.com>
 
 mailboxes $spool_file
+
+# urlscan
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+
+macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
