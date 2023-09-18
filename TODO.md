@@ -1,8 +1,6 @@
 [ ] Package dbgate SQL Client (or use the AppImage)
-[ ] Can't view (and click on) HTML email links in Neomutt
-[ ] keepmenu still a bit weird on pasting some passwords (e.g. privateemail)
+[*] keepmenu still a bit weird on pasting some passwords (e.g. privateemail) - Support issue raised
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)
-[ ] Commit any Neovim changes on laptop (system clipboard stuff)
 [ ] Fix squashed Telescope view for Grep
 [ ] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
     find /var/www/html -type d -print0 | xargs -0 chmod 755
@@ -42,6 +40,7 @@
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] Can't view (and click on) HTML email links in Neomutt
 [x] Add /data to CDPATH
 [x] Screen tearing in Firefox even with vsync on nvidia drivers
 [x] Don't fade/reduce opacity of Feh images
