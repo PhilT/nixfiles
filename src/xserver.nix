@@ -25,7 +25,6 @@
 
     xserver = {
       enable = true;
-      libinput.enable = true;  # Touchpad support - TODO: Move to darko?
       xautolock.enable = true; # Lock the screen
 
       layout = "gb";

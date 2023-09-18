@@ -10,7 +10,6 @@
 
   # https://mozilla.github.io/policy-templates
   programs.firefox.policies = {
-    HardwareAcceleration = true;
     DisableTelemetry = true;
     DefaultDownloadDirectory = "/data/downloads"; # FIXME: should really pass in $DATA
     DisableAppUpdate = true;

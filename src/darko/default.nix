@@ -19,6 +19,10 @@
 
   programs.light.enable = true; # Key bindings in Dwm
 
+  services.xserver.libinput.enable = true;  # Touchpad support
+  services.xserver.libinput.touchpad.naturalScrolling = true;
+  services.xserver.libinput.touchpad.disableWhileTyping = true;
+
   environment.systemPackages = with pkgs; [
   ];
 }
