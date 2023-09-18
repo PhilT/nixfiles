@@ -12,10 +12,14 @@
       vSync = true;
       fade = true;
       fadeDelta = 10;
+      opacityRules = [
+        "100:class_g = 'feh'"
+      ];
       inactiveOpacity = 0.9;
       activeOpacity = 1.0;
       settings = {
         inactive-dim = 0.5;
+        focus-exclude = "class_g = 'feh'";
       };
     };
 
