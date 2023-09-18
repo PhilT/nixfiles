@@ -1,5 +1,3 @@
-[ ] Screen tearing in Firefox even with vsync on nvidia drivers
-[ ] Add /data to CDPATH
 [ ] Package dbgate SQL Client (or use the AppImage)
 [ ] Can't view (and click on) HTML email links in Neomutt
 [ ] keepmenu still a bit weird on pasting some passwords (e.g. privateemail)
@@ -44,6 +42,8 @@
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] Add /data to CDPATH
+[x] Screen tearing in Firefox even with vsync on nvidia drivers
 [x] Don't fade/reduce opacity of Feh images
 [x] How to switch screens (keyboard shortcut) -- WIN+.
 [x] How to update NixOS? - sudo nix-channel --update
