@@ -1,6 +1,5 @@
 [ ] Fix selected text color in Neomutt (might be alacritty)
 [ ] Package dbgate SQL Client (or use the AppImage)
-[*] keepmenu still a bit weird on pasting some passwords (e.g. privateemail) - Support issue raised
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)
 [ ] Fix squashed Telescope view for Grep
 [ ] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
@@ -41,6 +40,7 @@
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] keepmenu still a bit weird on pasting some passwords (e.g. privateemail) - Support issue raised
 [x] Can't view (and click on) HTML email links in Neomutt
 [x] Add /data to CDPATH
 [x] Screen tearing in Firefox even with vsync on nvidia drivers
@@ -57,13 +57,15 @@
 [ ] Neomutt (Email client)
     [x] Basic functionality working
     [x] View HTML email (better formatting needed)
-    [x] How to switch to sidebar? (`c` to change mailbox)
+    [x] How to switch to sidebar? (`c` to change mailbox or CTRL+j/k and CTRL+o to open)
     [x] Clickable links - just works
     [ ] View images?
     [ ] Can't see sent messages (and more broadly setting up local folders)
     [ ] Look into warning generated when running surf
+    [ ] Reverse order of emails not working
+    [ ]
 [x] Dark theme - Just Chromium for now
-[ ] Check out keepmenu config (change editor?)
+[x] Check out keepmenu config (change editor?)
 [x] Volume controls
 [x] Whatsapp
 [x] Remove Label stuff for now

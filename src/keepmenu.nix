@@ -4,7 +4,6 @@ let newKeepmenu = pkgs.keepmenu.overrideAttrs (old: {
   src = python3Packages.fetchPypi {
     pname = "keepmenu";
     version = "1.4.0";
-    #sha256 = "SeVNtONH1bn2hb2pBOVM3Oafrb+jARgfvRe7vUu6Gto=";
   };
 });
 in
@@ -14,13 +13,14 @@ in
       mode = "444";
       text = ''
         [dmenu]
-        dmenu_command = "dmenu_run -i"
+        dmenu_command = dmenu -i
 
         [dmenu_passphrase]
         obscure = True
         obscure_color = #555555
 
         [database]
+        type_library = xdotool
         database_1 = /data/sync/HomeDatabase.kdbx
         keyfile_1 =
         pw_cache_period_min = 360

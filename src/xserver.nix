@@ -57,6 +57,7 @@
     # where options can be passed in to configure it.
     systemPackages = [
       (pkgs.writeShellScriptBin "autostart.sh" ''
+        /run/current-system/sw/bin/setxkbmap   # Fix an issue with characters getting switched when pasting text for keepmenu with xdotool
         if [ "$(hostname)" = "spruce" ]; then
           feh --no-fehbg --bg-fill $DATA/downloads/wallpaper-right.jpg --bg-fill $DATA/downloads/wallpaper-left.jpg &
         else
