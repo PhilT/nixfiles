@@ -10,6 +10,7 @@
     ./fonts.nix
     ./gaming.nix
     ./git.nix
+    ./keepmenu.nix
     ./neomutt.nix
     ./neovim.nix
     ./programs.nix
