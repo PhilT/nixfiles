@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  systemd.tmpfiles.rules = [
+    "d /data - phil users"
+    "d /data/downloads - phil users"
+  ];
+
   environment = {
     sessionVariables = rec {
       # Duplicated in ./initialize
@@ -25,17 +30,4 @@
       "ignore".source = ../dotfiles/ignore;
     };
   };
-
-  # FIXME: chown phil:users should be chown ${USER}:users
-  system.activationScripts.dataDir = ''
-    [ -d "$DATA" ] || (mkdir -p $DATA && chown phil:users $DATA)
-  '';
-
-  # FIXME: Not sure this belongs here, probably a dependency
-  # FIXME: chown phil:users should be chown ${USER}:users
-  # FIXME: This is possibly getting creating sooner than this and hence why it's owned by root. Need to check
-  system.userActivationScripts.xdgConfigHome = ''
-    [ -d $XDG_CONFIG_HOME ] || (mkdir -p $XDG_CONFIG_HOME && chown phil:users $XDG_CONFIG_HOME)
-    [ -d $DATA/downloads ] || mkdir -p $DATA/downloads
-  '';
 }
