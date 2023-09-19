@@ -7,6 +7,10 @@
 #   rm secrets/<machine>/config.xml
 
 {
+  systemd.tmpfiles.rules = [
+    "d /home/phil/.config/syncthing - phil users"
+  ];
+
   services = {
     syncthing = {
       enable = true;
