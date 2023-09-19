@@ -1,14 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 action=REBUILD
 command=test
 cleanup=0
-while getopts 'hdsr' OPTION; do
+while getopts 'hdsur' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-dr] [commit message]"
       echo "  -d                   run nix-collect-garbage"
       echo "  -r [commit message]  rebuild & switch, with optional git commit"
+      echo "  -u                   upgrade channel and switch"
       exit 0
       ;;
     d)
@@ -16,6 +17,10 @@ while getopts 'hdsr' OPTION; do
       ;;
     s)
       action=SWITCH
+      command=switch
+      ;;
+    u)
+      action=UPGRADE
       command=switch
       ;;
     r)
@@ -60,5 +65,6 @@ fi
 
 # export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
 # echo "[LABEL] $NIXOS_LABEL"
+[ "$action" = "UPGRADE" ] && sudo nix-channel --update
 sudo nixos-rebuild $command -I nixos-config=$configuration_nix
 

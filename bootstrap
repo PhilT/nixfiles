@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 partition=0
 format=0
 dryrun=0
