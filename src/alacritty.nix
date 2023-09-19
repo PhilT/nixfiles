@@ -30,34 +30,39 @@ with lib;
             font:
               size: ${toString config.programs.alacritty.fontSize}
 
-            # Colors (One Dark)
+            # Source: https://github.com/tyrannicaltoucan/vim-deep-space
             colors:
               # Default colors
               primary:
-                background: '0x1e2127'
-                foreground: '0xbbc2cf'
+                background: '#1b202a'
+                foreground: '#aab7cd'
+
+              # Colors the cursor will use if `custom_cursor_colors` is true
+              cursor:
+                text: '#232936'
+                cursor: '#51617d'
 
               # Normal colors
               normal:
-                black:   '0x1e2127'
-                red:     '0xe06c75'
-                green:   '0x98c379'
-                yellow:  '0xd19a66'
-                blue:    '0x61afef'
-                magenta: '0xc678dd'
-                cyan:    '0x56b6c2'
-                white:   '0xabb2bf'
+                black: '#1b202a'
+                red: '#b15e7c'
+                green: '#709d6c'
+                yellow: '#b5a262'
+                blue: '#608cc3'
+                magenta: '#8f72bf'
+                cyan: '#56adb7'
+                white: '#9aa7bd'
 
               # Bright colors
               bright:
-                black:   '0x5c6370'
-                red:     '0xe06c75'
-                green:   '0x98c379'
-                yellow:  '0xd19a66'
-                blue:    '0x61afef'
-                magenta: '0xc678dd'
-                cyan:    '0x56b6c2'
-                white:   '0xffffff'
+                black: '#232936'
+                red: '#b3785d'
+                green: '#608d5c'
+                yellow: '#c5a865'
+                blue: '#507cb3'
+                magenta: '#c47ebd'
+                cyan: '#51617d'
+                white: '#9aa7bd'
           '';
         };
       };

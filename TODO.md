@@ -1,13 +1,11 @@
-[ ] Fix selected text color in Neomutt (might be alacritty)
+[ ] Look into himalaya-vim
+[ ] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
 [ ] Package dbgate SQL Client (or use the AppImage)
-[ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)
+[ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
 [ ] Fix squashed Telescope view for Grep
-[ ] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
-    find /var/www/html -type d -print0 | xargs -0 chmod 755
-    find /var/www/html -type f -print0 | xargs -0 chmod 644
 [ ] slstatus - Need separate branch for spruce
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
-[ ] Setup dmenu bookmarks
+[ ] Setup HTML bookmarks to load from dmenu
 [ ] Investigate journalctl -b warnings:
     [ ] efifb: Ignoring BGRT: unexpected or invalid BMP data
     [ ] nvme nvme0: missing or invalid SUBNQN field
@@ -40,6 +38,9 @@
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
+    find /var/www/html -type d -print0 | xargs -0 chmod 755
+    find /var/www/html -type f -print0 | xargs -0 chmod 644
 [x] keepmenu still a bit weird on pasting some passwords (e.g. privateemail) - Support issue raised
 [x] Can't view (and click on) HTML email links in Neomutt
 [x] Add /data to CDPATH

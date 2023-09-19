@@ -37,6 +37,11 @@ git_clone 'cv_builder'
 git_clone 'vim-fsharp'
 git_clone 'sheetzi'
 
+# Copy secrets
+cp -r secrets $CODE/nixos-files/
+find $CODE/nixos-files/secrets -type d -print0 | xargs -0 chmod 755
+find $CODE/nixos-files/secrets -type f -print0 | xargs -0 chmod 644
+
 # Add bluetooth devices
 alias btc=bluetoothctl
 btc power on

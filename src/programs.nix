@@ -24,6 +24,12 @@
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
 
+      # Reset file/folder permissions
+      (writeShellScriptBin "resetperms" ''
+        find . -type d -print0 | xargs -0 chmod 755
+        find . -type f -print0 | xargs -0 chmod 644
+      '')
+
       #deadbeef-with-plugins # Music player
       cmus                  # Terminal based music player
       fd                    # Alternative to find
