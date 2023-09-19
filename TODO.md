@@ -1,3 +1,4 @@
+[ ] Fix selected text color in Neomutt (might be alacritty)
 [ ] Package dbgate SQL Client (or use the AppImage)
 [*] keepmenu still a bit weird on pasting some passwords (e.g. privateemail) - Support issue raised
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left)

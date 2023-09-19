@@ -10,6 +10,8 @@
       ../nvidia_offload.nix
     ];
 
+  programs.alacritty.fontSize = 10;
+
   services = {
     auto-cpufreq.enable = true;  # TODO: Doc needed
 
