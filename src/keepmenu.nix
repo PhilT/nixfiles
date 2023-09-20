@@ -20,7 +20,6 @@ in
         obscure_color = #555555
 
         [database]
-        type_library = xdotool
         database_1 = /data/sync/HomeDatabase.kdbx
         keyfile_1 =
         pw_cache_period_min = 360
