@@ -41,8 +41,6 @@
       inkscape
       keepassxc
       libreoffice
-      lxde.lxmenu-data      # List apps to run in PCManFM
-      pcmanfm
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types

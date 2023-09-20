@@ -4,6 +4,8 @@
   imports = [
     ./alacritty.nix
     ./audio.nix
+    ./dbgate.nix
+    ./filemanager.nix
     ./firefox.nix
     ./carwow.nix
     ./environment.nix
