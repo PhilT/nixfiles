@@ -1,0 +1,30 @@
+{ lib, pkgs, fetchurl, ... }:
+
+let HOME = "/home/phil";
+in
+{
+  environment = {
+    systemPackages = with pkgs; [
+      (appimageTools.wrapType2 {
+        name = "dbgate";
+        src = pkgs.fetchurl {
+          url = "https://github.com/dbgate/dbgate/releases/download/v5.2.6/dbgate-5.2.6-linux_x86_64.AppImage";
+          sha256 = "Bw5+MaYXuOT1D5z3cImToS6Add/tDwy9r/b7MsviyUE=";
+        };
+      })
+    ];
+
+    etc."config/dbgate/settings.json" = {
+      mode = "444";
+      text = (builtins.toJSON {
+        "app.useNativeMenu" = true;
+        currentTheme = "theme-dark";
+      });
+    };
+  };
+
+  systemd.tmpfiles.rules = [
+    "C+ ${HOME}/.dbgate - phil users - /etc/config/dbgate"
+  ];
+}
+

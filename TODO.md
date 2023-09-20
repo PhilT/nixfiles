@@ -2,7 +2,6 @@
 [ ] Add Starling bank card to KeePass
 [ ] Look into himalaya-vim
 [ ] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
-[ ] Package dbgate SQL Client (or use the AppImage)
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
 [ ] Fix squashed Telescope view for Grep
 [ ] slstatus - Need separate branch for spruce
@@ -35,11 +34,12 @@
     [ ] exFAT-fs (sdb1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
     [ ] xhci_hcd 0000:00:14.0: xHC error in resume, USBSTS 0x411, Reinit
     [ ] Error getting 'loop0' information: Failed to get status of the device loop0: No such device or address (g-bd-loop-error-quark, 2)
-[ ] Rebuild failures:
-    [ ] warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash.
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 
+[x] Package dbgate SQL Client (or use the AppImage)
+[x] Rebuild failures:
+    [x] warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash. - Fixed with channel update
 [x] When copying secrets from /usb/nixos-files/secrets to /data/code/nixos-files/secrets
     find /var/www/html -type d -print0 | xargs -0 chmod 755
     find /var/www/html -type f -print0 | xargs -0 chmod 644

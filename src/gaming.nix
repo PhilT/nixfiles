@@ -1,30 +1,31 @@
 { config, pkgs, ... }:
 
+# Probably won't run this one the laptop but here for reference
+let offload_vars = ''
+  export __NV_PRIME_RENDER_OFFLOAD=1
+  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+  export __GLX_VENDOR_LIBRARY_NAME=nvidia
+  export __VK_LAYER_NV_optimus=NVIDIA_only
+'';
+in
 {
   programs.steam.enable = true;
 
   environment = {
     sessionVariables = rec {
+      # Probably should move .steam to /data
       STEAM_COMPAT = "/home/phil/.steam/root/compatibilitytools.d";
       STEAM_COMMON = "/home/phil/.steam/steam/steamapps/common";
     };
 
     systemPackages = with pkgs; [
       (writeShellScriptBin "rf2" ''
-        export __NV_PRIME_RENDER_OFFLOAD=1
-        export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-        export __GLX_VENDOR_LIBRARY_NAME=nvidia
-        export __VK_LAYER_NV_optimus=NVIDIA_only
-
+        #\${offload_vars}
         proton-call -r rFactor2.exe
       '')
 
       (writeShellScriptBin "rf2-config" ''
-        export __NV_PRIME_RENDER_OFFLOAD=1
-        export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-        export __GLX_VENDOR_LIBRARY_NAME=nvidia
-        export __VK_LAYER_NV_optimus=NVIDIA_only
-
+        #\${offload_vars}
         proton-call -r rF\ Config.exe
       '')
 
