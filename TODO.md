@@ -1,3 +1,5 @@
+[ ] Add credit card to KeePass
+[ ] Add Starling bank card to KeePass
 [ ] Look into himalaya-vim
 [ ] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
 [ ] Package dbgate SQL Client (or use the AppImage)
