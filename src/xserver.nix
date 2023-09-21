@@ -3,6 +3,7 @@
 {
   imports = [
     ./dwm/slstatus.nix
+    ./dwm/adjustlight.nix
   ];
 
   services = {
@@ -41,6 +42,7 @@
         src = builtins.fetchGit {
           url = "https://github.com/PhilT/dwm.git";
           ref = "main";
+          rev = "932c70db7e59cd521ec9f6bebf5df2fd9623365c";
         };
       });
     };
