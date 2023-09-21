@@ -11,6 +11,7 @@
     ];
 
   programs.alacritty.fontSize = 10;
+  programs.kitty.fontSize = 13;
 
   services = {
     auto-cpufreq.enable = true;  # TODO: Doc needed

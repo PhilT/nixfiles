@@ -3,6 +3,7 @@
 {
   imports = [
     ./alacritty.nix
+    ./kitty.nix
     ./audio.nix
     ./dbgate.nix
     ./filemanager.nix
