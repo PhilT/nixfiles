@@ -1,14 +1,7 @@
-{ config, pkgs, lib, fetchFromGitHub, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
-let newKitty = pkgs.kitty.overrideAttrs (old: {
-  version = "0.30.0";
-  src = fetchFromGitHub {
-    rev = "refs/tags/v0.30.0";
-  };
-});
-in
 {
   options.programs.kitty = mkOption {
     type = types.submodule {
@@ -28,8 +21,16 @@ in
         kitty
         kitty-themes
 
+        # Run kitty-themes to preview a list of themes. For some reason
+        # --config-file-name doesn't work (Possibly because it can't write to the 
+        # main kitty.conf file). So, kitten-themes THEME NAME
+        # will dump the theme into dotfiles/kitty-theme.conf
         (writeShellScriptBin "kitty-themes" ''
-          kitty +kitten themes --config-file-name $SRC/dotfiles/kitty-theme.conf
+          if [ -z "$1" ]; then
+            kitty +kitten themes
+          else
+            kitty +kitten themes --dump-theme $1 > $SRC/dotfiles/kitty-theme.conf
+          fi
         '')
       ];
 
