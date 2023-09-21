@@ -1,6 +1,24 @@
 { config, pkgs, ... }:
 
 let
+  graytheme = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "komau.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "ntk148v";
+      repo = "komau.vim";
+      rev = "759adf8a6b3daa57c5f9229e241968e401e4ac4c";
+      sha256 = "veKyXZ4wh+02tOyKRFP5l137wQoTNXcJqPhCPS3E5jA=";
+    };
+  };
+  colorscheme = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "vim-colors-pencil";
+    src = pkgs.fetchFromGitHub {
+      owner = "preservim";
+      repo = "vim-colors-pencil";
+      rev = "1101118fa3e3038568541e9a67511513aac5d19b";
+      sha256 = "l/v5wXs8ZC63OmnI1FcvEAvWJWkaRoLa9dlL1NdX5XY=";
+    };
+  };
   fsharp = pkgs.vimUtils.buildVimPluginFrom2Nix {
     name = "vim-fsharp";
     src = pkgs.fetchFromGitHub {
@@ -44,9 +62,12 @@ in
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
           auto-pairs
+          colorscheme
           completion-nvim
           editorconfig-vim
           fsharp
+          graytheme
+          himalaya-vim
           lualine-nvim
           nvim-lspconfig             # Language server client settings
           nvim-tree-lua
@@ -64,6 +85,7 @@ in
           vim-fugitive
           vim-indentwise
           vim-markdown
+          vim-nix
           vim-repeat
           vim-scriptease
           vim-surround
