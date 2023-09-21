@@ -32,15 +32,16 @@
 
       #deadbeef-with-plugins # Music player
       cmus                  # Terminal based music player
+      discord
       fd                    # Alternative to find
       feh
-      fsautocomplete
-      discord
       flameshot             # Screnshot tool
+      fsautocomplete
       gimp
       inkscape
       keepassxc
       libreoffice
+      pinentry
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types
@@ -51,7 +52,6 @@
       whatsapp-for-linux
       wineWowPackages.full  # Needed for FL Studdio installer
       xclip                 # Used by Neovim among other things for copy/paste from/to system clipboard
-      pinentry
       zip
     ];
   };
