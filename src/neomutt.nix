@@ -3,8 +3,6 @@
 {
   environment = {
     systemPackages = with pkgs; [
-      (writeShellScriptBin "mail" "neomutt")
-
       neomutt
       urlscan       # View URLs in Emails (kind of important)
       links2        # For rendering HTML inline
