@@ -8,27 +8,18 @@ signature = """
 
 downloads-dir = "/data/downloads"
 
+email-listing-page-size = 50
 email-listing-datetime-fmt = "%F %H:%M"
 email-listing-datetime-local-tz = true
-
-[privateemail.folder-aliases]
-inbox = "INBOX"
-deleted = "Trash"
-drafts = "Drafts"
-sent = "Sent"
-spam = "Spam"
-archive = "Archive"
-house = "House"
-waiting = "Waiting"
-car = "Car"
 
 [privateemail]
 default = true
 backend = "imap"
 sender = "smtp"
-#sync = true
-#sync-dir = "/data/email"
-#sync-folders-strategy = "all"
+sync = true
+sync-dir = "/data/email"
+sync-folders-strategy = "all"
+watch-cmds = ["himalaya --account privateemail account sync"]
 
 email = "phil@electricvisions.com"
 
@@ -45,3 +36,4 @@ smtp-login = "phil@electricvisions.com"
 smtp-auth = "password"
 smtp-passwd = { cmd = "/data/code/nixos-files/secrets/privateemail_password" }
 smtp-ssl = true
+

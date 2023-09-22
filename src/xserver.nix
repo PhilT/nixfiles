@@ -36,6 +36,7 @@
       };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs (finalAttrs: previousAttrs: {
+        #src = /data/code/dwm;
         prePatch = previousAttrs.prePatch + ''
           sed -i "s@/usr/share/xsessions@$out/share/applications/@g" Makefile
         '';
