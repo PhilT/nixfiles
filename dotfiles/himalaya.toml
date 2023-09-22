@@ -1,0 +1,47 @@
+display-name = "Phil Thompson"
+signature = """
+  Phil A Thompson
+  Electric Visions Ltd
+  phil@electricvisions.com
+  +44 (0) 7528 895680
+  """
+
+downloads-dir = "/data/downloads"
+
+email-listing-datetime-fmt = "%F %H:%M"
+email-listing-datetime-local-tz = true
+
+[privateemail.folder-aliases]
+inbox = "INBOX"
+deleted = "Trash"
+drafts = "Drafts"
+sent = "Sent"
+spam = "Spam"
+archive = "Archive"
+house = "House"
+waiting = "Waiting"
+car = "Car"
+
+[privateemail]
+default = true
+backend = "imap"
+sender = "smtp"
+#sync = true
+#sync-dir = "/data/email"
+#sync-folders-strategy = "all"
+
+email = "phil@electricvisions.com"
+
+imap-host = "mail.privateemail.com"
+imap-port = 993
+imap-login = "phil@electricvisions.com"
+imap-auth = "password"
+imap-passwd = { cmd = "/data/code/nixos-files/secrets/privateemail_password" }
+imap-ssl = true
+
+smtp-host = "mail.privateemail.com"
+smtp-port = 465
+smtp-login = "phil@electricvisions.com"
+smtp-auth = "password"
+smtp-passwd = { cmd = "/data/code/nixos-files/secrets/privateemail_password" }
+smtp-ssl = true
