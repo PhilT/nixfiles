@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
+# TODO: Get rid of Neomutt and rename
 {
+  programs.bash.interactiveShellInit = ''
+    source ${../dotfiles/himalaya_completion}
+  '';
+
   environment = {
     systemPackages = with pkgs; [
       neomutt
@@ -9,6 +14,17 @@
       runningx      # Check if X is running so a browser can be started to view pages
 
       himalaya
+
+      (writeShellScriptBin "emptymail" ''
+        echo "Getting size of Trash folder..."
+        emails=$(himalaya list -f Trash -s 10000 | sed '2 d')
+        ids=$(echo "$emails" | sed -E 's/([0-9]+).*/\1/')
+        echo "Deleting..."
+        for i in $ids; do
+          himalaya delete -f Trash $i > /dev/null
+        done
+        echo "Done."
+      '')
     ];
 
     etc = {

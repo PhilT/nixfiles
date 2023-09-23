@@ -36,15 +36,15 @@
       };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs (finalAttrs: previousAttrs: {
-        #src = /data/code/dwm;
+        src = /data/code/dwm;
         prePatch = previousAttrs.prePatch + ''
           sed -i "s@/usr/share/xsessions@$out/share/applications/@g" Makefile
         '';
-        src = builtins.fetchGit {
-          url = "https://github.com/PhilT/dwm.git";
-          ref = "main";
-          rev = "932c70db7e59cd521ec9f6bebf5df2fd9623365c";
-        };
+        #src = builtins.fetchGit {
+        #  url = "https://github.com/PhilT/dwm.git";
+        #  ref = "main";
+        #  rev = "932c70db7e59cd521ec9f6bebf5df2fd9623365c";
+        #};
       });
     };
   };
