@@ -1,12 +1,11 @@
+[ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add credit card to KeePass
 [ ] Add Starling bank card to KeePass
-[ ] Look into himalaya-vim
-[ ] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
+[ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
-[ ] Fix squashed Telescope view for Grep
 [ ] slstatus - Need separate branch for spruce
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
-[ ] Setup HTML bookmarks to load from dmenu
+[ ] Setup HTML bookmarks to load from dmenu (and open a tab in firefox)
 [ ] Investigate journalctl -b warnings:
     [ ] efifb: Ignoring BGRT: unexpected or invalid BMP data
     [ ] nvme nvme0: missing or invalid SUBNQN field
@@ -36,7 +35,11 @@
     [ ] Error getting 'loop0' information: Failed to get status of the device loop0: No such device or address (g-bd-loop-error-quark, 2)
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
+[ ] ^ Also add to ranger (in applicable)
 
+[x] Fix squashed Telescope view for Grep
+[x] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
+[x] Look into himalaya-vim
 [x] Package dbgate SQL Client (or use the AppImage)
 [x] Rebuild failures:
     [x] warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash. - Fixed with channel update

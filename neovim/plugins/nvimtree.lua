@@ -10,16 +10,6 @@ require("nvim-tree").setup {
       }
     }
   },
-  renderer = {
-    icons = {
-      show = {
-        file = false,
-        folder = false,
-        folder_arrow = false,
-        git = false
-      }
-    }
-  },
   actions = {
     open_file = {
       quit_on_open = true,

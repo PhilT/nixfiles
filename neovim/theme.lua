@@ -1,7 +1,6 @@
 local cmd = vim.cmd
 
---Need to make it a plugin
---cmd.colorscheme('greyscale')
+cmd.colorscheme('nord')
 
 function set_theme_dark()
   vim.opt.background = 'dark'

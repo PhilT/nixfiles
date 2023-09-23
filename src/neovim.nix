@@ -6,7 +6,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "ntk148v";
       repo = "komau.vim";
-      rev = "759adf8a6b3daa57c5f9229e241968e401e4ac4c";
+      rev = "master";
       sha256 = "veKyXZ4wh+02tOyKRFP5l137wQoTNXcJqPhCPS3E5jA=";
     };
   };
@@ -15,7 +15,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "preservim";
       repo = "vim-colors-pencil";
-      rev = "1101118fa3e3038568541e9a67511513aac5d19b";
+      rev = "master";
       sha256 = "l/v5wXs8ZC63OmnI1FcvEAvWJWkaRoLa9dlL1NdX5XY=";
     };
   };
@@ -24,7 +24,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "PhilT";
       repo = "vim-fsharp";
-      rev = "68bb8429a40f921f2ef62fd044a64170dc5458a1";
+      rev = "master";
       sha256 = "IJQp6GeJkotjJkHbosJay7mUwaa6QhE8bLx6+TerVHU=";
     };
   };
@@ -33,7 +33,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "mtth";
       repo = "scratch.vim";
-      rev = "adf826b1ac067cdb4168cb6066431cff3a2d37a3";
+      rev = "master";
       sha256 = "P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
     };
   };
@@ -42,7 +42,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "simeji";
       repo = "winresizer";
-      rev = "9bd559a03ccec98a458e60c705547119eb5350f3";
+      rev = "master";
       sha256 = "5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
     };
   };
@@ -51,7 +51,7 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "slim-template";
       repo = "vim-slim";
-      rev = "f0758ea1c585d53b9c239177a8b891d8bbbb6fbb";
+      rev = "master";
       sha256 = "dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
     };
   };
@@ -61,12 +61,15 @@ in
     configure = {
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
-          auto-pairs
           colorscheme
+          graytheme
+          nord-nvim
+          awesome-vim-colorschemes
+
+          auto-pairs
           completion-nvim
           editorconfig-vim
           fsharp
-          graytheme
           himalaya-vim
           lualine-nvim
           nvim-lspconfig             # Language server client settings
@@ -96,6 +99,7 @@ in
       };
       customRC = ''
         source ${../neovim/colors/greyscale.vim}
+        source ${../neovim/plugins/himalaya.vim}
 
         lua << LUADOC
           vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
