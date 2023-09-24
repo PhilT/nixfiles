@@ -1,9 +1,9 @@
+[ ] Add column layout to DWM
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add credit card to KeePass
 [ ] Add Starling bank card to KeePass
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
-[ ] slstatus - Need separate branch for spruce
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
 [ ] Setup HTML bookmarks to load from dmenu (and open a tab in firefox)
 [ ] Investigate journalctl -b warnings:
@@ -37,6 +37,7 @@
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 [ ] ^ Also add to ranger (in applicable)
 
+[x] slstatus - Need separate branch for spruce
 [x] Fix squashed Telescope view for Grep
 [x] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
 [x] Look into himalaya-vim
