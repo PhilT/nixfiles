@@ -12,7 +12,7 @@ in
   programs.steam.enable = true;
 
   environment = {
-    sessionVariables = rec {
+    sessionVariables = {
       # Probably should move .steam to /data
       STEAM_COMPAT = "/home/phil/.steam/root/compatibilitytools.d";
       STEAM_COMMON = "/home/phil/.steam/steam/steamapps/common";

@@ -8,7 +8,7 @@ let
 
     # Install FL Studio (if not installed)
     # Trigger build
-    if [ ! -d $WINEPREFIX ]; then 
+    if [ ! -d $WINEPREFIX ]; then
       mkdir -p $WINEPREFIX
       wine start /unix OUT/installer/flstudio_installer.exe /S
     fi
@@ -18,7 +18,7 @@ let
     wine FL64.exe
   '';
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "flstudio";
   version = "21.1.1.3750";
 
