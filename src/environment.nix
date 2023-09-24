@@ -1,5 +1,9 @@
 { config, pkgs, lib, ... }:
 
+let
+  DATA = "/data";
+  CODE = "${DATA}/code";
+in
 {
   options.xorg.xdgConfigHome = lib.mkOption {
     type = lib.types.str;
@@ -14,10 +18,10 @@
     ];
 
     environment = {
-      sessionVariables = rec {
+      sessionVariables = {
         # Duplicated in ./initialize
-        DATA = "/data";
-        CODE = "${DATA}/code";
+        DATA = DATA;
+        CODE = CODE;
         SRC = "${CODE}/nixos-files";
         TXT  = "${DATA}/txt";
         CDPATH   = "${CODE}:${DATA}";

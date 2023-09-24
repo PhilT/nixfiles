@@ -21,7 +21,7 @@
   };
 
   environment = {
-    sessionVariables = rec {
+    sessionVariables = {
       # Duplicated in ./initialize
       DATA = "/data";
     };
