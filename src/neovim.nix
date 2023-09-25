@@ -55,7 +55,7 @@ let
       sha256 = "dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
     };
   };
-  neovimNoThemes = pkgs.neovim.overrideAttrs ({
+  neovimNoThemes = pkgs.neovim-unwrapped.overrideAttrs ({
     postUnpack = ''
       rm source/runtime/colors/*
     '';
