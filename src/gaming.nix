@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# https://linuxhint.com/how-to-instal-steam-on-nixos/
+
 # Probably won't run this one the laptop but here for reference
 let offload_vars = ''
   export __NV_PRIME_RENDER_OFFLOAD=1
@@ -7,15 +9,16 @@ let offload_vars = ''
   export __GLX_VENDOR_LIBRARY_NAME=nvidia
   export __VK_LAYER_NV_optimus=NVIDIA_only
 '';
+  compat_tools_path = "/games/steam/root/compatibilitytools.d";
 in
 {
   programs.steam.enable = true;
+  programs.gamemode.enable = true; # Run with: gamemoderun ./game, verify with: gamemoded -s
 
   environment = {
     sessionVariables = {
-      # Probably should move .steam to /data
-      STEAM_COMPAT = "/home/phil/.steam/root/compatibilitytools.d";
-      STEAM_COMMON = "/home/phil/.steam/steam/steamapps/common";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = compat_tools_path;
+      STEAM_COMMON = "/games/steam/steamapps/common";
     };
 
     systemPackages = with pkgs; [
@@ -38,14 +41,14 @@ in
     ];
 
     etc = {
-      "proton.conf".source = ../dotfiles/proton.conf; # TODO: Move to gaming.nix
+      "proton.conf".source = ../dotfiles/proton.conf;
     };
   };
 
   system.userActivationScripts.proton-ge = ''
     [ -e $XDG_CONFIG_HOME/proton.conf ] || ln -s /etc/proton.conf $XDG_CONFIG_HOME/proton.conf
 
-    /run/current-system/sw/bin/protonup -y
-    /run/current-system/sw/bin/protonup -y -t GE-Proton7-55
+    #/run/current-system/sw/bin/protonup -y -d "${compat_tools_path}"
+    #/run/current-system/sw/bin/protonup -y -t GE-Proton7-55
   '';
 }
