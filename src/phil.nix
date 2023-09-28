@@ -11,7 +11,6 @@
     ./carwow.nix
     ./environment.nix
     ./fonts.nix
-    ./gaming.nix
     ./git.nix
     ./keepmenu.nix
     ./neomutt.nix

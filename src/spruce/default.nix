@@ -5,6 +5,8 @@
     [
       ./minimal.nix
       ./power.nix
+
+      ../gaming.nix
       ../phil.nix
       ../nvidia.nix
     ];

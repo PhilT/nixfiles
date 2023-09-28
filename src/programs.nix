@@ -32,6 +32,8 @@
 
       #deadbeef-with-plugins # Music player
       cmus                  # Terminal based music player
+      mpv                   # Video player
+      element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       discord
       fd                    # Alternative to find
       feh

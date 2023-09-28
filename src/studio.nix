@@ -15,7 +15,7 @@ let
 
     # Run FL Studio
     cd "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 21"
-    wine FL64.exe
+    gamemoderun wine FL64.exe
   '';
 in
 stdenv.mkDerivation {
