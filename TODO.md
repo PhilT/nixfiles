@@ -1,3 +1,7 @@
+[ ] Configure Matrix
+[ ] Fix Himalaya - Switch off sync
+[ ] Add shortcut for Slack
+[ ] Fix flameshot not loading on startup
 [ ] Add named tags in DWM
 [ ] Add column layout to DWM
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
