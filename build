@@ -6,10 +6,12 @@ cleanup=0
 while getopts 'hdsur' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-dr] [commit message]"
+      echo "Usage: $0 [-hdsur] [commit message]"
+      echo "  -h                   this help"
       echo "  -d                   run nix-collect-garbage"
-      echo "  -r [commit message]  rebuild & switch, with optional git commit"
+      echo "  -s                   rebuild & switch "
       echo "  -u                   upgrade channel and switch"
+      echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
       exit 0
       ;;
     d)
