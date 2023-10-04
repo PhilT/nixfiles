@@ -1,3 +1,34 @@
+#### General settings
+set editor = "nvim"
+set imap_check_subscribed
+
+set use_envelope_from
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set fcc_attach                       # save attachments with the body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+set text_flowed
+unset mime_forward                   # forward attachments as part of body
+unset help                           # No help bar at the top of index
+# set status_on_top                    # Status bar on top of index
+unset confirm_append      # don't ask, just do!
+set quit                 # don't ask, just do!!
+unset mark_old           # read/new is good enough for me
+set pipe_decode          # strip headers and eval mimes when piping
+set thorough_search      # strip headers and eval mimes before searching
+set timeout = 0
+set sort=threads
+
+# Autoview
+auto_view text/html text/calendar application/ics # view html automatically
+alternative_order text/html text/plain text/enriched text/*
+
 # Mailbox
 set mbox_type=Maildir
 set folder=/data/mail
@@ -7,10 +38,10 @@ set record=+Sent
 set postponed=+drafts
 set move=yes
 set signature="/data/code/nixos-files/dotfiles/signature"
-set sort=threads
 set sort_browser=reverse-date
 
 source /etc/xdg/neomutt/secrets.muttrc
+source /etc/xdg/neomutt/aliases.muttrc
 
 # IMAP Settings
 set imap_user=$my_user
@@ -40,18 +71,12 @@ bind index "\Co" sidebar-open
 # Keys
 bind pager G bottom	# just like vi and less
 
-# Autoview
-auto_view text/html
-
 # Headers
 ignore *		# this means "ignore all lines by default"
 unignore	from: subject to cc mail-followup-to date x-mailer x-url # I do want to see these fields, though!
 
 # Show date/time in current timezone
 set display_filter="exec sed -r \"s/^Date:\\s*(([F-Wa-u]{3},\\s*)?[[:digit:]]{1,2}\\s+[A-Sa-y]{3}\\s+[[:digit:]]{4}\\s+[[:digit:]]{1,2}:[[:digit:]]{1,2}(:[[:digit:]]{1,2})?\\s+[+-][[:digit:]]{4})/date +'Date: %a, %d %b %Y %H:%M:%S %z' -d '\\1'/e\""
-
-# Aliases
-alias adam    Adam Sowter <adam@evantistechnology.com>
 
 mailboxes $spool_file
 

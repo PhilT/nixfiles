@@ -13,7 +13,8 @@
     ./fonts.nix
     ./git.nix
     ./keepmenu.nix
-    ./neomutt.nix
+    ./himalaya.nix
+    #./neomutt.nix
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix

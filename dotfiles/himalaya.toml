@@ -16,11 +16,6 @@ email-listing-datetime-local-tz = true
 default = true
 backend = "imap"
 sender = "smtp"
-sync = true
-sync-dir = "/data/email"
-sync-folders-strategy = "all"
-watch-cmds = ["himalaya --account privateemail account sync"]
-
 email = "@EMAIL@"
 
 imap-host = "mail.privateemail.com"
