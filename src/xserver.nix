@@ -16,6 +16,7 @@
       fadeDelta = 10;
       opacityRules = [
         "100:class_g = 'feh'"
+        "100:class_g = 'slock'"
       ];
       inactiveOpacity = 0.9;
       activeOpacity = 1.0;
@@ -66,6 +67,7 @@
         fi
         get_vol_perc > .volumestatus
         slstatus &
+        flameshot &
       '')
     ];
   };

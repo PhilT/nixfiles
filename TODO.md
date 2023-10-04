@@ -1,10 +1,11 @@
+[ ] Customise cmus, (play/pause key binding), status bar view, etc
 [ ] Configure Matrix
 [ ] Fix Himalaya - Switch off sync
+[ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add shortcut for Slack
-[ ] Fix flameshot not loading on startup
+[x] Fix flameshot not loading on startup
 [ ] Add named tags in DWM
 [ ] Add column layout to DWM
-[ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add credit card to KeePass
 [ ] Add Starling bank card to KeePass
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
