@@ -9,7 +9,7 @@
     systemPackages = with pkgs; [
       himalaya
 
-      (writeShellScriptBin "mail-empty" ''
+      (writeShellScriptBin "m-empty" ''
         echo "Getting size of Trash folder..."
         emails=$(himalaya list -f Trash -s 10000 | sed '2 d')
         ids=$(echo "$emails" | sed -E 's/([0-9]+).*/\1/')
@@ -20,7 +20,7 @@
         echo "Done."
       '')
 
-      (writeShellScriptBin "mail-subject-with" ''
+      (writeShellScriptBin "m-subject-with" ''
         if [ -z "$1" ]; then
           echo "Returns IDs contain <text> in the subject"
           echo "Usage:"
@@ -31,13 +31,17 @@
         himalaya search SUBJECT $1 | sed 1,2d  | sed -E 's/([0-9]+) .*$/\1/'
       '')
 
-      (writeShellScriptBin "mail-del" ''
+      (writeShellScriptBin "m-del" ''
         # e.g. mail-subject-with sometext | $0
         xargs -I{} himalaya delete {}
       '')
 
-      (writeShellScriptBin "mail-read" ''
+      (writeShellScriptBin "m-read" ''
         sed -E 's/([0-9]+) .*$/\1/' | xargs -I{} himalaya read {}
+      '')
+
+      (writeShellScriptBin "m-spam" ''
+        himalaya move Spam $@
       '')
     ];
 
