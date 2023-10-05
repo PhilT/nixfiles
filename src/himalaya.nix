@@ -20,6 +20,12 @@
         echo "Done."
       '')
 
+      # Select the ID in the first column of each subsequent line
+      # then concatenate it into a space separated list.
+      (writeShellScriptBin "m-ids" ''
+        sed -E 's/([0-9]+) .*$/\1/' | sed ':a; N; $!ba; s/\n/ /g'
+      '')
+
       (writeShellScriptBin "m-subject-with" ''
         if [ -z "$1" ]; then
           echo "Returns IDs contain <text> in the subject"
@@ -28,20 +34,25 @@
           exit 1
         fi
 
-        himalaya search SUBJECT $1 | sed 1,2d  | sed -E 's/([0-9]+) .*$/\1/'
+        himalaya search SUBJECT $1 | m-ids
       '')
 
+      # list email
+      (writeShellScriptBin "m-list" ''
+        himalaya list -w 1080 | sed -E 's/│/ /g'
+      '')
+
+      # e.g. mail-subject-with sometext | $0
       (writeShellScriptBin "m-del" ''
-        # e.g. mail-subject-with sometext | $0
-        xargs -I{} himalaya delete {}
+        m-list | dmenu -l 30 -p "Delete:" | m-ids | xargs himalaya delete
       '')
 
       (writeShellScriptBin "m-read" ''
-        sed -E 's/([0-9]+) .*$/\1/' | xargs -I{} himalaya read {}
+        xargs himalaya read
       '')
 
       (writeShellScriptBin "m-spam" ''
-        himalaya move Spam $@
+        m-list | dmenu -l 30 -p "Move to spam folder:" | m-ids | xargs himalaya move Spam
       '')
     ];
 

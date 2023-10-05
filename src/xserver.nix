@@ -16,13 +16,15 @@
       fadeDelta = 10;
       opacityRules = [
         "100:class_g = 'feh'"
-        "100:class_g = 'slock'"
       ];
       inactiveOpacity = 0.9;
       activeOpacity = 1.0;
       settings = {
         inactive-dim = 0.5;
-        focus-exclude = "class_g = 'feh'";
+        focus-exclude = [
+          "class_g = 'feh'"
+          "x = 0 && y = 0 && override_redirect = true"
+        ];
       };
     };
 
@@ -59,13 +61,14 @@
     # where options can be passed in to configure it.
     systemPackages = [
       (pkgs.writeShellScriptBin "autostart.sh" ''
-        /run/current-system/sw/bin/setxkbmap   # Fix an issue with characters getting switched when pasting text for keepmenu with xdotool
+        /run/current-system/sw/bin/setxkbmap   # Fix character encoding issue when pasting text for keepmenu with xdotool or py
         if [ "$(hostname)" = "spruce" ]; then
           feh --no-fehbg --bg-fill $DATA/downloads/wallpaper-right.jpg --bg-fill $DATA/downloads/wallpaper-left.jpg &
         else
           feh --no-fehbg --bg-fill /etc/xdg/wallpaper.jpg
         fi
         get_vol_perc > .volumestatus
+        xset s blank # Blank screen (disable screensaver)
         slstatus &
         flameshot &
       '')
