@@ -20,7 +20,7 @@
       inactiveOpacity = 0.9;
       activeOpacity = 1.0;
       settings = {
-        inactive-dim = 0.5;
+        inactive-dim = 0.7;
         focus-exclude = [
           "class_g = 'feh'"
           "x = 0 && y = 0 && override_redirect = true"

@@ -22,7 +22,7 @@ with lib;
         kitty-themes
 
         # Run kitty-themes to preview a list of themes. For some reason
-        # --config-file-name doesn't work (Possibly because it can't write to the 
+        # --config-file-name doesn't work (Possibly because it can't write to the
         # main kitty.conf file). So, kitten-themes THEME NAME
         # will dump the theme into dotfiles/kitty-theme.conf
         (writeShellScriptBin "kitty-themes" ''
