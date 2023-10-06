@@ -48,7 +48,7 @@
       '')
 
       (writeShellScriptBin "m-read" ''
-        xargs himalaya read
+        m-list | dmenu -l 30 -p "Open:" | m-ids | xargs himalaya read
       '')
 
       (writeShellScriptBin "m-spam" ''
