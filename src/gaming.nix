@@ -1,54 +1,77 @@
 { config, pkgs, ... }:
 
-# https://linuxhint.com/how-to-instal-steam-on-nixos/
-
-# Probably won't run this one the laptop but here for reference
-let offload_vars = ''
-  export __NV_PRIME_RENDER_OFFLOAD=1
-  export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  export __VK_LAYER_NV_optimus=NVIDIA_only
-'';
-  compat_tools_path = "/games/steam/root/compatibilitytools.d";
+# Probably won't run this on the laptop but here for reference
+let
+  offload_vars = ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+  '';
+  #protontricksVersion = "1.10.5";
+  #protontricksPname = "protontricks";
+  #protontricksLatest = pkgs.protontricks.overrideAttrs ({
+  #  pname = protontricksPname;
+  #  version = protontricksVersion;
+  #  src = pkgs.fetchFromGitHub {
+  #    owner = "Matoking";
+  #    repo = protontricksPname;
+  #    rev = protontricksVersion;
+  #    sha256 = "N9AUpHDJWhUCxXffcfNdW1TtYXMNh/Jh5kAcHovZ6iQ=";
+  #  };
+  #});
 in
 {
   programs.steam.enable = true;
   programs.gamemode.enable = true; # Run with: gamemoderun ./game, verify with: gamemoded -s
 
   environment = {
-    sessionVariables = {
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS = compat_tools_path;
-      STEAM_COMMON = "/games/steam/steamapps/common";
-    };
-
     systemPackages = with pkgs; [
+      (writeShellScriptBin "getSteamId" ''
+        protontricks -l | grep $1 | sed -E 's/.*\(([0-9]+)\)/\1/'
+      '')
       (writeShellScriptBin "rf2" ''
         #\${offload_vars}
-        proton-call -r rFactor2.exe
+        protontricks -c rFactor2.exe $(getSteamId rFactor)
       '')
 
       (writeShellScriptBin "rf2-config" ''
         #\${offload_vars}
-        proton-call -r rF\ Config.exe
+        protontricks -c rF\ Config.exe $(getSteamId rFactor)
       '')
 
       lutris        # For non-steam games from other app stores or local
       monado        # Open source OpenXR VR drivers with support for VR
-      proton-caller # Play Steam games designed to run on Windows
-      protonup-ng   # Manage Proton from commandline
+      protontricks
+      #proton-caller # Play Steam games designed to run on Windows
+      #protonup-ng   # Manage Proton from commandline
 #      wine          # Recommended to install via package management by lutris ** Conflicts with wineWowPackages.full
-      python3Minimal# Needed by proton-caller
+      #python3Minimal# Needed by proton-caller
     ];
 
-    etc = {
-      "proton.conf".source = ../dotfiles/proton.conf;
-    };
+      sessionVariables = {
+        STEAM_DIR = "/games/steam";
+      };
+
+    #etc = {
+    #  "proton.conf".source = ../dotfiles/proton.conf;
+    #};
   };
 
-  system.userActivationScripts.proton-ge = ''
-    [ -e $XDG_CONFIG_HOME/proton.conf ] || ln -s /etc/proton.conf $XDG_CONFIG_HOME/proton.conf
+  systemd.tmpfiles.rules = [
+    "L+ /home/phil/.steam/bin - - - - /games/steam/ubuntu12_32"
+    "L+ /home/phil/.steam/bin32 - - - - /games/steam/ubuntu12_32"
+    "L+ /home/phil/.steam/bin64 - - - - /games/steam/ubuntu12_64"
+    "L+ /home/phil/.steam/root - - - - /games/steam"
+    "L+ /home/phil/.steam/sdk32 - - - - /games/steam/linux32"
+    "L+ /home/phil/.steam/sdk64 - - - - /games/steam/linux64"
+    "L+ /home/phil/.steam/steam - - - - /games/steam"
+  ];
 
-    #/run/current-system/sw/bin/protonup -y -d "${compat_tools_path}"
-    #/run/current-system/sw/bin/protonup -y -t GE-Proton7-55
-  '';
+  #system.userActivationScripts.proton-ge = ''
+  #  [ -e $XDG_CONFIG_HOME/proton.conf ] || ln -s /etc/proton.conf $XDG_CONFIG_HOME/proton.conf
+
+  #  #/run/current-system/sw/bin/protonup -y -d "${compat_tools_path}"
+  #  #/run/current-system/sw/bin/protonup -y -t GE-Proton7-55
+  #'';
 }
