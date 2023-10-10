@@ -42,6 +42,8 @@ in
 
       lutris        # For non-steam games from other app stores or local
       monado        # Open source OpenXR VR drivers with support for VR
+      opencomposite # Translate OpenVR to OpenXR calls (e.g. for rFactor 2)
+      openxr-loader # Needed to run OpenXR games
       protontricks
       #proton-caller # Play Steam games designed to run on Windows
       #protonup-ng   # Manage Proton from commandline
