@@ -24,6 +24,7 @@
         focus-exclude = [
           "class_g = 'feh'"
           "x = 0 && y = 0 && override_redirect = true"
+          "x = 3840 && y = 0 && override_redirect = true"
         ];
       };
     };
