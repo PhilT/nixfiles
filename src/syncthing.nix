@@ -54,6 +54,10 @@
             path = "/data/txt";
             devices = [ "spruce" "darko" "mev" ];
           };
+          "Other" = {
+            path = "/data/other";
+            devices = [ "spruce" "darko" ];
+          };
         };
       };
     };
