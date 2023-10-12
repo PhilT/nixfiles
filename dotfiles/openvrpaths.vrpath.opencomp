@@ -1,0 +1,14 @@
+{
+    "config": [
+        "/games/steam/config"
+    ],
+    "external_drivers": null,
+    "jsonid": "vrpathreg",
+    "log": [
+        "/games/steam/logs"
+    ],
+    "runtime": [
+        "/run/current-system/sw/lib/opencomposite/"
+    ],
+    "version": 1
+}
