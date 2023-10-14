@@ -14,13 +14,9 @@
       vSync = true;
       fade = true;
       fadeDelta = 10;
-      opacityRules = [
-        "100:class_g = 'feh'"
-      ];
-      inactiveOpacity = 0.9;
-      activeOpacity = 1.0;
       settings = {
-        inactive-dim = 0.7;
+        inactive-dim = 0.4;
+        inactive-dim-fixed = true;
         focus-exclude = [
           "class_g = 'feh'"
           "x = 0 && y = 0 && override_redirect = true"
