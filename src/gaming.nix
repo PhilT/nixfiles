@@ -45,6 +45,7 @@ in
       monado        # Open source OpenXR VR drivers with support for VR
       opencomposite # Translate OpenVR to OpenXR calls (e.g. for rFactor 2)
       xrgears       # OpenXR app for testing. Start monado with `monado-service` then run `xrgears`
+
       openxr-loader # Needed to run OpenXR games
 
       #proton-caller # Play Steam games designed to run on Windows
@@ -79,6 +80,7 @@ in
     "L+ /home/phil/.steam/sdk64 - - - - /games/steam/linux64"
     "L+ /home/phil/.steam/steam - - - - /games/steam"
 
+    "d ${config.xorg.xdgConfigHome}/openvr - phil users -"
     "L+ ${config.xorg.xdgConfigHome}/openvr/openvrpaths.vrpath - - - - /etc/openvr/openvrpaths.vrpath.opencomp"
   ];
 
