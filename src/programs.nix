@@ -40,6 +40,7 @@
       flameshot             # Screnshot tool
       fsautocomplete
       gimp
+      godot_4
       inkscape
       keepassxc
       libreoffice
