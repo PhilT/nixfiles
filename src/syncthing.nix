@@ -38,6 +38,10 @@
             path = "/data/sync";                    # Which folder to add to Syncthing
             devices = [ "spruce" "darko" "mev" ];   # Which devices to share the folder with
           };
+          "Books" = {
+            path = "/data/books";
+            devices = [ "spruce" "darko" "mev" ];
+          };
           "Documents" = {
             path = "/data/documents";
             devices = [ "spruce" "darko" "mev" ];
