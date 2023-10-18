@@ -1,13 +1,9 @@
+[ ] Bluetooth icon (possibly with clickable startup of wifi connections in dmenu) - or maybe just a bt shortcut (e.g. bt mifo, bt sony to connect (I think sony connect automatically))
 [ ] Customise cmus, (play/pause key binding), status bar view, etc
 [ ] Configure Matrix
-[ ] Fix Himalaya - Switch off sync
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
-[ ] Add shortcut for Slack
-[x] Fix flameshot not loading on startup
 [ ] Add named tags in DWM
 [ ] Add column layout to DWM
-[ ] Add credit card to KeePass
-[ ] Add Starling bank card to KeePass
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
 [ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
@@ -41,8 +37,11 @@
     [ ] Error getting 'loop0' information: Failed to get status of the device loop0: No such device or address (g-bd-loop-error-quark, 2)
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
-[ ] ^ Also add to ranger (in applicable)
+[ ] ^ Also add to ranger (if applicable)
 
+[x] Add shortcut for Slack
+[x] Fix Himalaya - Switch off sync
+[x] Fix flameshot not loading on startup
 [x] slstatus - Need separate branch for spruce
 [x] Fix squashed Telescope view for Grep
 [x] Related to himalaya-vim, add a secondary (and a light one) colorscheme to Neovim
@@ -87,7 +86,6 @@
 ### DWM
 [x] Wifi icon
 [x] Volume icon
-[ ] Bluetooth icon
 [x] Remove seconds from time
 
 ### Prepare desktop config (for development)
