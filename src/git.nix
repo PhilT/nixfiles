@@ -16,7 +16,7 @@
 
     user = {
       name = "Phil Thompson";
-      email = "@EMAIL@";
+      email = "34678+PhilT@users.noreply.github.com";
     };
     github.user = "PhilT";
 
