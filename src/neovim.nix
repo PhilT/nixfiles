@@ -1,16 +1,16 @@
 { config, pkgs, ... }:
 
 let
-  graytheme = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  graytheme = pkgs.vimUtils.buildVimPlugin {
     name = "komau.vim";
     src = pkgs.fetchFromGitHub {
       owner = "ntk148v";
       repo = "komau.vim";
       rev = "master";
-      sha256 = "veKyXZ4wh+02tOyKRFP5l137wQoTNXcJqPhCPS3E5jA=";
+      sha256 = "r+mmfFEGEBcKel1uPxdC41pq7vzs2uYHpegBYSXkRic=";
     };
   };
-  colorscheme = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  colorscheme = pkgs.vimUtils.buildVimPlugin {
     name = "vim-colors-pencil";
     src = pkgs.fetchFromGitHub {
       owner = "preservim";
@@ -19,7 +19,7 @@ let
       sha256 = "l/v5wXs8ZC63OmnI1FcvEAvWJWkaRoLa9dlL1NdX5XY=";
     };
   };
-  fsharp = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  fsharp = pkgs.vimUtils.buildVimPlugin {
     name = "vim-fsharp";
     src = pkgs.fetchFromGitHub {
       owner = "PhilT";
@@ -28,7 +28,7 @@ let
       sha256 = "IJQp6GeJkotjJkHbosJay7mUwaa6QhE8bLx6+TerVHU=";
     };
   };
-  scratch = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  scratch = pkgs.vimUtils.buildVimPlugin {
     name = "scratch,vim";
     src = pkgs.fetchFromGitHub {
       owner = "mtth";
@@ -37,7 +37,7 @@ let
       sha256 = "P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
     };
   };
-  winresizer = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  winresizer = pkgs.vimUtils.buildVimPlugin {
     name = "winresizer";
     src = pkgs.fetchFromGitHub {
       owner = "simeji";
@@ -46,7 +46,7 @@ let
       sha256 = "5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
     };
   };
-  slim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  slim = pkgs.vimUtils.buildVimPlugin {
     name = "vim-slim";
     src = pkgs.fetchFromGitHub {
       owner = "slim-template";
@@ -75,7 +75,6 @@ in
 
           auto-pairs
           completion-nvim
-          editorconfig-vim
           fsharp
           himalaya-vim
           lualine-nvim
