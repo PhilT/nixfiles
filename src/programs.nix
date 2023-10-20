@@ -27,7 +27,7 @@
     direnv.enable = true;
 
     # xautolock also added in services
-    slock.enable = true;
+    #slock.enable = true;
 
     # Starship - Highly configurable shell prompt
     starship.enable = true;

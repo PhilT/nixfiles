@@ -27,7 +27,7 @@
 
     xserver = {
       enable = true;
-      xautolock.enable = true; # Lock the screen
+      #xautolock.enable = true; # Lock the screen
 
       layout = "gb";
       displayManager = {
