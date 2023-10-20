@@ -1,24 +1,6 @@
 { config, pkgs, ... }:
 
 {
-#  nixpkgs.overlays = [
-#    (self: super: {
-#      godot_4 = super.godot_4.overrideAttrs (final: prev: {
-#        sconsFlags = prev.sconsFlags ++ ([
-#          "module_mono_enabled=yes"
-#        ]);
-#
-#        nativeBuildInputs = prev.nativeBuildInputs ++ [ dotnet-sdk_6 ];
-#
-#        postInstall = ''
-#          cp -r modules "$out/"
-#          $out/bin/godot4 --headless --generate-mono-glue "$out/modules/mono/glue"
-#          "$out/modules/mono/build_scripts/build_assemblies.py" --godot-output-dir="$out/bin" --godot-platform=linuxbsd
-#        '';
-#      });
-#    })
-#  ];
-
   programs = {
     # `j term` cd quickly
     autojump.enable = true;
@@ -39,10 +21,6 @@
   };
 
   environment = {
-    #sessionVariables = {
-    #  DOTNET_ROOT = "${pkgs.dotnet-sdk_6}";
-    #};
-
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
 
@@ -55,7 +33,7 @@
       #deadbeef-with-plugins # Music player
       cmus                  # Terminal based music player
       mpv                   # Video player
-      #dotnet-sdk_6
+      dotnet-sdk_7
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       discord
       fd                    # Alternative to find
@@ -63,7 +41,6 @@
       flameshot             # Screnshot tool
       fsautocomplete
       gimp
-      godot_4
       inkscape
       keepassxc
       libreoffice

@@ -130,6 +130,7 @@ in
         luafile ${../neovim/theme.lua}
         luafile ${../neovim/keys.lua}
         luafile ${../neovim/autocmds.lua}
+        " luafile ${../neovim/godot.lua} " Disable for now as it's not working
         luafile ${../neovim/plugins/lualine.lua}
         luafile ${../neovim/plugins/fugitive.lua}
         luafile ${../neovim/plugins/nvimtree.lua}
