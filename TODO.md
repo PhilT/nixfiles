@@ -1,3 +1,4 @@
+[ ] Look into using gvfs-trash to delete files (to a recycle bin)
 [ ] Bluetooth icon (possibly with clickable startup of wifi connections in dmenu) - or maybe just a bt shortcut (e.g. bt mifo, bt sony to connect (I think sony connect automatically))
 [ ] Customise cmus, (play/pause key binding), status bar view, etc
 [ ] Configure Matrix
@@ -124,5 +125,4 @@
 [ ] homepage
 [ ] keycodes (possibly to fix zoom in not working)
 [ ] modal
-
 

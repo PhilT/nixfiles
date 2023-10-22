@@ -39,6 +39,7 @@
       fd                    # Alternative to find
       feh
       flameshot             # Screnshot tool
+      csharp-ls
       fsautocomplete
       gimp
       inkscape
