@@ -119,6 +119,9 @@ end
 function on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o> and map it to TAB
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+end
+
+function setup_lsp_keys()
   vim.keymap.set('i', '<tab>', tab_completion, expropts)
   vim.keymap.set('i', '<s-tab>',  back_completion, expropts)
 
@@ -143,4 +146,3 @@ end
 
 -- F#
 map('n', '<Leader>#', '<cmd>call v:lua.create_fsharp_env()<CR>')                -- Setup windows for F# development
-

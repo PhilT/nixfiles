@@ -34,7 +34,10 @@ function _G.create_fsharp_env()                                                 
 end
 
 function _G.setup_lsp_client()
+  require'lspconfig'.gdscript.setup{on_attach = on_attach}
+  require'lspconfig'.csharp_ls.setup{on_attach = on_attach}
   require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                -- Load F# LSP using FsAutoComplete and use on_attach key binds from keys.lua
+  setup_lsp_keys()
 
   -- lua vim.lsp.set_log_level("debug")
   -- lua print(vim.lsp.get_log_path())
