@@ -27,6 +27,7 @@
   services.xserver.libinput.touchpad.disableWhileTyping = true;
 
   environment.systemPackages = with pkgs; [
+    steam-run # Needed to run Godot .NET
   ];
 }
 
