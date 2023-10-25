@@ -44,7 +44,7 @@ with lib;
           mode = "444";
           text = ''
             include /etc/config/kitty-theme.conf
-            font_family UbuntuMono Nerd Font Mono
+            font_family monospace
             font_size ${toString config.programs.kitty.fontSize}
             text_composition_strategy legacy
             copy_on_select clipboard
