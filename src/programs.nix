@@ -23,6 +23,7 @@
   environment = {
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
+      (callPackage ./godot.nix {})
 
       # Reset file/folder permissions
       (writeShellScriptBin "resetperms" ''
