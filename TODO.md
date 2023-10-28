@@ -1,14 +1,16 @@
+[x] Look into storing and retrieving layout that would persist across logins so it might be possible to build some persistent layout that can be used in the long term.
+    [ ] Added patches but doesn't seem to be working correctly. Might try a proper reboot and test with fresh eyes. Nope. Still not working
+
+[ ] Video capture
+[ ] Learn ranger
+[ ] Picom fade not updated when window is closed and another takes it's place
 [ ] Look into using gvfs-trash to delete files (to a recycle bin)
 [ ] Bluetooth icon (possibly with clickable startup of wifi connections in dmenu) - or maybe just a bt shortcut (e.g. bt mifo, bt sony to connect (I think sony connect automatically))
-[ ] Customise cmus, (play/pause key binding), status bar view, etc
 [ ] Configure Matrix
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
-[ ] Add named tags in DWM
-[ ] Add column layout to DWM
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
-[ ] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns)
 [ ] FIREFOX: Remove Getting started and import bookmark bookmarks
-[ ] Setup HTML bookmarks to load from dmenu (and open a tab in firefox)
+[ ] Setup HTML bookmarks to load from dmenu (and open a tab in firefox) - Alternatively add them to the blog
 [ ] Investigate journalctl -b warnings:
     [ ] efifb: Ignoring BGRT: unexpected or invalid BMP data
     [ ] nvme nvme0: missing or invalid SUBNQN field
@@ -40,6 +42,11 @@
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 [ ] ^ Also add to ranger (if applicable)
 
+[x] Add column layout to DWM
+[x] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns) (The patch is actually called rmaster)
+    * This doesn't seem to work with column layout but that might be okay. rmaster might be enough on the standard tile view
+[x] Customise cmus, (play/pause key binding), status bar view, etc, start from shortcut - WIN+CTRL+SPACE,p,k,h,l
+[x] Add named tags in DWM - Reason: Can separate tags into work, game, nixos, blog. Ended up with icons. We'll see.
 [x] Add shortcut for Slack
 [x] Fix Himalaya - Switch off sync
 [x] Fix flameshot not loading on startup
@@ -125,4 +132,3 @@
 [ ] homepage
 [ ] keycodes (possibly to fix zoom in not working)
 [ ] modal
-
