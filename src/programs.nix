@@ -24,6 +24,7 @@
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
       (callPackage ./godot.nix {})
+      (callPackage ./spectrum.nix {})
 
       # Reset file/folder permissions
       (writeShellScriptBin "resetperms" ''
@@ -32,7 +33,6 @@
       '')
 
       #deadbeef-with-plugins # Music player
-      cmus                  # Terminal based music player
       mpv                   # Video player
       dotnet-sdk_7
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya

@@ -8,7 +8,6 @@ in
 stdenv.mkDerivation {
   pname = "godot";
   version = version;
-  #Godot_v4.2-beta2_mono_linux_x86_64
 
   src = fetchzip {
     url = "https://github.com/godotengine/godot-builds/releases/download/${version}/${platform}_${arch}.zip";
