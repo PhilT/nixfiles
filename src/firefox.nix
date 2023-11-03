@@ -1,8 +1,27 @@
 { config, pkgs, ... }:
 
 {
+  environment.etc = {
+    "firefox/chrome/userChrome.css" = {
+      mode = "444";
+      text = ''
+        #TabsToolbar {
+          display: none;
+        }
+      '';
+    };
+  };
+  # Create profile directories
+  systemd.tmpfiles.rules = [
+    "d ${config.xorg.xdgConfigHome}/firefox - phil users"
+    "d ${config.xorg.xdgConfigHome}/firefox/home - phil users"
+    "d ${config.xorg.xdgConfigHome}/firefox/work - phil users"
+    "L+ ${config.xorg.xdgConfigHome}/firefox/home/chrome - - - - /etc/firefox/chrome"
+    "L+ ${config.xorg.xdgConfigHome}/firefox/work/chrome - - - - /etc/firefox/chrome"
+  ];
+
   programs.firefox.enable = true;
-  environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
+  environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
   programs.firefox.preferences = {
     "browser.warnOnQuit" = false;
