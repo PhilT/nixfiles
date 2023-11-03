@@ -6,6 +6,7 @@
 
   programs.firefox.preferences = {
     "browser.warnOnQuit" = false;
+    "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
   };
 
   # https://mozilla.github.io/policy-templates
@@ -15,6 +16,7 @@
     DisableAppUpdate = true;
     ManualAppUpdateOnly = true;
     DisplayBookmarksToolbar = "newtab";
+    NoDefaultBookmarks = true;
     OfferToSaveLogins = false;
     OverrideFirstRunPage = "";
     PasswordManagerEnabled = false;
