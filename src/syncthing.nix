@@ -8,7 +8,7 @@
 
 {
   systemd.tmpfiles.rules = [
-    "d /home/phil/.config/syncthing - phil users"
+    "d ${config.xorg.xdgConfigHome}/syncthing - phil users"
   ];
 
   services = {
