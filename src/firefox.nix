@@ -91,5 +91,10 @@
       SkipOnboarding = true;
       MoreFromMozilla = false;
     };
+    WebsiteFilter = {
+      Block = [
+        "://*.appsloveworld.com/*"
+      ];
+    };
   };
 }

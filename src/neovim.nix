@@ -62,6 +62,13 @@ let
   });
 in
 {
+  environment = {
+    systemPackages = with pkgs; [
+      dotnet-sdk_7
+      csharp-ls
+      fsautocomplete
+    ];
+  };
 
   programs.neovim = {
     package = neovimNoThemes;

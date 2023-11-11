@@ -34,19 +34,16 @@
 
       #deadbeef-with-plugins # Music player
       mpv                   # Video player
-      dotnet-sdk_7
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       discord
       fd                    # Alternative to find
       feh
       flameshot             # Screnshot tool
-      csharp-ls
-      fsautocomplete
       gimp
       inkscape
       keepassxc
       libreoffice
-      pinentry
+      pinentry              # TODO: What is this?
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types

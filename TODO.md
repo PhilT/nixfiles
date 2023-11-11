@@ -1,3 +1,4 @@
+[ ] Change kitty image opener to gimp (preview is embedded so that should work nicely)
 [x] Look into storing and retrieving layout that would persist across logins so it might be possible to build some persistent layout that can be used in the long term.
     [ ] Added patches but doesn't seem to be working correctly. Might try a proper reboot and test with fresh eyes. Nope. Still not working
 
