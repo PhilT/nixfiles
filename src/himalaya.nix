@@ -47,6 +47,10 @@
         m-list | dmenu -l 30 -p "Delete:" | m-ids | xargs himalaya delete
       '')
 
+      (writeShellScriptBin "m-arch" ''
+        m-list | dmenu -l 30 -p "Archive:" | m-ids | xargs himalaya move Archive
+      '')
+
       (writeShellScriptBin "m-read" ''
         m-list | dmenu -l 30 -p "Open:" | m-ids | xargs himalaya read
       '')

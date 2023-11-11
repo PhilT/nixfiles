@@ -34,6 +34,8 @@ function _G.create_fsharp_env()                                                 
 end
 
 function _G.setup_lsp_client()
+  -- TODO: Move LSPs into separate lua script
+  require'lspconfig'.rust_analyzer.setup{on_attach = on_attach}
   require'lspconfig'.gdscript.setup{on_attach = on_attach}
   require'lspconfig'.csharp_ls.setup{on_attach = on_attach}
   require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                -- Load F# LSP using FsAutoComplete and use on_attach key binds from keys.lua
