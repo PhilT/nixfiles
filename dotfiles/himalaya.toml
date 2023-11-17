@@ -1,10 +1,10 @@
 display-name = "Phil Thompson"
 signature = """
-  Phil A Thompson
-  Electric Visions Ltd
-  @EMAIL@
-  @PHONE@
-  """
+Phil A Thompson
+Electric Visions Ltd
+@EMAIL@
+@PHONE@
+"""
 
 downloads-dir = "/data/downloads"
 
@@ -31,4 +31,3 @@ smtp-login = "@EMAIL@"
 smtp-auth = "password"
 smtp-passwd = { cmd = "/data/code/nixos-files/secrets/privateemail_password" }
 smtp-ssl = true
-
