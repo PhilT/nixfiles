@@ -1,10 +1,10 @@
 display-name = "Phil Thompson"
 signature = """
-  Phil A Thompson
-  Electric Visions Ltd
-  phil@electricvisions.com
-  +44 (0) 7528 895680
-  """
+Phil A Thompson
+Electric Visions Ltd
+phil@electricvisions.com
++44 (0) 7528 895680
+"""
 
 downloads-dir = "/data/downloads"
 
@@ -31,4 +31,3 @@ smtp-login = "phil@electricvisions.com"
 smtp-auth = "password"
 smtp-passwd = { cmd = "/data/code/nixos-files/secrets/privateemail_password" }
 smtp-ssl = true
-
