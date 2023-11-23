@@ -11,7 +11,7 @@
     ];
 
   programs.alacritty.fontSize = 10;
-  programs.kitty.fontSize = 13;
+  programs.kitty.fontSize = 11;
 
   services = {
     auto-cpufreq.enable = true;  # TODO: Doc needed
@@ -30,4 +30,3 @@
     steam-run # Needed to run Godot .NET
   ];
 }
-
