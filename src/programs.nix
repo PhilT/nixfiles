@@ -8,6 +8,7 @@
     # Autorun nix-shell when entering a dir with a shell.nix (e.g. a .NET project)
     direnv.enable = true;
 
+    dconf.enable = true;
     # xautolock also added in services
     #slock.enable = true;
 
@@ -30,6 +31,17 @@
       (writeShellScriptBin "resetperms" ''
         find . -type d -print0 | xargs -0 chmod 755
         find . -type f -print0 | xargs -0 chmod 644
+      '')
+
+      (writeShellScriptBin "slk" ''
+        if [ "$(hostname)" == "darko" ]; then
+          export __NV_PRIME_RENDER_OFFLOAD=1
+          export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+          export __GLX_VENDOR_LIBRARY_NAME=nvidia
+          export __VK_LAYER_NV_optimus=NVIDIA_only
+        fi
+
+        /run/current-system/sw/bin/slack
       '')
 
       #deadbeef-with-plugins # Music player
