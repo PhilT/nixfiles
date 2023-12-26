@@ -19,8 +19,9 @@ in
   environment = {
     systemPackages = with pkgs; [
       game-devices-udev-rules # Udev rules to make controllers available with non-sudo permissions
-      lutris        # For non-steam games from other app stores or local, also supports steam games
-      busybox                 # Starwars Squadrons needs lsusb
+      lutris                  # For non-steam games from other app stores or local, also supports steam games
+      usbutils                # Starwars Squadrons needs lsusb
+      jstest-gtk              # For testing Joysticks
     ];
   };
 
