@@ -7,7 +7,8 @@
 
   environment = {
     systemPackages = with pkgs; [
-      (callPackage ./himalaya/default.nix {})
+      # (callPackage ./himalaya/default.nix {})
+      himalaya
 
       (writeShellScriptBin "m-empty" ''
         echo "Getting size of Trash folder..."
