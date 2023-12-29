@@ -44,7 +44,11 @@
         /run/current-system/sw/bin/slack
       '')
 
-      #deadbeef-with-plugins # Music player
+      # System information: lsusb, lspci, lscpu, lsblk
+      usbutils
+      pciutils
+      cpu-x
+
       mpv                   # Video player
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       discord
