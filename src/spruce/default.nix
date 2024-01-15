@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-let fanatecff = pkgs.linuxPackages.callPackage ../hid-fanatecff/default.nix {};
+let
+  fanatecff = pkgs.linuxPackages.callPackage ../hid-fanatecff/default.nix {};
+  steamvr_utils = pkgs.callPackage ../steamvr_utils/default.nix {};
 in
 {
   imports = [
@@ -23,6 +25,7 @@ in
   services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
 
   environment.systemPackages = with pkgs; [
+    steamvr_utils
   ];
 
 }
