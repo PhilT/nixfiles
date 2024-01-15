@@ -16,6 +16,13 @@ in
   programs.steam.enable = true;
   programs.gamemode.enable = true; # Run with: gamemoderun ./game, verify with: gamemoded -s
 
+  security.wrappers.bluepy-helper = {
+    owner = "root";
+    group = "root";
+    capabilities = "cap_net_raw,cap_net_admin+eip";
+    source = "${pkgs.python3Packages.bluepy}/${pkgs.python311.sitePackages}/bluepy/bluepy-helper";
+  };
+
   environment = {
     systemPackages = with pkgs; [
       game-devices-udev-rules # Udev rules to make controllers available with non-sudo permissions
@@ -26,6 +33,7 @@ in
   };
 
   systemd.tmpfiles.rules = [
+    "d /home/phil/log - phil users -"
     "d /home/phil/.local/share/Steam - phil users -"
     "L+ /home/phil/.local/share/Steam/steamapps - - - - /games/steam/steamapps"
   ];
