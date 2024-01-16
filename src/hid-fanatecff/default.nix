@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     owner = "gotzl";
     repo = "hid-fanatecff";
     rev = "next";
-    sha256 = "U5lWGQuTdsa/gshCApnA/JVj7kPXPtQYTy+kMdbqycw=";
+    sha256 = "/106K52Zi4/6aWh2EwojRm370poaBHyX3Ke2j52ytdo=";
   };
 
   hardeningDisable = [ "pic" "format" ];
