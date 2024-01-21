@@ -20,6 +20,7 @@
       "config/gtk-3.0/bookmarks" = {
         mode = "444";
         text = ''
+          file:///data data
           file:///data/code code
           file:///data/documents documents
           file:///data/downloads downloads
@@ -27,7 +28,8 @@
           file:///data/pictures pictures
           file:///data/software software
           file:///data/sync sync
-          file:///data/txt txt
+          file:///data/notes notes
+          file:///games/steam/steamapps/common/rFactor%202 rFactor 2
         '';
       };
     };
