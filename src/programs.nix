@@ -27,12 +27,18 @@
       (callPackage ./godot.nix {})
       (callPackage ./spectrum.nix {})
 
+      # Start Neovim with todays date as filename
+      (writeShellScriptBin "note" ''
+        cd $NOTES/log && nvim $(date +%Y-%m-%d).md
+      '')
+
       # Reset file/folder permissions
       (writeShellScriptBin "resetperms" ''
         find . -type d -print0 | xargs -0 chmod 755
         find . -type f -print0 | xargs -0 chmod 644
       '')
 
+      # TODO: Probably don't need this anymore
       (writeShellScriptBin "slk" ''
         if [ "$(hostname)" == "darko" ]; then
           export __NV_PRIME_RENDER_OFFLOAD=1
