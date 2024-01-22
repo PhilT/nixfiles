@@ -23,7 +23,7 @@ in
         DATA = DATA;
         CODE = CODE;
         SRC = "${CODE}/nixos-files";
-        TXT  = "${DATA}/txt";
+        NOTES  = "${DATA}/notes";
         CDPATH   = "${CODE}:${DATA}";
         DOTNET_CLI_TELEMETRY_OPTOUT = "true";
         FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
