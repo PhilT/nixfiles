@@ -27,6 +27,19 @@
       (callPackage ./godot.nix {})
       (callPackage ./spectrum.nix {})
 
+      # youtube-dl -x --audio-format mp3 https://URL
+      (youtube-dl.overrideAttrs (old: {
+        src = pkgs.fetchFromGitHub {
+          owner = "ytdl-org";
+          repo = "youtube-dl";
+          rev = "master";
+          sha256 = "mSg3u6YdK5sCAcL+3FVYgNxbIzUtOLmuL0CJPJPdAF8=";
+        };
+        patches = [];
+
+        postInstall = false;
+      }))
+
       # Start Neovim with todays date as filename
       (writeShellScriptBin "note" ''
         cd $NOTES/log && nvim $(date +%Y-%m-%d).md
