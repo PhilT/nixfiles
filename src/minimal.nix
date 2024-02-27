@@ -30,7 +30,7 @@
     font="${pkgs.terminus_font}/share/consolefonts/ter-i18b.psf.gz";
     useXkbConfig = true;
   };
-  services.xserver.layout = "gb";
+  services.xserver.xkb.layout = "gb";
 
   users.users.phil = {
     isNormalUser = true;
@@ -59,4 +59,3 @@
 
   system.stateVersion = "23.05"; # Did you read the comment?
 }
-

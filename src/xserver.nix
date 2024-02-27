@@ -12,24 +12,23 @@
       enable = true;
       backend = "glx";
       vSync = true;
-      fade = true;
-      fadeDelta = 10;
-      settings = {
-        inactive-dim = 0.4;
-        inactive-dim-fixed = true;
-        focus-exclude = [
-          "class_g = 'feh'"
-          "x = 0 && y = 0 && override_redirect = true"
-          "x = 3840 && y = 0 && override_redirect = true"
-        ];
-      };
+      #fade = true;
+      #fadeDelta = 5;
+      #settings = {
+      #  inactive-dim = 0.4;
+      #  inactive-dim-fixed = true;
+      #  focus-exclude = [
+      #    "class_g = 'feh'"
+      #    "x = 0 && y = 0 && override_redirect = true"
+      #    "x = 3840 && y = 0 && override_redirect = true"
+      #  ];
+      #};
     };
 
     xserver = {
       enable = true;
       #xautolock.enable = true; # Lock the screen
-
-      layout = "gb";
+      xkb.layout = "gb";
       displayManager = {
         autoLogin.enable = true;
         autoLogin.user = "phil";
