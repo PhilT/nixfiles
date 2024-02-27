@@ -33,7 +33,7 @@
           owner = "ytdl-org";
           repo = "youtube-dl";
           rev = "master";
-          sha256 = "mSg3u6YdK5sCAcL+3FVYgNxbIzUtOLmuL0CJPJPdAF8=";
+          sha256 = "v0AH6JMVTbB2EhyCcROfJXLgUeSTxYJQ7tXQ4x3Ha4s=";
         };
         patches = [];
 
@@ -62,6 +62,13 @@
 
         /run/current-system/sw/bin/slack
       '')
+
+      (bluemail.overrideAttrs (old: {
+        src = pkgs.fetchurl {
+          url = "https://download.bluemail.me/BlueMail/deb/BlueMail.deb";
+          sha256 = "dnYOb3Q/9vSDssHGS2ywC/Q24Oq96/mvKF+eqd/4dVw=";
+        };
+      }))
 
       # System information: lsusb, lspci, lscpu, lsblk
       usbutils
