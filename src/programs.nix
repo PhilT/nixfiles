@@ -24,7 +24,6 @@
   environment = {
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
-      (callPackage ./godot.nix {})
       (callPackage ./spectrum.nix {})
 
       # youtube-dl -x --audio-format mp3 https://URL
