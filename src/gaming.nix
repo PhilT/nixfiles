@@ -1,4 +1,17 @@
 # The Steam client will be downloaded or updated at ~/.local/share/Steam by default.
+#
+# lsusb - to check hardware IDs
+#
+
+# To get Joysticks working for some Proton/Wine games follow these steps:
+#
+# * Find the steamid for the game by name with:
+#     grep -i "<name e.g. elite>" /games/steam/steamapps/appmanifest_*.acf
+#
+# * Import the reg keys:
+#     env WINEPREFIX=$STEAM_LIBRARY/compatdata/<steamid>/pfx regedit joysticks/winebus.reg
+#     env WINEPREFIX=$STEAM_LIBRARY/compatdata/<steamid>/pfx regedit joysticks/enum_winebus.reg
+#
 
 { config, pkgs, ... }:
 
@@ -10,6 +23,7 @@ let
     export __GLX_VENDOR_LIBRARY_NAME=nvidia
     export __VK_LAYER_NV_optimus=NVIDIA_only
   '';
+  steam_dir = "/games/steam";
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -24,6 +38,11 @@ in
   };
 
   environment = {
+    sessionVariables = {
+      STEAM_DIR = steam_dir;
+      STEAM_LIBRARY = "${steam_dir}/steamapps";
+    };
+
     systemPackages = with pkgs; [
       game-devices-udev-rules # Udev rules to make controllers available with non-sudo permissions
       lutris                  # For non-steam games from other app stores or local, also supports steam games
