@@ -32,7 +32,7 @@
           owner = "ytdl-org";
           repo = "youtube-dl";
           rev = "master";
-          sha256 = "v0AH6JMVTbB2EhyCcROfJXLgUeSTxYJQ7tXQ4x3Ha4s=";
+          sha256 = "r75Xw3l8QwG0axDQMOADuQLi4HdqRvvJubpsqno33Rg=";
         };
         patches = [];
 
