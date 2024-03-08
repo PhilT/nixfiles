@@ -99,6 +99,7 @@ in
           vim-css-color
           vim-dispatch
           vim-fugitive
+          vim-glsl
           vim-indentwise
           vim-markdown
           vim-nix
