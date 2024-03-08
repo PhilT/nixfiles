@@ -43,7 +43,4 @@
 
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
-
-  # Printer discovery service
-  services.printing.enable = true;
 }
