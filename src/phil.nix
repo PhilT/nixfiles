@@ -8,7 +8,6 @@
     ./dbgate.nix
     ./filemanager.nix
     ./firefox.nix
-    ./carwow.nix
     ./environment.nix
     ./fonts.nix
     ./git.nix
