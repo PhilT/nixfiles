@@ -74,6 +74,10 @@
       pciutils
       cpu-x
 
+      # Utils
+      exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
+      gparted               # it has large file support).
+
       mpv                   # Video player
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       discord

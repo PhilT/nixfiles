@@ -49,14 +49,11 @@ end
 local run_command = function(command)
   local separator = '/'
   if is_windows then separator = '\\' end
-  local basePath = "."..separator..command
+  local basePath = "."..separator..[[x ]]..command
 
   local path = vim.api.nvim_buf_get_name(0)
   local cmd = 'bench '..path
-  if not path:match('.fsx$') then cmd = basePath..[[.cmd]] end
-  if not is_windows and file_exist(command..[[.sh]]) then
-    cmd = basePath..[[.sh]]
-  end
+  if not path:match('.fsx$') then cmd = basePath end
   vim.cmd([[Dispatch ]]..cmd)
 end
 
@@ -66,8 +63,6 @@ function _G.init_build_mappings()                                               
   vim.keymap.set('n', '<Leader>x', function() run_command('clean') end)         -- dotnet clean (eXpunge)
   vim.keymap.set('n', '<Leader>r', function() run_command('run') end)           -- dotnet run
   vim.keymap.set('n', '<Leader>t', function() run_command('test') end)          -- dotnet test unit
-  vim.keymap.set('n', '<Leader>T', function() run_command('test') end)          -- dotnet test unit
-  vim.keymap.set('n', '<Leader>v', function() run_command('visual') end)        -- dotnet test visual
 end
 
 if file_contains('build.cmd', '^dotnet') then                                   -- If a file exists called build.cmd and at least one line starts with dotnet
