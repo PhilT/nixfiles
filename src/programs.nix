@@ -31,8 +31,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "ytdl-org";
           repo = "youtube-dl";
-          rev = "master";
-          sha256 = "r75Xw3l8QwG0axDQMOADuQLi4HdqRvvJubpsqno33Rg=";
+          rev = "820fae3b3a8587a6f57afbe803b4f91de7d4e086";
+          sha256 = "ikDcEn2fGl+Zcrd8YHDXhG/i9gQ1KLDesPOFyQsYp1g=";
         };
         patches = [];
 
@@ -77,6 +77,7 @@
       # Utils
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
       gparted               # it has large file support).
+      nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
 
       mpv                   # Video player
       element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
