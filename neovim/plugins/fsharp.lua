@@ -65,7 +65,7 @@ function _G.init_build_mappings()                                               
   vim.keymap.set('n', '<Leader>t', function() run_command('test') end)          -- dotnet test unit
 end
 
-if file_contains('build.cmd', '^dotnet') then                                   -- If a file exists called build.cmd and at least one line starts with dotnet
+if file_contains('x', 'dotnet') then                                            -- If a file exists called x contains dotnet
   setup_lsp_client()                                                            --   then startup the F# environment
   init_build_mappings()
 
