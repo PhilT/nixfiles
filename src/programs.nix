@@ -96,7 +96,6 @@
       slack
       surf
       unzip
-      vengi-tools           # Voxel tools including VoxEdit
       whatsapp-for-linux
       wineWowPackages.full  # Needed for FL Studdio installer
       xclip                 # Used by Neovim among other things for copy/paste from/to system clipboard
