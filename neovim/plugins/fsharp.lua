@@ -36,10 +36,12 @@ end
 
 function _G.setup_lsp_client()
   -- TODO: Move LSPs into separate lua script
+  -- use on_attach key binds from keys.lua
   require'lspconfig'.rust_analyzer.setup{on_attach = on_attach}
   require'lspconfig'.gdscript.setup{on_attach = on_attach}
   require'lspconfig'.csharp_ls.setup{on_attach = on_attach}
-  require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                -- Load F# LSP using FsAutoComplete and use on_attach key binds from keys.lua
+  require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                -- Load F# LSP using FsAutoComplete
+  require'lspconfig'.clangd.setup{on_attach = on_attach}
   setup_lsp_keys()
 
   -- lua vim.lsp.set_log_level("debug")
@@ -63,7 +65,7 @@ function _G.init_build_mappings()                                               
   vim.keymap.set('n', '<Leader>t', function() run_command('test') end)          -- dotnet test unit
 end
 
-if file_contains('x', 'dotnet') then                                            -- If a file exists called x contains dotnet
+if file_exist('bin/dotnetcmd') then                                            -- If a file exists called x contains dotnet
   setup_lsp_client()                                                            --   then startup the F# environment
   init_build_mappings()
 

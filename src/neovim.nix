@@ -64,9 +64,10 @@ in
 {
   environment = {
     systemPackages = with pkgs; [
-      dotnet-sdk_7
+      dotnet-sdk_8
       csharp-ls
       fsautocomplete
+      clang-tools
     ];
   };
 
