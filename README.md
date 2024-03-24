@@ -51,8 +51,8 @@ USB/
     *.nix     # Nix source configuration files
   bootstrap   # Build script for clean machine
   initialize  # Setup a few things after initial install is complete, private keys etc
-  rebuild     # Build script for NixOS machine
-  *.sh        # additional build scripts used by bootstrap and rebuild
+  build     # Build script for NixOS machine
+  *.sh        # additional build scripts used by bootstrap and build
 ```
 
 

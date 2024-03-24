@@ -39,6 +39,16 @@
         postInstall = false;
       }))
 
+
+      (writeShellScriptBin "goxel" ''
+        cd $CODE/matter
+        nix-shell shell.nix --run "goxel -s 2"
+      '')
+
+      (writeShellScriptBin "v" ''
+        nvim -S Session.vim
+      '')
+
       # Start Neovim with todays date as filename
       (writeShellScriptBin "note" ''
         cd $NOTES/log && nvim $(date +%Y-%m-%d).md
