@@ -39,10 +39,9 @@
         postInstall = false;
       }))
 
-
-      (writeShellScriptBin "goxel" ''
+      (writeShellScriptBin "matter" ''
         cd $CODE/matter
-        nix-shell shell.nix --run "goxel -s 2"
+        nix-shell shell.nix --run "nvim -S Session.vim"
       '')
 
       (writeShellScriptBin "v" ''
@@ -94,9 +93,14 @@
       discord
       fd                    # Alternative to find
       feh
+
+      # Audio/visual tools
       flameshot             # Screnshot tool
       gimp
+      goxel               # Voxel editor
+      yad                 # GUI Dialog for Goxel
       inkscape
+
       keepassxc
       libreoffice
       pinentry              # TODO: What is this?
