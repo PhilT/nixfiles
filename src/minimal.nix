@@ -15,6 +15,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices.root.preLVM = true;
+  boot.initrd.luks.devices."cryptroot".device = "/dev/nvme0n1p1";
   boot.initrd.systemd.enable = true;
   boot.plymouth.enable = true;                  # Graphical login for drive encryption
   boot.kernelParams = [ "quiet" "nosgx" ];      # Don't log boot up to screen, turn off warning about sgx

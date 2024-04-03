@@ -20,6 +20,7 @@
       "config/gtk-3.0/bookmarks" = {
         mode = "444";
         text = ''
+          file:///data/code/matter matter
           file:///data data
           file:///data/code code
           file:///data/documents documents
