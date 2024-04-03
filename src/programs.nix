@@ -44,6 +44,11 @@
         nix-shell shell.nix --run "nvim -S Session.vim"
       '')
 
+      (writeShellScriptBin "gox" ''
+        cd $CODE/matter
+        nix-shell shell.nix --run "gox -s 2"
+      '')
+
       (writeShellScriptBin "v" ''
         nvim -S Session.vim
       '')
@@ -71,12 +76,12 @@
         /run/current-system/sw/bin/slack
       '')
 
-      (bluemail.overrideAttrs (old: {
-        src = pkgs.fetchurl {
-          url = "https://download.bluemail.me/BlueMail/deb/BlueMail.deb";
-          sha256 = "dnYOb3Q/9vSDssHGS2ywC/Q24Oq96/mvKF+eqd/4dVw=";
-        };
-      }))
+      #(bluemail.overrideAttrs (old: {
+      #  src = pkgs.fetchurl {
+      #    url = "https://download.bluemail.me/BlueMail/deb/BlueMail.deb";
+      #    sha256 = "dnYOb3Q/9vSDssHGS2ywC/Q24Oq96/mvKF+eqd/4dVw=";
+      #  };
+      #}))
 
       # System information: lsusb, lspci, lscpu, lsblk
       usbutils
@@ -88,29 +93,31 @@
       gparted               # it has large file support).
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
 
-      mpv                   # Video player
-      element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
-      discord
-      fd                    # Alternative to find
-      feh
-
       # Audio/visual tools
       flameshot             # Screnshot tool
       gimp
-      goxel               # Voxel editor
-      yad                 # GUI Dialog for Goxel
+      goxel                 # Voxel editor
+      feh                   # Image viewer
+      yad                   # GUI Dialog for Goxel
       inkscape
+      mpv                   # Video player
+      simplescreenrecorder
 
-      keepassxc
+      # Comms
+      discord
+      element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
       libreoffice
+      slack
+      thunderbird
+      whatsapp-for-linux
+
+      fd                    # Alternative to find
+      keepassxc
       pinentry              # TODO: What is this?
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types
-      slack
-      surf
       unzip
-      whatsapp-for-linux
       wineWowPackages.full  # Needed for FL Studdio installer
       xclip                 # Used by Neovim among other things for copy/paste from/to system clipboard
       zip

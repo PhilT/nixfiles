@@ -63,11 +63,15 @@ let
 in
 {
   environment = {
+    # Language servers
     systemPackages = with pkgs; [
       dotnet-sdk_8
       csharp-ls
       fsautocomplete
       clang-tools
+
+      (ruby_3_3.withPackages (ps: with ps; [ solargraph ]))
+      bundix  # Not really the best place but don't have anywhere better currently
     ];
   };
 
@@ -148,6 +152,7 @@ in
         luafile ${../neovim/plugins/scratch.lua}
         luafile ${../neovim/plugins/telescope.lua}
         luafile ${../neovim/plugins/fsharp.lua}
+        luafile ${../neovim/plugins/lsp.lua}
       '';
     };
   };

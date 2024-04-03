@@ -36,16 +36,7 @@ end
 
 function _G.setup_lsp_client()
   -- TODO: Move LSPs into separate lua script
-  -- use on_attach key binds from keys.lua
-  require'lspconfig'.rust_analyzer.setup{on_attach = on_attach}
-  require'lspconfig'.gdscript.setup{on_attach = on_attach}
-  require'lspconfig'.csharp_ls.setup{on_attach = on_attach}
-  require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                -- Load F# LSP using FsAutoComplete
-  require'lspconfig'.clangd.setup{on_attach = on_attach}
-  setup_lsp_keys()
 
-  -- lua vim.lsp.set_log_level("debug")
-  -- lua print(vim.lsp.get_log_path())
 end
 
 local run_command = function(command)

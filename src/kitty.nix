@@ -49,7 +49,7 @@ with lib;
             text_composition_strategy legacy
             copy_on_select clipboard
             strip_trailing_spaces always
-            background_opacity 0.6
+            background_opacity 1.0
           '';
         };
       };
