@@ -70,8 +70,7 @@ in
       fsautocomplete
       clang-tools
 
-      (ruby_3_3.withPackages (ps: with ps; [ solargraph ]))
-      bundix  # Not really the best place but don't have anywhere better currently
+      # Ruby and Solargraph LSP specified in ruby.nix
     ];
   };
 

@@ -24,7 +24,15 @@ with lib;
         # Run kitty-themes to preview a list of themes. For some reason
         # --config-file-name doesn't work (Possibly because it can't write to the
         # main kitty.conf file). So, kitten-themes THEME NAME
-        # will dump the theme into dotfiles/kitty-theme.conf
+        # will dump the theme into dotfiles/kitty-theme.conf then
+        # just ./build to update.
+        #
+        # Current theme: Blazer
+        # Other liked themes:
+        # * Catppuccin-Mocha
+        # * Catppuccin-Macchiato
+        # * Doom One
+        # * Dark One Nuanced
         (writeShellScriptBin "kitty-themes" ''
           if [ -z "$1" ]; then
             kitty +kitten themes
