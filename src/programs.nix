@@ -92,6 +92,7 @@
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
       gparted               # it has large file support).
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
+      inotify-tools
 
       # Audio/visual tools
       flameshot             # Screnshot tool

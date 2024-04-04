@@ -16,6 +16,7 @@
     #./neomutt.nix
     ./neovim.nix
     ./programs.nix
+    ./ruby.nix
     ./syncthing.nix
     ./tmux.nix
     ./xserver.nix
