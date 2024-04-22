@@ -7,7 +7,7 @@ let
       owner = "ntk148v";
       repo = "komau.vim";
       rev = "master";
-      sha256 = "r+mmfFEGEBcKel1uPxdC41pq7vzs2uYHpegBYSXkRic=";
+      sha256 = "p9Yo8nAJeY8jtyyqaGh0qYRD8w+S2N5SiH27DS5gSN4=";
     };
   };
   colorscheme = pkgs.vimUtils.buildVimPlugin {

@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./work.nix
     ./alacritty.nix
     ./kitty.nix
     ./audio.nix
@@ -23,6 +24,11 @@
   ];
 
   virtualisation.docker.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    docker-compose
+  ];
+  users.users.phil.extraGroups = [ "docker" ];
 
   nix = {
     gc = {

@@ -25,14 +25,15 @@
       #};
     };
 
+    displayManager = {
+      autoLogin.enable = true;
+      autoLogin.user = "phil";
+    };
+
     xserver = {
       enable = true;
       #xautolock.enable = true; # Lock the screen
       xkb.layout = "gb";
-      displayManager = {
-        autoLogin.enable = true;
-        autoLogin.user = "phil";
-      };
       windowManager.dwm.enable = true;
       windowManager.dwm.package = pkgs.dwm.overrideAttrs (finalAttrs: previousAttrs: {
         src = /data/code/dwm;
