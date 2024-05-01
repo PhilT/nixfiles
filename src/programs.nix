@@ -17,7 +17,6 @@
 
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
-      invoice = "nix-shell $CODE/sheetzi/shell.nix --command $CODE/sheetzi/invoice";
     };
   };
 
