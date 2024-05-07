@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  fanatecff = pkgs.linuxPackages.callPackage ../hid-fanatecff/default.nix {};
-  steamvr_utils = pkgs.callPackage ../steamvr_utils/default.nix {};
+  fanatecff = config.boot.kernelPackages.callPackage ../hid-fanatecff/default.nix {};
 in
 {
   imports = [
@@ -24,8 +23,9 @@ in
   services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
   services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
 
-  environment.systemPackages = with pkgs; [
-    steamvr_utils
-  ];
-
+  services.xserver.displayManager.setupCommands = ''
+    LEFT='DP-2'
+    RIGHT='DP-4'
+    ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --left-of $RIGHT --output $RIGHT
+  '';
 }

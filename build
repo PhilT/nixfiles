@@ -3,15 +3,16 @@
 action=REBUILD
 command=test
 cleanup=0
-while getopts 'hdsyur' OPTION; do
+while getopts 'hdsyurb' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-hdsur] [commit message]"
       echo "  -h                   this help"
       echo "  -d                   run nix-collect-garbage"
-      echo "  -s                   rebuild & switch "
+      echo "  -s                   rebuild & switch"
       echo "  -y                   dry run"
       echo "  -u                   upgrade channel and switch"
+      echo "  -b                   rebuild & boot"
       echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
       exit 0
       ;;
@@ -24,6 +25,10 @@ while getopts 'hdsyur' OPTION; do
       ;;
     y)
       command=dry-build
+      ;;
+    b)
+      action=BOOT
+      command=boot
       ;;
     u)
       action=UPGRADE
@@ -73,4 +78,3 @@ fi
 # echo "[LABEL] $NIXOS_LABEL"
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 sudo nixos-rebuild $command -I nixos-config=$configuration_nix
-
