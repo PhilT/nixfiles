@@ -11,6 +11,12 @@ in
     description = "Standard XDG_CONFIG_HOME";
   };
 
+  options.xorg.xdgDataHome = lib.mkOption {
+    type = lib.types.str;
+    default = "/home/phil/.local/share";
+    description = "Standard $XDG_DATA_HOME";
+  };
+
   config = {
     systemd.tmpfiles.rules = [
       "d /data - phil users"

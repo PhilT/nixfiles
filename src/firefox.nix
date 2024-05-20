@@ -1,25 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  environment.etc = {
-    "firefox/chrome/userChrome.css" = {
-      mode = "444";
-      text = ''
-        #TabsToolbar {
-          display: none;
-        }
-      '';
-    };
-  };
-  # Create profile directories
-  systemd.tmpfiles.rules = [
-    "d ${config.xorg.xdgConfigHome}/firefox - phil users"
-    "d ${config.xorg.xdgConfigHome}/firefox/home - phil users"
-    "d ${config.xorg.xdgConfigHome}/firefox/work - phil users"
-    "L+ ${config.xorg.xdgConfigHome}/firefox/home/chrome - - - - /etc/firefox/chrome"
-    "L+ ${config.xorg.xdgConfigHome}/firefox/work/chrome - - - - /etc/firefox/chrome"
-  ];
-
   programs.firefox.enable = true;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
@@ -78,10 +59,6 @@
         installation_mode = "force_installed";
         install_url = "https://github.com/gorhill/uBlock/releases/download/1.57.0/uBlock0_1.57.0.firefox.signed.xpi";
       };
-      "{3c078156-979c-498b-8990-85f7987dd929}" = {
-        installation_mode = "force_installed";
-        install_url = "https://github.com/mbnuqw/sidebery/releases/download/v5.2.0/sidebery-5.2.0.4.xpi";
-      };
     };
     UserMessaging = {
       WhatsNew = false;
@@ -90,11 +67,6 @@
       UrlbarInterventions = false;
       SkipOnboarding = true;
       MoreFromMozilla = false;
-    };
-    WebsiteFilter = {
-      Block = [
-        "://*.appsloveworld.com/*"
-      ];
     };
   };
 }

@@ -5,6 +5,7 @@
 
   networking.hostName = "spruce";
   boot.initrd.luks.devices.root.device = "/dev/nvme2n1p2";
+  time.hardwareClockInLocalTime = true; # Ensure dual booting Windows does not cause incorrect time
 
   fileSystems."/games-old" = {
     device = "/dev/disk/by-label/games";

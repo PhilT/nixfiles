@@ -51,7 +51,7 @@
 
   environment = {
     etc = {
-      "xdg/wallpaper.jpg".source = ../media/wallpaper.jpg;
+      "media/images/wallpaper.jpg".source = ../media/wallpaper.jpg;
     };
 
     # TODO: Might make sense to separate this out into a autostart.nix for dwm
@@ -62,7 +62,7 @@
         if [ "$(hostname)" = "spruce" ]; then
           feh --no-fehbg --bg-fill $DATA/downloads/wallpaper-right.jpg --bg-fill $DATA/downloads/wallpaper-left.jpg &
         else
-          feh --no-fehbg --bg-fill /etc/xdg/wallpaper.jpg
+          feh --no-fehbg --bg-fill /etc/media/images/wallpaper.jpg
         fi
         get_vol_perc > .volumestatus
         xset s blank # Blank screen (disable screensaver)
