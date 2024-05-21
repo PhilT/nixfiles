@@ -52,7 +52,7 @@ let
       owner = "slim-template";
       repo = "vim-slim";
       rev = "master";
-      sha256 = "dkFTxBi0JAPuIkJcVdzE8zUswHP0rVZqiCE6NMywDm8=";
+      sha256 = "mPv0tiggGExEZNshDlHtT4ipv/5Q0ahkcVw4irJ8l3o=";
     };
   };
   neovimNoThemes = pkgs.neovim-unwrapped.overrideAttrs ({
