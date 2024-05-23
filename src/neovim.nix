@@ -87,7 +87,6 @@ in
           auto-pairs
           completion-nvim
           fsharp
-          himalaya-vim
           lualine-nvim
           nvim-lspconfig             # Language server client settings
           nvim-tree-lua
@@ -116,8 +115,7 @@ in
 
       };
       customRC = ''
-        source ${../neovim/colors/greyscale.vim}
-        source ${../neovim/plugins/himalaya.vim}
+        " source ${../neovim/colors/greyscale.vim}
 
         lua << LUADOC
           vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
