@@ -51,7 +51,8 @@ with lib;
         "config/kitty.conf" = {
           mode = "444";
           text = ''
-            include /etc/config/kitty-theme.conf
+            # Disabled themes for now
+            # include /etc/config/kitty-theme.conf
             font_family monospace
             font_size ${toString config.programs.kitty.fontSize}
             text_composition_strategy legacy
