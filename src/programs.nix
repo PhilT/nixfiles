@@ -17,6 +17,7 @@
 
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
+      fd = "fd -H";
     };
   };
 
@@ -82,10 +83,11 @@
       #  };
       #}))
 
-      # System information: lsusb, lspci, lscpu, lsblk
+      # System and hardware information: lsusb, lspci, lscpu, lsblk
       usbutils
       pciutils
       cpu-x
+      lshw
 
       # Utils
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as

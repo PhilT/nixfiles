@@ -30,7 +30,7 @@ in
         CODE = CODE;
         SRC = "${CODE}/nixos-files";
         NOTES  = "${DATA}/notes";
-        CDPATH   = "${CODE}:${DATA}";
+        CDPATH = "${DATA}/work:${CODE}:${DATA}";
         DOTNET_CLI_TELEMETRY_OPTOUT = "true";
         FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
         HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
