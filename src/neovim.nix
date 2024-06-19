@@ -70,7 +70,7 @@ in
       fsautocomplete
       clang-tools
 
-      # Ruby and Solargraph LSP specified in ruby.nix
+      # Ruby and Ruby LSP specified in ruby.nix/local to project
     ];
   };
 

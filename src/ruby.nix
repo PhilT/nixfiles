@@ -3,7 +3,8 @@
 {
   environment = {
     systemPackages = with pkgs; [
-      (ruby_3_3.withPackages (ps: with ps; [ solargraph ]))
+      ruby_3_3
+      bundix
     ];
 
     etc = {

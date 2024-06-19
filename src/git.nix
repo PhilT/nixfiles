@@ -1,6 +1,17 @@
 { config, pkgs, ... }:
 
 {
+  environment.etc = {
+    "gitconfig-personal" = {
+      mode = "444";
+      text = ''
+        [user]
+          name = "Phil Thompson"
+          email = "34678+PhilT@users.noreply.github.com"
+      '';
+    };
+  };
+
   programs.git.config = {
     apply.whitespace = "nowarn";
     branch.autosetupmerge = "true";
@@ -14,11 +25,11 @@
     push.autoSetupRemote = "true";
     push.default = "current";
 
-    user = {
-      name = "Phil Thompson";
-      email = "34678+PhilT@users.noreply.github.com";
-    };
     github.user = "PhilT";
+
+    "includeIf \"gitdir:/data/code/\"" = {
+      path = "/etc/gitconfig-personal";
+    };
 
     alias = {
       ap = "!git add -N . && git add -p";
