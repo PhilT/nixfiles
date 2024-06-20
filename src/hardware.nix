@@ -13,7 +13,6 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/nixos";

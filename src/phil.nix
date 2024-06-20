@@ -17,7 +17,6 @@
     #./neomutt.nix
     ./neovim.nix
     ./programs.nix
-    ./ruby.nix
     ./syncthing.nix
     ./tmux.nix
     ./xserver.nix
@@ -27,6 +26,7 @@
 
   environment.systemPackages = with pkgs; [
     docker-compose
+    devenv
   ];
   users.users.phil.extraGroups = [ "docker" ];
 
@@ -35,7 +35,14 @@
       automatic = true;
       dates = "weekly";
     };
-    settings.auto-optimise-store = true;
+    settings = {
+      auto-optimise-store = true;
+      trusted-users = [
+        "root"
+        "phil"
+        "@wheel"
+      ];
+    };
   };
 
   services = {
