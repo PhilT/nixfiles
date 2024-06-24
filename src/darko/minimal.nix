@@ -6,6 +6,5 @@
   networking.hostName = "darko";
   boot.initrd.luks.devices.root.device = "/dev/nvme0n1p2";
 
-  services.xserver.xkbOptions = "ctrl:swapcaps";
+  services.xserver.xkb.options = "ctrl:swapcaps";
 }
-

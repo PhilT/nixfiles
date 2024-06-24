@@ -10,7 +10,6 @@
       ../nvidia_offload.nix
     ];
 
-  programs.alacritty.fontSize = 10;
   programs.kitty.fontSize = 11;
 
   services = {
@@ -22,7 +21,7 @@
 
   programs.light.enable = true; # Key bindings in Dwm
 
-  services.xserver.libinput.enable = true;  # Touchpad support
-  services.xserver.libinput.touchpad.naturalScrolling = true;
-  services.xserver.libinput.touchpad.disableWhileTyping = true;
+  services.libinput.enable = true;  # Touchpad support
+  services.libinput.touchpad.naturalScrolling = true;
+  services.libinput.touchpad.disableWhileTyping = true;
 }

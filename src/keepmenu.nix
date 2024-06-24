@@ -24,7 +24,7 @@ in
         keyfile_1 =
         pw_cache_period_min = 360
         autotype_default = {USERNAME}{TAB}{PASSWORD}{ENTER}
-        terminal = alacritty
+        terminal = kitty
         editor = nvim
       '';
     };

@@ -17,7 +17,6 @@ in
   services.udev.packages = [ fanatecff ];
   boot.kernelModules = [ "hid-fanatec" ];
 
-  programs.alacritty.fontSize = 12;
   programs.kitty.fontSize = 15;
 
   services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
