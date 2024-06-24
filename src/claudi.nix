@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./alacritty.nix
+    ./kitty.nix
     ./audio.nix
     ./syncthing.nix
   ];

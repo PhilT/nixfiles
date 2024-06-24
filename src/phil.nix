@@ -3,7 +3,6 @@
 {
   imports = [
     ./work.nix
-    ./alacritty.nix
     ./kitty.nix
     ./audio.nix
     ./dbgate.nix
@@ -13,8 +12,6 @@
     ./fonts.nix
     ./git.nix
     ./keepmenu.nix
-    ./himalaya.nix
-    #./neomutt.nix
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix
