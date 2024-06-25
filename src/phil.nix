@@ -11,12 +11,12 @@
     ./environment.nix
     ./fonts.nix
     ./git.nix
+    ./hyprland.nix
     ./keepmenu.nix
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix
     ./tmux.nix
-    ./xserver.nix
   ];
 
   virtualisation.docker.enable = true;
