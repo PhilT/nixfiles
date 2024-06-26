@@ -14,21 +14,27 @@
   # Optional, hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  # [ ] Workspace indicators
+  # [ ] Keyboard mappings?
+  # [ ] Cursors
+  # [ ] Themes
+  # [ ] Make SDDM look nicer
+  # [ ] Better way to setup bluetooth devices
+  # [ ] Firefox bookmarks, settings, etc
+  # [ ] Thunderbird config
+  # [ ] Move .config/hypr/hyprland.conf to Nix
+  # [ ] Impermanence?
+  # [x] Media keys
+  # [x] Window borders/spacing
   # [x] Keyboard layout
   # [x] Fix touchpad scroll direction
-  # [ ] Menu (dmenu?)
-  # [ ] Keyboard mappings?
   # [x] Remap CAPS
-  # [ ] Firefox bookmarks, settings, etc
-  # [ ] Window borders/spacing
-  # [ ] Impermanence?
-
+  # [x] Menu (dmenu?)
 
 
   environment.systemPackages = with pkgs; [
-    dolphin  # File browser
     wofi
-    networkmanagerapplet
+#    networkmanagerapplet
     waybar
     hyprpaper
   ];

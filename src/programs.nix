@@ -115,7 +115,7 @@
 
       fd                    # Alternative to find
       keepassxc
-      pinentry              # TODO: What is this?
+      pinentry              # TODO: What is this? - Entering passwords/pins
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types

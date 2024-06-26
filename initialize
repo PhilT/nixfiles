@@ -50,7 +50,7 @@ pair_and_trust() {
 bluetoothctl power on
 
 echo "Ensure all bluetooth devices are on and in pairing mode (if applicable)"
-echo "E.g. Sony headphones, mifo headphones, HTC lighthouses"
+echo "E.g. headphones (Sony, mifo, Shokz), HTC lighthouses"
 echo "Press ENTER when ready"
 read
 
@@ -58,8 +58,10 @@ WH1000XM3=CC:98:8B:93:74:BF
 mifo_O5=19:04:31:79:04:ED
 LIGHTHOUSE_B=40:4E:36:B9:C1:E5
 LIGHTHOUSE_C=40:4E:36:B9:CB:2E
+OPEN_RUN_PRO=C0:86:B3:80:58:9A
 
 pair_and_trust $WH1000XM3
 pair_and_trust $mifo_O5
 pair_and_trust $LIGHTHOUSE_B
 pair_and_trust $LIGHTHOUSE_C
+pair_and_trust $OPEN_RUN_PRO
