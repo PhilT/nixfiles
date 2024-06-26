@@ -4,7 +4,6 @@
   imports =
     [
       ./minimal.nix
-      ./power.nix
       ../phil.nix
       ../adjustlight.nix
       ../nvidia.nix
@@ -21,10 +20,6 @@
   };
 
   programs.light.enable = true;
-
-  services.libinput.enable = true;  # Touchpad support
-  services.libinput.touchpad.naturalScrolling = true;
-  services.libinput.touchpad.disableWhileTyping = true;
 
   environment.systemPackages = with pkgs; [
     pamixer
