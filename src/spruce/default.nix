@@ -1,27 +1,24 @@
 { config, pkgs, ... }:
 
-let
-  fanatecff = config.boot.kernelPackages.callPackage ../hid-fanatecff/default.nix {};
-in
 {
   imports = [
     ./minimal.nix
-    ./power.nix
 
     ../gaming.nix
     ../phil.nix
     ../nvidia.nix
   ];
 
-  boot.extraModulePackages = [ fanatecff ];
-  services.udev.packages = [ fanatecff ];
-  boot.kernelModules = [ "hid-fanatec" ];
+  boot.extraModulePackages = [  ];
+  services.udev.packages = [  ];
+  boot.kernelModules = [  ];
 
   programs.kitty.fontSize = 15;
 
   services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
   services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
 
+  # TODO: Need to move to Spruce specific hyprland.conf
   services.xserver.displayManager.setupCommands = ''
     LEFT='DP-2'
     RIGHT='DP-4'

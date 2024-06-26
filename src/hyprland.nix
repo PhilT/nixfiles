@@ -6,9 +6,16 @@
     xwayland.enable = true;
   };
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
+  programs.waybar.enable = true;
+
+  services.displayManager = {
+    autoLogin.enable = true;
+    autoLogin.user = "phil";
+
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
   };
 
   # Optional, hint electron apps to use wayland:
@@ -35,7 +42,6 @@
   environment.systemPackages = with pkgs; [
     wofi
 #    networkmanagerapplet
-    waybar
     hyprpaper
   ];
 }
