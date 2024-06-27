@@ -107,7 +107,7 @@
 
       # Comms
       discord
-      element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
+      element-desktop       # Matrix chat client
       libreoffice
       slack
       thunderbird
