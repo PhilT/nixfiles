@@ -18,17 +18,23 @@ and src/machine/minimal.nix. Need to set minimal.nix to pull from device
 sudo -s
 mkdir /usb
 mount /dev/disk/by-label/nixos-files /usb
-cd /usb
+cd /usb/nixos-files
 ./bootstrap -pf <darko|spruce>     # Partition and format the drives
+reboot # And remove USB sticks
 ```
 
 After first boot, run:
 ```
 sudo mkdir /usb
 sudo mount /dev/disk/by-label/nixos-files /usb
-cd /usb
+cd /usb/nixos-files
 ./initialize
 ./build -s
+```
+
+After booting, try adding all Bluetooth devices with:
+```
+./bluetooth
 ```
 
 ## Directory structure
