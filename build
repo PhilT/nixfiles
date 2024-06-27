@@ -61,11 +61,6 @@ test "$1" && commit_msg=$1
 
 machine=$(hostname)
 
-if [ "$machine" != "darko" ] && [ "$machine" != "spruce" ]; then
-  echo "Machine name not recognised, use `hostname <darko|spruce>` to set"
-  exit
-fi
-
 echo "[$action] $machine"
 
 configuration_nix=src/$machine
