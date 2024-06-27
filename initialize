@@ -24,7 +24,7 @@ RUN "ping -c 1 google.com > /dev/null 2>&1 || sudo iwctl --passphrase=$psk stati
 
 # Pull down git repos unless they exist
 sudo mkdir -p $DATA
-chown phil:users $DATA
+sudo chown phil:users $DATA
 mkdir -p $CODE
 git_clone() {
   [ -d "$CODE/$1" ] || git clone git@github.com:PhilT/$1.git $CODE/$1
@@ -32,7 +32,6 @@ git_clone() {
 
 git_clone 'nixos-files'
 git_clone 'matter'
-git_clone 'dwm'
 git_clone 'cv_builder'
 git_clone 'vim-fsharp'
 git_clone 'sheetzi'

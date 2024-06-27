@@ -17,7 +17,7 @@
     syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
   };
 
-  programs.light.enable = true; # Key bindings in Dwm
+  programs.light.enable = true;
 
   environment.systemPackages = with pkgs; [
     pamixer

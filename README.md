@@ -1,15 +1,13 @@
 # My NixOS Setup
 
 ## Prerequesites
-* Ensure dwm, dmenu, slstatus and nixos code is committed and pushed with clean stage
-*
+* Ensure nixos code is committed and pushed with clean stage
+* Ensure secrets/ are copied to USB
 
 ## Bootstrapping a new machine
 
 WARNING: Disk needs to be set in 2 places at the moment: secrets/machine/device
 and src/machine/minimal.nix. Need to set minimal.nix to pull from device
-
-Initial build is expecting to find dmenu, dwm and slstatus in the /data/code directory
 
 
 * Copy this repo to a USB stick
@@ -40,12 +38,12 @@ USB/
   secrets/
     bashrc.local
     common.env
-    machine/
+    <machine>/
       ssh/
       device                # SSD
       syncthing.cert.pem
       syncthing.key.pem
-  dotfiles/   # dotfiles imported by Nix
+  dotfiles/   # dotfiles imported/linked by Nix
   neovim/     # Lua and vim file imported by Nix
   src/
     *.nix     # Nix source configuration files

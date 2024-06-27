@@ -17,6 +17,7 @@
       };
 
       # TODO: How would this be useful for ranger?
+      # TODO: Need to set the downloads directory in Firefox
       "config/gtk-3.0/bookmarks" = {
         mode = "444";
         text = ''
