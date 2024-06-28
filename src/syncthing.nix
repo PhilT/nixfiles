@@ -8,7 +8,7 @@
 
 {
   systemd.tmpfiles.rules = [
-    "d ${config.xorg.xdgConfigHome}/syncthing - phil users"
+    "d ${config.xdgConfigHome}/syncthing - phil users"
   ];
 
   services = {
@@ -17,7 +17,7 @@
       user = "phil";
       group = "users";
       dataDir = "/data";
-      configDir = "/home/phil/.config/syncthing";
+      configDir = "${config.xdgConfigHome}/syncthing";
       overrideDevices = true; # Removes devices from Syncthing that are not configured here
       overrideFolders = true; # Removes folders from Syncthing that are not configured here
       settings = {

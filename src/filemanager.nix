@@ -40,8 +40,9 @@
   # https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
   # man tmpfiles.d
   systemd.tmpfiles.rules = [
-    "d ${config.xorg.xdgConfigHome}/ranger - phil users -" # For some reason ranger needs write access to this dir
-    "L+ ${config.xorg.xdgConfigHome}/gtk-3.0/bookmarks - - - - /etc/config/gtk-3.0/bookmarks"
-    "L+ ${config.xorg.xdgConfigHome}/ranger/rc.conf - - - - /etc/config/ranger/rc.conf"
+    "d ${config.xdgConfigHome} - phil users -"
+    "d ${config.xdgConfigHome}/ranger - phil users -" # For some reason ranger needs write access to this dir
+    "L+ ${config.xdgConfigHome}/gtk-3.0/bookmarks - - - - /etc/config/gtk-3.0/bookmarks"
+    "L+ ${config.xdgConfigHome}/ranger/rc.conf - - - - /etc/config/ranger/rc.conf"
   ];
 }
