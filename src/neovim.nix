@@ -85,6 +85,7 @@ in
           awesome-vim-colorschemes
 
           auto-pairs
+          catppuccin-nvim
           completion-nvim
           fsharp
           lualine-nvim
