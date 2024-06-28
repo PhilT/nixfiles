@@ -14,6 +14,10 @@
         "clock",
         "tray"
     ],
+    "backlight": {
+      "format": "{}{icon}",
+      "format-icons": ["󱩏"]
+    },
     "hyprland/workspaces": {
       "format": "{icon}",
       "on-click": "activate",
@@ -55,14 +59,13 @@
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", ""]
     },
-        "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    "network": {
+      "format-wifi": "{icon}",
+      "format-ethernet": "{ifname}",
+      "format-disconnected": "",
+      "max-length": 50,
+      "on-click": "alacritty -e 'nmtui'",
+      "format-icons": ["󰤯","󰤟", "󰤢", "󰤥", "󰤨"]
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
