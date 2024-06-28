@@ -4,11 +4,11 @@
   imports =
     [
       ./minimal.nix
+      ./adjustlight.nix
       ../phil.nix
-      ../adjustlight.nix
     ];
 
-  programs.kitty.fontSize = 11;
+  programs.kitty.fontSize = 9;
 
   services = {
     auto-cpufreq.enable = true;  # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)

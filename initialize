@@ -5,9 +5,9 @@ source ./commands.sh
 source ./secrets/common.env
 machine=$(hostname)
 
-# Duplicated in environment.nix
-DATA=/data
-CODE=$DATA/code
+
+DATA=/data      # Duplicated in environment.nix
+CODE=$DATA/code # Duplicated in environment.nix
 
 STATE 'INIT'
 

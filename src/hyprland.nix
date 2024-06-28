@@ -4,11 +4,11 @@
   # [ ] Shortcuts for `systemctl suspend`, `reboot`, `shutdown now` (configure power button)
   # [ ] Cursors
   # [ ] Themes
-  # [ ] Make SDDM look nicer
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Replace SDDM with greetd (instead of Make SDDM look nicer)
   # [x] Move .config/hypr/hyprland.conf to Nix
   # [x] Move .config/waybar/config.jsonc to Nix
   # [x] Keyboard mappings?
@@ -21,27 +21,24 @@
   # [x] Menu (dmenu?)
 
   programs.hyprland.enable = true;
-
   programs.waybar.enable = true;
+  programs.hyprlock.enable = true;
 
-  services.displayManager = {
-    autoLogin.enable = true;
-    autoLogin.user = "phil";
-
-    sddm = {
-      enable = true;
-      wayland.enable = true;
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.hyprland}/bin/Hyprland";
+        user = "phil";
+      };
     };
   };
-
-  systemd.tmpfiles.rules = [
-    "d ${config.xorg.xdgConfigHome}/hypr - phil users -"
-    "L+ ${config.xorg.xdgConfigHome}/hypr/hyprland.conf - - - - /etc/xdg/hypr/hyprland.conf"
-  ];
 
   environment = {
     etc = {
       "xdg/hypr/hyprland.conf".source = ../dotfiles/hyprland.conf;
+      "xdg/hypr/hypridle.conf".source = ../dotfiles/hypridle.conf;
+      "xdg/hypr/hyprlock.conf".source = ../dotfiles/hyprlock.conf;
       "xdg/waybar/config.jsonc".source = ../dotfiles/waybar.jsonc;
     };
 
@@ -49,9 +46,16 @@
     sessionVariables.NIXOS_OZONE_WL = "1";
 
     systemPackages = with pkgs; [
+      dunst
+      hyprpaper
+      libnotify # Used by hypridle
       wofi
 #    networkmanagerapplet
-      hyprpaper
     ];
   };
+
+  systemd.tmpfiles.rules = [
+    "d ${config.xdgConfigHome} - phil users -"
+    "L+ ${config.xdgConfigHome}/hypr - - - - /etc/xdg/hypr"
+  ];
 }

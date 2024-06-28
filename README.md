@@ -12,7 +12,7 @@ and src/machine/minimal.nix. Need to set minimal.nix to pull from device
 
 * Copy this repo to a USB stick
 * Add the ssh key to GitHub
-* Create another USB stick with the minimal NixOS ISO from https://nixos.org/download
+* Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
 * Boot up NixOS ISO then run the following commands:
 ```
 sudo -s

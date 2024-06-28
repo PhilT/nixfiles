@@ -4,8 +4,8 @@
   imports =
     [
       ./minimal.nix
+      ./adjustlight.nix
       ../phil.nix
-      ../adjustlight.nix
       ../nvidia.nix
       ../nvidia_offload.nix
     ];
