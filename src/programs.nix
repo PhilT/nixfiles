@@ -9,8 +9,6 @@
     direnv.enable = true;
 
     dconf.enable = true;
-    # xautolock also added in services
-    #slock.enable = true;
 
     # Starship - Highly configurable shell prompt
     starship.enable = true;

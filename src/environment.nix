@@ -32,7 +32,7 @@ in
         HISTTIMEFORMAT = "[%F %T]";
         HISTFILE = "~/.bash_eternal_history";
         XDG_CONFIG_HOME = config.xdgConfigHome;
-        GTK_THEME = "Adwaita:dark";  # TODO: Move to xserver config?
+        GTK_THEME = "Adwaita:dark";  # Force GTK4 to use a theme
       };
 
       etc = {

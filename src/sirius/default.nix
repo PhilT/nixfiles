@@ -8,8 +8,6 @@
       ../phil.nix
     ];
 
-  programs.kitty.fontSize = 9;
-
   services = {
     auto-cpufreq.enable = true;  # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
 
@@ -17,7 +15,10 @@
     syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
   };
 
-  programs.light.enable = true;
+  programs = {
+    kitty.fontSize = 9;
+    light.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     pamixer
