@@ -1,6 +1,6 @@
 local cmd = vim.cmd
 
---cmd.colorscheme('nord')
+cmd.colorscheme('catppuccin-macchiato')
 
 function set_theme_dark()
   vim.opt.background = 'dark'

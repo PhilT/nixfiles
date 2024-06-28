@@ -11,6 +11,9 @@ and src/machine/minimal.nix. Need to set minimal.nix to pull from device
 
 
 * Copy this repo to a USB stick
+    ```
+    rsync -r --exclude=result . /run/media/phil/nixos-files
+    ```
 * Add the ssh key to GitHub
 * Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
     ```
