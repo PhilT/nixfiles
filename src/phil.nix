@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./work.nix
+    ../secrets/work.nix
     ./kitty.nix
     ./audio.nix
     ./dbgate.nix

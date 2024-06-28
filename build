@@ -73,3 +73,4 @@ fi
 # echo "[LABEL] $NIXOS_LABEL"
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 sudo nixos-rebuild $command -I nixos-config=$configuration_nix
+hyprctl reload
