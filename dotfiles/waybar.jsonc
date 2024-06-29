@@ -9,7 +9,7 @@
         "memory",
         "temperature",
         "backlight",
-        "keyboard-state",
+        //"keyboard-state",
         "battery",
         "clock",
         "tray"
