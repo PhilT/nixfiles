@@ -20,9 +20,16 @@
   # [x] Remap CAPS
   # [x] Menu (dmenu?)
 
+  imports = [
+    <catppuccin/modules/nixos>
+  ];
+
   programs.hyprland.enable = true;
   programs.waybar.enable = true;
   programs.hyprlock.enable = true;
+
+  catppuccin.flavor = "macchiato";
+  catppuccin.enable = true;
 
   services.greetd = {
     enable = true;
