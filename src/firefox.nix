@@ -5,8 +5,11 @@
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
   programs.firefox.preferences = {
+    "browser.download.dir" = "/data/downloads";
+    "browser.backspace_action" = "0";
     "browser.warnOnQuit" = false;
     "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+    "apz.gtk.kinetic_scroll.enabled" = false;
   };
 
   # https://mozilla.github.io/policy-templates
@@ -39,8 +42,8 @@
     };
     Homepage.StartPage = "previous-session";
     Permissions = {
-      Camera.Allow = [ "https://apps.google.com" ];
-      Microphone.Allow = [ "https://apps.google.com" ];
+      Camera.Allow = [ "https://*.google.com" ];
+      Microphone.Allow = [ "https://*.google.com" ];
       Location.Allow = [];
       Notifications.Allow = [];
       Autoplay.Allow = [];

@@ -13,7 +13,7 @@ in
       mode = "444";
       text = ''
         [dmenu]
-        dmenu_command = dmenu -i
+        dmenu_command = wofi -d
 
         [dmenu_passphrase]
         obscure = True
@@ -31,10 +31,6 @@ in
 
     systemPackages = with pkgs; [
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini $@")
-      (dmenu.overrideAttrs (oldAttrs: {
-        name = "dmenu-philt-custom";
-        src = /data/code/dmenu;
-      }))
 
       keepmenu
     ];

@@ -11,6 +11,7 @@
     ./environment.nix
     ./fonts.nix
     ./git.nix
+    ./keepmenu.nix
     ./hyprland.nix
     ./neovim.nix
     ./programs.nix
