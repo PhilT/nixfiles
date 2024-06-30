@@ -71,6 +71,13 @@ fi
 
 # export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
 # echo "[LABEL] $NIXOS_LABEL"
+
+sudo nix-channel --list | grep -s catppuccin > /dev/null
+if [ -z $? ]; then
+  sudo nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
+  sudo nix-channel --update
+fi
+
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 sudo nixos-rebuild $command -I nixos-config=$configuration_nix
-hyprctl reload
+which hyprctl && hyprctl reload
