@@ -15,6 +15,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
   boot.extraModulePackages = [];
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/nixos";
@@ -44,6 +45,7 @@
   #powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  #hardware.logitech.wireless.enable = true;
-  #hardware.logitech.wireless.enableGraphical = true;
+  # I think this causes issues with cursor disappearing on Sirius
+  # hardware.logitech.wireless.enable = true;
+  # hardware.logitech.wireless.enableGraphical = true;
 }

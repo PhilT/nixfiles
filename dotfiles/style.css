@@ -96,14 +96,21 @@ window#waybar.solo {
 #custom-notification,
 #sway-scratchpad,
 #mpd {
-    padding: 0 10px;
-    margin: 6px 3px;
+    padding: 0 5px;
+    margin: 3px 2px;
     color: #f8f8f2;
+}
+
+#network,
+#cpu,
+#backlight,
+#battery {
+    padding-right: 8px;
 }
 
 #window,
 #workspaces {
-    margin: 0 4px;
+    margin: 0 2px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
