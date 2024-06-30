@@ -13,6 +13,16 @@
     # Starship - Highly configurable shell prompt
     starship.enable = true;
 
+    bash.promptInit = ''
+      log_bash_persistent_history() {
+        local cmd=$(history 1)
+        if [ "$cmd" != "$PERSISTENT_HISTORY_LAST" ]; then
+          echo "$cmd" >> ~/.persistent_history
+          export PERSISTENT_HISTORY_LAST="$cmd"
+        fi
+      }
+    '';
+
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
       fd = "fd -H";
@@ -20,6 +30,10 @@
   };
 
   environment = {
+    sessionVariables = {
+      PROMPT_COMMAND = "log_bash_persistent_history";
+      HISTIGNORE = "history";
+    };
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
       (callPackage ./spectrum.nix {})

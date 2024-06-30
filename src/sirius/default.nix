@@ -4,7 +4,7 @@
   imports =
     [
       ./minimal.nix
-      ./adjustlight.nix
+      ../adjustlight.nix
       ../phil.nix
     ];
 
