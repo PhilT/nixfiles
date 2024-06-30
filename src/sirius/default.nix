@@ -8,6 +8,8 @@
       ../phil.nix
     ];
 
+  hardware.sensor.iio.enable = true;
+
   services = {
     auto-cpufreq.enable = true;  # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
 
@@ -16,11 +18,12 @@
   };
 
   programs = {
-    kitty.fontSize = 9;
+    kitty.fontSize = 11;
     light.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
+    (callPackage ../iio-hyprland.nix {})
     flashrom
     pamixer
     playerctl
