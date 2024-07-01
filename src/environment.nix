@@ -8,7 +8,7 @@ in
 {
   options.xdgConfigHome = lib.mkOption {
     type = lib.types.str;
-    default = "${HOME}.config";
+    default = "${HOME}/.config";
     description = "Standard XDG_CONFIG_HOME";
   };
 
