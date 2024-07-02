@@ -1,13 +1,20 @@
 { config, pkgs, ... }:
-
+let
+  macchiato-gtk = pkgs.catppuccin-gtk.override ({
+    accents = [ "lavender" ];
+    variant = "macchiato";
+  });
+in
 {
-  # [ ] Win ENTER not working
+  # [ ] Add psgrep, hgrep (history),
+  # [ ] keepmenu not working
   # [ ] Cursors
   # [ ] Themes
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Win ENTER not working
   # [x] Shortcuts for `systemctl suspend`, `reboot`, `shutdown now` (configure power button)
   # [x] Replace SDDM with greetd (instead of Make SDDM look nicer)
   # [x] Move .config/hypr/hyprland.conf to Nix
@@ -29,9 +36,10 @@
   programs.waybar.enable = true;
   programs.hyprlock.enable = true;
 
-  catppuccin.flavor = "macchiato";
   catppuccin.enable = true;
+  catppuccin.flavor = "macchiato";
 
+  services.pipewire.enable = true; # Screen sharing
   services.greetd = {
     enable = true;
     settings = {
@@ -53,16 +61,23 @@
       "xdg/waybar/style.css".source = ../dotfiles/style.css;
     };
 
+    systemPackages = with pkgs; [
+      macchiato-gtk
+      catppuccin-cursors.macchiatoLavender
+      dunst
+      hyprpaper
+      libnotify     # Used by hypridle
+      dmenu-wayland
+      tofi
+      #wofi
+#    networkmanagerapplet
+    ];
+
     # Optional, hint electron apps to use wayland:
     sessionVariables.NIXOS_OZONE_WL = "1";
 
-    systemPackages = with pkgs; [
-      dunst
-      hyprpaper
-      libnotify # Used by hypridle
-      wofi
-#    networkmanagerapplet
-    ];
+    sessionVariables.GTK_THEME = "catppuccin-macchiato-lavender-standard+default";
+    sessionVariables.XCURSOR_THEME = "catppuccin-macchiato-lavender-cursors";
   };
 
   systemd.tmpfiles.rules = [
