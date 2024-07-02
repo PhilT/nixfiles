@@ -10,16 +10,15 @@
 
   hardware.sensor.iio.enable = true;
 
-  services = {
-    # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
-    auto-cpufreq.enable = true;
+  # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
+  services.auto-cpufreq.enable = true;
 
-    syncthing.key = "${../../secrets/sirius/syncthing.key.pem}";
-    syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
+  services.syncthing.key = "${../../secrets/sirius/syncthing.key.pem}";
+  services.syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
+
+  environment.etc = {
+    "xdg/hypr/machine.conf".source = ../../dotfiles/hyprland-sirius.conf;
   };
-
-  programs.kitty.fontSize = 11;
-  programs.light.enable = true;
 
   environment.systemPackages = with pkgs; [
     (callPackage ../iio-hyprland.nix {})
@@ -27,4 +26,7 @@
     pamixer
     playerctl
   ];
+
+  programs.kitty.fontSize = 11;
+  programs.light.enable = true;
 }

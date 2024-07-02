@@ -32,7 +32,6 @@ in
         HISTSIZE = "-1";                           # Unlimited history
 
         XDG_CONFIG_HOME = config.xdgConfigHome;
-        GTK_THEME = "Adwaita:dark";  # Force GTK4 to use a theme
       };
 
       etc = {
