@@ -16,7 +16,7 @@
 * {
     all: unset;
     border: none;
-    border-radius: 4;
+    border-radius: 4px;
     font-family: JetBrains Mono;
     font-size: 13px;
     min-height: 0;
@@ -255,7 +255,7 @@ label:focus {
 #custom-weather {
     background-color: #8be9fd;
     color: #282a36;
-    margin-right: 5;
+    margin-right: 5px;
 }
 
 #disk {

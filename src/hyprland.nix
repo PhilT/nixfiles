@@ -1,13 +1,14 @@
 { config, pkgs, ... }:
 
 {
-  # [ ] Shortcuts for `systemctl suspend`, `reboot`, `shutdown now` (configure power button)
+  # [ ] Win ENTER not working
   # [ ] Cursors
   # [ ] Themes
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Shortcuts for `systemctl suspend`, `reboot`, `shutdown now` (configure power button)
   # [x] Replace SDDM with greetd (instead of Make SDDM look nicer)
   # [x] Move .config/hypr/hyprland.conf to Nix
   # [x] Move .config/waybar/config.jsonc to Nix

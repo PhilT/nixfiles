@@ -9,8 +9,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  # Removed "ahci"
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "rtsx_pci_sdmmc" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
