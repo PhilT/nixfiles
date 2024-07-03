@@ -12,6 +12,12 @@ in
     description = "Standard XDG_CONFIG_HOME";
   };
 
+  options.userHome = lib.mkOption {
+    type = lib.types.str;
+    default = "${HOME}";
+    description = "User's home folder";
+  };
+
   config = {
     systemd.tmpfiles.rules = [
       "d /data - phil users"

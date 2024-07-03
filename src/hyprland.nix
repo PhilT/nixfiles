@@ -6,14 +6,15 @@ let
   });
 in
 {
-  # [ ] Add psgrep, hgrep (history),
-  # [ ] keepmenu not working
+  # [ ] Add hgrep (history)
   # [ ] Cursors
   # [ ] Themes
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Programs don't run from Tofi needed `| sh` at the end of the command
+  # [x] keepmenu not working
   # [x] Win ENTER not working
   # [x] Shortcuts for `systemctl suspend`, `reboot`, `shutdown now` (configure power button)
   # [x] Replace SDDM with greetd (instead of Make SDDM look nicer)
@@ -30,6 +31,7 @@ in
 
   imports = [
     <catppuccin/modules/nixos>
+    ./tofi.nix
   ];
 
   programs.hyprland.enable = true;
@@ -67,17 +69,23 @@ in
       dunst
       hyprpaper
       libnotify     # Used by hypridle
-      dmenu-wayland
-      tofi
-      #wofi
 #    networkmanagerapplet
     ];
 
-    # Optional, hint electron apps to use wayland:
-    sessionVariables.NIXOS_OZONE_WL = "1";
 
-    sessionVariables.GTK_THEME = "catppuccin-macchiato-lavender-standard+default";
-    sessionVariables.XCURSOR_THEME = "catppuccin-macchiato-lavender-cursors";
+    sessionVariables = {
+      GTK_THEME = "catppuccin-macchiato-lavender-standard+default";
+      XCURSOR_THEME = "catppuccin-macchiato-lavender-cursors";
+
+      NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland:
+      SDL_VIDEODRIVER = "wayland";
+      _JAVA_AWT_WMNONREPARENTING = "1";
+      QT_QPA_PLATFORM = "wayland";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_DESKTOP = "Hyprland";
+    };
+
   };
 
   systemd.tmpfiles.rules = [

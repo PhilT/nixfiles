@@ -44,13 +44,13 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d /home/phil/log - phil users -"
-    "d /home/phil/.local/share/Steam - phil users -"
+    "d ${config.userHome}/log - phil users -"
+    "d ${config.userHome}/.local/share/Steam - phil users -"
   ];
 
   # Create a bind mount to steamapps folder (declared in src/spruce/minimal.nix)
   # (symlinking causes issues)
-  fileSystems."/home/phil/.local/share/Steam/steamapps" = {
+  fileSystems."${config.userHome}/.local/share/Steam/steamapps" = {
     device = "/games/steam/steamapps";
     options = [ "bind" ];
   };
