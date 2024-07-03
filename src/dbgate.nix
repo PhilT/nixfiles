@@ -24,7 +24,6 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "C+ ${HOME}/.dbgate - phil users - /etc/config/dbgate"
+    "C+ ${config.userHome}/.dbgate - phil users - /etc/config/dbgate"
   ];
 }
-

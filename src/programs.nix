@@ -108,7 +108,7 @@
       inotify-tools
 
       # Audio/visual tools
-      flameshot             # Screnshot tool
+      hyprshot              # Screnshot tool
       gimp
       goxel                 # Voxel editor
       feh                   # Image viewer
@@ -127,7 +127,6 @@
 
       fd                    # Alternative to find
       keepassxc
-      pinentry              # TODO: What is this? - Entering passwords/pins
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types
