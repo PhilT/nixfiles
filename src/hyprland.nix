@@ -6,13 +6,14 @@ let
   });
 in
 {
+  # [ ] Fix cursor size in Waybar & Firefox
   # [ ] Add hgrep (history)
-  # [ ] Cursors
-  # [ ] Themes
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Cursors
+  # [x] Themes
   # [x] Programs don't run from Tofi needed `| sh` at the end of the command
   # [x] keepmenu not working
   # [x] Win ENTER not working
@@ -36,7 +37,7 @@ in
 
   programs.hyprland.enable = true;
   programs.waybar.enable = true;
-  programs.hyprlock.enable = true;
+  programs.hyprlock.enable = true; # Also installs hypridle
 
   catppuccin.enable = true;
   catppuccin.flavor = "macchiato";
@@ -55,7 +56,6 @@ in
   environment = {
     etc = {
       "xdg/hypr/hyprland.conf".source = ../dotfiles/hyprland.conf;
-      "xdg/hypr/hypridle.conf".source = ../dotfiles/hypridle.conf;
       "xdg/hypr/hyprlock.conf".source = ../dotfiles/hyprlock.conf;
       "xdg/hypr/macchiato.conf".source = ../dotfiles/macchiato.conf;
       "xdg/waybar/config.jsonc".source = ../dotfiles/waybar.jsonc;
@@ -64,6 +64,7 @@ in
     };
 
     systemPackages = with pkgs; [
+      brightnessctl # TODO: Probably only needed for laptops
       macchiato-gtk
       catppuccin-cursors.macchiatoLavender
       dunst
@@ -91,5 +92,8 @@ in
   systemd.tmpfiles.rules = [
     "d ${config.xdgConfigHome} - phil users -"
     "L+ ${config.xdgConfigHome}/hypr - - - - /etc/xdg/hypr"
+
+    # Fix for cursors in Waybar/Firefox
+    "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"
   ];
 }

@@ -11,7 +11,7 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "i2c_dev" ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
   boot.extraModulePackages = [];
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
