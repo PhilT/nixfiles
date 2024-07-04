@@ -19,7 +19,7 @@
           [database]
           database_1 = /data/sync/HomeDatabase.kdbx
           keyfile_1 =
-          pw_cache_period_min = 1
+          pw_cache_period_min = 360
           autotype_default = {USERNAME}{TAB}{PASSWORD}{ENTER}
           terminal = kitty
           editor = nvim

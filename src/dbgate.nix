@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchurl, ... }:
+{ config, lib, pkgs, fetchurl, ... }:
 
 let HOME = "/home/phil";
 in

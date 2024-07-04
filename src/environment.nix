@@ -12,6 +12,12 @@ in
     description = "Standard XDG_CONFIG_HOME";
   };
 
+  options.xdgDataHome = lib.mkOption {
+    type = lib.types.str;
+    default = "${HOME}/.local/share";
+    description = "Standard XDG_DATA_HOME";
+  };
+
   options.userHome = lib.mkOption {
     type = lib.types.str;
     default = "${HOME}";
@@ -38,11 +44,12 @@ in
         HISTSIZE = "-1";                           # Unlimited history
 
         XDG_CONFIG_HOME = config.xdgConfigHome;
+        XDG_DATA_HOME = config.xdgDataHome;
       };
 
       etc = {
         "bashrc.local".source = ../secrets/bashrc.local;
-        "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim;
+        "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim; # FIXME: This shouldn't be here
         "gitignore".source = ../dotfiles/gitignore;
         "ignore".source = ../dotfiles/ignore;
       };
