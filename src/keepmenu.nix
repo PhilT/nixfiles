@@ -1,5 +1,4 @@
-{ config, pkgs, python3Packages, ... }:
-
+{ pkgs, ... }:
 {
   programs.ydotool.enable = true;
   programs.ydotool.group = "users";
@@ -25,7 +24,6 @@
           editor = nvim
           type_library = ydotool
         '';
-
       };
     };
 

@@ -58,6 +58,8 @@ window#waybar.solo {
   padding: 2px 8px 0;
   margin: 2px;
   color: #f8f8f2;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 #workspaces button.empty {
