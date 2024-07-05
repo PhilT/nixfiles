@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   environment.etc = {
     "xdg/waybar/config.jsonc" = {
@@ -6,17 +7,7 @@
         layer = "top";
         modules-left = ["hyprland/workspaces"];
         modules-center = ["hyprland/window"];
-        modules-right = [
-          "pulseaudio"
-          "network"
-          "cpu"
-          "memory"
-          "temperature"
-          "backlight"
-          "battery"
-          "clock"
-          "tray"
-        ];
+        modules-right = config.waybarModules;
         backlight = {
           format = "{}{icon}";
           format-icons = ["󱩏"];
@@ -43,12 +34,22 @@
         clock = {
           format-alt = "{:%a, %d. %b  %H:%M}";
         };
-        "cpu" = {
-          format = "{usage}% ";
+        cpu = {
+          format = "{usage}% 󰻠";
           tooltip = false;
         };
         memory = {
-          format = "{}% ";
+          format = "{avail} 󰍛";
+        };
+        disk = {
+          format = "{specific_free:0.2f} GB";
+          unit = "GB";
+          path = "/";
+        };
+        "disk#games" = {
+          format = "{specific_free:0.2f} GB";
+          unit = "GB";
+          path = "/games";
         };
         temperature = {
           critical-threshold = 80;

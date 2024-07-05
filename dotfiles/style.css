@@ -4,6 +4,7 @@
 @define-color battery-plugged @green;
 @define-color cpu @surface1;
 @define-color memory @surface1;
+@define-color disk @surface1;
 @define-color backlight @surface1;
 @define-color network @surface1;
 @define-color network-disconnected @red;
@@ -268,8 +269,8 @@ label:focus {
 }
 
 #disk {
-    background-color: #ffb86c;
-    color: #282a36;
+  background-color: @disk;
+  color: @text;
 }
 
 #sway-scratchpad {
