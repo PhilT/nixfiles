@@ -88,13 +88,6 @@
         /run/current-system/sw/bin/slack
       '')
 
-      #(bluemail.overrideAttrs (old: {
-      #  src = pkgs.fetchurl {
-      #    url = "https://download.bluemail.me/BlueMail/deb/BlueMail.deb";
-      #    sha256 = "dnYOb3Q/9vSDssHGS2ywC/Q24Oq96/mvKF+eqd/4dVw=";
-      #  };
-      #}))
-
       # System and hardware information: lsusb, lspci, lscpu, lsblk
       usbutils
       pciutils
