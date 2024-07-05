@@ -32,6 +32,7 @@ in
 
   imports = [
     <catppuccin/modules/nixos>
+    ./dunst.nix
     ./tofi.nix
   ];
 
