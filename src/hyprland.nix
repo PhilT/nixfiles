@@ -7,11 +7,11 @@ let
 in
 {
   # [ ] Fix cursor size in Waybar & Firefox
-  # [ ] Add hgrep (history)
   # [ ] Better way to setup bluetooth devices
   # [ ] Firefox bookmarks, settings, etc
   # [ ] Thunderbird config
   # [ ] Impermanence?
+  # [x] Add hgrep (history)
   # [x] Cursors
   # [x] Themes
   # [x] Programs don't run from Tofi needed `| sh` at the end of the command
