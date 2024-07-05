@@ -32,6 +32,7 @@ in
 
   imports = [
     <catppuccin/modules/nixos>
+    ./waybar.nix
     ./dunst.nix
     ./tofi.nix
   ];
@@ -59,7 +60,6 @@ in
       "xdg/hypr/hyprland.conf".source = ../dotfiles/hyprland.conf;
       "xdg/hypr/hyprlock.conf".source = ../dotfiles/hyprlock.conf;
       "xdg/hypr/macchiato.conf".source = ../dotfiles/macchiato.conf;
-      "xdg/waybar/config.jsonc".source = ../dotfiles/waybar.jsonc;
       "xdg/waybar/macchiato.css".source = ../dotfiles/macchiato.css;
       "xdg/waybar/style.css".source = ../dotfiles/style.css;
     };
