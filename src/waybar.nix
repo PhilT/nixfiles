@@ -1,4 +1,36 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+  join = lst: lib.concatStringsSep ", " (lib.map (x: toString x) lst);
+  rgb = lst: "rgb(${join lst})";
+  rgba = rgb: a: "rgba(${join rgb}, ${toString a})";
+
+  rosewater = [244 219 214]; #f4dbd6
+  flamingo = [240 198 198];  #f0c6c6
+  pink = [245 189 230];      #f5bde6
+  mauve = [198 160 246];     #c6a0f6
+  red = [237 135 150];       #ed8796
+  maroon = [238 153 160];    #ee99a0
+  peach = [245 169 127];     #f5a97f
+  yellow = [238 212 159];    #eed49f
+  green = [166 218 149];     #a6da95
+  teal = [139 213 202];      #8bd5ca
+  sky = [145 215 227];       #91d7e3
+  sapphire = [125 196 228];  #7dc4e4
+  blue = [138 173 244];      #8aadf4
+  lavender = [183 189 248];  #b7bdf8
+  text = [202 211 245];      #cad3f5
+  subtext1 = [184 192 224];  #b8c0e0
+  subtext0 = [165 173 203];  #a5adcb
+  overlay2 = [147 154 183];  #939ab7
+  overlay1 = [128 135 162];  #8087a2
+  overlay0 = [110 115 141];  #6e738d
+  surface2 = [91 96 120];    #5b6078
+  surface1 = [73 77 100];    #494d64
+  surface0 = [54 58 79];     #363a4f
+  base = [36 39 58];         #24273a
+  mantle = [30 32 48];       #1e2030
+  crust = [24 25 38];        #181926
+in
 {
   environment.etc = {
     "xdg/waybar/config.jsonc" = {
@@ -83,6 +115,221 @@
           on-click = "pavucontrol";
         };
       });
+    };
+
+    "xdg/waybar/style.css" = {
+      mode = "444";
+      text = ''
+
+        * {
+          all: unset;
+          border: none;
+          border-radius: 4px;
+          font-family: JetBrains Mono;
+          font-size: 13px;
+          min-height: 0;
+        }
+
+        window#waybar {
+          background-color: ${rgba base "0.9"};
+          color: ${rgb text};
+          transition-property: background-color;
+          transition-duration: .5s;
+          border-radius: 0;
+        }
+
+        window#waybar.hidden {
+          opacity: 0.2;
+        }
+
+        tooltip {
+          background: ${rgba base 0.9};
+          border: 1px solid ${rgba overlay0 "0.8"};
+        }
+
+        tooltip label {
+          color: ${rgb text};
+        }
+
+        #workspaces button {
+          background-color: ${rgba lavender "0.3"};
+          padding: 2px 8px 0;
+          margin: 2px;
+          color: ${rgb text};
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        #workspaces button.empty {
+          background-color: transparent;
+        }
+
+        #workspaces button:hover {
+          background: ${rgba crust 0.2};
+        }
+
+        #workspaces button.visible {
+          border-bottom: 3px solid ${rgb lavender};
+        }
+
+        #workspaces button.active {
+          background-color: ${rgb lavender};
+          color: ${rgb text};
+        }
+
+
+        #workspaces button.urgent {
+          background-color: ${rgb red};
+        }
+
+        #mode {
+          background-color: ${rgb overlay0};
+          border-bottom: 3px solid ${rgb text};
+        }
+
+        #clock,
+        #battery,
+        #cpu,
+        #memory,
+        #disk,
+        #temperature,
+        #backlight,
+        #network,
+        #pulseaudio,
+        #custom-weather,
+        #tray,
+        #mode,
+        #idle_inhibitor,
+        #custom-notification,
+        #sway-scratchpad,
+        #mpd {
+          background-color: ${rgb surface1};
+          padding: 0 5px;
+          margin: 3px 2px;
+          color: ${rgb text};
+        }
+
+        #network,
+        #cpu,
+        #backlight,
+        #battery {
+          padding-right: 8px;
+        }
+
+        #window,
+        #workspaces {
+          margin: 0 2px;
+        }
+
+        /* If workspaces is the leftmost module, omit left margin */
+        .modules-left > widget:first-child > #workspaces {
+          margin-left: 0;
+        }
+
+        /* If workspaces is the rightmost module, omit right margin */
+        .modules-right > widget:last-child > #workspaces {
+          margin-right: 0;
+        }
+
+        #battery.charging, #battery.plugged {
+          color: @battery-plugged;
+          background-color: @battery;
+        }
+
+        @keyframes blink {
+          to {
+            background-color: #ffffff;
+            color: #000000;
+          }
+        }
+
+        #battery.critical:not(.charging) {
+          background-color: ${rgb red};
+          color: ${rgb rosewater};
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
+
+        label:focus {
+          background-color: #000000;
+        }
+
+        #network.disconnected {
+          background-color: @network-disconnected;
+          color: @text;
+        }
+
+        #pulseaudio.muted {
+          background-color: ${rgb surface1};
+        }
+
+        #custom-media.custom-spotify {
+          background-color: ${rgb green};
+        }
+
+        #custom-media.custom-vlc {
+          background-color: ${rgb peach};
+        }
+
+        #temperature.critical {
+          background-color: ${rgb red};
+        }
+
+        #tray > .passive {
+          -gtk-icon-effect: dim;
+        }
+
+        #tray > .needs-attention {
+          -gtk-icon-effect: highlight;
+          background-color: ${rgb red};
+        }
+
+        #idle_inhibitor {
+          background-color: ${rgb surface1};
+          color: ${rgb text};
+        }
+
+        #idle_inhibitor.activated {
+          background-color: ${rgb text};
+          color: ${rgb surface1};
+        }
+
+        #mpd {
+          background-color: ${rgb teal};
+          color: ${rgb base};
+        }
+
+        #mpd.disconnected {
+          background-color: ${rgb red};
+        }
+
+        #mpd.stopped {
+          background-color: ${rgb overlay2};
+        }
+
+        #mpd.paused {
+          background-color: ${rgba teal "0.5"};
+        }
+
+        #custom-weather {
+          background-color: ${rgb sky};
+          color: ${rgb base};
+          margin-right: 5px;
+        }
+
+        #disk {
+          background-color: @disk;
+          color: @text;
+        }
+
+        #sway-scratchpad {
+          background-color: ${rgb green};
+          color: ${rgb base};
+        }
+      '';
     };
   };
 }
