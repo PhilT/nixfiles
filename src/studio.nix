@@ -1,7 +1,9 @@
 { lib, stdenv, fetchurl, pkgs, which }:
 
+# Scrape latest version from https://www.image-line.com/fl-studio-download/
 let
-  fl_version = "21.2.0.3842";
+  title = "FL Studio 2024";
+  fl_version = "24.1.1.4239";
   flstudioRunner = pkgs.writeShellScriptBin "flstudio" ''
     export WINEPREFIX=$HOME/.wine/flstudio
     export WINEARCH=win64
@@ -16,14 +18,18 @@ let
     if [ "$new_version" != "$existing_version" ]; then
       echo "Installing FL Studio ${fl_version}"
       echo "-------------------------------"
+      rm -rf $WINEPREFIX    # Errors occur unless install dir is clean for the install
+      mkdir -p $WINEPREFIX
       echo "${fl_version}" > $WINEPREFIX/version
       wine start /unix OUT/installer/flstudio_installer.exe /S
+
+      # Install license RegKey
     else
       # Run FL Studio
       echo "Running FL Studio ${fl_version}"
       echo "-------------------------------"
-      cd "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 21"
-      gamemoderun wine FL64.exe
+      cd "$WINEPREFIX/drive_c/Program Files/Image-Line/${title}"
+      wine FL64.exe
     fi
   '';
 in
@@ -33,7 +39,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://demodownload.image-line.com/flstudio/flstudio_win64_${fl_version}.exe";
-    sha256 = "148c151c0fa7486c17a49cbf3b018d600278b72475b8b2f47087de57728bfb33";
+    sha256 = "sha256-sXC1Z4VzXurAZ0F8+N6YotF83njJFdFu3Z/b+X+Fr3c=";
   };
 
   buildInputs = [ flstudioRunner which ];
