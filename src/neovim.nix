@@ -65,12 +65,12 @@ in
   environment = {
     # Language servers
     systemPackages = with pkgs; [
-      dotnet-sdk_8
-      csharp-ls
-      fsautocomplete
       clang-tools
-
-      # Ruby and Ruby LSP specified in ruby.nix/local to project
+      csharp-ls
+      dotnet-sdk_8
+      fsautocomplete
+      ruby-lsp
+      terraform-ls
     ];
   };
 

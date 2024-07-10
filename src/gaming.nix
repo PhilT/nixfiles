@@ -27,7 +27,7 @@ in
     owner = "root";
     group = "root";
     capabilities = "cap_net_raw,cap_net_admin+eip";
-    source = "${pkgs.python3Packages.bluepy}/${pkgs.python311.sitePackages}/bluepy/bluepy-helper";
+    source = "${pkgs.python3Packages.bluepy}/${pkgs.python312.sitePackages}/bluepy/bluepy-helper";
   };
 
   environment = {

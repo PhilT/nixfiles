@@ -31,7 +31,11 @@
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini $@")
       wl-clipboard
 
-      keepmenu
+      (keepmenu.overrideAttrs (oldAttrs: {
+        name = "keepmenu-philt-custom";
+        src = /data/code/keepmenu;
+        installCheckPhase = ''true'';
+      }))
     ];
   };
 }
