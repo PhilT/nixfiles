@@ -43,18 +43,8 @@
       (callPackage ./studio.nix {})
       (callPackage ./spectrum.nix {})
 
-      # youtube-dl -x --audio-format mp3 https://URL
-      (youtube-dl.overrideAttrs (old: {
-        src = pkgs.fetchFromGitHub {
-          owner = "ytdl-org";
-          repo = "youtube-dl";
-          rev = "820fae3b3a8587a6f57afbe803b4f91de7d4e086";
-          sha256 = "ikDcEn2fGl+Zcrd8YHDXhG/i9gQ1KLDesPOFyQsYp1g=";
-        };
-        patches = [];
-
-        postInstall = false;
-      }))
+      # yt-dlp -x --audio-format mp3 https://URL
+      yt-dlp
 
       (writeShellScriptBin "matter" ''
         cd $CODE/matter

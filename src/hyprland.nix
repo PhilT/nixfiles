@@ -74,7 +74,7 @@ in
 
 
     sessionVariables = {
-      GTK_THEME = "catppuccin-macchiato-lavender-standard+default";
+      GTK_THEME = "catppuccin-macchiato-lavender-standard";
       XCURSOR_THEME = "catppuccin-macchiato-lavender-cursors";
 
       NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland:
