@@ -3,7 +3,7 @@
 action=REBUILD
 command=test
 cleanup=0
-while getopts 'hdsyurb' OPTION; do
+while getopts 'hdsyurbc' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-hdsur] [commit message]"
@@ -14,6 +14,7 @@ while getopts 'hdsyurb' OPTION; do
       echo "  -u                   upgrade channel and switch"
       echo "  -b                   rebuild & boot"
       echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
+      echo "  -c                   Diff of changes between latest & prev upgrade"
       exit 0
       ;;
     d)
@@ -33,6 +34,10 @@ while getopts 'hdsyurb' OPTION; do
     u)
       action=UPGRADE
       command=switch
+      ;;
+    c)
+      nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
+      exit 0
       ;;
     r)
       action=RELEASE
