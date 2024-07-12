@@ -80,4 +80,4 @@ fi
 
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 sudo nixos-rebuild $command -I nixos-config=$configuration_nix
-which hyprctl && hyprctl reload
+[ -z $? ] && which hyprctl && hyprctl reload
