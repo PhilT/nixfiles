@@ -299,6 +299,7 @@ in with colors; {
           bind = $mainMod CTRL SHIFT, backspace, exec, reboot
 
           windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
+          windowrulev2 = move 0 0, class:feh
         '';
       };
 
