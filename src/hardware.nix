@@ -11,7 +11,8 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "i2c_dev" ];
+  # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
   boot.extraModulePackages = [];
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
 
@@ -23,6 +24,7 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-label/boot";
       fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   swapDevices =
@@ -39,9 +41,10 @@
   # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+  #powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
+  # I think this causes issues with cursor disappearing on Sirius
+  # hardware.logitech.wireless.enable = true;
+  # hardware.logitech.wireless.enableGraphical = true;
 }

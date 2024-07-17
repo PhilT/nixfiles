@@ -4,7 +4,7 @@
   imports =
     [
       ./minimal.nix
-      ./power.nix
+      ../adjustlight.nix
       ../phil.nix
       ../nvidia.nix
       ../nvidia_offload.nix
@@ -19,9 +19,10 @@
     syncthing.cert = "${../../secrets/darko/syncthing.cert.pem}";
   };
 
-  programs.light.enable = true; # Key bindings in Dwm
+  programs.light.enable = true;
 
-  services.libinput.enable = true;  # Touchpad support
-  services.libinput.touchpad.naturalScrolling = true;
-  services.libinput.touchpad.disableWhileTyping = true;
+  environment.systemPackages = with pkgs; [
+    pamixer
+    playerctl
+  ];
 }

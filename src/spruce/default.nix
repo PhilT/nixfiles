@@ -1,30 +1,54 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-let
-  fanatecff = config.boot.kernelPackages.callPackage ../hid-fanatecff/default.nix {};
-in
 {
+  options.waybarModules = lib.mkOption {
+    type = with lib.types; listOf str;
+    default = [
+      "pulseaudio"
+      "cpu"
+      "memory"
+      "disk"
+      "disk#games"
+      "temperature"
+      "clock"
+      "tray"
+    ];
+  };
+
   imports = [
     ./minimal.nix
-    ./power.nix
+    ./hypridle.nix
 
     ../gaming.nix
     ../phil.nix
     ../nvidia.nix
   ];
 
-  boot.extraModulePackages = [ fanatecff ];
-  services.udev.packages = [ fanatecff ];
-  boot.kernelModules = [ "hid-fanatec" ];
+  config = {
+    services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
+    services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
+    services.hardware.openrgb.enable = true;
 
-  programs.kitty.fontSize = 15;
+    environment.etc = {
+      "xdg/hypr/machine.conf".source = ../../dotfiles/hyprland-spruce.conf;
+    };
+    environment.systemPackages = with pkgs; [
+      ddcutil               # Control external monitor brightness
 
-  services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
-  services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
+      (writeShellScriptBin "monlight" ''
+        if [[ "$1" == "up" ]]; then
+          amount=50
+        elif [[ "$1" == "down" ]]; then
+          amount=5
+        else
+          exit 1
+        fi
 
-  services.xserver.displayManager.setupCommands = ''
-    LEFT='DP-2'
-    RIGHT='DP-4'
-    ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT --left-of $RIGHT --output $RIGHT
-  '';
+        ddcutil setvcp 10 $amount --bus 5 &
+        ddcutil setvcp 10 $amount --bus 6 &
+      '')
+    ];
+
+    programs.kitty.fontSize = 10;
+  };
 }

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./work.nix
+    ../secrets/work.nix
     ./kitty.nix
     ./audio.nix
     ./dbgate.nix
@@ -12,11 +12,11 @@
     ./fonts.nix
     ./git.nix
     ./keepmenu.nix
+    ./hyprland.nix
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix
     ./tmux.nix
-    ./xserver.nix
   ];
 
   virtualisation.docker.enable = true;
