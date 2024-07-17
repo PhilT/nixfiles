@@ -1,36 +1,51 @@
 # My NixOS Setup
 
 ## Prerequesites
-* Ensure dwm, dmenu, slstatus and nixos code is committed and pushed with clean stage
-*
+* Ensure nixos code is committed and pushed with clean stage
+* Ensure secrets/ are copied to USB
 
 ## Bootstrapping a new machine
 
 WARNING: Disk needs to be set in 2 places at the moment: secrets/machine/device
 and src/machine/minimal.nix. Need to set minimal.nix to pull from device
 
-Initial build is expecting to find dmenu, dwm and slstatus in the /data/code directory
-
 
 * Copy this repo to a USB stick
+    ```
+    rsync -r --exclude=result . /run/media/phil/nixos-files/nixos-files
+    umount /run/media/phil/nixos-files
+    ```
 * Add the ssh key to GitHub
-* Create another USB stick with the minimal NixOS ISO from https://nixos.org/download
+* Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
+    ```
+    lsblk --list | grep sda[1-9]
+    sudo umount /dev/sda1
+    sudo umount /dev/sda2 # If listed in above command
+    sudo dd if=nixos.iso of=/dev/sda bs=1M status=progress
+    ```
+
 * Boot up NixOS ISO then run the following commands:
 ```
 sudo -s
 mkdir /usb
 mount /dev/disk/by-label/nixos-files /usb
-cd /usb
+cd /usb/nixos-files
 ./bootstrap -pf <darko|spruce>     # Partition and format the drives
+reboot # And remove USB sticks
 ```
 
 After first boot, run:
 ```
 sudo mkdir /usb
 sudo mount /dev/disk/by-label/nixos-files /usb
-cd /usb
+cd /usb/nixos-files
 ./initialize
 ./build -s
+```
+
+After booting, try adding all Bluetooth devices with:
+```
+./bluetooth
 ```
 
 ## Directory structure
@@ -40,12 +55,12 @@ USB/
   secrets/
     bashrc.local
     common.env
-    machine/
+    <machine>/
       ssh/
       device                # SSD
       syncthing.cert.pem
       syncthing.key.pem
-  dotfiles/   # dotfiles imported by Nix
+  dotfiles/   # dotfiles imported/linked by Nix
   neovim/     # Lua and vim file imported by Nix
   src/
     *.nix     # Nix source configuration files

@@ -23,7 +23,7 @@ with lib;
 
         # Run kitty-themes to preview a list of themes. For some reason
         # --config-file-name doesn't work (Possibly because it can't write to the
-        # main kitty.conf file). So, kitten-themes THEME NAME
+        # main kitty.conf file). So, kitty-themes THEME NAME
         # will dump the theme into dotfiles/kitty-theme.conf then
         # just ./build to update.
         #
@@ -51,8 +51,7 @@ with lib;
         "config/kitty.conf" = {
           mode = "444";
           text = ''
-            # Disabled themes for now
-            # include /etc/config/kitty-theme.conf
+            include /etc/config/kitty-theme.conf
             font_family monospace
             font_size ${toString config.programs.kitty.fontSize}
             text_composition_strategy legacy

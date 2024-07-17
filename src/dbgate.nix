@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchurl, ... }:
+{ config, lib, pkgs, fetchurl, ... }:
 
 let HOME = "/home/phil";
 in
@@ -24,7 +24,6 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "C+ ${HOME}/.dbgate - phil users - /etc/config/dbgate"
+    "C+ ${config.userHome}/.dbgate - phil users - /etc/config/dbgate"
   ];
 }
-

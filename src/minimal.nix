@@ -4,11 +4,17 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware.nix  # Include the results of the hardware scan.
-      ./bluetooth.nix # So devices can be added through ./initialize
-    ];
+  imports = [
+    ./hardware.nix  # Include the results of the hardware scan.
+    ./bluetooth.nix # So devices can be added through ./initialize
+  ];
+
+  # Fix nose not being supported by Python 3.12
+  nixpkgs.overlays = [
+    (_: prev: {
+        python312 = prev.python312.override { packageOverrides = _: pysuper: { nose = pysuper.pynose; }; };
+    })
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -58,5 +64,5 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

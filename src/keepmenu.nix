@@ -1,42 +1,41 @@
-{ config, pkgs, python3Packages, ... }:
-
-let newKeepmenu = pkgs.keepmenu.overrideAttrs (old: {
-  src = python3Packages.fetchPypi {
-    pname = "keepmenu";
-    version = "1.4.0";
-  };
-});
-in
+{ pkgs, ... }:
 {
+  programs.ydotool.enable = true;
+  programs.ydotool.group = "users";
+
   environment = {
-    etc."config/keepmenu.ini" = {
-      mode = "444";
-      text = ''
-        [dmenu]
-        dmenu_command = dmenu -i
+    etc = {
+      "config/keepmenu.ini" = {
+        mode = "444";
+        text = ''
+          [dmenu]
+          dmenu_command = tofi -c /etc/config/tofi.ini
 
-        [dmenu_passphrase]
-        obscure = True
-        obscure_color = #555555
+          [dmenu_passphrase]
+          obscure = True
+          obscure_color = #555555
 
-        [database]
-        database_1 = /data/sync/HomeDatabase.kdbx
-        keyfile_1 =
-        pw_cache_period_min = 360
-        autotype_default = {USERNAME}{TAB}{PASSWORD}{ENTER}
-        terminal = kitty
-        editor = nvim
-      '';
+          [database]
+          database_1 = /data/sync/HomeDatabase.kdbx
+          keyfile_1 =
+          pw_cache_period_min = 360
+          autotype_default = {USERNAME}{TAB}{PASSWORD}{ENTER}
+          terminal = kitty
+          editor = nvim
+          type_library = ydotool
+        '';
+      };
     };
 
     systemPackages = with pkgs; [
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini $@")
-      (dmenu.overrideAttrs (oldAttrs: {
-        name = "dmenu-philt-custom";
-        src = /data/code/dmenu;
-      }))
+      wl-clipboard
 
-      keepmenu
+      (keepmenu.overrideAttrs (oldAttrs: {
+        name = "keepmenu-philt-custom";
+        src = /data/code/keepmenu;
+        installCheckPhase = ''true'';
+      }))
     ];
   };
 }

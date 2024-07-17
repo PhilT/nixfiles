@@ -9,11 +9,24 @@
     direnv.enable = true;
 
     dconf.enable = true;
-    # xautolock also added in services
-    #slock.enable = true;
 
     # Starship - Highly configurable shell prompt
     starship.enable = true;
+
+    # Log all history to a separate history file after every command.
+    # CTRL+R stays clean for the current shell but you can always refer
+    # to ~/.persistent_history if you need a command from another shell.
+    # Use hgrep (below) to search this history file.
+    bash.promptInit = ''
+      log_bash_persistent_history() {
+        [[ $(history 1) =~ ^\ *[0-9]+\ +(.*)$ ]]
+        local cmd="''${BASH_REMATCH[1]}"
+        if [[ "$cmd" != "$PERSISTENT_HISTORY_LAST" && "$cmd" != "hcat" && "$cmd" != "hcompact" ]]; then
+          echo "$cmd" >> ~/.persistent_history
+          export PERSISTENT_HISTORY_LAST="$cmd"
+        fi
+      }
+    '';
 
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
@@ -22,22 +35,16 @@
   };
 
   environment = {
+    sessionVariables = {
+      PROMPT_COMMAND = "log_bash_persistent_history";
+      HISTIGNORE = "history";
+    };
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
       (callPackage ./spectrum.nix {})
 
-      # youtube-dl -x --audio-format mp3 https://URL
-      (youtube-dl.overrideAttrs (old: {
-        src = pkgs.fetchFromGitHub {
-          owner = "ytdl-org";
-          repo = "youtube-dl";
-          rev = "820fae3b3a8587a6f57afbe803b4f91de7d4e086";
-          sha256 = "ikDcEn2fGl+Zcrd8YHDXhG/i9gQ1KLDesPOFyQsYp1g=";
-        };
-        patches = [];
-
-        postInstall = false;
-      }))
+      # yt-dlp -x --audio-format mp3 https://URL
+      yt-dlp
 
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
@@ -64,6 +71,23 @@
         find . -type f -print0 | xargs -0 chmod 644
       '')
 
+      # Search in ~/.persistent_history file (see above)
+      (writeShellScriptBin "hgrep" "grep $@ ${config.userHome}/.persistent_history")
+      (writeShellScriptBin "hcat" "cat ${config.userHome}/.persistent_history")
+      (writeShellScriptBin "hcompact" "awk -i inplace '!seen[$0]++' ${config.userHome}/.persistent_history") # Runs on Hyprland start
+
+      # Search and add Wifi
+      (writeShellScriptBin "wifis" "iwctl station wlan0 get-networks")
+      (writeShellScriptBin "wific" ''
+        if [[ "$1" == "" ]]; then
+          echo "Usage: wific <Network name> <passphrase>"
+          exit 0
+        fi
+
+        iwctl --passphrase $2 station wlan0 connect $1
+      '')
+
+
       # TODO: Probably don't need this anymore
       (writeShellScriptBin "slk" ''
         if [ "$(hostname)" == "darko" ]; then
@@ -76,13 +100,6 @@
         /run/current-system/sw/bin/slack
       '')
 
-      #(bluemail.overrideAttrs (old: {
-      #  src = pkgs.fetchurl {
-      #    url = "https://download.bluemail.me/BlueMail/deb/BlueMail.deb";
-      #    sha256 = "dnYOb3Q/9vSDssHGS2ywC/Q24Oq96/mvKF+eqd/4dVw=";
-      #  };
-      #}))
-
       # System and hardware information: lsusb, lspci, lscpu, lsblk
       usbutils
       pciutils
@@ -93,10 +110,11 @@
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
       gparted               # it has large file support).
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
+      nvd                   # Nix diff versions (Used in ./build)
       inotify-tools
 
       # Audio/visual tools
-      flameshot             # Screnshot tool
+      hyprshot              # Screnshot tool
       gimp
       goxel                 # Voxel editor
       feh                   # Image viewer
@@ -107,7 +125,7 @@
 
       # Comms
       discord
-      element-desktop       # Matrix chat client Connect to: #pimalaya.himalaya
+      element-desktop       # Matrix chat client
       libreoffice
       slack
       thunderbird
@@ -115,7 +133,6 @@
 
       fd                    # Alternative to find
       keepassxc
-      pinentry              # TODO: What is this?
       pulseaudio
       ripgrep
       shared-mime-info      # Recognise different file types
