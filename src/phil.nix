@@ -16,6 +16,7 @@
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix
+    ./thunderbird.nix
     ./tmux.nix
   ];
 

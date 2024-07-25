@@ -128,7 +128,6 @@
       element-desktop       # Matrix chat client
       libreoffice
       slack
-      thunderbird
       whatsapp-for-linux
 
       fd                    # Alternative to find
