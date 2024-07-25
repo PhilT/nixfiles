@@ -31,10 +31,18 @@
       (writeShellScriptBin "kp" "keepmenu -c /etc/config/keepmenu.ini $@")
       wl-clipboard
 
+      #keepmenu
+      # See if this fixes issues editing fields such as TOTP
       (keepmenu.overrideAttrs (oldAttrs: {
-        name = "keepmenu-philt-custom";
-        src = /data/code/keepmenu;
-        installCheckPhase = ''true'';
+        version = "1.4.3";
+
+        src = fetchFromGitHub {
+          owner = "firecat53";
+          repo = "keepmenu";
+          rev = "develop";
+          hash = "sha256-2PYefH0+uQtQ1r8JvRa0k5qyQT5bv0HfRJIMB2BsB2g=";
+        };
+        installCheckPhase = ''true''; # TODO: Remove once https://github.com/NixOS/nixpkgs/pull/328672 is merged
       }))
     ];
   };

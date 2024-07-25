@@ -62,6 +62,10 @@
             path = "/data/other";
             devices = [ "spruce" "darko" "sirius" ];
           };
+          "Thunderbird" = {
+            path = "/data/thunderbird_profile";
+            devices = [ "spruce" "darko" "sirius" ];
+          };
         };
       };
     };
