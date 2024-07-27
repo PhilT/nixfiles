@@ -26,6 +26,7 @@
           export PERSISTENT_HISTORY_LAST="$cmd"
         fi
       }
+      starship_precmd_user_func=log_bash_persistent_history
     '';
 
     bash.shellAliases = {
@@ -36,7 +37,6 @@
 
   environment = {
     sessionVariables = {
-      PROMPT_COMMAND = "log_bash_persistent_history";
       HISTIGNORE = "history";
     };
     systemPackages = with pkgs; [
