@@ -43,7 +43,7 @@
       playerctl
     ];
 
-    programs.kitty.fontSize = 11;
+    programs.kitty.fontSize = 9;
     programs.light.enable = true;
   };
 }

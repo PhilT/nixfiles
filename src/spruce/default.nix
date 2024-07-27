@@ -49,6 +49,6 @@
       '')
     ];
 
-    programs.kitty.fontSize = 10;
+    programs.kitty.fontSize = 9;
   };
 }
