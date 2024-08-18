@@ -4,18 +4,14 @@
   environment.systemPackages = with pkgs; [
 
     (writeShellScriptBin "adjustlight" ''
-      level=$(light | sed -E 's/(.+)\..*/\1/')
+      level=$(brightnessctl | sed -nE 's/.*Current brightness: ([0-9]+) .*/\1/p')
 
       if [ "$1" = "up" ]; then
-        direction=-A
-        [ $level -ge "5" ] && amount=5 || amount=1
+        brightnessctl set +1
       else
-        direction=-U
-        [ $level -gt "5" ] && amount=5 || amount=1
+
+        [ $level -ge "4" ] && brightnessctl set 1-
       fi
-
-
-      light $direction $amount
     '')
   ];
 }
