@@ -42,6 +42,7 @@
     systemPackages = with pkgs; [
       (callPackage ./studio.nix {})
       (callPackage ./spectrum.nix {})
+      (callPackage ./mxw.nix {})
 
       # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
