@@ -40,7 +40,7 @@
       HISTIGNORE = "history";
     };
     systemPackages = with pkgs; [
-      (callPackage ./studio.nix {})
+      #(callPackage ./studio.nix {})
       (callPackage ./spectrum.nix {})
       (callPackage ./mxw.nix {})
 

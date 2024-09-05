@@ -314,6 +314,7 @@ in with colors; {
       dunst
       hyprpaper
       libnotify     # Used by hypridle
+      hyprlandPlugins.hyprgrass
 #    networkmanagerapplet
     ];
 

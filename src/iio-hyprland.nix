@@ -18,7 +18,7 @@ stdenv.mkDerivation {
     repo = name;
     rev = "master";
     name = name;
-    sha256 = "sha256-JUYuk1MTyK/uTItuo9eETXFqnz8c63YpGHeVhXkSbiw=";
+    sha256 = "sha256-9tB29tP3ZQ2tU2c+FrWrGqSm70ZrJP8H9WZKzHx55zI=";
   };
 
   nativeBuildInputs = [
