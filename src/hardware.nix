@@ -14,7 +14,7 @@
   boot.kernelModules = [ "kvm-intel" "i2c_dev" ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
   boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
+#  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9;
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/nixos";
