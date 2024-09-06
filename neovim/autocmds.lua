@@ -5,6 +5,11 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd('Filetype', { pattern = 'ruby,fsharp,lua,markdown,c,cpp,cs', callback = function(args) vim.opt.colorcolumn = '81,82' end })
 --autocmd('Filetype', { pattern = 'fugitive,qf', callback = function(args) vim.opt.colorcolumn = '' end })
 
-local options = { pattern = '*.vert,*.task,*.mesh,*.frag', command='set ft=glsl' }
-autocmd('BufNewFile', options )
-autocmd('BufRead', options )
+local glsl_options = { pattern = '*.vert,*.task,*.mesh,*.frag', command='set ft=glsl' }
+autocmd('BufNewFile', glsl_options)
+autocmd('BufRead', glsl_options)
+
+-- Add support for jb (JSON Builder - https://github.com/amatsuda/jb)
+local jb_options = { pattern = '*.jb', command='set ft=ruby' }
+autocmd('BufNewFile', jb_options)
+autocmd('BufRead', jb_options)

@@ -20,6 +20,7 @@
     ./tmux.nix
   ];
 
+  hardware.keyboard.qmk.enable = true; # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   virtualisation.docker.enable = true;
 
   environment.systemPackages = with pkgs; [

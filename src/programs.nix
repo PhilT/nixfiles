@@ -106,6 +106,7 @@
       pciutils
       cpu-x
       lshw
+      qmk                   # Tool to configure QMK based keyboards (e.g. my GMMK 2) # hardware enabled in phil.nix
 
       # Utils
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
