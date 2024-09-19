@@ -206,7 +206,7 @@ in with colors; {
           bind = $mainMod, C, exec, kitty
           bind = $mainMod, Q, killactive,
           bind = $mainMod SHIFT, Q, exit,
-          bind = $mainMod, W, exec, [workspace 7] firefox
+          bind = $mainMod, W, exec, [workspace 7] firefox-esr
           bind = $mainMod, F, exec, pcmanfm
           bind = $mainMod, E, exec, thunderbird
           bind = $mainMod, A, exec, [workspace 6] slack
@@ -222,6 +222,7 @@ in with colors; {
           bind = $mainMod, K, cyclenext, prev
 
           bind = $mainMod, return, layoutmsg, swapwithmaster
+          bind = $mainMod, R, layoutmsg, orientationright
 
           bind = $mainMod, H, splitratio, -0.05
           bind = $mainMod, L, splitratio, +0.05
