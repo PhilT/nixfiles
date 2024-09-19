@@ -2,6 +2,7 @@
 
 {
   programs.firefox.enable = true;
+  programs.firefox.package = pkgs.firefox-esr;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
   programs.firefox.preferences = {
@@ -54,14 +55,21 @@
     };
     RequestedLocales = [ "en-GB" ];
     ExtensionSettings = {
-      "{bb431b02-3350-4b58-b9fd-fb4d5e900fb6}" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/file/3602788/startpage_search_dark_theme-1.0.2.xpi";
-      };
       "uBlock0@raymondhill.net" = {
         installation_mode = "force_installed";
         install_url = "https://github.com/gorhill/uBlock/releases/download/1.57.0/uBlock0_1.57.0.firefox.signed.xpi";
       };
+    };
+    SearchEngines = {
+      Add = [
+        {
+          Name = "SearXNG";
+          URLTemplate = "https://search.leptons.xyz/searxng/search?q={searchTerms}";
+          Method = "GET";
+          IconURL = "https://search.leptons.xyz/searxng/favicon.ico";
+        }
+      ];
+      Default = "SearXNG";
     };
     UserMessaging = {
       WhatsNew = false;

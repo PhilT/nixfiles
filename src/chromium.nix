@@ -6,11 +6,10 @@
       enable = true;
       extensions = [
         "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
-        "cdkhedhmncjnpabolpjceohohlefegak" # Startpage privacy protection
         "paoafodbgcjnmijjepmpgnlhnogaahme" # Material Dark theme
       ];
       defaultSearchProviderEnabled = true;
-      defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}";
+      defaultSearchProviderSearchURL = "https://search.leptons.xyz/searxng/search?q={searchTerms}";
       homepageLocation = "https://www.startpage.com";
       extraOpts = {
         "BrowserSignin" = 0;

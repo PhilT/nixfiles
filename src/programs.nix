@@ -77,18 +77,6 @@
       (writeShellScriptBin "hcat" "cat ${config.userHome}/.persistent_history")
       (writeShellScriptBin "hcompact" "awk -i inplace '!seen[$0]++' ${config.userHome}/.persistent_history") # Runs on Hyprland start
 
-      # Search and add Wifi
-      (writeShellScriptBin "wifis" "iwctl station wlan0 get-networks")
-      (writeShellScriptBin "wific" ''
-        if [[ "$1" == "" ]]; then
-          echo "Usage: wific <Network name> <passphrase>"
-          exit 0
-        fi
-
-        iwctl --passphrase $2 station wlan0 connect $1
-      '')
-
-
       # TODO: Probably don't need this anymore
       (writeShellScriptBin "slk" ''
         if [ "$(hostname)" == "darko" ]; then
