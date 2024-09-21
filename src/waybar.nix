@@ -8,14 +8,14 @@ in with colors;
       mode = "444";
       text = (builtins.toJSON {
         layer = "top";
-        modules-left = ["hyprland/workspaces"];
-        modules-center = ["hyprland/window"];
+        modules-left = ["sway/workspaces"];
+        modules-center = ["sway/window"];
         modules-right = config.waybarModules;
         backlight = {
           format = "{}{icon}";
           format-icons = ["󱩏"];
         };
-        "hyprland/workspaces" = {
+        "sway/workspaces" = {
           format = "{icon}";
           on-click = "activate";
           format-icons = {
@@ -23,11 +23,19 @@ in with colors;
           };
           sort-by-number = true;
           persistent-workspaces = {
-            DP-3 = [ 1 2 3 4 5 ];
-            DP-2 = [ 6 7 8 9 10 ];
+            "1" = ["DP-3" "eDP-1"];
+            "2" = ["DP-3" "eDP-1"];
+            "3" = ["DP-3" "eDP-1"];
+            "4" = ["DP-3" "eDP-1"];
+            "5" = ["DP-3" "eDP-1"];
+            "6" = ["DP-2" "eDP-1"];
+            "7" = ["DP-2" "eDP-1"];
+            "8" = ["DP-2" "eDP-1"];
+            "9" = ["DP-2" "eDP-1"];
+            "10" = ["DP-2" "eDP-1"];
           };
         };
-        "hyprland/window" = {
+        "sway/window" = {
           max-length = 50;
         };
         battery = {
@@ -64,7 +72,7 @@ in with colors;
           format-ethernet = "{ifname}";
           format-disconnected = "";
           max-length = 50;
-          on-click = "alacritty -e 'nmtui'";
+          on-click = "kitty nmtui";
           format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
         };
         pulseaudio = {

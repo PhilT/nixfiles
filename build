@@ -74,6 +74,11 @@ if [ "$cleanup" = "1" ]; then
   sudo nix-collect-garbage -d
 fi
 
+if [ -f ~/.config/sway/config ]; then
+  echo Copying Sway config
+  cp ~/.config/sway/config dotfiles/sway/
+fi
+
 # export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
 # echo "[LABEL] $NIXOS_LABEL"
 

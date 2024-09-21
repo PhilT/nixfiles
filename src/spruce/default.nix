@@ -29,9 +29,6 @@
     services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
     services.hardware.openrgb.enable = true;
 
-    environment.etc = {
-      "xdg/hypr/machine.conf".source = ../../dotfiles/hyprland-spruce.conf;
-    };
     environment.systemPackages = with pkgs; [
       ddcutil               # Control external monitor brightness
 

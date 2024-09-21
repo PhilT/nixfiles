@@ -1,16 +1,15 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  boot.kernelModules = [ "nouveau" ];
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    forceFullCompositionPipeline = true;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+  services.xserver.videoDrivers = ["nouveau"];
+
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      mesa
+      mesa.drivers
+    ];
   };
 }
