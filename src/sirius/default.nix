@@ -32,10 +32,6 @@
     services.syncthing.key = "${../../secrets/sirius/syncthing.key.pem}";
     services.syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
 
-    environment.etc = {
-      "xdg/hypr/machine.conf".source = ../../dotfiles/hyprland-sirius.conf;
-    };
-
     environment.systemPackages = with pkgs; [
       (callPackage ../iio-hyprland.nix {})
       flashrom

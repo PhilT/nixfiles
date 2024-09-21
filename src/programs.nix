@@ -5,7 +5,7 @@
     # `j term` cd quickly
     autojump.enable = true;
 
-    # Autorun nix-shell when entering a dir with a shell.nix (e.g. a .NET project)
+    # Autorun nix-shell when entering a dir with a shell.nix (e.g. a Ruby or .NET project)
     direnv.enable = true;
 
     dconf.enable = true;
@@ -32,6 +32,7 @@
     bash.shellAliases = {
       ss = "feh -Z -F -D 15";
       fd = "fd -H";
+      list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
     };
   };
 

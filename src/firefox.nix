@@ -6,8 +6,9 @@
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
   programs.firefox.preferences = {
+    "browser.tabs.inTitlebar" = 0;
     "browser.download.dir" = "/data/downloads";
-    "browser.backspace_action" = "0";
+    "browser.backspace_action" = 0;
     "browser.warnOnQuit" = false;
     "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     "apz.gtk.kinetic_scroll.enabled" = false;

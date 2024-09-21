@@ -10,7 +10,7 @@
         brightnessctl set +1
       else
 
-        [ $level -ge "4" ] && brightnessctl set 1-
+        [ $level -ge "3" ] && brightnessctl set 1-
       fi
     '')
   ];

@@ -3,7 +3,7 @@ rec {
   join = lst: lib.concatStringsSep ", " (lib.map (x: toString x) lst);
   rgb = lst: "rgb(${join lst})";
   rgba = rgb: a: "rgba(${join rgb}, ${toString a})";
-  hex = lst: "rgb(${lib.concatStrings (lib.map lib.toHexString lst)})";
+  hex = lst: "#${lib.concatStrings (lib.map lib.toHexString lst)}";
 
   rosewater = [244 219 214]; #f4dbd6
   flamingo = [240 198 198];  #f0c6c6

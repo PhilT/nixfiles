@@ -12,7 +12,7 @@
     ./fonts.nix
     ./git.nix
     ./keepmenu.nix
-    ./hyprland.nix
+    ./sway.nix
     ./neovim.nix
     ./programs.nix
     ./syncthing.nix
@@ -27,7 +27,6 @@
     docker-compose
     devenv
   ];
-  users.users.phil.extraGroups = [ "docker" ];
 
   nix = {
     gc = {
