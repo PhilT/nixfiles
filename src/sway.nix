@@ -7,6 +7,7 @@ let
   });
 in with colors; {
   imports = [
+    ./wayland.nix
     <catppuccin/modules/nixos>
     ./waybar.nix
     ./mako.nix
@@ -85,6 +86,11 @@ in with colors; {
   environment.etc."sway/config" = {
     mode = "444";
     source = ../dotfiles/sway/config;
+  };
+
+  environment.etc."sway/config.d/catppuccin-macchiato" = {
+    mode = "444";
+    source = ../dotfiles/sway/catppuccin-macchiato;
   };
 
   systemd.tmpfiles.rules = [
