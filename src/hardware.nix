@@ -12,8 +12,8 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "i2c_dev" ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
-  boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.extraModulePackages = with config.boot.kernelPackages; [];
 #  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_9; # If you want to use a specific version instead of latest above
 
   fileSystems."/" =

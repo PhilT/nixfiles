@@ -44,9 +44,10 @@ focus_follows_mouse yes
 exec swayidle -w -d \
   timeout 300 'monlight down' resume 'monlight up' \
   timeout 600 'swaymsg output DP-2 power off' resume 'swaymsg output * power on' \
-  timeout 900 'systemctl suspend' \
   after-resume 'swaymsg output DP-2 power on'
 
+
+  #timeout 900 'systemctl suspend'
   #before-sleep 'swaylock -f -c 363a4f'
 
 exec waybar
@@ -179,18 +180,30 @@ bindsym $mod+Ctrl+b border toggle
 gaps inner 2
 gaps outer 2
 default_border pixel 2
-set $border #B7BDF8
-set $inactive #6E738D
-set $urgent #ED8796
-set $background #222222
-set $text #dddddd
-set $indicator #ffffff
-set $blank #00000000
 
-client.focused $blank $blank $blank $border $border
-client.focused_inactive $blank $blank $blank $blank $inactive
-client.unfocused $blank $blank $blank $blank $inactive
-client.urgent $blank $blank $blank $blank $urgent
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $rosewater $lavender
+client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
+client.unfocused         $overlay0 $base $text  $rosewater $overlay0
+client.urgent            $peach    $base $peach $overlay0  $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
+# bar
+#bar {
+#  colors {
+#    background         $base
+#    statusline         $text
+#    focused_statusline $text
+#    focused_separator  $base
+#
+#    # target           border bg        text
+#    focused_workspace  $base  $mauve    $crust
+#    active_workspace   $base  $surface2 $text
+#    inactive_workspace $base  $base     $text
+#    urgent_workspace   $base  $red      $crust
+#  }
+#}
 
 # Cursors
 seat seat0 xcursor_theme catppuccin-macchiato-lavender-cursors

@@ -42,8 +42,8 @@
           exit 1
         fi
 
+        ddcutil setvcp 10 $amount --bus 1 &
         ddcutil setvcp 10 $amount --bus 2 &
-        ddcutil setvcp 10 $amount --bus 3 &
       '')
     ];
 
