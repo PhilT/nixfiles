@@ -5,6 +5,7 @@ in with colors; {
   environment.etc."config/mako" = {
     mode = "444";
     text = ''
+      default-timeout=5000
       background-color=${hex base}
       text-color=${hex text}
       border-color=${hex blue}

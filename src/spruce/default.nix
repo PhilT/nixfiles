@@ -21,13 +21,14 @@
 
     ../gaming.nix
     ../phil.nix
-    ../nvidia.nix
   ];
+    #../nvidia.nix
 
   config = {
     services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
     services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
     services.hardware.openrgb.enable = true;
+    hardware.graphics.enable = true;
 
     environment.systemPackages = with pkgs; [
       ddcutil               # Control external monitor brightness
@@ -41,8 +42,8 @@
           exit 1
         fi
 
-        ddcutil setvcp 10 $amount --bus 5 &
-        ddcutil setvcp 10 $amount --bus 6 &
+        ddcutil setvcp 10 $amount --bus 2 &
+        ddcutil setvcp 10 $amount --bus 3 &
       '')
     ];
 

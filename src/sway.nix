@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   colors = import ./macchiato.nix lib;
-  macchiato-gtk = pkgs.catppuccin-gtk.override ({
+  catppuccin-gtk-macchiato = pkgs.catppuccin-gtk.override ({
     accents = [ "lavender" ];
     variant = "macchiato";
   });
@@ -13,7 +13,12 @@ in with colors; {
     ./tofi.nix
   ];
 
-  #xdg.portal.wlr.enable = true;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   programs.sway.enable = true;
   programs.sway.xwayland.enable = true;
   programs.sway.wrapperFeatures.gtk = true; # TODO: What is this?
@@ -27,16 +32,24 @@ in with colors; {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.sway}/bin/sway";
+        command = "/run/current-system/sw/bin/start_sway";
         user = "phil";
       };
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    catppuccin-gtk-macchiato
+    catppuccin-cursors.macchiatoLavender
+
+    (writeShellScriptBin "start_sway" ''
+      [ -f sway.log ] && mv sway.log sway.log.old
+      ${pkgs.sway}/bin/sway |& tee sway.log
+    '')
+  ];
+
   programs.sway.extraPackages = with pkgs; [
     brightnessctl # TODO: Probably only needed for laptops
-    macchiato-gtk
-    catppuccin-cursors.macchiatoLavender
     slurp
     grim
     mako
@@ -48,7 +61,6 @@ in with colors; {
 
   environment.sessionVariables = {
     GTK_THEME = "catppuccin-macchiato-lavender-standard";
-    XCURSOR_THEME = "catppuccin-macchiato-lavender-cursors";
     XCURSOR_SIZE = "32";
     NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland: Fixes Slack
 
