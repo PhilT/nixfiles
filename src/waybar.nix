@@ -16,6 +16,7 @@ in with colors;
           format-icons = ["󱩏"];
         };
         "sway/workspaces" = {
+          window-rewrite = {};
           format = "{icon}";
           on-click = "activate";
           format-icons = {

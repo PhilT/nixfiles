@@ -41,12 +41,13 @@ input "9011:26214:ydotoold_virtual_device" xkb_layout us
 
 focus_follows_mouse yes
 
-exec swayidle -w \
-  timeout 300 'monlight down' \
-  timeout 600 'swaymsg "output * power off"' \
-  before-sleep 'swaylock -f -c 000000' \
-  resume 'swaymsg "output * power on"' \
-  after-resume 'monlight up'
+exec swayidle -w -d \
+  timeout 300 'monlight down' resume 'monlight up' \
+  timeout 600 'swaymsg output DP-2 power off' resume 'swaymsg output * power on' \
+  timeout 900 'systemctl suspend' \
+  after-resume 'swaymsg output DP-2 power on'
+
+  #before-sleep 'swaylock -f -c 363a4f'
 
 exec waybar
 exec mako -c /etc/config/mako
