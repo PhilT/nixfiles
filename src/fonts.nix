@@ -3,6 +3,7 @@
 {
   fonts = {
     packages = with pkgs; [
+      atkinson-hyperlegible
       noto-fonts
       noto-fonts-emoji
       source-sans
@@ -13,8 +14,8 @@
       enable = true;
       defaultFonts = {
 	      monospace = [ "JetBrainsMono Nerd Font" ];
-	      serif = [ "Noto Serif" ];
-	      sansSerif = [ "Noto Sans" ];
+	      serif = [ "Atkinson Hyperlegible" ];
+	      sansSerif = [ "Atkinson Hyperlegible" ];
       };
     };
   };

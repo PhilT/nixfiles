@@ -89,5 +89,5 @@ if [ -z $? ]; then
 fi
 
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
-sudo nixos-rebuild $command -I nixos-config=$configuration_nix -I nixpkgs=/data/code/nixpkgs
+sudo nixos-rebuild $command -I nixos-config=$configuration_nix #-I nixpkgs=/data/code/nixpkgs
 [ -z $? ] && which hyprctl && hyprctl reload

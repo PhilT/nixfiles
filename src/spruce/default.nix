@@ -22,7 +22,6 @@
     ../gaming.nix
     ../phil.nix
   ];
-    #../nvidia.nix
 
   config = {
     services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
