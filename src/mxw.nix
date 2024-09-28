@@ -17,6 +17,6 @@ pkgs.rustPlatform.buildRustPackage rec {
     owner = "dxbednarczyk";
     repo = "mxw";
     rev = "master";
-    sha256 = "sha256-vHQs/5G+GgJhMhSrcpbYrMRnlOZJ1Zy0s8a+ZUOhYGg=";
+    sha256 = "sha256-HF4VH6dVI+2hQy6u16pxfmBCGhV9rwZNcYW+ASr74fw=";
   };
 }

@@ -1,10 +1,35 @@
+# [ ] PDFs are currently associated with Libreoffice. Change and ensure file previewing is off
+# [ ] Folders
+
 { config, pkgs, ... }:
 
-{
+let
+  catppuccin-kvantum-macchiato = pkgs.catppuccin-kvantum.override ({
+    accent = "Lavender";
+    variant = "Macchiato";
+  });
+in {
+
+  services = {
+    # Automount USB drives
+    gvfs.enable = true;
+    udisks2.enable = true;
+    devmon.enable = true;
+    # tumbler.enable = true; # Thumbnail image support
+  };
+
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-volman
+    thunar-archive-plugin
+    thunar-media-tags-plugin
+  ];
+
   environment = {
     systemPackages = with pkgs; [
+      file-roller           # GUI archiver
       lxde.lxmenu-data      # List apps to run in PCManFM
-      pcmanfm
+      shared-mime-info
       ranger                # Terminal file manager
     ];
 

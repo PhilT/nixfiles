@@ -4,7 +4,6 @@
   imports = [ ../minimal.nix ];
 
   networking.hostName = "spruce";
-  boot.initrd.kernelModules = [ "nouveau" ]; # Native resolution in early KMS (Kernel Mode Setting)
   boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/59220a00-1da3-400b-a61e-0e26a8fccb37";
 
   # Ensure dual booting Windows does not cause incorrect time
@@ -17,5 +16,6 @@
     options = [ "rw" "uid=1000" ];
   };
 
+  boot.initrd.kernelModules = [ "nouveau" ]; # Native resolution in early KMS (Kernel Mode Setting)
   boot.kernelParams = [ "nouveau.runpm=0" ];
 }

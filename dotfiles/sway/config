@@ -1,6 +1,5 @@
 # Needed for screen sharing but included in config.d/
 # exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-
 include /etc/sway/config.d/*
 
 # Sirius
@@ -12,7 +11,6 @@ output DP-3 scale 2
 output DP-3 pos 0 0
 output DP-2 scale 2
 output DP-2 pos 1920 0
-focus output DP-3
 
 workspace 1 output DP-3 eDP1
 workspace 2 output DP-3 eDP1
@@ -25,7 +23,9 @@ workspace 8 output DP-2 eDP1
 workspace 9 output DP-2 eDP1
 workspace 0 output DP-2 eDP1
 
-xwayland enable
+workspace 1
+
+xwayland disable
 
 input type:keyboard {
   xkb_layout gb
@@ -43,12 +43,15 @@ focus_follows_mouse yes
 
 exec swayidle -w -d \
   timeout 300 'monlight down' resume 'monlight up' \
-  timeout 600 'swaymsg output DP-2 power off' resume 'swaymsg output * power on' \
-  after-resume 'swaymsg output DP-2 power on'
+  timeout 600 'swaymsg output * power off' resume 'swaymsg output * power on' \
+  after-resume 'swaymsg output * power on'
 
 
-  #timeout 900 'systemctl suspend'
-  #before-sleep 'swaylock -f -c 363a4f'
+#timeout 900 'systemctl suspend'
+#before-sleep 'swaylock -f -c 363a4f'
+
+# Ensure folder icons are configured
+exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-macchiato-lavender'"
 
 exec waybar
 exec mako -c /etc/config/mako
@@ -57,7 +60,6 @@ exec hcompact
 # Windows/Super key as main modifier
 set $mod Mod4
 
-assign [app_id="firefox"] workspace number 7
 assign [app_id="Slack"] workspace number 6
 
 # PROGRAMS
@@ -65,7 +67,7 @@ bindsym $mod+c exec kitty
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+Mod1+q exit
 bindsym $mod+w exec firefox-esr
-bindsym $mod+f exec pcmanfm
+bindsym $mod+f exec thunar
 bindsym $mod+e exec thunderbird
 bindsym $mod+a exec slack
 bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
@@ -188,22 +190,6 @@ client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
-
-# bar
-#bar {
-#  colors {
-#    background         $base
-#    statusline         $text
-#    focused_statusline $text
-#    focused_separator  $base
-#
-#    # target           border bg        text
-#    focused_workspace  $base  $mauve    $crust
-#    active_workspace   $base  $surface2 $text
-#    inactive_workspace $base  $base     $text
-#    urgent_workspace   $base  $red      $crust
-#  }
-#}
 
 # Cursors
 seat seat0 xcursor_theme catppuccin-macchiato-lavender-cursors

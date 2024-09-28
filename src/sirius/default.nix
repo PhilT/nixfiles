@@ -33,10 +33,11 @@
     services.syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
 
     environment.systemPackages = with pkgs; [
-      (callPackage ../iio-hyprland.nix {})
+      brightnessctl
       flashrom
       pamixer
       playerctl
+      wvkbd # Onscreen keyboard
     ];
 
     programs.kitty.fontSize = 9;

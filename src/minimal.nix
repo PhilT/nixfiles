@@ -24,7 +24,14 @@
   #Below setting possibly conflicting with machine specific minimal.nix
   #boot.initrd.luks.devices."cryptroot".device = "/dev/nvme0n1p1";
   boot.initrd.systemd.enable = true;
-  boot.plymouth.enable = true;                  # Graphical login for drive encryption
+
+  # Graphical login for drive encryption
+  boot.plymouth = {
+    enable = true;
+    catppuccin.enable = true;
+    catppuccin.flavor = "macchiato";
+  };
+
   boot.kernelParams = [ "quiet" "nosgx" ];      # Don't log boot up to screen, turn off warning about sgx
   boot.kernel.sysctl."net.core.rmem_max" = 2500000;
 
