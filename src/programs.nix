@@ -30,7 +30,7 @@
     '';
 
     bash.shellAliases = {
-      ss = "feh -Z -F -D 15";
+      ss = "imv -t 15 -f";
       fd = "fd -H";
       list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
     };
@@ -108,7 +108,7 @@
       hyprshot              # Screnshot tool
       gimp
       goxel                 # Voxel editor
-      feh                   # Image viewer
+      imv                   # Image viewer
       yad                   # GUI Dialog for Goxel
       inkscape
       mpv                   # Video player
