@@ -105,21 +105,19 @@
       inotify-tools
 
       # Audio/visual tools
-      hyprshot              # Screnshot tool
       gimp
       goxel                 # Voxel editor
-      imv                   # Image viewer
       yad                   # GUI Dialog for Goxel
+      imv                   # Image viewer
       inkscape
       mpv                   # Video player
       simplescreenrecorder
 
       # Comms
-      discord
+      vesktop               # Discord replacement that works in native Wayland
       element-desktop       # Matrix chat client
       libreoffice
       slack
-      whatsapp-for-linux
 
       fd                    # Alternative to find
       keepassxc
@@ -128,7 +126,6 @@
       shared-mime-info      # Recognise different file types
       unzip
       wineWowPackages.full  # Needed for FL Studdio installer
-      xclip                 # Used by Neovim among other things for copy/paste from/to system clipboard
       zip
     ];
   };
