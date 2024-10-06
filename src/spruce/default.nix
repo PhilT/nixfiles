@@ -20,6 +20,7 @@
     ./minimal.nix
 
     (import ../unison/phone.nix { name = "suuno"; })
+    (import ../unison/phone.nix { name = "soono"; })
     ../gaming.nix
     ../phil.nix
   ];

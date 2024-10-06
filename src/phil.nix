@@ -23,9 +23,9 @@
 
   hardware.keyboard.qmk.enable = true; # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   virtualisation.docker.enable = true;
-  services.blueman.enable = true;      # Bluetooth GUI
 
   environment.systemPackages = with pkgs; [
+    overskride                              # Bluetooth GUI
     docker-compose
     devenv
   ];

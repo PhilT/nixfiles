@@ -31,9 +31,6 @@
     # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
     services.auto-cpufreq.enable = true;
 
-    services.syncthing.key = "${../../secrets/sirius/syncthing.key.pem}";
-    services.syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
-
     environment.systemPackages = with pkgs; [
       brightnessctl
       flashrom

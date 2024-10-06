@@ -95,6 +95,7 @@ in with colors;
           on-click = "pavucontrol";
         };
         bluetooth = {
+          on-click = "overskride";
           format = " {status}";
           format-connected = " {device_alias}";
           format-connected-battery = " {device_alias} {device_battery_percentage}%";
