@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
 action=REBUILD
+show_trace=
 command=test
 cleanup=0
-while getopts 'hdsyurbc' OPTION; do
+while getopts 'hdsyurbct' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-hdsur] [commit message]"
@@ -15,6 +16,7 @@ while getopts 'hdsyurbc' OPTION; do
       echo "  -b                   rebuild & boot"
       echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
       echo "  -c                   Diff of changes between latest & prev upgrade"
+      echo "  -t                   Show trace"
       exit 0
       ;;
     d)
@@ -38,6 +40,9 @@ while getopts 'hdsyurbc' OPTION; do
     c)
       nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
       exit 0
+      ;;
+    t)
+      show_trace=--show-trace
       ;;
     r)
       action=RELEASE
@@ -91,5 +96,5 @@ if [ -z $? ]; then
 fi
 
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
-sudo nixos-rebuild $command -I nixos-config=$configuration_nix #-I nixpkgs=/data/code/nixpkgs
+sudo nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace #-I nixpkgs=/data/code/nixpkgs
 [ -z $? ] && which hyprctl && hyprctl reload

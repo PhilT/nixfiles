@@ -1,9 +1,30 @@
 # Sync Unison between Aramid (X1C) and Spruce (Desktop)
+# FIXME: Some duplication exists between phone.nix and spruce.nix
 
 { config, pkgs, lib, ... }:
 
 let
-  extractIpAddress = "sed -En 's/.*spruce \((.*)\)/\1/p'";
+  paths = [
+    "books"
+    "code"
+    "documents"
+    "music"
+    "music_extra"
+    "notes"
+    "other"
+    "pictures"
+    "screenshots"
+    "studio"
+    "sync"
+    "thunderbird_profile"
+    "txt"
+    "videos"
+    "work"
+  ];
+  pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
+  root = "/data";
+  folders = map (path: "d ${root}/${path} - phil users -") paths;
+  extractIpAddress = "sed -En 's/.*spruce \\((.*)\\)/\\1/p'";
 in
 {
   imports = [
@@ -12,8 +33,8 @@ in
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "spruce" ''
-      spruce_ip=nmap -sn 192.168.1.0/24 | ${extractIpAddress}
-      unison spruce /data ssh://$spruce_ip//data
+      spruce_ip=`nmap -sn 192.168.1.0/24 | ${extractIpAddress}`
+      unison ${root} ssh://$spruce_ip//${root} -include spruce $@
     '')
   ];
 
@@ -22,28 +43,14 @@ in
     text = ''
       include common
 
-      path = books
-      path = code
-      path = documents
-      path = music
-      path = music_extra
-      path = notes
-      path = other
-      path = pictures
-      path = screenshots
-      path = studio
-      path = sync
-      path = thunderbird_profile
-      path = txt
-      path = videos
-      path = work
+      ${pathsConfig}
     '';
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.xdgConfigHome} - phil users -"
-    "d ${config.xdgConfigHome}/unison - phil users -"
+    "d ${config.userHome} - phil users -"
+    "d ${config.userHome}/.unison - phil users -"
 
-    "L+ ${config.xdgConfigHome}/unison/spruce.prf - - - - /etc/config/unison/spruce.prf"
-  ];
+    "L+ ${config.userHome}/.unison/spruce.prf - - - - /etc/config/unison/spruce.prf"
+  ] ++ folders;
 }
