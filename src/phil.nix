@@ -16,7 +16,6 @@
     ./sway.nix
     ./neovim.nix
     ./programs.nix
-    ./syncthing.nix
     ./thunderbird.nix
     ./tmux.nix
   ];
@@ -36,6 +35,8 @@
     };
     settings = {
       auto-optimise-store = true;
+
+      # @wheel means all users in the wheel group
       trusted-users = [
         "root"
         "phil"

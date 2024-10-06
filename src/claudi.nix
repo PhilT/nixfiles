@@ -4,7 +4,6 @@
   imports = [
     ./kitty.nix
     ./audio.nix
-    ./syncthing.nix
   ];
 
   nix = {

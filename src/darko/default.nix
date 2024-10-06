@@ -11,15 +11,10 @@
     ];
 
   programs.kitty.fontSize = 11;
-
-  services = {
-    auto-cpufreq.enable = true;  # TODO: Doc needed
-
-    syncthing.key = "${../../secrets/darko/syncthing.key.pem}";
-    syncthing.cert = "${../../secrets/darko/syncthing.cert.pem}";
-  };
-
   programs.light.enable = true;
+
+  services.auto-cpufreq.enable = true;  # TODO: Doc needed
+
 
   environment.systemPackages = with pkgs; [
     pamixer

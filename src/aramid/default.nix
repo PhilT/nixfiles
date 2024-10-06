@@ -21,28 +21,25 @@
     ./minimal.nix
 
     ../unison/spruce.nix
+    ../unison/suuno.nix
     ../adjustlight.nix
     ../phil.nix
   ];
 
   config = {
+    services.fprintd.enable = true;
     hardware.sensor.iio.enable = true;
 
-    # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
+    # CPU power/speed optimiser https://github.com/AdnanHodzic/auto-cpufreq
     services.auto-cpufreq.enable = true;
-
-    services.syncthing.key = "${../../secrets/sirius/syncthing.key.pem}";
-    services.syncthing.cert = "${../../secrets/sirius/syncthing.cert.pem}";
-
-    environment.systemPackages = with pkgs; [
-      brightnessctl
-      flashrom
-      pamixer
-      playerctl
-      wvkbd # Onscreen keyboard
-    ];
 
     programs.kitty.fontSize = 9;
     programs.light.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      brightnessctl
+      pamixer
+      playerctl
+    ];
   };
 }
