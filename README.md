@@ -70,6 +70,14 @@ USB/
   *.sh        # additional build scripts used by bootstrap and build
 ```
 
+## Naming of devices
+* Spruce - As it was mainly made of wood (originally)
+* Darko - Just like the name, from Donnie Darko
+* Mev - Mobile Electric Visions
+* Sirius - Brightest star in the galaxy (referring to Starlabs)
+* Soono - From Something of Nothing (Nothing Phone)
+* Suuno - A play on the previous phone name (Samsung A15)
+* Aramid - Strong synthetic fibres (X1 Carbon)
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html

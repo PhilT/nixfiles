@@ -17,15 +17,14 @@
 
   imports = [
     ./minimal.nix
-    ./hypridle.nix
 
+    ../unison/soono.nix
+    ../unison/suuno.nix
     ../gaming.nix
     ../phil.nix
   ];
 
   config = {
-    services.syncthing.key = "${../../secrets/spruce/syncthing.key.pem}";
-    services.syncthing.cert = "${../../secrets/spruce/syncthing.cert.pem}";
     services.hardware.openrgb.enable = true;
     hardware.graphics.enable = true;
 

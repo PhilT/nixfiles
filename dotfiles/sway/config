@@ -170,7 +170,7 @@ bindsym $mod+comma focus output left
 bindsym $mod+period focus output right
 
 # OS
-bindsym $mod+Shift+backspace exec systemctl suspend
+bindsym --release $mod+Shift+backspace exec systemctl suspend
 bindsym $mod+Ctrl+backspace exec shutdown now
 bindsym $mod+Ctrl+Shift+backspace exec reboot
 
