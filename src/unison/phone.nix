@@ -1,8 +1,7 @@
-# Sync Unison between Soono (Nothing) and Spruce (Desktop) or Aramid (X1C)
-{ config, pkgs, lib, ... }:
+# Sync Unison between Phone and Spruce (Desktop) or Aramid (X1C)
+{ name }: { config, pkgs, lib, ... }:
 
 let
-  name = "soono";
   extractIpAddress = "sed -En 's/.*${name} \((.*)\)/\1/p'";
 in
 {
@@ -13,7 +12,7 @@ in
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin name ''
       device_ip=nmap -sn 192.168.1.0/24 | ${extractIpAddress}
-      unison /data ssh://$device_ip//data -include default
+      unison ${name} /data ssh://$device_ip//data
     '')
   ];
 
@@ -39,6 +38,6 @@ in
     "d ${config.xdgConfigHome} - phil users -"
     "d ${config.xdgConfigHome}/unison - phil users -"
 
-    "L+ ${config.xdgConfigHome}/unison/${name}.prf - - - - /etc/unison/${name}.prf"
+    "L+ ${config.xdgConfigHome}/unison/${name}.prf - - - - /etc/config/unison/${name}.prf"
   ];
 }

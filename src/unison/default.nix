@@ -23,7 +23,7 @@
     "d ${config.xdgConfigHome} - phil users -"
     "d ${config.xdgConfigHome}/unison - phil users -"
 
-    "L+ ${config.xdgConfigHome}/unison/common.prf - - - - /etc/unison/common.prf"
+    "L+ ${config.xdgConfigHome}/unison/common.prf - - - - /etc/config/unison/common.prf"
   ];
 
   # Remove all .stfolder/.stfolder (1) and .stignore files from /data/**

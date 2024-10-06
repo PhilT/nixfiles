@@ -18,10 +18,12 @@
     ./programs.nix
     ./thunderbird.nix
     ./tmux.nix
+    ./qemu.nix
   ];
 
   hardware.keyboard.qmk.enable = true; # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   virtualisation.docker.enable = true;
+  services.blueman.enable = true;      # Bluetooth GUI
 
   environment.systemPackages = with pkgs; [
     docker-compose
