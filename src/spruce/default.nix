@@ -10,6 +10,7 @@
       "disk"
       "disk#games"
       "temperature"
+      "bluetooth"
       "clock"
       "tray"
     ];
@@ -18,8 +19,7 @@
   imports = [
     ./minimal.nix
 
-    ../unison/soono.nix
-    ../unison/suuno.nix
+    (import ../unison/phone.nix { name = "suuno"; })
     ../gaming.nix
     ../phil.nix
   ];

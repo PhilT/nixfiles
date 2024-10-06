@@ -12,6 +12,7 @@
       "temperature"
       "backlight"
       "battery"
+      "bluetooth"
       "clock"
       "tray"
     ];
@@ -21,7 +22,7 @@
     ./minimal.nix
 
     ../unison/spruce.nix
-    ../unison/suuno.nix
+    (import ../unison/phone.nix { name = "suuno"; })
     ../adjustlight.nix
     ../phil.nix
   ];

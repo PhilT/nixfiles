@@ -13,7 +13,7 @@ in
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "spruce" ''
       spruce_ip=nmap -sn 192.168.1.0/24 | ${extractIpAddress}
-      unison /data ssh://$spruce_ip//data -include default
+      unison spruce /data ssh://$spruce_ip//data
     '')
   ];
 
@@ -44,6 +44,6 @@ in
     "d ${config.xdgConfigHome} - phil users -"
     "d ${config.xdgConfigHome}/unison - phil users -"
 
-    "L+ ${config.xdgConfigHome}/unison/spruce.prf - - - - /etc/unison/spruce.prf"
+    "L+ ${config.xdgConfigHome}/unison/spruce.prf - - - - /etc/config/unison/spruce.prf"
   ];
 }
