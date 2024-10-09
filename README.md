@@ -71,13 +71,14 @@ USB/
 ```
 
 ## Naming of devices
-* Spruce - As it was mainly made of wood (originally)
-* Darko - Just like the name, from Donnie Darko
-* Mev - Mobile Electric Visions
-* Sirius - Brightest star in the galaxy (referring to Starlabs)
+* Spruce - As it was mainly made of wood (13900K, RTX4090 Deskop PC)
+* Darko - Just like the name, from Donnie Darko (Razer Blade 2019) - Retired
+* Mev - Mobile Electric Visions (Huawei P30 Pro) - Retired
+* Sirius - Brightest star in the galaxy (Starlabs Starlite V)
 * Soono - From Something of Nothing (Nothing Phone)
 * Suuno - A play on the previous phone name (Samsung A15)
 * Aramid - Strong synthetic fibres (X1 Carbon)
+* Minoo - Some combination of Mini and N100 (File server)
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html

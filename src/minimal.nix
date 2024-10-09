@@ -33,7 +33,7 @@
   };
 
   boot.kernelParams = [ "quiet" "nosgx" ];      # Don't log boot up to screen, turn off warning about sgx
-  boot.kernel.sysctl."net.core.rmem_max" = 2500000;
+  boot.kernel.sysctl."net.core.rmem_max" = 2500000; # FIXME: What's this for?
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
@@ -52,7 +52,7 @@
     createHome = true;
     uid = 1000;
     description = "Phil Thompson";
-    hashedPassword = (builtins.readFile ../secrets/hashedPassword);
+    hashedPassword = (builtins.readFile ../secrets/hashedPassword); # TODO: Change to read from previously fetched /tmp location
     extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };
   users.mutableUsers = false;
