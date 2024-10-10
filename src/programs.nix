@@ -123,7 +123,6 @@
       keepassxc
       pulseaudio
       ripgrep
-      shared-mime-info      # Recognise different file types
       unzip
       wineWowPackages.full  # Needed for FL Studdio installer
       zip
