@@ -1,15 +1,6 @@
-# [ ] PDFs are currently associated with Libreoffice. Change and ensure file previewing is off
-# [ ] Folders
-
 { config, pkgs, ... }:
 
-let
-  catppuccin-kvantum-macchiato = pkgs.catppuccin-kvantum.override ({
-    accent = "Lavender";
-    variant = "Macchiato";
-  });
-in {
-
+{
   services = {
     # Automount USB drives
     gvfs.enable = true;
@@ -29,7 +20,7 @@ in {
     systemPackages = with pkgs; [
       file-roller           # GUI archiver
       lxde.lxmenu-data      # List apps to run in PCManFM
-      shared-mime-info
+      shared-mime-info      # Recognise different file types
       ranger                # Terminal file manager
     ];
 
