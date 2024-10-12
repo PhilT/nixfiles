@@ -26,8 +26,10 @@ in
 
   config = {
     systemd.tmpfiles.rules = [
-      "d /data - phil users"
-      "d /data/downloads - phil users"
+      "d ${DATA} - phil users"
+      "d ${DATA}/downloads - phil users"
+      "d ${DATA}/code - phil users"
+      "d ${DATA}/work - phil users"
     ];
 
     environment = {
@@ -48,7 +50,6 @@ in
       };
 
       etc = {
-        "bashrc.local".source = ../secrets/bashrc.local;
         "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim; # FIXME: This shouldn't be here
         "gitignore".source = ../dotfiles/gitignore;
         "ignore".source = ../dotfiles/ignore;

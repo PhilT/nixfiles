@@ -47,12 +47,12 @@
   };
   services.xserver.xkb.layout = "gb";
 
-  users.users.phil = {
+  users.users."phil" = {
     isNormalUser = true;
     createHome = true;
     uid = 1000;
     description = "Phil Thompson";
-    hashedPassword = (builtins.readFile ../secrets/hashedPassword); # TODO: Change to read from previously fetched /tmp location
+    hashedPassword = (builtins.readFile ../secrets/hashed_password);
     extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };
   users.mutableUsers = false;

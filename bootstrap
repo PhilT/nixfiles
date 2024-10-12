@@ -25,18 +25,22 @@ if [ -z "$machine" ]; then
   echo "  -p Create partitions"
   echo "  -f Format partitions"
   echo "  -d Dry run the script (display commands only)"
-  echo " Example: $0 -pf <darko|spruce>"
+  echo " Example: $0 -pf <aramid|spruce>"
   exit 0
 fi
 
-source ./commands.sh
-source ./secrets/common.env
+source lib/commands.sh
 
-ssd=$(cat ./secrets/$machine/device)
+ssd=$(cat ./src/$machine/drive)
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
 
-STATE "WIFI" "Setup Wifi"
+echo "Network name (SSID)?"
+read ssid
+echo "Password (PSK)?"
+read psk
+
+STATE "NET" "Setup Network"
 RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
 wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
 RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
@@ -93,4 +97,3 @@ RUN_WITH_RESULT "nix-build -I nixos-config=src/$machine/minimal.nix '<nixpkgs/ni
 RUN "nixos-install --no-root-password --system $run_result"
 
 STATE "DONE" "Complete"
-

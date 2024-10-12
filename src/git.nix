@@ -1,6 +1,28 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  repos = [
+    "nixos-files"
+    "matter"
+    "cv_builder"
+    "vim-fsharp"
+    "sheetzi"
+    "rails_bootstrap"
+    "fabrik"
+  ];
+  cloneAll = lib.lists.foldr (repo: str: "git_clone '${repo}'\n${str}") "";
+in
 {
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "gitclone" ''
+      git_clone() {
+        [ -d "$CODE/$1" ] || git clone git@github.com:PhilT/$1.git $CODE/$1
+      }
+
+      ${cloneAll repos}
+    '')
+  ];
+
   environment.etc = {
     "gitconfig-personal" = {
       mode = "444";

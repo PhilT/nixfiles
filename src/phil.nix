@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../secrets/work.nix
     ./kitty.nix
     ./audio.nix
     ./dbgate.nix
@@ -19,6 +18,11 @@
     ./thunderbird.nix
     ./tmux.nix
     ./qemu.nix
+    ./mimetypes.nix
+
+    ./ssh.nix
+    (import ./unison/phone.nix { name = "suuno"; })
+    (import ./unison/phone.nix { name = "soono"; })
   ];
 
   hardware.keyboard.qmk.enable = true; # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)

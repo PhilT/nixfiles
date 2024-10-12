@@ -1,9 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "no";
-
   environment.systemPackages = with pkgs; [
     unison
     nmap
