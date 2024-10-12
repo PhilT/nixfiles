@@ -2,17 +2,16 @@
 
 ## Prerequesites
 * Ensure nixos code is committed and pushed with clean stage
-* Ensure secrets/ are copied to USB
 
 ## Bootstrapping a new machine
 
-WARNING: Disk needs to be set in 2 places at the moment: secrets/machine/device
-and src/machine/minimal.nix. Need to set minimal.nix to pull from device
+WARNING: Disk needs to be set in: src/machine/drive
 
 
-* Copy this repo to a USB stick
+* Copy this repo and KeePass database to a USB stick
     ```
     rsync -r --exclude=result . /run/media/phil/nixos-files/nixos-files
+    cp /data/sync/HomeDatabase.kdbx /media/phil/nixos-files/
     umount /run/media/phil/nixos-files
     ```
 * Add the ssh key to GitHub
@@ -28,46 +27,31 @@ and src/machine/minimal.nix. Need to set minimal.nix to pull from device
 ```
 sudo -s
 mkdir /usb
-mount /dev/disk/by-label/nixos-files /usb
+mount /dev/disk/by-label/nixos-data /usb
 cd /usb/nixos-files
-./bootstrap -pf <darko|spruce>     # Partition and format the drives
-reboot # And remove USB sticks
+./bootstrap -pf <aramid|spruce>     # Partitions and formats the drives
+reboot                              # and remove USB sticks
 ```
 
 After first boot, run:
 ```
 sudo mkdir /usb
-sudo mount /dev/disk/by-label/nixos-files /usb
+sudo mount /dev/disk/by-label/nixos-data /usb
 cd /usb/nixos-files
-./initialize
 ./build -s
-```
-
-After booting, try adding all Bluetooth devices with:
-```
-./bluetooth
 ```
 
 ## Directory structure
 
 ```
 USB/
-  secrets/
-    bashrc.local
-    common.env
-    <machine>/
-      ssh/
-      device                # SSD
-      syncthing.cert.pem
-      syncthing.key.pem
+  secrets/    # Temporary folder for hashed_password and public ssh keys
   dotfiles/   # dotfiles imported/linked by Nix
   neovim/     # Lua and vim file imported by Nix
-  src/
-    *.nix     # Nix source configuration files
+  src/*.nix   # Nix source configuration files
+  lib/*.sh    # additional build scripts used by bootstrap and build
   bootstrap   # Build script for clean machine
-  initialize  # Setup a few things after initial install is complete, private keys etc
-  build     # Build script for NixOS machine
-  *.sh        # additional build scripts used by bootstrap and build
+  build       # Build script for NixOS machine (Also connects network and sets up SSH keys)
 ```
 
 ## Naming of devices

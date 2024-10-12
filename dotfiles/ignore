@@ -1,3 +1,4 @@
+Session.vim
 *.cache
 *.svg
 .cache_textures
@@ -16,4 +17,3 @@ paket.lock
 tmp
 vendor
 public/assets
-

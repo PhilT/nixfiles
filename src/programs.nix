@@ -103,6 +103,7 @@
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
       nvd                   # Nix diff versions (Used in ./build)
       inotify-tools
+      ncdu                  # Tree-based, interactive du
 
       # Audio/visual tools
       gimp

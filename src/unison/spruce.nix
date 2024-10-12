@@ -6,7 +6,6 @@
 let
   paths = [
     "books"
-    "code"
     "documents"
     "music"
     "music_extra"
@@ -19,7 +18,6 @@ let
     "thunderbird_profile"
     "txt"
     "videos"
-    "work"
   ];
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
   root = "/data";
@@ -43,7 +41,7 @@ in
     text = ''
       include common
 
-      ${pathsConfig}
+      ${pathsConfig paths}
     '';
   };
 

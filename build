@@ -70,31 +70,51 @@ shift $(($OPTIND - 1))
 test "$1" && commit_msg=$1
 
 machine=$(hostname)
-
-echo "[$action] $machine"
-
 configuration_nix=src/$machine
 
-if [ "$cleanup" = "1" ]; then
-  sudo nix-collect-garbage -d
-fi
-
-if [ -f ~/.config/sway/config ]; then
-  echo Copying Sway config
-  cp ~/.config/sway/config dotfiles/sway/
+# Check we have Internet
+if ! ping -c 1 google.com > /dev/null 2>&1; then
+  echo "No Internet connection. Connect to:"
+  echo "Network name (SSID)?"
+  read ssid
+  echo "Password (PSK)?"
+  read psk
+  sudo iwctl --passphrase=$psk station wlan0 connect $ssid
 fi
 
 # export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
 # echo "[LABEL] $NIXOS_LABEL"
 
 # Check if both catppuccin and nixos-hardware channels have been added
-sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null
-if [ -z $? ]; then
+
+if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
   sudo nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
   sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
-  sudo nix-channel --update
+  action=UPGRADE
 fi
 
+# Fetch hashed_password and ssh keys unless they already exist
+if [ ! -f secrets/hashed_password ]; then
+  source lib/keepass.sh
+  askpass "Enter database password:"
+
+  keepass_export_password
+
+  # Export all public keys to secrets/ for use in src/ssh.nix
+  keepass_export_key public ${prefix}_spruce secrets/
+  keepass_export_key public ${prefix}_sirius secrets/
+  keepass_export_key public ${prefix}_aramid secrets/
+
+  # Export public/private keys for this machine to ~/.ssh/
+  mkdir -p $HOME/.ssh
+  chmod 700 $HOME/.ssh
+  keepass_export_keys $prefix $machine
+  keepass_export_keys $prefix $machine github
+  keepass_export_keys $prefix $machine gitlab
+fi
+
+echo "[$action] $machine"
+[ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
-sudo nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace #-I nixpkgs=/data/code/nixpkgs
-[ -z $? ] && which hyprctl && hyprctl reload
+sudo nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace
+#                                   -I nixpkgs=/data/code/nixpkgs # -------^

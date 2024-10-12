@@ -7,5 +7,5 @@
   ];
 
   networking.hostName = "aramid";
-  boot.initrd.luks.devices.root.device = "/dev/nvme0n1p2";
+  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/<REPLACE WITH UUID>";
 }
