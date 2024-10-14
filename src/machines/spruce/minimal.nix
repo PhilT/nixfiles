@@ -1,7 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../minimal.nix ];
+  imports = [
+    ../../hardware/default.nix
+    ../../hardware/filesystems.nix
+    ../../hardware/bluetooth.nix
+    ../../minimal.nix
+  ];
 
   networking.hostName = "spruce";
   boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/59220a00-1da3-400b-a61e-0e26a8fccb37";

@@ -51,8 +51,8 @@ in with colors; {
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.xdgConfigHome} - phil users -"
-    "d ${config.xdgConfigHome}/qutebrowser - phil users -"
+    "d ${config.xdgConfigHome} - ${config.username} users -"
+    "d ${config.xdgConfigHome}/qutebrowser - ${config.username} users -"
 
     # Fix for cursors in Waybar/Firefox
     "L+ ${config.xdgConfigHome}/qutebrowser/config.py - - - - /etc/qutebrowser/config.py"

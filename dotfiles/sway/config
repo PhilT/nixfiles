@@ -2,7 +2,7 @@
 # exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 include /etc/sway/config.d/*
 
-# Sirius
+# Aramid
 output eDP1 scale 2
 output eDP1 pos 0 0
 
@@ -42,8 +42,8 @@ input "9011:26214:ydotoold_virtual_device" xkb_layout us
 focus_follows_mouse yes
 
 exec swayidle -w \
-  timeout 300 'monlight down' resume 'monlight up' \
-  timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on" && sleep 3 && monlight up' \
+  timeout 300 'light dim' resume 'light bright' \
+  timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on" && sleep 3 && light bright' \
   after-resume 'swaymsg "output * power on"'
 
 

@@ -70,7 +70,7 @@ shift $(($OPTIND - 1))
 test "$1" && commit_msg=$1
 
 machine=$(hostname)
-configuration_nix=src/$machine
+configuration_nix=src/machines/$machine
 
 # Check we have Internet
 if ! ping -c 1 google.com > /dev/null 2>&1; then
@@ -82,11 +82,10 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   sudo iwctl --passphrase=$psk station wlan0 connect $ssid
 fi
 
-# export NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-# echo "[LABEL] $NIXOS_LABEL"
+NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
+echo "[LABEL] $NIXOS_LABEL"
 
 # Check if both catppuccin and nixos-hardware channels have been added
-
 if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
   sudo nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
   sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
@@ -104,6 +103,7 @@ if [ ! -f secrets/hashed_password ]; then
   keepass_export_key public ${prefix}_spruce secrets/
   keepass_export_key public ${prefix}_sirius secrets/
   keepass_export_key public ${prefix}_aramid secrets/
+  keepass_export_key public ${prefix}_sapling secrets/
 
   # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $HOME/.ssh
@@ -116,5 +116,5 @@ fi
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
-sudo nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace
-#                                   -I nixpkgs=/data/code/nixpkgs # -------^
+sudo NIXOS_LABEL=$NIXOS_LABEL nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace
+#                                                           -I nixpkgs=/data/code/nixpkgs # -------^

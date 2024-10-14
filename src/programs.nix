@@ -76,7 +76,7 @@
       # Search in ~/.persistent_history file (see above)
       (writeShellScriptBin "hgrep" "grep $@ ${config.userHome}/.persistent_history")
       (writeShellScriptBin "hcat" "cat ${config.userHome}/.persistent_history")
-      (writeShellScriptBin "hcompact" "awk -i inplace '!seen[$0]++' ${config.userHome}/.persistent_history") # Runs on Hyprland start
+      (writeShellScriptBin "hcompact" "awk -i inplace '!seen[$0]++' ${config.userHome}/.persistent_history") # Runs on Sway start
 
       # TODO: Probably don't need this anymore
       (writeShellScriptBin "slk" ''

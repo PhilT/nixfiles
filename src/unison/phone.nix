@@ -17,7 +17,7 @@ let
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
   mountsConfig = lib.lists.foldr (path: str: "mountpoint = ${path}\n${str}") "";
   root = "/data";
-  folders = map (path: "d ${root}/${path} - phil users -") paths;
+  folders = map (path: "d ${root}/${path} - ${config.username} users -") paths;
   extractIpAddress = "sed -En 's/.*${name} \\((.*)\\)/\\1/p'";
 in
 {
@@ -50,9 +50,9 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome} - phil users -"
-    "d ${config.userHome}/.unison - phil users -"
-    "d /mnt/${name} - phil users -"
+    "d ${config.userHome} - ${config.username} users -"
+    "d ${config.userHome}/.unison - ${config.username} users -"
+    "d /mnt/${name} - ${config.username} users -"
 
     "L+ ${config.userHome}/.unison/${name}.prf - - - - /etc/config/unison/${name}.prf"
   ] ++ folders;

@@ -2,8 +2,11 @@
 
 {
   imports = [
+    ../../hardware/default.nix
+    ../../hardware/filesystems.nix
+    ../../hardware/bluetooth.nix
+    ../../minimal.nix
     <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
-    ../minimal.nix
   ];
 
   networking.hostName = "aramid";

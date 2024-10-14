@@ -1,48 +1,20 @@
 [ ] Change kitty image opener to gimp (preview is embedded so that should work nicely)
-[x] Look into storing and retrieving layout that would persist across logins so it might be possible to build some persistent layout that can be used in the long term.
-    [ ] Added patches but doesn't seem to be working correctly. Might try a proper reboot and test with fresh eyes. Nope. Still not working
-
 [ ] Video capture
 [ ] Learn ranger
-[ ] Picom fade not updated when window is closed and another takes it's place
 [ ] Look into using gvfs-trash to delete files (to a recycle bin)
-[ ] Bluetooth icon (possibly with clickable startup of wifi connections in dmenu) - or maybe just a bt shortcut (e.g. bt mifo, bt sony to connect (I think sony connect automatically))
 [ ] Configure Matrix
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)
-[ ] FIREFOX: Remove Getting started and import bookmark bookmarks
 [ ] Setup HTML bookmarks to load from dmenu (and open a tab in firefox) - Alternatively add them to the blog
-[ ] Investigate journalctl -b warnings:
-    [ ] efifb: Ignoring BGRT: unexpected or invalid BMP data
-    [ ] nvme nvme0: missing or invalid SUBNQN field
-    [ ] usb: port power management may be unreliable
-    [ ] kernel: usb 1-8.4.1: current rate 16000 is different from the runtime rate 32000
-        kernel: usb 1-8.4.1: current rate 24000 is different from the runtime rate 16000
-        kernel: usb 1-8.4.1: 3:3: cannot set freq 24000 to ep 0x82
-    [ ] iwlwifi 0000:00:14.3: api flags index 2 larger than supported by driver
-    [ ] thermal thermal_zone2: failed to read out thermal zone (-61)
-    [ ] warning: logrotate in debug mode does nothing except printing debug messages!  Consider using verbose mode (-v) instead if this is not what you want.
-    [ ] dbus-daemon[1307]: dbus[1307]: Unknown username "pulse" in message bus configuration file
-    [ ] dbus-daemon[1307]: dbus[1307]: Unknown group "netdev" in message bus configuration file
-
-    [ ] (uetoothd)[1303]: ConfigurationDirectory 'bluetooth' already exists but the mode is different. (File system: 755 ConfigurationDirectoryMode: 555)
-    [ ] bluetoothd[1303]: src/main.c:check_options() Unknown key Enable for group General in /etc/bluetooth/main.conf
-    [ ] bluetoothd[1303]: profiles/audio/vcp.c:vcp_init() D-Bus experimental not enabled
-        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init vcp plugin
-        bluetoothd[1303]: profiles/audio/mcp.c:mcp_init() D-Bus experimental not enabled
-        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init mcp plugin
-        bluetoothd[1303]: profiles/audio/bap.c:bap_init() D-Bus experimental not enabled
-        bluetoothd[1303]: src/plugin.c:plugin_init() Failed to init bap plugin
-    [ ] nfmqh57cb7y6hq6qhkx8m5l2avl6xvj4-merge-syncthing-config[1627]: curl: (7) Failed to connect to 127.0.0.1 port 8384 after 1 ms: Couldn't connect to server
-    [ ] nfmqh57cb7y6hq6qhkx8m5l2avl6xvj4-merge-syncthing-config[2632]: parse error: Invalid numeric literal at line 1, column 5
-    [ ] ln: failed to create symbolic link '/home/phil/.config/alacritty.yml': Permission denied
-    [ ] exFAT-fs (sdb1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
-    [ ] xhci_hcd 0000:00:14.0: xHC error in resume, USBSTS 0x411, Reinit
-    [ ] Error getting 'loop0' information: Failed to get status of the device loop0: No such device or address (g-bd-loop-error-quark, 2)
+[ ] Investigate journalctl -b warnings
 [ ] Add /data{/code,/music,/pictures,/sync,/txt} to places in pcmanfm, this is in ~/.gtk-bookmarks,
     Settings are in ~/.config/pcmanfm/default/pcmanfm.conf
 [ ] ^ Also add to ranger (if applicable)
 
+[x] FIREFOX: Remove Getting started and import bookmark bookmarks
+[x] Look into storing and retrieving layout that would persist across logins so it might be possible to build some persistent layout that can be used in the long term.
+    [ ] Added patches but doesn't seem to be working correctly. Might try a proper reboot and test with fresh eyes. Nope. Still not working
+[x] Bluetooth icon (possibly with clickable startup of wifi connections in dmenu) - or maybe just a bt shortcut (e.g. bt mifo, bt sony to connect (I think sony connect automatically))
 [x] Add column layout to DWM
 [x] Inverse stack dwm on second monitor (main window on the right, stack on the left and add columns) (The patch is actually called rmaster)
     * This doesn't seem to work with column layout but that might be okay. rmaster might be enough on the standard tile view

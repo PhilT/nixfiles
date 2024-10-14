@@ -44,8 +44,8 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome}/log - phil users -"
-    "d ${config.userHome}/.local/share/Steam - phil users -"
+    "d ${config.userHome}/log - ${config.username} users -"
+    "d ${config.userHome}/.local/share/Steam - ${config.username} users -"
   ];
 
   # Create a bind mount to steamapps folder (declared in src/spruce/minimal.nix)

@@ -1,8 +1,12 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
-  colors = import ./macchiato.nix lib;
+  colors = import ../macchiato.nix lib;
 in with colors;
 {
+  programs.sway.extraPackages = with pkgs; [
+    waybar
+  ];
+
   environment.etc = {
     "xdg/waybar/config.jsonc" = {
       mode = "444";
