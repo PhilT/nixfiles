@@ -9,7 +9,6 @@
       if [ "$1" = "up" ]; then
         brightnessctl set +1
       else
-
         [ $level -ge "3" ] && brightnessctl set 1-
       fi
     '')

@@ -64,6 +64,7 @@
 
   programs.git.enable = true;
 
+  environment.enableAllTerminfo = true;
   environment.systemPackages = with pkgs; [
     htop
     wget

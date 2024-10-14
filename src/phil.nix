@@ -21,8 +21,7 @@
     ./mimetypes.nix
 
     ./ssh.nix
-    (import ./unison/phone.nix { name = "suuno"; })
-    (import ./unison/phone.nix { name = "soono"; })
+    ./unison/suuno.nix
   ];
 
   hardware.keyboard.qmk.enable = true; # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
