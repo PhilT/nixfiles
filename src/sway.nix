@@ -13,7 +13,6 @@ let
   });
 in with colors; {
   imports = [
-    # ./wayland.nix
     <catppuccin/modules/nixos>
     ./waybar.nix
     ./mako.nix

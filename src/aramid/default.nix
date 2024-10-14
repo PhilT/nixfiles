@@ -1,3 +1,5 @@
+# Copy of Sirius config, tweaked to work with the Lenovo X1 Carbon.
+
 { config, lib, pkgs, ... }:
 
 {
@@ -22,7 +24,7 @@
     ./minimal.nix
 
     ../unison/spruce.nix
-    (import ../unison/phone.nix { name = "suuno"; })
+    ../unison/suuno.nix
     ../adjustlight.nix
     ../phil.nix
   ];
