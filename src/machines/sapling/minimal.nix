@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+# TODO: Ensure no LUKS encryption will be used
 
-{
+{ config, pkgs, ... }: {
   imports = [ ../minimal.nix ];
 
   networking.hostName = "sapling";

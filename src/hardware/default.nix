@@ -12,6 +12,7 @@
     "rtsx_pci_sdmmc"
     "usb_storage"
     "sd_mod"
+    "thunderbolt"
   ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "i2c_dev" ];

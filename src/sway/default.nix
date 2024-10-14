@@ -12,8 +12,6 @@ let
     accent = accent;
   });
 in with colors; {
-  imports = [ <catppuccin/modules/nixos> ];
-
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -52,12 +50,13 @@ in with colors; {
   ];
 
   programs.sway.extraPackages = with pkgs; [
-    vulkan-validation-layers # Needed for WLR_RENDERER
+    vulkan-validation-layers    # Needed for WLR_RENDERER
     slurp
     grim
     swaybg
     swayidle
     swaylock
+    overskride                  # Bluetooth GUI
   ];
 
   environment.sessionVariables = {

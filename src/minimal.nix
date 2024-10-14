@@ -1,5 +1,6 @@
 # This is minimal config to get a bootable NixOS system with a single user.
-# It could be used if the other configs don't boot a machine correctly into NixOS.
+# It's used by ./bootstrap to build the first generation config for the target machine.
+# It could also be used if the other configs don't boot a machine correctly into NixOS.
 
 { config, pkgs, ... }:
 {
@@ -14,17 +15,29 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+    };
+    settings = {
+      auto-optimise-store = true;
+
+      # @wheel means all users in the wheel group
+      trusted-users = [
+        config.username
+        "root"
+        "@wheel"
+      ];
+    };
+  };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices.root.preLVM = true;
   boot.initrd.systemd.enable = true;
 
   # Graphical login for drive encryption
-  boot.plymouth = {
-    enable = true;
-    catppuccin.enable = true;
-    catppuccin.flavor = "macchiato";
-  };
+  boot.plymouth.enable = true;
 
   # Don't log boot up to screen, turn off warning about sgx
   boot.kernelParams = [ "quiet" "nosgx" ];

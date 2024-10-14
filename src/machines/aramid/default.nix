@@ -2,11 +2,12 @@
 
 { config, lib, pkgs, ... }: {
   imports = [
+    <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
+    <catppuccin/modules/nixos>
+
     ./minimal.nix
     ../../common.nix
-
-    # User
-    ../../users/phil.nix
+    ../../development.nix
 
     # Sync
     ../../ssh.nix
@@ -37,6 +38,11 @@
     "clock"
     "tray"
   ];
+
+  boot.plymouth = {
+    catppuccin.enable = true;
+    catppuccin.flavor = "macchiato";
+  };
 
   services.fprintd.enable = true;
 }

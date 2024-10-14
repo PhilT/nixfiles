@@ -1,27 +1,11 @@
 { config, lib, pkgs, ... }:
 {
-  options.waybarModules = lib.mkOption {
-    type = with lib.types; listOf str;
-    default = [
-      "pulseaudio"
-      "network"
-      "cpu"
-      "memory"
-      "disk"
-      "temperature"
-      "backlight"
-      "battery"
-      "clock"
-      "tray"
-    ];
-  };
-
   imports = [
+    <catppuccin/modules/nixos>
+
     ./minimal.nix
     ../../common.nix
-
-    # User
-    ../../users/phil.nix
+    ../../development.nix
 
     # Sync
     ../../ssh.nix
@@ -39,12 +23,28 @@
     ../../light.nix
   ];
 
-  config = {
-    hardware.sensor.iio.enable = true; # Screen rotation daemon
+  waybarModules = [
+    "pulseaudio"
+    "network"
+    "cpu"
+    "memory"
+    "disk"
+    "temperature"
+    "backlight"
+    "battery"
+    "clock"
+    "tray"
+  ];
 
-    environment.systemPackages = with pkgs; [
-      flashrom
-      wvkbd # Onscreen keyboard
-    ];
+  boot.plymouth = {
+    catppuccin.enable = true;
+    catppuccin.flavor = "macchiato";
   };
+
+  hardware.sensor.iio.enable = true; # Screen rotation daemon
+
+  environment.systemPackages = with pkgs; [
+    flashrom
+    wvkbd # Onscreen keyboard
+  ];
 }

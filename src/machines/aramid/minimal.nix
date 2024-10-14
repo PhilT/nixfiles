@@ -1,14 +1,13 @@
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: {
   imports = [
-    <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
     ../../hardware/default.nix
     ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
     ../../minimal.nix
   ];
 
+  username = "phil";
+  fullname = "Phil Thompson";
   networking.hostName = "aramid";
-  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/<REPLACE WITH UUID>";
+  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/${builtins.readFile ./luks_uuid}";
 }

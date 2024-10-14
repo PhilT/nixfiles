@@ -90,6 +90,10 @@ STATE "LESS" "Inspect generated hardware-configuration.nix"
 less /mnt/etc/nixos/hardware-configuration.nix
 STATE "LESS" "Inspect generated configuration.nix"
 less /mnt/etc/nixos/configuration.nix
+STATE "UUID" "Fetch UUID of LUKS partition"
+RUN "lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d 'crypto_LUKS ' | tr -d '\n' > src/machines/$machine/luks_uuid"
+sed -i "s/LUKS_UUID/$(cat src/machines/$machine/luks_uuid)/" src/machines/$machine/minimal.nix
+RUN "grep luks.devices.root src/machines/$machine/minimal.nix"
 
 STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"
