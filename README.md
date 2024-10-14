@@ -1,12 +1,8 @@
 # My NixOS Setup
 
-## Prerequesites
-* Ensure nixos code is committed and pushed with clean stage
-
 ## Bootstrapping a new machine
 
-WARNING: Disk needs to be set in: src/machine/drive
-
+WARNING: Disk needs to be set in: `src/machines/<machine>/drive`
 
 * Copy this repo and KeePass database to a USB stick
     ```

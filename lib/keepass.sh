@@ -11,10 +11,12 @@ fi
 
 # args: "Question text"
 askpass() {
-  echo $1
-  stty -echo
-  read passwd
-  stty echo
+  if [ -z "$passwd" ]; then
+    echo $1
+    stty -echo
+    read passwd
+    stty echo
+  fi
 }
 
 # args: <prefix>_<machine>[_<service>]
@@ -44,7 +46,7 @@ keepass_export_key() {
   [ "$public_private" = "private" ] || local ext=".pub"
 
   rm -f $path/$keyfile$ext
-  echo $passwd | keepassxc-cli attachment-export -q $db $keyfile $public_private $path/$keyfile$ext
+  echo $passwd | keepassxc-cli attachment-export -q $db $keyfile $public_private $path/$keyfile$ext 2> /dev/null
 }
 
 # args: <prefix> <machine> [service]
