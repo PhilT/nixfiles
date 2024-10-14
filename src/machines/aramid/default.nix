@@ -20,8 +20,8 @@
     ../../sway/default.nix
 
     # Laptops
-    ../../laptop.nix
-    ../../light.nix
+    ../../laptop/default.nix
+    ../../laptop/light.nix
   ];
 
   waybarModules = [

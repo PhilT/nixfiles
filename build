@@ -1,13 +1,15 @@
 #!/usr/bin/env sh
 
+source lib/keepass.sh
+
 action=REBUILD
 show_trace=
 command=test
 cleanup=0
-while getopts 'hdsyurbct' OPTION; do
+while getopts 'hdsyurbctm' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-hdsur] [commit message]"
+      echo "Usage: $0 [-hdsur] [commit message/machine]"
       echo "  -h                   this help"
       echo "  -d                   run nix-collect-garbage"
       echo "  -s                   rebuild & switch"
@@ -15,6 +17,7 @@ while getopts 'hdsyurbct' OPTION; do
       echo "  -u                   upgrade channel and switch"
       echo "  -b                   rebuild & boot"
       echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
+      echo "  -m [machine]         Build a different machine from the running one. e.g. sirius/aramid/spruce/sapling"
       echo "  -c                   Diff of changes between latest & prev upgrade"
       echo "  -t                   Show trace"
       exit 0
@@ -44,6 +47,10 @@ while getopts 'hdsyurbct' OPTION; do
     t)
       show_trace=--show-trace
       ;;
+    m)
+      command=build
+      machine=GET
+      ;;
     r)
       action=RELEASE
       command=switch
@@ -67,9 +74,13 @@ while getopts 'hdsyurbct' OPTION; do
 done
 shift $(($OPTIND - 1))
 
-test "$1" && commit_msg=$1
+if [ "$machine" = "GET" ]; then
+  machine=$1
+else
+  machine=$(hostname)
+  commit_msg=$1
+fi
 
-machine=$(hostname)
 configuration_nix=src/machines/$machine
 
 # Check we have Internet
@@ -83,7 +94,7 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
 fi
 
 NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-echo "[LABEL] $NIXOS_LABEL"
+[ "$NIXOS_LABEL" ] && echo "[LABEL] $NIXOS_LABEL"
 
 # Check if both catppuccin and nixos-hardware channels have been added
 if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
@@ -94,16 +105,8 @@ fi
 
 # Fetch hashed_password and ssh keys unless they already exist
 if [ ! -f secrets/hashed_password ]; then
-  source lib/keepass.sh
   askpass "Enter database password:"
-
   keepass_export_password
-
-  # Export all public keys to secrets/ for use in src/ssh.nix
-  keepass_export_key public ${prefix}_spruce secrets/
-  keepass_export_key public ${prefix}_sirius secrets/
-  keepass_export_key public ${prefix}_aramid secrets/
-  keepass_export_key public ${prefix}_sapling secrets/
 
   # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $HOME/.ssh
@@ -112,6 +115,14 @@ if [ ! -f secrets/hashed_password ]; then
   keepass_export_keys $prefix $machine github
   keepass_export_keys $prefix $machine gitlab
 fi
+
+# Export all public keys to secrets/ for use in src/ssh.nix
+for m in spruce sirius aramid sapling; do
+  if [ ! -f secrets/${prefix}_${m}.pub ]; then
+    askpass "Enter database password:"
+    keepass_export_key public ${prefix}_${m} secrets/
+  fi
+done
 
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
