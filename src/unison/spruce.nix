@@ -20,8 +20,8 @@ let
     "videos"
   ];
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
-  root = "/data";
-  folders = map (path: "d ${root}/${path} - phil users -") paths;
+  root = config.dataDir;
+  folders = map (path: "d ${root}/${path} - ${config.username} users -") paths;
   extractIpAddress = "sed -En 's/.*spruce \\((.*)\\)/\\1/p'";
 in
 {
@@ -46,8 +46,8 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome} - phil users -"
-    "d ${config.userHome}/.unison - phil users -"
+    "d ${config.userHome} - ${config.username} users -"
+    "d ${config.userHome}/.unison - ${config.username} users -"
 
     "L+ ${config.userHome}/.unison/spruce.prf - - - - /etc/config/unison/spruce.prf"
   ] ++ folders;

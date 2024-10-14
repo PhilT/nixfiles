@@ -24,8 +24,8 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome} - phil users -"
-    "d ${config.userHome}/.unison - phil users -"
+    "d ${config.userHome} - ${config.username} users -"
+    "d ${config.userHome}/.unison - ${config.username} users -"
 
     "L+ ${config.userHome}/.unison/common.prf - - - - /etc/config/unison/common.prf"
   ];

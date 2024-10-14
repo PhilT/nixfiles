@@ -1,7 +1,11 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ./macchiato.nix lib;
+  colors = import ../macchiato.nix lib;
 in with colors; {
+  programs.sway.extraPackages = with pkgs; [
+    mako
+  ];
+
   environment.etc."config/mako" = {
     mode = "444";
     text = ''

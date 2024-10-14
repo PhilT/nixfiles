@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 {
+  programs.sway.extraPackages = with pkgs; [
+    tofi
+  ];
 
   environment = {
     etc = {
@@ -24,10 +27,5 @@
         '';
       };
     };
-
-    systemPackages = with pkgs; [
-      tofi
-    ];
-
   };
 }

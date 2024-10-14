@@ -24,7 +24,7 @@
 
   # Used by Unison to authorize connection to each other
   # Also copied to phone (should be available in /etc/ssh/authorized_keys)
-  users.users."phil".openssh.authorizedKeys.keys = [
+  users.users."${config.username}".openssh.authorizedKeys.keys = [
     (builtins.readFile ../secrets/id_ed25519_spruce.pub)
     (builtins.readFile ../secrets/id_ed25519_aramid.pub)
   ];

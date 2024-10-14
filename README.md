@@ -63,6 +63,7 @@ USB/
 * Suuno - A play on the previous phone name (Samsung A15)
 * Aramid - Strong synthetic fibres (X1 Carbon)
 * Minoo - Some combination of Mini and N100 (File server)
+* Sapling - LSW NixOS install on Spruce
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html

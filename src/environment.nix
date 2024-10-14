@@ -1,59 +1,32 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }: {
+  systemd.tmpfiles.rules = [
+    "d ${config.dataDir} - ${config.username} users"
+    "d ${config.dataDir}/downloads - ${config.username} users"
+    "d ${config.codeDir} - ${config.username} users"
+    "d ${config.dataDir}/work - ${config.username} users"
+  ];
 
-let
-  HOME = "/home/phil";
-  DATA = "/data";
-  CODE = "${DATA}/code";
-in
-{
-  options.xdgConfigHome = lib.mkOption {
-    type = lib.types.str;
-    default = "${HOME}/.config";
-    description = "Standard XDG_CONFIG_HOME";
-  };
+  environment = {
+    sessionVariables = {
+      DATA = config.dataDir;
+      CODE = config.codeDir;
+      SRC = "${config.codeDir}/nixos-files";
+      NOTES  = "${config.dataDir}/notes";
+      CDPATH = "${config.dataDir}/work:${config.codeDir}:${config.dataDir}";
+      DOTNET_CLI_TELEMETRY_OPTOUT = "true";
+      FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
+      HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
+      HISTFILESIZE = "-1";                       # Unlimited history
+      HISTSIZE = "-1";                           # Unlimited history
 
-  options.xdgDataHome = lib.mkOption {
-    type = lib.types.str;
-    default = "${HOME}/.local/share";
-    description = "Standard XDG_DATA_HOME";
-  };
+      XDG_CONFIG_HOME = config.xdgConfigHome;
+      XDG_DATA_HOME = config.xdgDataHome;
+    };
 
-  options.userHome = lib.mkOption {
-    type = lib.types.str;
-    default = "${HOME}";
-    description = "User's home folder";
-  };
-
-  config = {
-    systemd.tmpfiles.rules = [
-      "d ${DATA} - phil users"
-      "d ${DATA}/downloads - phil users"
-      "d ${DATA}/code - phil users"
-      "d ${DATA}/work - phil users"
-    ];
-
-    environment = {
-      sessionVariables = {
-        DATA = DATA; # Duplicated in ./initialize
-        CODE = CODE; # Duplicated in ./initialize
-        SRC = "${CODE}/nixos-files";
-        NOTES  = "${DATA}/notes";
-        CDPATH = "${DATA}/work:${CODE}:${DATA}";
-        DOTNET_CLI_TELEMETRY_OPTOUT = "true";
-        FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file ~/.ignore";
-        HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
-        HISTFILESIZE = "-1";                       # Unlimited history
-        HISTSIZE = "-1";                           # Unlimited history
-
-        XDG_CONFIG_HOME = config.xdgConfigHome;
-        XDG_DATA_HOME = config.xdgDataHome;
-      };
-
-      etc = {
-        "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim; # FIXME: This shouldn't be here
-        "gitignore".source = ../dotfiles/gitignore;
-        "ignore".source = ../dotfiles/ignore;
-      };
+    etc = {
+      "xdg/nvim/colors/greyscale.vim".source = ../neovim/colors/greyscale.vim; # FIXME: This shouldn't be here
+      "gitignore".source = ../dotfiles/gitignore;
+      "ignore".source = ../dotfiles/ignore;
     };
   };
 }

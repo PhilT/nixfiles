@@ -8,7 +8,7 @@ source lib/keepass.sh
 # known_hosts is what an ssh client knows about when connecting to
 askpass "Enter database password:"
 
-for machine in spruce sirius aramid; do
+for machine in spruce sirius aramid sapling; do
   for service in home github gitlab; do
     [ "$service" == "home" ] && name=$machine || name=${machine}_$service
     keyfile=${prefix}_$name

@@ -20,7 +20,7 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome}/.thunderbird - phil users -"
+    "d ${config.userHome}/.thunderbird - ${config.username} users -"
     "L+ ${config.userHome}/.thunderbird/profiles.ini - - - - /etc/config/thunderbird/profiles.ini"
   ];
 }

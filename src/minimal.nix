@@ -2,12 +2,8 @@
 # It could be used if the other configs don't boot a machine correctly into NixOS.
 
 { config, pkgs, ... }:
-
 {
-  imports = [
-    ./hardware.nix  # Include the results of the hardware scan.
-    ./bluetooth.nix # So devices can be added through ./initialize
-  ];
+  imports = [ ./options.nix ];
 
   # Fix nose not being supported by Python 3.12
   nixpkgs.overlays = [
@@ -21,8 +17,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices.root.preLVM = true;
-  #Below setting possibly conflicting with machine specific minimal.nix
-  #boot.initrd.luks.devices."cryptroot".device = "/dev/nvme0n1p1";
   boot.initrd.systemd.enable = true;
 
   # Graphical login for drive encryption
@@ -32,7 +26,8 @@
     catppuccin.flavor = "macchiato";
   };
 
-  boot.kernelParams = [ "quiet" "nosgx" ];      # Don't log boot up to screen, turn off warning about sgx
+  # Don't log boot up to screen, turn off warning about sgx
+  boot.kernelParams = [ "quiet" "nosgx" ];
   boot.kernel.sysctl."net.core.rmem_max" = 2500000; # FIXME: What's this for?
 
   networking.networkmanager.enable = true;
@@ -47,11 +42,11 @@
   };
   services.xserver.xkb.layout = "gb";
 
-  users.users."phil" = {
+  users.users."${config.username}" = {
     isNormalUser = true;
     createHome = true;
     uid = 1000;
-    description = "Phil Thompson";
+    description = config.fullname;
     hashedPassword = (builtins.readFile ../secrets/hashed_password);
     extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };

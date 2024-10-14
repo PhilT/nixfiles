@@ -28,7 +28,7 @@ in
       mode = "444";
       text = ''
         [user]
-          name = "Phil Thompson"
+          name = "${config.fullname}"
           email = "34678+PhilT@users.noreply.github.com"
       '';
     };

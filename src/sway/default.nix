@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ./macchiato.nix lib;
+  colors = import ../macchiato.nix lib;
   accent = "lavender";
   variant = "macchiato";
   catppuccin-gtk-macchiato = pkgs.catppuccin-gtk.override ({
@@ -12,12 +12,7 @@ let
     accent = accent;
   });
 in with colors; {
-  imports = [
-    <catppuccin/modules/nixos>
-    ./waybar.nix
-    ./mako.nix
-    ./tofi.nix
-  ];
+  imports = [ <catppuccin/modules/nixos> ];
 
   xdg.portal = {
     enable = true;
@@ -39,7 +34,7 @@ in with colors; {
     settings = {
       default_session = {
         command = "/run/current-system/sw/bin/start_sway";
-        user = "phil";
+        user = config.username;
       };
     };
   };
@@ -49,9 +44,10 @@ in with colors; {
     catppuccin-cursors.macchiatoLavender
     catppuccin-papirus-macchiato
 
+    # Add the the end of bin/sway for logging: -d |& tee sway.log
+    # Keep hold of the old log file after a crash: [ -f sway.log ] && mv sway.log sway.log.old
     (writeShellScriptBin "start_sway" ''
-      [ -f sway.log ] && mv sway.log sway.log.old
-      ${pkgs.sway}/bin/sway -d |& tee sway.log # -d  debug logging. Also try with `-D noatomic`
+      ${pkgs.sway}/bin/sway
     '')
   ];
 
@@ -59,11 +55,9 @@ in with colors; {
     vulkan-validation-layers # Needed for WLR_RENDERER
     slurp
     grim
-    mako
     swaybg
     swayidle
     swaylock
-    waybar
   ];
 
   environment.sessionVariables = {
@@ -96,11 +90,11 @@ in with colors; {
 
   environment.etc = {
     "sway/config" = {
-      source = ../dotfiles/sway/config; mode = "444";
+      source = ../../dotfiles/sway/config; mode = "444";
     };
 
     "sway/config.d/catppuccin-macchiato" = {
-      source = ../dotfiles/sway/catppuccin-macchiato; mode = "444";
+      source = ../../dotfiles/sway/catppuccin-macchiato; mode = "444";
     };
 
     "gtk-3.0/settings.ini" = {
@@ -113,11 +107,10 @@ in with colors; {
   };
 
   systemd.tmpfiles.rules = [
-    "d /data/screenshots - phil users -"
-    "d ${config.xdgDataHome} - phil users -"
-    "d ${config.xdgDataHome}/icons - phil users -"
-    "d ${config.xdgConfigHome} - phil users -"
-    "d ${config.xdgConfigHome}/gtk-3.0 - phil users -"
+    "d ${config.xdgDataHome} - ${config.username} users -"
+    "d ${config.xdgDataHome}/icons - ${config.username} users -"
+    "d ${config.xdgConfigHome} - ${config.username} users -"
+    "d ${config.xdgConfigHome}/gtk-3.0 - ${config.username} users -"
 
     # Fix for cursors in Waybar/Firefox
     "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"

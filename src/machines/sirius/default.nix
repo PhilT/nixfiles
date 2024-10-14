@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 {
   options.waybarModules = lib.mkOption {
     type = with lib.types; listOf str;
@@ -19,27 +18,33 @@
 
   imports = [
     ./minimal.nix
+    ../../common.nix
 
-    ../unison/spruce.nix
-    ../adjustlight.nix
-    ../phil.nix
+    # User
+    ../../users/phil.nix
+
+    # Sync
+    ../../ssh.nix
+    ../../unison/spruce.nix
+    ../../unison/suuno.nix
+
+    # Windowing
+    ../../sway/mako.nix
+    ../../sway/tofi.nix
+    ../../sway/waybar.nix
+    ../../sway/default.nix
+
+    # Laptops
+    ../../laptop.nix
+    ../../light.nix
   ];
 
   config = {
-    hardware.sensor.iio.enable = true;
-
-    # CPU power/speed optimiser (https://github.com/AdnanHodzic/auto-cpufreq)
-    services.auto-cpufreq.enable = true;
+    hardware.sensor.iio.enable = true; # Screen rotation daemon
 
     environment.systemPackages = with pkgs; [
-      brightnessctl
       flashrom
-      pamixer
-      playerctl
       wvkbd # Onscreen keyboard
     ];
-
-    programs.kitty.fontSize = 9;
-    programs.light.enable = true;
   };
 }

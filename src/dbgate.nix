@@ -1,8 +1,4 @@
-{ config, lib, pkgs, fetchurl, ... }:
-
-let HOME = "/home/phil";
-in
-{
+{ config, lib, pkgs, fetchurl, ... }: {
   environment = {
     systemPackages = with pkgs; [
       (appimageTools.wrapType2 {
@@ -24,6 +20,6 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "C+ ${config.userHome}/.dbgate - phil users - /etc/config/dbgate"
+    "C+ ${config.userHome}/.dbgate - ${config.username} users - /etc/config/dbgate"
   ];
 }
