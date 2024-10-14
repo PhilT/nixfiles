@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }: {
   imports = [
+    <catppuccin/modules/nixos>
+
     ./minimal.nix
     ../../common.nix
-
-    # User
-    ../../users/phil.nix
+    ../../development.nix
 
     # Sync
     ../../ssh.nix
@@ -34,6 +34,15 @@
     "clock"
     "tray"
   ];
+
+  boot.plymouth = {
+    catppuccin.enable = true;
+    catppuccin.flavor = "macchiato";
+  };
+
   services.hardware.openrgb.enable = true;
   hardware.graphics.enable = true;
+
+  # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
+  hardware.keyboard.qmk.enable = true;
 }

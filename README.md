@@ -6,17 +6,20 @@ WARNING: Disk needs to be set in: `src/machines/<machine>/drive`
 
 * Copy this repo and KeePass database to a USB stick
     ```
-    rsync -r --exclude=result . /run/media/phil/nixos-files/nixos-files
-    cp /data/sync/HomeDatabase.kdbx /media/phil/nixos-files/
-    umount /run/media/phil/nixos-files
+    mkdir -p /run/media/phil/nixos-data/nixos-files
+    rsync -r --exclude=result . /run/media/phil/nixos-data/nixos-files
+    cp /data/sync/HomeDatabase.kdbx /run/media/phil/nixos-data/
+    umount /run/media/phil/nixos-data
     ```
 * Add the ssh key to GitHub
 * Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
     ```
     lsblk --list | grep sda[1-9]
     sudo umount /dev/sda1
-    sudo umount /dev/sda2 # If listed in above command
-    sudo dd if=nixos.iso of=/dev/sda bs=1M status=progress
+    sudo umount /dev/sda2 # If listed in above command (and only one USB stick is inserted)
+    sudo dd if=/data/downloads/nixos.iso of=/dev/sda bs=1M status=progress
+    sudo umount /dev/sda1
+    sudo umount /dev/sda2 # As above
     ```
 
 * Boot up NixOS ISO then run the following commands:
@@ -59,7 +62,7 @@ USB/
 * Suuno - A play on the previous phone name (Samsung A15)
 * Aramid - Strong synthetic fibres (X1 Carbon)
 * Minoo - Some combination of Mini and N100 (File server)
-* Sapling - LSW NixOS install on Spruce
+* Sapling - NixOS-WSL install on Spruce
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html
