@@ -95,24 +95,24 @@
       pciutils
       cpu-x
       lshw
-      qmk                   # Tool to configure QMK based keyboards (e.g. my GMMK 2) # hardware enabled in phil.nix
+      qmk                   # Tool to configure QMK based keyboards (e.g. my GMMK 2) # hardware enabled in machines/
 
       # Utils
-      exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as
-      gparted               # it has large file support).
+      exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as it has large file support).
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
       nvd                   # Nix diff versions (Used in ./build)
+      nix-tree              # Tree view of Nix derivations
       inotify-tools
       ncdu                  # Tree-based, interactive du
 
       # Audio/visual tools
-      gimp
+      # gimp - Currently no Wayland until 3.0
       goxel                 # Voxel editor
       yad                   # GUI Dialog for Goxel
       imv                   # Image viewer
       inkscape
       mpv                   # Video player
-      simplescreenrecorder
+      # simplescreenrecorder - Need to find a replacement for Wayland
 
       # Comms
       vesktop               # Discord replacement that works in native Wayland

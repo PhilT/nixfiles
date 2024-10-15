@@ -2,3 +2,4 @@ result
 secrets/*
 !secrets/*.template
 src/work.nix
+tmp
