@@ -36,7 +36,9 @@
     "tray"
   ];
 
+  # Graphical login for drive encryption
   boot.plymouth = {
+    enable = true;
     catppuccin.enable = true;
     catppuccin.flavor = "macchiato";
   };
