@@ -2,8 +2,11 @@
 partition=0
 format=0
 dryrun=0
+installonly=0
+askwifi=0
+showconfig=0
 
-while getopts 'pfd' OPTION; do
+while getopts 'pfdiwc' OPTION; do
   case "$OPTION" in
     p)
       partition=1
@@ -13,6 +16,15 @@ while getopts 'pfd' OPTION; do
       ;;
     d)
       dryrun=1
+      ;;
+    i)
+      installonly=1
+      ;;
+    w)
+      askwifi=1
+      ;;
+    c)
+      showconfig=1
       ;;
   esac
 done
@@ -25,39 +37,49 @@ if [ -z "$machine" ]; then
   echo "  -p Create partitions"
   echo "  -f Format partitions"
   echo "  -d Dry run the script (display commands only)"
+  echo "  -i Skip everything except install step"
+  echo "  -w Ask for Wifi details"
   echo " Example: $0 -pf <aramid|spruce>"
   exit 0
 fi
 
 source lib/commands.sh
+source secrets/wifi
 
 ssd=$(cat ./src/machines/$machine/drive)
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
 
-echo "Network name (SSID)?"
-read ssid
-echo "Password (PSK)?"
-read psk
+if [ "$installonly" -eq "0" ]; then
+  if [ "$askwifi" -eq "1" ]; then
+    echo "Network name (SSID)?"
+    read ssid
+    echo "Password (PSK)?"
+    read psk
+  fi
 
-STATE "NET" "Setup Network"
-RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
-wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
-RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
-RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 3; done"
+  STATE "NET" "Setup Network"
+  RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
+  wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
+  RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
+  RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
+fi
 
 if [ "$partition" -eq "1" ]; then
   STATE "PART" "Setup partitions"
+  boot_part_size="2GB"
   RUN "parted -s $ssd -- mklabel gpt"
-  RUN "parted -s $ssd -- mkpart ESP fat32 1MB 1GB"
-  RUN "parted -s $ssd -- mkpart primary 1GB 100%"
+  RUN "parted -s $ssd -- mkpart ESP fat32 1MB ${boot_part_size}"
+  RUN "parted -s $ssd -- mkpart primary ${boot_part_size} 100%"
   RUN "parted -s $ssd -- set 1 esp on"
 
   STATE "CRYP" "Setup drive encryption"
   RUN "cryptsetup luksFormat $lvm_partition"         # Asks for an encryption password
 fi
 
-RUN "cryptsetup luksOpen $lvm_partition nixos-enc" # Decrypt partition
+if [ "$installonly" -eq "0" ]; then
+  RUN "cryptsetup luksOpen $lvm_partition nixos-enc" # Decrypt partition
+fi
 
 if [ "$partition" -eq "1" ]; then
   STATE "VOL " "Setup logical volumes"
@@ -75,29 +97,35 @@ if [ "$format" -eq "1" ]; then
   RUN "swapon /dev/nixos-vg/swap"
 fi
 
-STATE "MNT " "Mount partitions"
-RUN "mount /dev/nixos-vg/root /mnt"
-RUN "mkdir -p /mnt/boot"
-RUN "mount $boot_partition /mnt/boot"
+if [ "$installonly" -eq "0" ]; then
+  STATE "MNT " "Mount partitions"
+  RUN "mount /dev/nixos-vg/root /mnt"
+  RUN "mkdir -p /mnt/boot"
+  RUN "mount $boot_partition /mnt/boot"
 
-STATE "CHAN" "Switch to unstable channel"
-RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
-RUN "nix-channel --update"
+  STATE "CHAN" "Switch to unstable channel"
+  RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
+  RUN "nix-channel --update"
 
-STATE "GEN " "Generate config"
-RUN "nixos-generate-config --root /mnt"
-STATE "LESS" "Inspect generated hardware-configuration.nix"
-less /mnt/etc/nixos/hardware-configuration.nix
-STATE "LESS" "Inspect generated configuration.nix"
-less /mnt/etc/nixos/configuration.nix
+  STATE "GEN " "Generate config"
+  RUN "nixos-generate-config --root /mnt"
+  if [ "$showconfig" -eq "1" ]; then
+    STATE "LESS" "Inspect generated hardware-configuration.nix"
+    less /mnt/etc/nixos/hardware-configuration.nix
+    STATE "LESS" "Inspect generated configuration.nix"
+    less /mnt/etc/nixos/configuration.nix
+  fi
+fi
+
 STATE "UUID" "Fetch UUID of LUKS partition"
-RUN "lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d 'crypto_LUKS ' | tr -d '\n' > src/machines/$machine/luks_uuid"
-sed -i "s/LUKS_UUID/$(cat src/machines/$machine/luks_uuid)/" src/machines/$machine/minimal.nix
-RUN "grep by-uuid src/machines/$machine/minimal.nix"
+RUN_WITH_RESULT "lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d 'crypto_LUKS ' | tr -d '\n'"
+# TODO: Use search term that will match even when a UUID was already set
+RUN "sed -i 's/LUKS_UUID/$run_result/' src/machines/$machine/machine.nix"
+RUN "grep luks_device src/machines/$machine/machine.nix"
 
 STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"
-RUN_WITH_RESULT "nix-build -I nixos-config=src/machines/$machine/minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
+RUN_WITH_RESULT "nix-build -I nixos-config=src/minimal-configuration.nix '<nixpkgs/nixos>' -A system --no-out-link"
 RUN "nixos-install --no-root-password --system $run_result"
 
 STATE "DONE" "Complete"

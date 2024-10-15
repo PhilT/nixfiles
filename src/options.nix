@@ -1,5 +1,9 @@
 { lib, config, ... }: {
   options = {
+    machine = lib.mkOption {
+      type = lib.types.str;
+    };
+
     username = lib.mkOption {
       type = lib.types.str;
     };

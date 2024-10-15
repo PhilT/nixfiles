@@ -1,0 +1,1 @@
+rsync -r --exclude=result . /run/media/phil/nixos-data/nixos-files && umount /run/media/phil/nixos-data

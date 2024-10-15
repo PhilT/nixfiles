@@ -2,7 +2,11 @@
   imports = [
     <catppuccin/modules/nixos>
 
-    ./minimal.nix
+    ./machine.nix
+    ../../minimal-configuration.nix
+    ../../hardware/default.nix
+    ../../hardware/filesystems.nix
+    ../../hardware/bluetooth.nix
     ../../common.nix
     ../../development.nix
 

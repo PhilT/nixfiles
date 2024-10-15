@@ -3,7 +3,11 @@
   imports = [
     <catppuccin/modules/nixos>
 
-    ./minimal.nix
+    ./machine.nix
+    ../../minimal-configuration.nix
+    ../../hardware/default.nix
+    ../../hardware/filesystems.nix
+    ../../hardware/bluetooth.nix
     ../../common.nix
     ../../development.nix
 
@@ -19,8 +23,8 @@
     ../../sway/default.nix
 
     # Laptops
-    ../../laptop.nix
-    ../../light.nix
+    ../../laptop/default.nix
+    ../../laptop/light.nix
   ];
 
   waybarModules = [

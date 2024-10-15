@@ -1,13 +1,7 @@
 { config, pkgs, ... }: {
   imports = [
-    ../../hardware/default.nix
-    ../../hardware/filesystems.nix
-    ../../hardware/bluetooth.nix
-    ../../minimal.nix
+    /mnt/etc/nixos/hardware-configuration.nix
+    ../../minimal-configuration.nix
+    ./machine.nix
   ];
-
-  username = "phil";
-  fullname = "Phil Thompson";
-  networking.hostName = "minoo";
-  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/LUKS_UUID";
 }
