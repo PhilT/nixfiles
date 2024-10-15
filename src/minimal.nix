@@ -36,9 +36,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
 
-  # Graphical login for drive encryption
-  boot.plymouth.enable = true;
-
   # Don't log boot up to screen, turn off warning about sgx
   boot.kernelParams = [ "quiet" "nosgx" ];
   boot.kernel.sysctl."net.core.rmem_max" = 2500000; # FIXME: What's this for?

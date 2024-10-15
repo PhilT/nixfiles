@@ -8,6 +8,6 @@
 
   username = "phil";
   fullname = "Phil Thompson";
-  networking.hostName = "aramid";
+  networking.hostName = "minoo";
   boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/LUKS_UUID";
 }
