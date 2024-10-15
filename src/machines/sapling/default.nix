@@ -1,9 +1,12 @@
 { config, lib, pkgs, ... }: {
   imports = [
-    ./minimal.nix
-
-    # User
-    ../../users/phil.nix
+    ./machine.nix
+    ../../minimal-configuration.nix
+    ../../hardware/default.nix
+    ../../hardware/filesystems.nix
+    ../../hardware/bluetooth.nix
+    ../../common.nix
+    ../../development.nix
 
     # Sync
     # ?
@@ -13,6 +16,12 @@
     ../../desktop/light.nix
   ];
 
-  config = {
+  wsl = {
+    enable = true;
+    wslConf.automount.root = "/mnt";
+    wslConf.interop.appendWindowsPath = false;
+    wslConf.network.generateHosts = false;
+    defaultUser = config.username;
+    startMenuLaunchers = true;
   };
 }
