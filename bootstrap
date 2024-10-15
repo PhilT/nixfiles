@@ -93,7 +93,7 @@ less /mnt/etc/nixos/configuration.nix
 STATE "UUID" "Fetch UUID of LUKS partition"
 RUN "lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d 'crypto_LUKS ' | tr -d '\n' > src/machines/$machine/luks_uuid"
 sed -i "s/LUKS_UUID/$(cat src/machines/$machine/luks_uuid)/" src/machines/$machine/minimal.nix
-RUN "grep luks.devices.root src/machines/$machine/minimal.nix"
+RUN "grep by-uuid src/machines/$machine/minimal.nix"
 
 STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"

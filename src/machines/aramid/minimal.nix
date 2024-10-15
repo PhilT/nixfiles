@@ -9,5 +9,8 @@
   username = "phil";
   fullname = "Phil Thompson";
   networking.hostName = "aramid";
-  boot.initrd.luks.devices.root.device = "/dev/disk/by-uuid/LUKS_UUID";
+  boot.initrd.luks.devices.root = {
+    device = "/dev/disk/by-uuid/LUKS_UUID";
+    preLVM = true;
+  };
 }
