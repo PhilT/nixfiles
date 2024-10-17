@@ -1,0 +1,6 @@
+lsblk | grep sd
+echo "This drive will be unmounted and overwritten. Proceed?"
+read
+dd if=/dev/random of=secrets/luks.key bs=4096 count=1
+umount /dev/sda1
+sudo dd if=secrets/luks.key of=/dev/sda

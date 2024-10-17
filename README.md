@@ -6,20 +6,17 @@ WARNING: Disk needs to be set in: `src/machines/<machine>/drive`
 
 * Copy this repo and KeePass database to a USB stick
     ```
-    mkdir -p /run/media/phil/nixos-data/nixos-files
-    rsync -r --exclude=result . /run/media/phil/nixos-data/nixos-files
-    cp /data/sync/HomeDatabase.kdbx /run/media/phil/nixos-data/
-    umount /run/media/phil/nixos-data
+    ./sync-and-remove
     ```
-* Add the ssh key to GitHub
+* Ensure GitHub/GitLab have the SSH keys on your account
 * Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
+    If USB previously used as ISO then it will have 2 partitions which should be
+    unmounted before runnning `dd`:
     ```
     lsblk --list | grep sda[1-9]
-    sudo umount /dev/sda1
-    sudo umount /dev/sda2 # If listed in above command (and only one USB stick is inserted)
+    sudo umount /dev/sda1 /dev/sda2
     sudo dd if=/data/downloads/nixos.iso of=/dev/sda bs=1M status=progress
-    sudo umount /dev/sda1
-    sudo umount /dev/sda2 # As above
+    sudo umount /dev/sda1 /dev/sda2
     ```
 
 * Boot up NixOS ISO then run the following commands:
@@ -44,7 +41,7 @@ cd /usb/nixos-files
 
 ```
 USB/
-  secrets/    # Temporary folder for hashed_password and public ssh keys
+  secrets/    # Temporary folder for hashed_password, wifi and public ssh keys
   dotfiles/   # dotfiles imported/linked by Nix
   neovim/     # Lua and vim file imported by Nix
   src/*.nix   # Nix source configuration files

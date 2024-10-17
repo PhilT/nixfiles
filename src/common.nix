@@ -1,31 +1,16 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    ./environment.nix
     ./audio.nix
+    ./environment.nix
     ./fonts.nix
-    ./mimetypes.nix
-
-    ./dbgate.nix
-    ./filemanager.nix
-    ./firefox.nix
     ./git.nix
-    ./keepmenu.nix
-    ./kitty.nix
+    ./mimetypes.nix
     ./neovim.nix
     ./programs.nix
     ./qemu.nix
-    ./qutebrowser.nix
-    ./thunderbird.nix
+    ./ranger.nix
     ./tmux.nix
-  ];
-
-  # Fix nose not being supported by Python 3.12
-  # TODO: Check if this is still needed
-  nixpkgs.overlays = [
-    (_: prev: {
-        python312 = prev.python312.override { packageOverrides = _: pysuper: { nose = pysuper.pynose; }; };
-    })
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -51,7 +36,6 @@
 
   # Don't log boot up to screen, turn off warning about sgx
   boot.kernelParams = [ "quiet" "nosgx" ];
-  # boot.kernel.sysctl."net.core.rmem_max" = 2500000; # FIXME: What's this for?
 
   console = {
     packages=[ pkgs.terminus_font ];
@@ -59,8 +43,6 @@
     useXkbConfig = true;
   };
   services.xserver.xkb.layout = "gb";
-
-  users.mutableUsers = false;
 
   programs.neovim = {
     enable = true;
@@ -75,6 +57,4 @@
     wget
     which
   ];
-
-  security.sudo.wheelNeedsPassword = false;
 }

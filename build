@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 source lib/keepass.sh
-source secrets/wifi
 
 action=REBUILD
 show_trace=
@@ -84,6 +83,14 @@ fi
 
 configuration_nix=src/machines/$machine
 
+# Check we have Wifi credentials
+if [ -f secrets/wifi ]; then
+  source secrets/wifi
+else
+  askpass "Enter KeePass password for wifi credentials:"
+  keepass_export_wifi
+fi
+
 # Check we have Internet
 if ! ping -c 1 google.com > /dev/null 2>&1; then
   echo "[WIFI] Network name (SSID) [$ssid]:"
@@ -110,8 +117,8 @@ fi
 
 # Fetch hashed_password and ssh keys unless they already exist
 if [ ! -f secrets/hashed_password ] || [ ! -d $HOME/.ssh ]; then
-  askpass "Enter database password for hashed_password & .ssh/:"
-  keepass_export_password
+  askpass "Enter KeePass password for hashed_password & .ssh/:"
+  keepass_export_hashed_password
 
   # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $HOME/.ssh
@@ -124,14 +131,10 @@ fi
 # Export all public keys to secrets/ for use in src/ssh.nix
 for m in spruce sirius aramid; do # TODO: sapling; do
   if [ ! -f secrets/${prefix}_${m}.pub ]; then
-    askpass "Enter database password for public key export:"
+    askpass "Enter KeePass password for public key export:"
     keepass_export_key public ${prefix}_${m} secrets/
   fi
 done
-
-# Set the UUID of the LUKS partition
-luks_uuid=$(lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d "crypto_LUKS " | tr -d "\n")
-sed -i "s/LUKS_UUID/$luks_uuid/" src/machines/$machine/machine.nix
 
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d

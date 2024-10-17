@@ -5,6 +5,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   system.stateVersion = "24.05";
 
+  boot.initrd.luks.devices = lib.mkIf config.luks.enable {
+    root.device = config.luks.device;
+  };
+
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
 
@@ -23,4 +27,6 @@
     hashedPassword = (builtins.readFile ../secrets/hashed_password);
     extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
   };
+  users.mutableUsers = false;
+  security.sudo.wheelNeedsPassword = false;
 }

@@ -4,18 +4,20 @@ state="BOOT"
 
 RUN() {
   echo "[$state] $1"
-  [ "$dryrun" -eq "0" ] && eval "$1"
+  [ "$dryrun" -eq "0" ] && temp_result=$(eval "$1")
+  [ "$?" -ne "0" ] && exit 1
 }
 
 RUN_WITH_RESULT() {
-  echo "[$state] $1"
-  [ "$dryrun" -eq "0" ] && run_result=$(eval "$1")
+  RUN "$1"
+  run_result=$temp_result
 }
 
 STATE() {
   state=$1
+  local title=$2
   echo ""
-  echo "[$state] ------ $2 ------"
+  echo "[$state] ------ $title ------"
 }
 
 WAIT() {

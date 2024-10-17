@@ -5,6 +5,7 @@ dryrun=0
 installonly=0
 askwifi=0
 showconfig=0
+keyfile=secrets/password
 
 while getopts 'pfdiwc' OPTION; do
   case "$OPTION" in
@@ -49,8 +50,11 @@ source secrets/wifi
 ssd=$(cat ./src/machines/$machine/drive)
 boot_partition=${ssd}p1
 lvm_partition=${ssd}p2
+[ "$machine" = "minoo" ] && keyfile=secrets/luks.key
 
 if [ "$installonly" -eq "0" ]; then
+  STATE "INIT" "Configure"
+
   if [ "$askwifi" -eq "1" ]; then
     echo "Network name (SSID)?"
     read ssid
@@ -58,49 +62,66 @@ if [ "$installonly" -eq "0" ]; then
     read psk
   fi
 
-  STATE "NET" "Setup Network"
-  RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
-  wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
-  RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
-  RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
+  if ! ping -c 1 google.com > /dev/null 2>&1; then
+    RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
+    wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
+    RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
+    RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
+  fi
+
+  if [ ! -z "$keyfile" ] && [ ! -f $keyfile ]; then
+    echo "Password for drive encryption:"
+    read crypt_pass
+    echo -n $crypt_pass > $keyfile
+  fi
 fi
 
 if [ "$partition" -eq "1" ]; then
   STATE "PART" "Setup partitions"
-  boot_part_size="2GB"
+  boot_part_size="4GB"
   RUN "parted -s $ssd -- mklabel gpt"
   RUN "parted -s $ssd -- mkpart ESP fat32 1MB ${boot_part_size}"
   RUN "parted -s $ssd -- mkpart primary ${boot_part_size} 100%"
   RUN "parted -s $ssd -- set 1 esp on"
 
-  STATE "CRYP" "Setup drive encryption"
-  RUN "cryptsetup luksFormat $lvm_partition"         # Asks for an encryption password
+  if [ ! -z "$keyfile" ]; then
+    STATE "CRYP" "Setup drive encryption"
+    RUN "cryptsetup -q luksFormat $lvm_partition $keyfile"
+  fi
 fi
 
 if [ "$installonly" -eq "0" ]; then
-  RUN "cryptsetup luksOpen $lvm_partition nixos-enc" # Decrypt partition
+  if [ ! -z "$keyfile" ]; then
+    RUN "cryptsetup -q luksOpen $lvm_partition nixos-enc -d $keyfile" # Decrypt partition
+  else
+  fi
 fi
 
 if [ "$partition" -eq "1" ]; then
   STATE "VOL " "Setup logical volumes"
-  RUN "pvcreate /dev/mapper/nixos-enc"               # LVM Physical volume
-  RUN "vgcreate nixos-vg /dev/mapper/nixos-enc"      # Volume Group
-  RUN "lvcreate -L 32G -n swap nixos-vg"             # Swap (logical volume)
-  RUN "lvcreate -l 100%FREE -n root nixos-vg"        # Root (main) filesystem (logical volume)
+  RUN "pvcreate /dev/mapper/nixos-enc"              # LVM Physical volume
+  RUN "vgcreate nixos-vg /dev/mapper/nixos-enc"     # Volume Group
+  RUN "lvcreate -L 32G -n swap nixos-vg"            # Swap (logical volume)
+  RUN "lvcreate -L 300G -n nix nixos-vg"            # /nix store (logical volume)
+  RUN "lvcreate -l 100%FREE -n root nixos-vg"       # Root (main) filesystem (logical volume)
 fi
 
 if [ "$format" -eq "1" ]; then
   STATE "FORM" "Format partitions"
   RUN "mkfs.vfat -n boot $boot_partition"
   RUN "mkfs.ext4 -F -L nixos /dev/nixos-vg/root"
+  RUN "mkfs.ext4 -F -L nixos /dev/nixos-vg/nix"
   RUN "mkswap -q -L swap /dev/nixos-vg/swap"
   RUN "swapon /dev/nixos-vg/swap"
 fi
 
 if [ "$installonly" -eq "0" ]; then
   STATE "MNT " "Mount partitions"
-  RUN "mount /dev/nixos-vg/root /mnt"
+  RUN "mkdir -p /mnt/root"
+  RUN "mkdir -p /mnt/nix"
   RUN "mkdir -p /mnt/boot"
+  RUN "mount /dev/nixos-vg/root /mnt/root"
+  RUN "mount /dev/nixos-vg/nix /mnt/nix"
   RUN "mount $boot_partition /mnt/boot"
 
   STATE "CHAN" "Switch to unstable channel"
@@ -117,15 +138,9 @@ if [ "$installonly" -eq "0" ]; then
   fi
 fi
 
-STATE "UUID" "Fetch UUID of LUKS partition"
-RUN_WITH_RESULT "lsblk -o FSTYPE,UUID | grep crypto_LUKS | tr -d 'crypto_LUKS ' | tr -d '\n'"
-# TODO: Use search term that will match even when a UUID was already set
-RUN "sed -i 's/LUKS_UUID/$run_result/' src/machines/$machine/machine.nix"
-RUN "grep luks_device src/machines/$machine/machine.nix"
-
 STATE "INST" "Install NixOS"
 WAIT "Install NixOS?"
-RUN_WITH_RESULT "nix-build -I nixos-config=src/minimal-configuration.nix '<nixpkgs/nixos>' -A system --no-out-link"
+RUN_WITH_RESULT "nix-build -I nixos-config=src/machines/$machine/minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
 RUN "nixos-install --no-root-password --system $run_result"
 
 STATE "DONE" "Complete"

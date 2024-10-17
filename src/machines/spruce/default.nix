@@ -8,6 +8,7 @@
     ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
     ../../common.nix
+    ../../common_gui.nix
     ../../development.nix
 
     # Sync
