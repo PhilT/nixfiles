@@ -12,6 +12,23 @@
       type = lib.types.str;
     };
 
+    luks.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "LUKS disk encryption";
+    };
+
+    luks.device = lib.mkOption {
+      type = lib.types.str;
+      default = "/dev/nvme0n1p2";
+    };
+
+    nixfs.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Separate the /nix store for improved SSD lifespan";
+    };
+
     userHome = lib.mkOption {
       type = lib.types.str;
       default = "/home/${config.username}";
