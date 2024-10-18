@@ -15,6 +15,8 @@ fi
 
 # args: "Question text"
 askpass() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   if [ -z "$passwd" ]; then
     echo $1
     stty -echo
@@ -44,6 +46,8 @@ keepass_import_keys() {
 
 # args: <public|private> <prefix>_<machine>[_<service>] <path>
 keepass_export_key() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   local public_private=$1
   local keyfile=$2
   local path=$3
@@ -55,6 +59,7 @@ keepass_export_key() {
 
 # args: <prefix> <machine> [service]
 keepass_export_keys() {
+  which keepassxc-cli > /dev/null 2>&1 || return
 
   if [ -z "$3" ]; then
     local keyfile=$1_$2
@@ -75,21 +80,29 @@ keepass_export_keys() {
 }
 
 keepass_export_password() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   kp_cli show -qsa Password $db password | tr -d '\n'
 }
 
 keepass_export_hashed_password() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   rm -f secrets/hashed_password
   kp_cli show -qsa Password $db hashed_password | tr -d '\n' > secrets/hashed_password
 }
 
 keepass_export_wifi() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   rm -f secrets/wifi
   echo ssid=$(kp_cli show -qsa Username $db wifi_home | tr -d '\n') > secrets/wifi
   echo psk=$(kp_cli show -qsa Password $db wifi_home | tr -d '\n') >> secrets/wifi
 }
 
 keepass_export_luks_key() {
+  which keepassxc-cli > /dev/null 2>&1 || return
+
   rm -rf secrets/luks.key
   keepass_export_key private luks_key secrets/luks.key
 }

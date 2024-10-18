@@ -7,14 +7,8 @@ askwifi=0
 showconfig=0
 keyfile=secrets/password
 
-while getopts 'pfdiwc' OPTION; do
+while getopts 'diwc' OPTION; do
   case "$OPTION" in
-    p)
-      partition=1
-      ;;
-    f)
-      format=1
-      ;;
     d)
       dryrun=1
       ;;
@@ -34,22 +28,19 @@ shift $(($OPTIND - 1))
 machine=$1
 
 if [ -z "$machine" ]; then
-  echo "Usage: $0 [-pfst] <machine>"
-  echo "  -p Create partitions"
-  echo "  -f Format partitions"
+  echo "Usage: $0 [-] <machine>"
   echo "  -d Dry run the script (display commands only)"
   echo "  -i Skip everything except install step"
   echo "  -w Ask for Wifi details"
+  echo "  -c Show the hardware configuration only"
   echo " Example: $0 -pf <aramid|spruce>"
   exit 0
 fi
 
 source lib/commands.sh
+source lib/disks.sh
 source secrets/wifi
 
-ssd=$(cat ./src/machines/$machine/drive)
-boot_partition=${ssd}p1
-lvm_partition=${ssd}p2
 [ "$machine" = "minoo" ] && keyfile=secrets/luks.key
 
 if [ "$installonly" -eq "0" ]; then
@@ -76,71 +67,24 @@ if [ "$installonly" -eq "0" ]; then
   fi
 fi
 
-if [ "$partition" -eq "1" ]; then
-  STATE "PART" "Setup partitions"
-  boot_part_size="4GB"
-  RUN "parted -s $ssd -- mklabel gpt"
-  RUN "parted -s $ssd -- mkpart ESP fat32 1MB ${boot_part_size}"
-  RUN "parted -s $ssd -- mkpart primary ${boot_part_size} 100%"
-  RUN "parted -s $ssd -- set 1 esp on"
-
-  if [ ! -z "$keyfile" ]; then
-    STATE "CRYP" "Setup drive encryption"
-    RUN "cryptsetup -q luksFormat $lvm_partition $keyfile"
-  fi
-fi
-
 if [ "$installonly" -eq "0" ]; then
-  if [ ! -z "$keyfile" ]; then
-    RUN "cryptsetup -q luksOpen $lvm_partition nixos-enc -d $keyfile" # Decrypt partition
-  else
-  fi
-fi
-
-if [ "$partition" -eq "1" ]; then
-  STATE "VOL " "Setup logical volumes"
-  RUN "pvcreate /dev/mapper/nixos-enc"              # LVM Physical volume
-  RUN "vgcreate nixos-vg /dev/mapper/nixos-enc"     # Volume Group
-  RUN "lvcreate -L 32G -n swap nixos-vg"            # Swap (logical volume)
-  RUN "lvcreate -L 300G -n nix nixos-vg"            # /nix store (logical volume)
-  RUN "lvcreate -l 100%FREE -n root nixos-vg"       # Root (main) filesystem (logical volume)
-fi
-
-if [ "$format" -eq "1" ]; then
-  STATE "FORM" "Format partitions"
-  RUN "mkfs.vfat -n boot $boot_partition"
-  RUN "mkfs.ext4 -F -L nixos /dev/nixos-vg/root"
-  RUN "mkfs.ext4 -F -L nixos /dev/nixos-vg/nix"
-  RUN "mkswap -q -L swap /dev/nixos-vg/swap"
-  RUN "swapon /dev/nixos-vg/swap"
-fi
-
-if [ "$installonly" -eq "0" ]; then
-  STATE "MNT " "Mount partitions"
-  RUN "mkdir -p /mnt/root"
-  RUN "mkdir -p /mnt/nix"
-  RUN "mkdir -p /mnt/boot"
-  RUN "mount /dev/nixos-vg/root /mnt/root"
-  RUN "mount /dev/nixos-vg/nix /mnt/nix"
-  RUN "mount $boot_partition /mnt/boot"
+  source config/$machine/disks.sh
+  create_disks
 
   STATE "CHAN" "Switch to unstable channel"
   RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
   RUN "nix-channel --update"
-
-  STATE "GEN " "Generate config"
-  RUN "nixos-generate-config --root /mnt"
-  if [ "$showconfig" -eq "1" ]; then
-    STATE "LESS" "Inspect generated hardware-configuration.nix"
-    less /mnt/etc/nixos/hardware-configuration.nix
-    STATE "LESS" "Inspect generated configuration.nix"
-    less /mnt/etc/nixos/configuration.nix
-  fi
 fi
 
-STATE "INST" "Install NixOS"
-WAIT "Install NixOS?"
-RUN_WITH_RESULT "nix-build -I nixos-config=src/machines/$machine/minimal.nix '<nixpkgs/nixos>' -A system --no-out-link"
-RUN "nixos-install --no-root-password --system $run_result"
+if [ "$showconfig" -eq "1" ]; then
+  STATE "CONF" "Show hardware configuration"
+  RUN "nixos-generate-config --show-hardware-config"
+else
+  STATE "INST" "Install NixOS"
+  WAIT "Install NixOS?"
+  RUN "mkdir -p /mnt/etc/nixos"
+  RUN "ln -s $(pwd)/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
+  RUN "nixos-install --no-root-password"
+fi
 
 STATE "DONE" "Complete"
