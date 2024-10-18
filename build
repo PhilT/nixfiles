@@ -105,8 +105,8 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done
 fi
 
-NIXOS_LABEL=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-[ "$NIXOS_LABEL" ] && echo "[LABEL] $NIXOS_LABEL"
+nixos_boot_label=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
+[ "$nixos_boot_label" ] && echo "[LABEL] $nixos_boot_label"
 
 # Check if both catppuccin and nixos-hardware channels have been added
 if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
@@ -140,6 +140,6 @@ echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 # NIXOS_LABEL=$NIXOS_LABEL
-[ "$NIXOS_LABEL" ] && label="NIXOS_LABEL=$NIXOS_LABEL"
-sudo $label nixos-rebuild $command -I nixos-config=$configuration_nix $show_trace
+[ "$nixos_boot_label" ] && label="NIXOS_LABEL=$nixos_boot_label"
+sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
 #                                                           -I nixpkgs=/data/code/nixpkgs # -------^

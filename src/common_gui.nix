@@ -6,7 +6,7 @@
     ./firefox.nix
     ./keepmenu.nix
     ./kitty.nix
-    ./qutebrowser.nix
+    # ./qutebrowser.nix
     ./thunderbird.nix
   ];
 

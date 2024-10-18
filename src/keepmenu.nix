@@ -40,7 +40,7 @@
           owner = "firecat53";
           repo = "keepmenu";
           rev = "develop";
-          hash = "sha256-2PYefH0+uQtQ1r8JvRa0k5qyQT5bv0HfRJIMB2BsB2g=";
+          hash = "sha256-o2dQaysIpNG0CLvE4Jb/V5+LKsztfoOsMUKna6ymdg0=";
         };
         installCheckPhase = ''true''; # TODO: Remove once https://github.com/NixOS/nixpkgs/pull/328672 is merged
       }))
