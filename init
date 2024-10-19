@@ -13,10 +13,10 @@ source secrets/wifi
 source lib/disks.sh
 source config/$machine.sh
 
-if [ "$installonly" -eq "0" ]; then
+if [ "$installonly" -eq "0" ] && [ "$showconfig" -eq "0" ]; then
   STATE "REQ " "Prerequisites"
-  RUN "[ '$ssid' -ne '' ]"
-  RUN "[ '$psk' -ne '' ]"
+  RUN "[ ! '$ssid' = '' ]"
+  RUN "[ ! '$psk' = '' ]"
 
   if [ ! -z "$keyfile" ] && [ ! -f $keyfile ]; then
     echo "Password for drive encryption:"
@@ -34,7 +34,7 @@ if [ "$installonly" -eq "0" ]; then
   fi
 fi
 
-if [ "$installonly" -eq "0" ]; then
+if [ "$installonly" -eq "0" ] && [ "$showconfig" -eq "0" ]; then
   create_disks
 
   STATE "CHAN" "Switch to unstable channel"
@@ -44,12 +44,14 @@ fi
 
 if [ "$showconfig" -eq "1" ]; then
   STATE "CONF" "Show hardware configuration"
-  RUN "nixos-generate-config --show-hardware-config"
+  RUN_WITH_RESULT "nixos-generate-config --show-hardware-config"
+  echo "$run_result"
+
 else
   STATE "INST" "Install NixOS"
   WAIT "Install NixOS?"
   RUN "mkdir -p /mnt/etc/nixos"
-  RUN "ln -s $(pwd)/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
+  RUN "ln -fs $(pwd)/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
   RUN "nixos-install --no-root-password"
 fi
 

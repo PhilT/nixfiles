@@ -29,4 +29,11 @@
   };
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
+
+  environment.systemPackages = with pkgs; [
+    htop
+    wget
+    which
+    curl
+  ];
 }

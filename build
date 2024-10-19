@@ -9,7 +9,7 @@ cleanup=0
 while getopts 'hdsyurbctm' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-hdsur] [commit message/machine]"
+      echo "Usage: $0 [-hdsur] [commit message/machine] [module]"
       echo "  -h                   this help"
       echo "  -d                   run nix-collect-garbage"
       echo "  -s                   rebuild & switch"
@@ -20,6 +20,7 @@ while getopts 'hdsyurbctm' OPTION; do
       echo "  -m [machine]         Build a different machine from the running one. e.g. sirius/aramid/spruce/sapling"
       echo "  -c                   Diff of changes between latest & prev upgrade"
       echo "  -t                   Show trace"
+      echo "  [module]             Pick an alternative base module from machines/$machine/. Defaults to default.nix"
       exit 0
       ;;
     d)
@@ -76,12 +77,15 @@ shift $(($OPTIND - 1))
 
 if [ "$machine" = "GET" ]; then
   machine=$1
+  shift
 else
   machine=$(hostname)
   commit_msg=$1
 fi
 
-configuration_nix=src/machines/$machine
+module=$1
+
+configuration_nix=src/machines/$machine/$module
 
 # Check we have Internet
 if ! ping -c 1 google.com > /dev/null 2>&1; then
@@ -106,7 +110,6 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   nmcli device wifi connect $ssid password $psk
   echo "[WIFI] Connecting..."
   while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done
-  rm secrets/wifi # Remove credentials once we're connected
 fi
 
 nixos_boot_label=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
@@ -148,5 +151,8 @@ echo "[$action] $machine"
 sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
 #                                                           -I nixpkgs=/data/code/nixpkgs # -------^
 
-# Remove password once we're done encrypting drives and accessing KeePass
-[ -f secrets/password ] && rm secrets/password
+# Remove secrets once we're done encrypting drives and accessing KeePass
+if [ "$?" -eq "0" ]; then
+  [ -f secrets/wifi ] && sudo rm secrets/wifi
+  [ -f secrets/password ] && sudo rm secrets/password
+fi

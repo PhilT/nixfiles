@@ -1,5 +1,11 @@
 { lib, config, ... }: {
   options = {
+    programs.kitty.fontSize = lib.mkOption {
+      type = lib.types.int;
+      default = 10;
+      description = "Set the font size in Kitty";
+    };
+
     machine = lib.mkOption {
       type = lib.types.str;
     };
