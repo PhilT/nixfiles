@@ -48,7 +48,7 @@ fill() {
 }
 
 fat() {
-  RUN "mkfs.vfat -qn boot $boot_partition"
+  RUN "mkfs.vfat -n boot $boot_partition > /dev/null"
   RUN "mkdir -p /mnt/boot"
   RUN "mount $boot_partition /mnt/boot"
 }

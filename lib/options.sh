@@ -20,7 +20,6 @@ if [ -z "$1" ]; then
   echo "  -d Dry run the script (display commands only)"
   echo "  -i Skip everything except install step"
   echo "  -c Show the hardware configuration only"
-  echo " Example: $0 -pf <aramid|spruce>"
+  echo " Example: $0 aramid"
   exit 0
 fi
-

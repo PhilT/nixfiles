@@ -11,6 +11,7 @@
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../common.nix
+    ../../common_gui.nix
     ../../development.nix
 
     # Sync

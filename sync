@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+unmount=0
+direction=0
+src=.
+usb=/run/media/phil/nixos-data
+dest=$usb/nixos-files
+
+if [ ! -d $usb ]; then
+  echo "ERROR: Can't find nixos-data USB stick. Aborting."
+  exit 1
+fi
+
+mkdir -p $dest
+
+while getopts 'ru' OPTION; do
+  case "$OPTION" in
+    r)
+      src=$dest
+      dest=..
+      ;;
+    u)
+      unmount=1
+      ;;
+  esac
+done
+
+echo "FROM: $src"
+echo "  TO: $dest"
+read
+
+cp /data/sync/HomeDatabase.kdbx /run/media/phil/nixos-data/
+rsync -a --delete --exclude=result $src $dest
+[ "$unmount" -eq "1" ] && umount $usb
