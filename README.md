@@ -1,6 +1,6 @@
 # My NixOS Setup
 
-## Bootstrapping a new machine
+## Initializing a new machine
 
 WARNING: Disk needs to be set in: `src/machines/<machine>/drive`
 
@@ -25,7 +25,7 @@ sudo -s
 mkdir /usb
 mount /dev/disk/by-label/nixos-data /usb
 cd /usb/nixos-files
-./bootstrap -pf <aramid|spruce>     # Partitions and formats the drives
+./init <spruce|aramid|minoo>        # Partitions and formats the drives
 reboot                              # and remove USB sticks
 ```
 
@@ -45,9 +45,9 @@ USB/
   dotfiles/   # dotfiles imported/linked by Nix
   neovim/     # Lua and vim file imported by Nix
   src/*.nix   # Nix source configuration files
-  lib/*.sh    # additional build scripts used by bootstrap and build
-  bootstrap   # Build script for clean machine
-  build       # Build script for NixOS machine (Also connects network and sets up SSH keys)
+  lib/*.sh    # additional build scripts used by init and build
+  init        # Build script for new machine
+  build       # Build script for NixOS machine (Also sets up wifi and SSH keys)
 ```
 
 ## Naming of devices

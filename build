@@ -83,16 +83,17 @@ fi
 
 configuration_nix=src/machines/$machine
 
-# Check we have Wifi credentials
-if [ -f secrets/wifi ]; then
-  source secrets/wifi
-else
-  askpass "Enter KeePass password for wifi credentials:"
-  keepass_export_wifi
-fi
-
 # Check we have Internet
 if ! ping -c 1 google.com > /dev/null 2>&1; then
+  # Check we have Wifi credentials
+  if [ -f secrets/wifi ]; then
+    source secrets/wifi
+  else
+    passwd=$(cat secrets/password)
+    askpass "Enter KeePass password for wifi credentials:"
+    keepass_export_wifi
+  fi
+
   echo "[WIFI] Network name (SSID) [$ssid]:"
   read ssid_override
   if [ "$ssid_override" ]; then
@@ -100,9 +101,12 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
     ssid=ssid_override
     read psk
   fi
+
+  # Add to NetworkManager if not
   nmcli device wifi connect $ssid password $psk
   echo "[WIFI] Connecting..."
   while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done
+  rm secrets/wifi # Remove credentials once we're connected
 fi
 
 nixos_boot_label=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
@@ -143,3 +147,6 @@ echo "[$action] $machine"
 [ "$nixos_boot_label" ] && label="NIXOS_LABEL=$nixos_boot_label"
 sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
 #                                                           -I nixpkgs=/data/code/nixpkgs # -------^
+
+# Remove password once we're done encrypting drives and accessing KeePass
+[ -f secrets/password ] && rm secrets/password

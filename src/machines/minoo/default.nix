@@ -10,11 +10,19 @@
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../common.nix
+    ../../common_gui.nix
 
     # Sync
     ../../ssh.nix
     ../../unison/spruce.nix
     ../../unison/suuno.nix
+
+    # Media Server/Player
+    #../../kodi.nix
+
+    # Desktop
+    ../../desktop/default.nix
+    ../../desktop/light.nix
   ];
 
   # Graphical login for drive encryption
@@ -23,4 +31,7 @@
     catppuccin.enable = true;
     catppuccin.flavor = "macchiato";
   };
+
+  services.hardware.openrgb.enable = true;
+  hardware.graphics.enable = true;
 }
