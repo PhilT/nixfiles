@@ -27,6 +27,8 @@ workspace 1
 
 xwayland disable
 
+# This only works in sway
+# See src/common.nix for console setting
 input type:keyboard {
   xkb_layout gb
   xkb_options ctrl:nocaps

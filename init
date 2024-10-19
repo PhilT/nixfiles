@@ -1,57 +1,30 @@
 #!/usr/bin/env sh
-partition=0
-format=0
+
 dryrun=0
 installonly=0
-askwifi=0
 showconfig=0
 keyfile=secrets/password
 
-while getopts 'diwc' OPTION; do
-  case "$OPTION" in
-    d)
-      dryrun=1
-      ;;
-    i)
-      installonly=1
-      ;;
-    w)
-      askwifi=1
-      ;;
-    c)
-      showconfig=1
-      ;;
-  esac
-done
-shift $(($OPTIND - 1))
-
+source lib/options.sh
 machine=$1
 
-if [ -z "$machine" ]; then
-  echo "Usage: $0 [-] <machine>"
-  echo "  -d Dry run the script (display commands only)"
-  echo "  -i Skip everything except install step"
-  echo "  -w Ask for Wifi details"
-  echo "  -c Show the hardware configuration only"
-  echo " Example: $0 -pf <aramid|spruce>"
-  exit 0
-fi
-
 source lib/commands.sh
-source lib/disks.sh
 source secrets/wifi
-
-[ "$machine" = "minoo" ] && keyfile=secrets/luks.key
+source lib/disks.sh
+source config/$machine.sh
 
 if [ "$installonly" -eq "0" ]; then
-  STATE "INIT" "Configure"
+  STATE "REQ " "Prerequisites"
+  RUN "[ '$ssid' -ne '' ]"
+  RUN "[ '$psk' -ne '' ]"
 
-  if [ "$askwifi" -eq "1" ]; then
-    echo "Network name (SSID)?"
-    read ssid
-    echo "Password (PSK)?"
-    read psk
+  if [ ! -z "$keyfile" ] && [ ! -f $keyfile ]; then
+    echo "Password for drive encryption:"
+    read crypt_pass
+    echo -n $crypt_pass > $keyfile
   fi
+
+  STATE "NET " "Wifi"
 
   if ! ping -c 1 google.com > /dev/null 2>&1; then
     RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
@@ -59,16 +32,9 @@ if [ "$installonly" -eq "0" ]; then
     RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
     RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
   fi
-
-  if [ ! -z "$keyfile" ] && [ ! -f $keyfile ]; then
-    echo "Password for drive encryption:"
-    read crypt_pass
-    echo -n $crypt_pass > $keyfile
-  fi
 fi
 
 if [ "$installonly" -eq "0" ]; then
-  source config/$machine/disks.sh
   create_disks
 
   STATE "CHAN" "Switch to unstable channel"

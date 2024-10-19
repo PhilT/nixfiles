@@ -15,17 +15,12 @@ in
       allowDiscards = true;
       keyFileSize = 4096;
       keyFile = "/dev/disk/by-id/${usbkey_id}";
-      preLVM = true;
-    };
-
-    "data" = {
-      device = "/dev/disk/by-id/${usbdata_id}";
-      allowDiscards = true;
-      keyFileSize = 4096;
-      keyFile = "/dev/disk/by-id/${usbkey_id}";
-      preLVM = true;
     };
   };
+
+  environment.etc."crypttab".text = ''
+    nixos-enc2 UUID=${usbdata_uuid} /root/luks.key
+  '';
 
   fileSystems."/data" = {
     device = "/dev/disk/by-label/data";

@@ -42,7 +42,13 @@
     font="${pkgs.terminus_font}/share/consolefonts/ter-i18b.psf.gz";
     useXkbConfig = true;
   };
-  services.xserver.xkb.layout = "gb";
+
+  # This only works in a console
+  # See dotfiles/sway/config for GUI setting
+  services.xserver.xkb = {
+    layout = "gb";
+    options = "ctrl:nocaps";
+  };
 
   programs.neovim = {
     enable = true;

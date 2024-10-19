@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+keyfile=secrets/luks.key
 
 # Boot drive 256GB
 disk1() {
@@ -22,6 +22,8 @@ disk2() {
   partition "-part1" "nixos-enc2" "nixos-vg2"
   fill "data"
   ext4 "data" "data"
+
+  RUN "cp secrets/luks.key"
 }
 
 create_disks() {
