@@ -123,20 +123,21 @@ if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardwar
 fi
 
 # Fetch hashed_password and ssh keys unless they already exist
-if [ ! -f secrets/hashed_password ] || [ ! -d $HOME/.ssh ]; then
+home=$HOME
+if [ ! -f secrets/hashed_password ] || [ ! -d $home/.ssh ]; then
   askpass "Enter KeePass password for hashed_password & .ssh/:"
   keepass_export_hashed_password
 
   # Export public/private keys for this machine to ~/.ssh/
-  mkdir -p $HOME/.ssh
-  chmod 700 $HOME/.ssh
+  mkdir -p $home/.ssh
+  chmod 700 $home/.ssh
   keepass_export_keys $prefix $machine
   keepass_export_keys $prefix $machine github
   keepass_export_keys $prefix $machine gitlab
 fi
 
 # Export all public keys to secrets/ for use in src/ssh.nix
-for m in spruce sirius aramid; do # TODO: sapling; do
+for m in spruce sirius aramid sapling; do
   if [ ! -f secrets/${prefix}_${m}.pub ]; then
     askpass "Enter KeePass password for public key export:"
     keepass_export_key public ${prefix}_${m} secrets/

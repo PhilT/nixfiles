@@ -2,7 +2,7 @@
 
 let
   repos = [
-    "nixos-files"
+    "nixfiles"
     "matter"
     "cv_builder"
     "vim-fsharp"

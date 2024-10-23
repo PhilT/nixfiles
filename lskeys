@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+source lib/keepass.sh
+
+askpass "KeePass password"
+
+echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid_github")"
+echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo_github")"
+echo "Sapling: $(keepass_export_key "public" "${prefix}_sapling_github")"
+echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce_github")"

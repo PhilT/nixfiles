@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+[ ! -f tmp/nixos.qcow2 ] && qemu-img create -f qcow2 tmp/nixos.qcow2 256G
+
+qemu-system-x86_64-uefi \
+  -enable-kvm \
+  -m $((10*1024)) \
+  -nic user,model=virtio \
+  -drive file=tmp/nixos.qcow2,media=disk,if=virtio \
+  -cdrom result/iso/*.iso
