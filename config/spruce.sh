@@ -10,15 +10,14 @@
 
 # Linux drive - 2TB ext4
 disk() {
-  boot "2G"
-  boot_disk "/dev/nvme0n1"
+  boot_disk "/dev/nvme2n1" "2G"
   partition "p2" "nixos-enc" "nixos-vg"
   size "swap" "32G"
   size "nix" "200G"
   fill "root"
 
   ext4 "nixos" "root"
-  fat
+  fat "p1"
   ext4 "nix" "nix"
   swap "swap" "swap"
 }
@@ -27,6 +26,6 @@ disk() {
 # disk "nvme2n1"
 
 
-create_disks() {
+spruce() {
   disk
 }

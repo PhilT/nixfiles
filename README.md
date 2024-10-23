@@ -2,30 +2,28 @@
 
 ## Initializing a new machine
 
-WARNING: Disk needs to be set in: `src/machines/<machine>/drive`
+WARNING: Ensure partitioning is setup in `config/<machine>.sh`
 
-* Copy this repo and KeePass database to a USB stick
-    ```
-    ./sync-and-remove
-    ```
 * Ensure GitHub/GitLab have the SSH keys on your account
-* Create another USB stick with the latest **Minimal NixOS** ISO from https://nixos.org/download/#nixos-iso
+* Build the install ISO with
+    ```
+    ./build-iso
+    ```
+* Create a USB stick with the resulting NixOS ISO
     If USB previously used as ISO then it will have 2 partitions which should be
     unmounted before runnning `dd`:
     ```
     lsblk --list | grep sda[1-9]
     sudo umount /dev/sda1 /dev/sda2
-    sudo dd if=/data/downloads/nixos.iso of=/dev/sda bs=1M status=progress
+    sudo dd if=result/iso/*.iso of=/dev/sda bs=1M status=progress
     sudo umount /dev/sda1 /dev/sda2
     ```
 
-* Boot up NixOS ISO then run the following commands:
+* Boot up NixOS ISO, then run the following commands:
 ```
 sudo -s
-mkdir /usb
-mount /dev/disk/by-label/nixos-data /usb
-cd /usb/nixos-files
-./init <spruce|aramid|minoo>        # Partitions and formats the drives
+<machine> # e.g. sapling # to start the installer for sapling
+
 reboot                              # and remove USB sticks
 ```
 
@@ -33,7 +31,7 @@ After first boot, run:
 ```
 sudo mkdir /usb
 sudo mount /dev/disk/by-label/nixos-data /usb
-cd /usb/nixos-files
+cd /usb/nixfiles
 ./build -s
 ```
 

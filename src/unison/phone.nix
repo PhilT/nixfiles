@@ -1,7 +1,7 @@
 # Sync Unison between Phone and Spruce (Desktop) or Aramid (X1C)
 # FIXME: Some duplication exists between phone.nix and spruce.nix
 
-{ name }: { config, pkgs, lib, ... }:
+{ name }: { config, lib, pkgs, ... }:
 
 let
   paths = [
