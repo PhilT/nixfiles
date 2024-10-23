@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   imports = [
-    /mnt/etc/nixos/hardware-configuration.nix
+    ../../hardware/default.nix
     ../../minimal-configuration.nix
     ./machine.nix
   ];

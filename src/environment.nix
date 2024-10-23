@@ -10,7 +10,7 @@
     sessionVariables = {
       DATA = config.dataDir;
       CODE = config.codeDir;
-      SRC = "${config.codeDir}/nixos-files";
+      SRC = "${config.codeDir}/nixfiles";
       NOTES  = "${config.dataDir}/notes";
       CDPATH = "${config.dataDir}/work:${config.codeDir}:${config.dataDir}";
       DOTNET_CLI_TELEMETRY_OPTOUT = "true";
