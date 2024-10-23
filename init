@@ -1,58 +1,13 @@
 #!/usr/bin/env sh
 
-dryrun=0
-installonly=0
-showconfig=0
-keyfile=secrets/password
-
-source lib/options.sh
-machine=$1
-
 source lib/commands.sh
-source secrets/wifi
 source lib/disks.sh
-source config/$machine.sh
+source lib/keepass.sh
+source lib/run.sh
+source lib/steps.sh
+source config/aramid.sh
+source config/minoo.sh
+source config/sapling.sh
+source config/spruce.sh
 
-if [ "$installonly" -eq "0" ] && [ "$showconfig" -eq "0" ]; then
-  STATE "REQ " "Prerequisites"
-  RUN "[ ! '$ssid' = '' ]"
-  RUN "[ ! '$psk' = '' ]"
-
-  if [ ! -z "$keyfile" ] && [ ! -f $keyfile ]; then
-    echo "Password for drive encryption:"
-    read crypt_pass
-    echo -n $crypt_pass > $keyfile
-  fi
-
-  STATE "NET " "Wifi"
-
-  if ! ping -c 1 google.com > /dev/null 2>&1; then
-    RUN "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
-    wireless_interface=`ls /sys/class/ieee80211/*/device/net/`
-    RUN "wpa_supplicant -B -i$wireless_interface -c/etc/wpa_supplicant.conf"
-    RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
-  fi
-fi
-
-if [ "$installonly" -eq "0" ] && [ "$showconfig" -eq "0" ]; then
-  create_disks
-
-  STATE "CHAN" "Switch to unstable channel"
-  RUN "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
-  RUN "nix-channel --update"
-fi
-
-if [ "$showconfig" -eq "1" ]; then
-  STATE "CONF" "Show hardware configuration"
-  RUN_WITH_RESULT "nixos-generate-config --show-hardware-config"
-  echo "$run_result"
-
-else
-  STATE "INST" "Install NixOS"
-  WAIT "Install NixOS?"
-  RUN "mkdir -p /mnt/etc/nixos"
-  RUN "ln -fs $(pwd)/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
-  RUN "nixos-install --no-root-password"
-fi
-
-STATE "DONE" "Complete"
+run "$@"

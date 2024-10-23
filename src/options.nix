@@ -1,5 +1,11 @@
 { lib, config, ... }: {
   options = {
+    ssh.preventRootLogin = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Avoids a conflict with iso.nix that sets PermitRootLogin to yes";
+    };
+
     programs.kitty.fontSize = lib.mkOption {
       type = lib.types.int;
       default = 10;
@@ -20,7 +26,7 @@
 
     luks.enable = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = false;
       description = "LUKS disk encryption";
     };
 
@@ -29,6 +35,7 @@
       default = "/dev/nvme0n1p2";
     };
 
+    # TODO: Can be removed once Bruce has been migrated to use separate /nix partition
     nixfs.enable = lib.mkOption {
       type = lib.types.bool;
       default = false;

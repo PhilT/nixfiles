@@ -1,16 +1,13 @@
-keyfile=secrets/luks.key
-
 # Boot drive 256GB
 disk1() {
-  boot "2G"
-  boot_disk "/dev/nvme0n1"
+  boot_disk "/dev/nvme0n1" "2G"
   partition "p2" "nixos-enc" "nixos-vg"
   size "swap" "10G"
   size "nix" "100G"
   fill "root"
 
   ext4 "nixos" "root"
-  fat
+  fat "p1"
   ext4 "nix" "nix"
   swap "swap" "swap"
 }
@@ -26,7 +23,7 @@ disk2() {
   RUN "cp secrets/luks.key"
 }
 
-create_disks() {
+minoo() {
   disk1
   disk2
 }
