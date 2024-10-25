@@ -28,10 +28,10 @@
       run "$@"
     '')
 
-    (writeShellScriptBin "sapling" "nixi sapling")
-    (writeShellScriptBin "aramid" "nixi aramid")
-    (writeShellScriptBin "spruce" "nixi spruce")
-    (writeShellScriptBin "minoo" "nixi minoo")
+    (writeShellScriptBin "sapling" "nixi "$@" sapling")
+    (writeShellScriptBin "aramid" "nixi "$@" aramid")
+    (writeShellScriptBin "spruce" "nixi "$@" spruce")
+    (writeShellScriptBin "minoo" "nixi "$@" minoo")
   ];
 
   environment.etc."HomeDatabase.kdbx".source = /data/sync/HomeDatabase.kdbx;
