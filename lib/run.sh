@@ -39,6 +39,7 @@ run() {
     prepare
     connect
     format
+    clone
     unstable
     install
   fi

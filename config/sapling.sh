@@ -5,6 +5,5 @@ sapling() {
   dataset "root"
   dataset "nix"
   dataset "data"
-
   fat "1"
 }
