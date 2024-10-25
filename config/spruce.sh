@@ -9,23 +9,15 @@
 # p4 recovery partition? (NTFS)
 
 # Linux drive - 2TB ext4
-disk() {
+spruce() {
   boot_disk "/dev/nvme2n1" "2G"
-  partition "p2" "nixos-enc" "nixos-vg"
-  size "swap" "32G"
-  size "nix" "200G"
-  fill "root"
+  pool "zpool" "p2"
+  dataset "root"
+  dataset "nix"
+  dataset "data"
 
-  ext4 "nixos" "root"
   fat "p1"
-  ext4 "nix" "nix"
-  swap "swap" "swap"
 }
 
 # Games drive - 2TB NTFS
 # disk "nvme2n1"
-
-
-spruce() {
-  disk
-}

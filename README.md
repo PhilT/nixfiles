@@ -7,45 +7,32 @@ WARNING: Ensure partitioning is setup in `config/<machine>.sh`
 * Ensure GitHub/GitLab have the SSH keys on your account
 * Build the install ISO with
     ```
-    ./build-iso
+    ./mkiso
     ```
-* Create a USB stick with the resulting NixOS ISO
-    If USB previously used as ISO then it will have 2 partitions which should be
-    unmounted before runnning `dd`:
-    ```
-    lsblk --list | grep sda[1-9]
-    sudo umount /dev/sda1 /dev/sda2
-    sudo dd if=result/iso/*.iso of=/dev/sda bs=1M status=progress
-    sudo umount /dev/sda1 /dev/sda2
-    ```
-
+* Test in a VM or "burn" to USB stick
+  * Test in a VM
+      ```
+      ./vm
+      ```
+  * Or, create a USB stick with NixOS ISO (in `result/iso/`)
+      If USB previously used as ISO then it will have 2 partitions which should be
+      unmounted before runnning `dd`:
+      ```
+      lsblk --list | grep sda[1-9]
+      sudo umount /dev/sda1 /dev/sda2
+      sudo dd if=result/iso/*.iso of=/dev/sda bs=1M status=progress
+      sudo umount /dev/sda1 /dev/sda2
+      ```
 * Boot up NixOS ISO, then run the following commands:
 ```
-sudo -s
-<machine> # e.g. sapling # to start the installer for sapling
-
-reboot                              # and remove USB sticks
+<machine> [options] [branch]  # e.g. sapling # to start the installer for sapling
+reboot                        # and remove USB sticks
 ```
 
 After first boot, run:
 ```
-sudo mkdir /usb
-sudo mount /dev/disk/by-label/nixos-data /usb
-cd /usb/nixfiles
+cd /data/nixfiles
 ./build -s
-```
-
-## Directory structure
-
-```
-USB/
-  secrets/    # Temporary folder for hashed_password, wifi and public ssh keys
-  dotfiles/   # dotfiles imported/linked by Nix
-  neovim/     # Lua and vim file imported by Nix
-  src/*.nix   # Nix source configuration files
-  lib/*.sh    # additional build scripts used by init and build
-  init        # Build script for new machine
-  build       # Build script for NixOS machine (Also sets up wifi and SSH keys)
 ```
 
 ## Naming of devices
