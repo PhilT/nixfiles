@@ -18,7 +18,14 @@ RUN() {
 }
 
 SUDO() {
-  RUN "sudo $1"
+  cmd=$1
+  dir=$2
+
+  if [ -z "$dir" ]; then
+    RUN "sudo $cmd"
+  else
+    RUN "cd $dir && sudo $cmd"
+  fi
 }
 
 SHOW_RESULT() {

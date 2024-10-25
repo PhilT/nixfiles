@@ -1,19 +1,12 @@
 #!/usr/bin/env sh
 
 [ -z "$home" ] && home="/home/nixos"
+codedir="/mnt/data/code"
 
 prepare() {
-  [ -z "$branch" ] && branch="main"
-
   askpass 'Password for KeePass'
   RUN "mkdir -p $home/.ssh"
   keepass_export_keys $prefix $machine "github"
-
-  # Fetch latest nixfiles repo
-  RUN "git clone -b $branch --single-branch --depth 1 git@github.com:PhilT/nixfiles.git"
-
-  keepass_export_password 'nixfiles/secrets/password'
-  keepass_export_hashed_password 'nixfiles/secrets/hashed_password'
   keepass_fetch_wifi
 }
 
@@ -35,6 +28,17 @@ format() {
   $machine
 }
 
+clone() {
+  [ -z "$branch" ] && branch="main"
+
+  # Fetch latest nixfiles repo
+  SUDO "mkdir -p $codedir"
+  SUDO "git clone -b $branch --single-branch --depth 1 git@github.com:PhilT/nixfiles.git" "$codedir"
+
+  SUDO "chown nixos:users $codedir/nixfiles/secrets"
+  keepass_export_hashed_password "$codedir/nixfiles/secrets/hashed_password"
+}
+
 unstable() {
   STATE "CHAN" "Switch to unstable channel"
   SUDO "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
@@ -45,8 +49,13 @@ install() {
   STATE "INST" "Install NixOS?"
   WAIT
   SUDO "mkdir -p /mnt/etc/nixos"
-  SUDO "ln -fs $(pwd)/nixfiles/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
+  SUDO "ln -fs $codedir/nixfiles/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
   SUDO "nixos-install --no-root-password"
+  STATE "REBT" "Reboot?"
+  RUN "rm $codedir/nixfiles/secrets/*"
+  SUDO "chown -R 1000:users /mnt/data"
+  WAIT
+  reboot
 }
 
 showconfig() {
