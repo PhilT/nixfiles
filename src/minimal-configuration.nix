@@ -13,7 +13,9 @@
   i18n.defaultLocale = "en_GB.UTF-8";
 
   # Latest ZFS supported kernel. Support for 6.11 in RC (https://github.com/openzfs/zfs/releases)
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_10;
+  # 6.10 is out of support so no longer included in NixOS. Therefore need to revert to LTS kernel.
+  # Overridden in spruce as 6.11 currently needed for Nouveau drivers.
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
   boot.extraModulePackages = with config.boot.kernelPackages; [];
 
   networking.hostName = config.machine;
@@ -35,5 +37,7 @@
     wget
     which
     curl
+    keepassxc
+    git
   ];
 }

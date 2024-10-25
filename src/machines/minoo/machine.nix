@@ -5,6 +5,7 @@
 #   usbdata_id = "usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0-part1";
 # in
 {
+  networking.hostId = "badbe6b6";
   machine = "minoo";
   username = "phil";
   fullname = "Phil Thompson";

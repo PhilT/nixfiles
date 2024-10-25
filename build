@@ -126,7 +126,7 @@ fi
 home=$HOME
 if [ ! -f secrets/hashed_password ] || [ ! -d $home/.ssh ]; then
   askpass "Enter KeePass password for hashed_password & .ssh/:"
-  keepass_export_hashed_password
+  keepass_export_hashed_password "secrets/hashed_password"
 
   # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $home/.ssh
