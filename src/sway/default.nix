@@ -57,6 +57,7 @@ in with colors; {
     swayidle
     swaylock
     overskride                  # Bluetooth GUI
+    darkman
   ];
 
   environment.sessionVariables = {
@@ -103,6 +104,13 @@ in with colors; {
         gtk-application-prefer-dark-theme = true
       '';
     };
+
+    "darkman.yaml" = {
+      mode = "444";
+      text = ''
+        portal: true
+      '';
+    };
   };
 
   systemd.tmpfiles.rules = [
@@ -110,10 +118,12 @@ in with colors; {
     "d ${config.xdgDataHome}/icons - ${config.username} users -"
     "d ${config.xdgConfigHome} - ${config.username} users -"
     "d ${config.xdgConfigHome}/gtk-3.0 - ${config.username} users -"
+    "d ${config.xdgConfigHome}/darkman - ${config.username} users -"
 
     # Fix for cursors in Waybar/Firefox
     "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"
     "L+ ${config.xdgConfigHome}/gtk-3.0/settings.ini - - - - /etc/gtk-3.0/settings.ini"
+    "L+ ${config.xdgConfigHome}/darkman/config.yaml - - - - /etc/darkman.yaml"
 
     "L+ ${config.xdgDataHome}/icons/cat-macchiato-lavender - - - - /run/current-system/sw/share/icons/Papirus-Dark"
   ];

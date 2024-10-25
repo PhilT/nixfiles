@@ -32,10 +32,10 @@
           file:///data/downloads downloads
           file:///data/music music
           file:///data/pictures pictures
+          file:///data/screenshots screenshots
           file:///data/software software
           file:///data/sync sync
           file:///data/notes notes
-          file:///games/steam/steamapps/common/rFactor%202 rFactor 2
         '';
       };
     };

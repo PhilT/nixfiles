@@ -4,7 +4,14 @@ source lib/keepass.sh
 
 askpass "KeePass password"
 
+echo GitHub
 echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid_github")"
 echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo_github")"
 echo "Sapling: $(keepass_export_key "public" "${prefix}_sapling_github")"
 echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce_github")"
+
+echo GitLab
+echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid_gitlab")"
+echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo_gitlab")"
+echo "Sapling: $(keepass_export_key "public" "${prefix}_sapling_gitlab")"
+echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce_gitlab")"
