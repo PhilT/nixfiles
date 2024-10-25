@@ -3,8 +3,10 @@
 [ ! -f tmp/nixos.qcow2 ] && qemu-img create -f qcow2 tmp/nixos.qcow2 256G
 
 qemu-system-x86_64-uefi \
+  -cpu host \
   -enable-kvm \
-  -m $((10*1024)) \
+  -m 10G \
   -nic user,model=virtio \
-  -drive file=tmp/nixos.qcow2,media=disk,if=virtio \
+  -drive file=tmp/nixos.qcow2,if=none,id=nvm \
+  -device nvme,serial=deadbeef,drive=nvm \
   -cdrom result/iso/*.iso

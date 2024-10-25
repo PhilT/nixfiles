@@ -75,7 +75,6 @@
       ncdu                  # Tree-based, interactive du
 
       fd                    # Alternative to find
-      keepassxc
       ripgrep
       unzip
       zip
