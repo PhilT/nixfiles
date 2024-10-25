@@ -1,13 +1,15 @@
 { config, pkgs, ... }: {
+  networking.hostId = "c3a88d59";
   machine = "sapling";
   username = "phil";
   fullname = "Phil Thompson";
 
+  boot.initrd.kernelModules = [ "hv_vmbus" "hv_storvsc" ]; # Needed for HyperV
   boot.kernelParams = [ "nohibernate" ];  # Hibernate not supported on ZFS (no swapfiles)
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule
-  security.pam.zfs.enable = true;         # Ask for encryption password on boot?
   boot.zfs.forceImportRoot = false;       # Hopefully don't need backwards compatibility
+  boot.zfs.devNodes = "/dev/disk/by-id";
 
   fileSystems = {
     "/" = {
@@ -30,7 +32,5 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-
-    swapDevices = [];
   };
 }

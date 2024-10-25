@@ -1,9 +1,10 @@
 # HyperV VM - whatever I like
 sapling() {
-  boot_disk "/dev/vda" "2G"
-  pool "zpool" "2"
+  boot_disk "/dev/nvme0n1" "2G"
+
+  pool "zpool" "nvme-QEMU_NVMe_Ctrl_deadbeef-part2"
   dataset "root"
   dataset "nix"
   dataset "data"
-  fat "1"
+  fat "/dev/nvme0n1p1"
 }
