@@ -21,14 +21,9 @@ SUDO() {
   RUN "sudo $1"
 }
 
-RUN_WITH_RESULT() {
-  RUN "$1"
-  run_result=$temp_result
-}
-
 SHOW_RESULT() {
   if [ "$dryrun" -eq "0" ]; then
-    echo "$run_result"
+    echo "$temp_result"
   else
     echo "(result of command would appear here)"
   fi

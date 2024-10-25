@@ -25,8 +25,8 @@ connect() {
 
   if [ ! ping -c 1 google.com > /dev/null 2>&1 ] || [ "$dryrun" -eq "1" ]; then
     SUDO "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
-    RUN_WITH_RESULT "ls /sys/class/ieee80211/*/device/net/"
-    SUDO "wpa_supplicant -B -i$run_result -c/etc/wpa_supplicant.conf"
+    RUN "ls /sys/class/ieee80211/*/device/net/"
+    SUDO "wpa_supplicant -B -i$temp_result -c/etc/wpa_supplicant.conf"
     RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"
   fi
 }
@@ -51,6 +51,6 @@ install() {
 
 showconfig() {
   STATE "CONF" "Show hardware configuration"
-  RUN_WITH_RESULT "nixos-generate-config --show-hardware-config"
+  RUN "nixos-generate-config --show-hardware-config"
   SHOW_RESULT
 }

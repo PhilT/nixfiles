@@ -54,6 +54,8 @@ exec swayidle -w \
 
 # Ensure folder icons are configured
 exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-macchiato-lavender'"
+exec dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+exec darkman set dark # Force dark mode in QT apps such as KeePassXC
 
 exec waybar
 exec mako -c /etc/config/mako
