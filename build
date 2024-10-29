@@ -9,14 +9,14 @@ cleanup=0
 while getopts 'hdsyurbctm' OPTION; do
   case "$OPTION" in
     h)
-      echo "Usage: $0 [-hdsur] [commit message/machine] [module]"
+      echo "Usage: $0 [-hdsur] [version/machine] [module]"
       echo "  -h                   this help"
       echo "  -d                   run nix-collect-garbage"
       echo "  -s                   rebuild & switch"
       echo "  -y                   dry run"
       echo "  -u                   upgrade channel and switch"
       echo "  -b                   rebuild & boot"
-      echo "  -r [commit message]  release - rebuild & switch, with optional git commit"
+      echo "  -r <version>         release - rebuild & switch, git tag and label with <version> e.g. $0 -r v1"
       echo "  -m [machine]         Build a different machine from the running one. e.g. sirius/aramid/spruce/sapling"
       echo "  -c                   Diff of changes between latest & prev upgrade"
       echo "  -t                   Show trace"
@@ -56,18 +56,13 @@ while getopts 'hdsyurbctm' OPTION; do
       action=RELEASE
       command=switch
       shift $(($OPTIND - 1))
-      commit_msg="$1"
+      version="$1"
 
-      if [ -z "$commit_msg" ]; then
-        git diff-index --quiet HEAD --
-        if [ "$?" -eq "0" ]; then
-          commit_msg=$(git lo -1 | grep "\(.*\)")
-        else
-          echo "Can't release with uncommited files."
-          exit 1
-        fi
+      if [ -z "$version" ]; then
+        echo "Missing version from $0 -r <version>"
+        exit 1
       else
-        git commit -am "$commit_msg"
+        git tag "$version"
       fi
 
       ;;
@@ -112,8 +107,7 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done
 fi
 
-nixos_boot_label=$(echo $commit_msg | sed -E -e 's/[^a-zA-Z0-9:_\.-]/_/g')
-[ "$nixos_boot_label" ] && echo "[LABEL] $nixos_boot_label"
+[ "$version" ] && echo "[LABEL] $version"
 
 # Check if both catppuccin and nixos-hardware channels have been added
 if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
@@ -147,8 +141,7 @@ done
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
-# NIXOS_LABEL=$NIXOS_LABEL
-[ "$nixos_boot_label" ] && label="NIXOS_LABEL=$nixos_boot_label"
+[ "$version" ] && label="NIXOS_LABEL=$version"
 sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
 #                                                           -I nixpkgs=/data/code/nixpkgs # -------^
 
