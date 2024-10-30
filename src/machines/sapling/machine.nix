@@ -4,12 +4,12 @@
   username = "phil";
   fullname = "Phil Thompson";
 
-  boot.initrd.kernelModules = [ "hv_vmbus" "hv_storvsc" ]; # Needed for HyperV
   boot.kernelParams = [ "nohibernate" ];  # Hibernate not supported on ZFS (no swapfiles)
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule
   boot.zfs.forceImportRoot = false;       # Hopefully don't need backwards compatibility
   boot.zfs.devNodes = "/dev/disk/by-id";
+  services.qemuGuest.enable = true;
 
   fileSystems = {
     "/" = {

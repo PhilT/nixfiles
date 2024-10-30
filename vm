@@ -3,8 +3,11 @@
 [ ! -f tmp/nixos.qcow2 ] && qemu-img create -f qcow2 tmp/nixos.qcow2 256G
 
 qemu-system-x86_64-uefi \
+  -machine vmport=off \
   -cpu host \
   -enable-kvm \
+  -device virtio-vga-gl \
+  -display sdl,gl=on \
   -m 10G \
   -nic user,model=virtio \
   -drive file=tmp/nixos.qcow2,if=none,id=nvm \
