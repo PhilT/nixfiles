@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 boot_disk() {
-  disk=$1
+  local disk=$1
   local boot_size=$2
 
   STATE "PART" "Setup boot and primary partitions"
@@ -32,7 +32,7 @@ dataset() {
 }
 
 fat() {
-  boot_partition=$1
+  local boot_partition=$1
 
   SUDO "mkfs.vfat -n boot $boot_partition > /dev/null"
   SUDO "mkdir -p /mnt/boot"
