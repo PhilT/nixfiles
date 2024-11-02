@@ -2,6 +2,9 @@
 {
   virtualisation.spiceUSBRedirection.enable = true;
   environment = with pkgs; {
-    systemPackages = [ samba qemu quickemu ];
+    systemPackages = [
+      samba
+      qemu
+    ];
   };
 }

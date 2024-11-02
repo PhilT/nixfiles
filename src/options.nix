@@ -1,5 +1,11 @@
 { lib, config, ... }: {
   options = {
+    vulkan.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Generally for toggling off on VMs until Qemu comes with virgl venus support";
+    };
+
     ssh.preventRootLogin = lib.mkOption {
       type = lib.types.bool;
       default = true;

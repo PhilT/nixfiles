@@ -1,9 +1,10 @@
 { config, pkgs, ... }: {
-  networking.hostId = "c3a88d59";
   machine = "sapling";
   username = "phil";
   fullname = "Phil Thompson";
+  vulkan.enable = false;
 
+  networking.hostId = "c3a88d59";
   boot.kernelParams = [ "nohibernate" ];  # Hibernate not supported on ZFS (no swapfiles)
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule

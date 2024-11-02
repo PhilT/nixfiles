@@ -8,7 +8,6 @@
     ./mimetypes.nix
     ./neovim.nix
     ./programs.nix
-    ./qemu.nix
     ./ranger.nix
     ./tmux.nix
   ];
