@@ -66,7 +66,7 @@ in with colors; {
     NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland: Fixes Slack
     # WLR_NO_HARDWARE_CURSORS = "1"; # Try if cursors keep disapearing/not rendering the correct one
 
-    WLR_RENDERER = "vulkan";
+    WLR_RENDERER = lib.mkIf config.vulkan.enable "vulkan";
     # WLR_EGL_NO_MODIFIERS = "1"; # Try this
     # WLR_DRM_NO_ATOMIC = "1";    # And this
 
