@@ -5,6 +5,7 @@ boot_disk() {
   local boot_size=$2
 
   STATE "PART" "Setup boot and primary partitions"
+  SUDO "sgdisk -Z $disk" # Wipe partitions
   SUDO "parted -s $disk -- mklabel gpt"
   SUDO "parted -s $disk -- mkpart ESP fat32 0% $boot_size"
   SUDO "parted -s $disk -- mkpart primary $boot_size 100%"
@@ -17,7 +18,7 @@ pool() {
   local device=$2
 
   STATE "POOL" "Setup ZFS pool"
-  RUN "echo $passwd | sudo zpool create -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
+  RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
 }
 
 dataset() {

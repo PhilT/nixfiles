@@ -2,6 +2,7 @@
 { config, pkgs, ... }: {
   imports = [
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
+    <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
     src/options.nix
     src/ssh.nix
   ];
