@@ -85,12 +85,12 @@ configuration_nix=src/machines/$machine/$module
 # Check we have Internet
 if ! ping -c 1 google.com > /dev/null 2>&1; then
   # Check we have Wifi credentials
-  if [ -f secrets/wifi ]; then
+  if [ -f "secrets/wifi" ]; then
     source secrets/wifi
   else
-    passwd=$(cat secrets/password)
+    [ -f "secrets/password" ] && passwd=$(cat "secrets/password")
     askpass "Enter KeePass password for wifi credentials:"
-    keepass_export_wifi
+    keepass_fetch_wifi
   fi
 
   echo "[WIFI] Network name (SSID) [$ssid]:"

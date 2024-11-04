@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+# Delete all Linux Boot Manager entries from EFI
+# For some reason, Aramid keeps creating entries whenever a reinstall is performed
+rm_boot_entries() {
+  efibootmgr | grep "Linux Boot Manager" | sed -E "s/Boot([0-9]+).*/\1/" | while read num; do
+    efibootmgr -Bb $num
+  done
+}
+
 boot_disk() {
   local disk=$1
   local boot_size=$2
