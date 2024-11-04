@@ -11,7 +11,6 @@ prepare() {
 }
 
 connect() {
-
   [ "$dryrun" -eq "1" ] && ssid="ssid"
   [ "$dryrun" -eq "1" ] && psk="psk"
 

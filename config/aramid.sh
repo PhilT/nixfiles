@@ -3,6 +3,8 @@ aramid() {
   local boot_partition="${disk}p1"
   local primary_partition="nvme-Samsung_SSD_990_PRO_2TB_S7DNNU0X576898Y-part2"
 
+  rm_boot_entries
+
   boot_disk "$disk" "2G"
 
   pool "zpool" "$primary_partition"

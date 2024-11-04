@@ -7,10 +7,13 @@
     ../../hardware/default.nix
     ../../hardware/bluetooth.nix
     ../../common.nix
+    ../../common_gui.nix
     ../../development.nix
 
     # Sync
-    # ?
+    ../../ssh.nix
+    ../../unison/spruce.nix
+    ../../unison/suuno.nix
 
     # Windowing
     ../../sway/mako.nix
