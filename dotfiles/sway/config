@@ -2,9 +2,9 @@
 # exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 include /etc/sway/config.d/*
 
-# Aramid
-output eDP1 scale 2
-output eDP1 pos 0 0
+# Some defaults
+output * scale 2
+output * pos 0 0
 
 # Spruce
 output DP-3 scale 2
@@ -12,6 +12,11 @@ output DP-3 pos 0 0
 output DP-2 scale 2
 output DP-2 pos 1920 0
 
+# TODO: Currently Aramid display is not recognised.
+# Hopefully this is due to old Linux kernel
+# Once we can update (Once new ZFS is released)
+# Check if display is recognised with: swaymsg -t get_outputs
+# This is probably also why Vulkan doesn't work
 workspace 1 output DP-3 eDP1
 workspace 2 output DP-3 eDP1
 workspace 3 output DP-3 eDP1
@@ -166,8 +171,8 @@ bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
 
 # Screen brightness
-bindsym XF86MonBrightnessUp exec adjustlight up
-bindsym XF86MonBrightnessDown exec adjustlight down
+bindsym XF86MonBrightnessUp exec light up
+bindsym XF86MonBrightnessDown exec light down
 
 # MONITORS
 bindsym $mod+comma focus output left

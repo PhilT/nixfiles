@@ -3,6 +3,7 @@
   username = "phil";
   fullname = "Phil Thompson";
   nixfs.enable = true;
+  vulkan.enable = false;
 
   networking.hostId = "d549b408";
   boot.kernelParams = [ "nohibernate" ];  # Hibernate not supported on ZFS (no swapfiles)
