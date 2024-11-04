@@ -11,13 +11,16 @@ prepare() {
 }
 
 connect() {
-  STATE " NET" "Wifi"
 
   [ "$dryrun" -eq "1" ] && ssid="ssid"
   [ "$dryrun" -eq "1" ] && psk="psk"
 
-  if [ ! ping -c 1 google.com > /dev/null 2>&1 ] || [ "$dryrun" -eq "1" ]; then
-    SUDO "wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf"
+  ping -c 1 google.com > /dev/null 2>&1
+  if [ "$?" -eq "0"  ] && [ "$dryrun" -ne "1" ]; then
+    STATE " NET" "Connected"
+  else
+    STATE " NET" "Disconnected. Establish Wifi connection"
+    SUDO "sh -c 'wpa_passphrase \"$ssid\" \"$psk\" > /etc/wpa_supplicant.conf'"
     RUN "ls /sys/class/ieee80211/*/device/net/"
     SUDO "wpa_supplicant -B -i$temp_result -c/etc/wpa_supplicant.conf"
     RUN "while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done"

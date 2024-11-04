@@ -51,5 +51,6 @@
     catppuccin.flavor = "macchiato";
   };
 
+  hardware.graphics.enable = true;
   services.fprintd.enable = true;
 }
