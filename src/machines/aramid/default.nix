@@ -7,7 +7,6 @@
 
     ./machine.nix
     ../../hardware/default.nix
-    ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../common.nix
