@@ -41,7 +41,7 @@
       default = "/dev/nvme0n1p2";
     };
 
-    # TODO: Can be removed once Bruce has been migrated to use separate /nix partition
+    # TODO: Can be removed once Spruce has been migrated to use separate /nix partition
     nixfs.enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
