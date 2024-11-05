@@ -6,7 +6,6 @@
 
     ./machine.nix
     ../../hardware/default.nix
-    ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../common.nix
@@ -33,5 +32,5 @@
   };
 
   services.hardware.openrgb.enable = true;
-  hardware.graphics.enable = true;
+  hardware.graphics.enable = true; # TODO: Move into generic config
 }
