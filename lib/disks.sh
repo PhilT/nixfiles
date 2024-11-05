@@ -21,6 +21,13 @@ boot_disk() {
   SUDO "partprobe $disk"
 }
 
+data_disk() {
+  local disk=$1
+
+  STATE "PART" "Setup data disk"
+  SUDO "sgdisk -Z $disk" # Wipe partitions
+}
+
 pool() {
   pool=$1
   local device=$2

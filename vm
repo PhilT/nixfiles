@@ -12,5 +12,4 @@ qemu-system-x86_64-uefi \
   -nic user,model=virtio \
   -drive file=tmp/nixos.qcow2,if=none,id=nvm \
   -device nvme,serial=deadbeef,drive=nvm \
-  -full-screen
-  #-cdrom result/iso/*.iso
+  -cdrom result/iso/*.iso

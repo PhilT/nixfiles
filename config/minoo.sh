@@ -1,22 +1,26 @@
 # Boot drive 256GB
-disk1() {
-  boot_disk "/dev/nvme0n1" "2G"
-  pool "zpool" "p2"
+minoo_disk1() {
+  local disk="/dev/nvme0n1"
+  local boot_partition="${disk}p1"
+  local primary_partition="nvme-Lexar_SSD_NM620_256GB_PDB545R000033P1109-part2"
+
+  boot_disk "$disk" "2G"
+
+  pool "zpool" "$primary_partition"
   dataset "root"
   dataset "nix"
-
-  fat "p1"
+  fat "$boot_partition"
 }
 
-disk2() {
-  disk "/dev/disk/by-id/usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
-  #sleep 2 # Running luksFormat immediately after creating partitions
-          # appears to fail. Adding a delay fixes the issue.
-  pool "dpool" "-part1"
+minoo_disk2() {
+  local disk "usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
+
+  data_disk $disk
+  pool "dpool" $disk
   dataset "data"
 }
 
 minoo() {
-  disk1
-  disk2
+  minoo_disk1
+  minoo_disk2
 }
