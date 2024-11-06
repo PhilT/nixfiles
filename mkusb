@@ -1,0 +1,4 @@
+sudo umount /dev/sda1 /dev/sda2
+sudo dd if=$(ls result/iso/*.iso) of=/dev/sda bs=1M status=progress
+sleep 2
+sudo umount /dev/sda1 /dev/sda2

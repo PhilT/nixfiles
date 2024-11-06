@@ -13,7 +13,7 @@ minoo_disk1() {
 }
 
 minoo_disk2() {
-  local disk "usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
+  local disk="usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
 
   data_disk $disk
   pool "dpool" $disk
