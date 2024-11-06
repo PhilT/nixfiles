@@ -17,20 +17,18 @@
     ../../unison/suuno.nix
 
     # Media Server/Player
-    #../../kodi.nix
+    ./kodi_module.nix
+    ./kodi.nix
 
     # Desktop
     ../../desktop/default.nix
     ../../desktop/light.nix
   ];
 
-  # Graphical login for drive encryption
-  boot.plymouth = {
-    enable = true;
-    catppuccin.enable = true;
-    catppuccin.flavor = "macchiato";
-  };
+  # How do we supply the key?
+  # Need to change to keyfile instead of prompt?
+  # Maybe not though, if permanently on and connected to the TV that
+  # might enough to keep simple password login.
 
-  services.hardware.openrgb.enable = true;
   hardware.graphics.enable = true; # TODO: Move into generic config
 }
