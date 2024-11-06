@@ -37,7 +37,7 @@
     uid = 1000;
     description = config.fullname;
     hashedPassword = (builtins.readFile ../secrets/hashed_password);
-    extraGroups = [ "wheel" "docker" "networkmanager" "audio" "video" ];
+    extraGroups = [ "wheel" "users" "docker" "networkmanager" "audio" "video" ];
   };
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
