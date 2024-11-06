@@ -56,6 +56,7 @@ install() {
   RUN "rm $codedir/nixfiles/secrets/*"
   SUDO "mkdir -p /mnt/data/sync"
   SUDO "cp $db /mnt/data/sync"
+  SUDO "chmod +w /mnt/data/sync/*"
   SUDO "chown -R 1000:users /mnt/data"
   SUDO "umount -l /mnt"
   SUDO "zpool export -a"
