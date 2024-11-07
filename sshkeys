@@ -9,7 +9,7 @@ source lib/keepass.sh
 askpass "Enter database password:"
 
 # TODO: Remove duplication of elements in ./build
-for machine in spruce sirius aramid sapling; do
+for machine in aramid minoo sapling spruce; do
   for service in home github gitlab; do
     [ "$service" == "home" ] && name=$machine || name=${machine}_$service
     keyfile=${prefix}_$name
@@ -28,3 +28,4 @@ for machine in spruce sirius aramid sapling; do
     fi
   done
 done
+echo "$db updated"
