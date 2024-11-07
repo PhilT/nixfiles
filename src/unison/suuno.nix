@@ -1,6 +1,63 @@
-{ ... }:
+# Sync Unison with Suuno
+# Runs on Minoo
+# FIXME: Some duplication exists between minoo.nix and suuno.nix
+
+{ config, lib, pkgs, ... }:
+
+let
+  name = "suuno";
+  paths = [
+    "books"
+    "documents"
+    "music"
+    "notes"
+    "DCIM"
+    "pictures/showcase"
+    "sync"
+    "txt"
+  ];
+  pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
+  mountsConfig = lib.lists.foldr (path: str: "mountpoint = ${path}\n${str}") "";
+  root = "/data";
+  folders = map (path: "d ${root}/${path} - ${config.username} users -") paths;
+  extractIpAddress = "sed -En 's/.*${name} \\((.*)\\)/\\1/p'";
+in
 {
   imports = [
-    (import ./phone.nix { name = "suuno"; })
+    ./default.nix
   ];
+
+  environment.systemPackages = with pkgs; [
+    sshfs
+
+    (writeShellScriptBin "sync_${name}" ''
+      device_ip=`nmap -sn 192.168.1.0/24 | ${extractIpAddress}`
+      sshfs $device_ip:/ /mnt/${name} -p 8022 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
+      unison ${root} /mnt/${name} -include ${name} $@
+      mount | grep ${name} > /dev/null && umount /mnt/${name}
+    '')
+  ];
+
+  environment.etc."config/unison/${name}.prf" = {
+    mode = "444";
+    text = ''
+      include common
+
+      perms = 0
+      dontchmod = true
+
+      ${pathsConfig paths}
+      ${mountsConfig paths}
+      forcepartial = Path pictures/showcase /data
+      forcepartial = Path music /data
+    '';
+  };
+
+  systemd.tmpfiles.rules = [
+    "d ${config.userHome} - ${config.username} users -"
+    "d ${config.userHome}/.unison - ${config.username} users -"
+    "d /mnt/${name} - ${config.username} users -"
+
+    "L+ ${config.userHome}/.unison/${name}.prf - - - - /etc/config/unison/${name}.prf"
+  ] ++ folders;
 }

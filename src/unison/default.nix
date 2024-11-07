@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     unison
     nmap
-    sshfs
   ];
 
   environment.etc."config/unison/common.prf" = {
