@@ -9,7 +9,7 @@ rm_boot_entries() {
 }
 
 boot_disk() {
-  local disk="$1"
+  local disk=$1
   local boot_size=$2
 
   STATE "PART" "Setup boot and primary partitions"
@@ -22,7 +22,7 @@ boot_disk() {
 }
 
 data_disk() {
-  local disk="$1"
+  local disk=$1
 
   STATE "PART" "Setup data disk"
   SUDO "sgdisk -Z $disk" # Wipe partitions
@@ -30,7 +30,7 @@ data_disk() {
 
 pool() {
   pool=$1
-  local device="$2"
+  local device=$2
 
   STATE "POOL" "Setup ZFS pool"
   RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
@@ -48,7 +48,7 @@ dataset() {
 }
 
 fat() {
-  local boot_partition="$1"
+  local boot_partition=$1
 
   SUDO "mkfs.vfat -n boot $boot_partition > /dev/null"
   SUDO "mkdir -p /mnt/boot"
