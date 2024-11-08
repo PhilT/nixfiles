@@ -12,9 +12,10 @@
     ../../common_gui.nix
 
     # Sync
-    ../../ssh.nix
-    ../../unison/spruce.nix
+    # Not only does this provide a sync command to my phone but also
+    # makes the unison command available for other machines to use.
     ../../unison/suuno.nix
+    ../../ssh.nix
 
     # Media Server/Player
     ./kodi_module.nix
