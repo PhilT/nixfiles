@@ -38,16 +38,16 @@ generate_key() {
 pool() {
   pool=$1
   local device=$2
-  local keyfile=$3
-
-  if [ -z "$keyfile" ]; then
-    params="-O keyformat=passphrase -O keylocation=prompt"
-  else
-    params="-O keyformat=raw -O keylocation=$keyfile"
-  fi
 
   STATE "POOL" "Setup ZFS pool"
-  RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on $params -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
+  RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
+}
+
+change_key() {
+  local pool=$1
+  local keyfile="file://$1"
+
+  SUDO "zfs change-key -o keyformat=raw -o keylocation=$keyfile $pool"
 }
 
 dataset() {
