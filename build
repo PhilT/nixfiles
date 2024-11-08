@@ -144,6 +144,7 @@ pool_name="dpool"
 zfs_keydir="/root"
 zfs_keypath="$zfs_keydir/.$pool_name.key"
 if [ "$machine" = "minoo" ] && [ ! -f "$zfs_keypath" ]; then
+  source lib/commands.sh
   source lib/disks.sh
   SUDO "mkdir -p $zfs_keydir"
   SUDO "chmod 700 $zfs_keydir"
