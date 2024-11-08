@@ -142,12 +142,11 @@ done
 # Currently, this is just Minoo
 pool_name="dpool"
 zfs_keydir="/root"
-zfs_keypath="$zfs_keydir/.$pool_name.key"
+zfs_keypath="$zfs_keydir/.${pool_name}.key"
 if [ "$machine" = "minoo" ] && [ ! -f "$zfs_keypath" ]; then
-  source lib/commands.sh
-  source lib/disks.sh
-  SUDO "mkdir -p $zfs_keydir"
-  SUDO "chmod 700 $zfs_keydir"
+  source lib/disks2.sh
+  sudo mkdir -p $zfs_keydir
+  sudo chmod 700 $zfs_keydir
   generate_key $zfs_keypath
   change_key $pool_name $zfs_keypath
 fi
