@@ -9,7 +9,7 @@ generate_key() {
 
 change_key() {
   local pool=$1
-  local keyfile="file://$1"
+  local keyfile="file://$2"
 
   sudo zfs change-key -o keyformat=raw -o keylocation=$keyfile $pool
 }
