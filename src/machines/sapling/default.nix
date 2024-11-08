@@ -12,7 +12,7 @@
 
     # Sync
     ../../ssh.nix
-    ../../unison/spruce.nix
+    ../../unison/minoo.nix
     ../../unison/suuno.nix
 
     # Windowing
