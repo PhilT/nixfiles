@@ -14,9 +14,12 @@ minoo_disk1() {
 
 minoo_disk2() {
   local disk="usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
+  local keyfile="/mnt/root/keyfile"
+
+  generate_key $keyfile
 
   data_disk "/dev/disk/by-id/$disk"
-  pool "dpool" "$disk"
+  pool "dpool" "$disk" $keyfile
   dataset "data"
 }
 
