@@ -1,4 +1,8 @@
+echo "Unmounting USB stick"
 sudo umount /dev/sda1 /dev/sda2
+echo "Writing ISO"
 sudo dd if=$(ls result/iso/*.iso) of=/dev/sda bs=1M status=progress
+echo "Unmounting"
 sleep 2
 sudo umount /dev/sda1 /dev/sda2
+echo "Done"

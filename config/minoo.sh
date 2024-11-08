@@ -12,18 +12,23 @@ minoo_disk1() {
   fat "$boot_partition"
 }
 
+# Data drive 2TB
 minoo_disk2() {
   local disk="usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
-  local keyfile="/mnt/root/keyfile"
-
-  generate_key $keyfile
 
   data_disk "/dev/disk/by-id/$disk"
-  pool "dpool" "$disk" $keyfile
+  pool "dpool" "$disk"
   dataset "data"
 }
 
 minoo() {
   minoo_disk1
   minoo_disk2
+}
+
+minoo_use_keyfile() {
+  local keyfile="/root/.dpool.key"
+  generate_key $keyfile
+
+  change_key "dpool" $keyfile
 }
