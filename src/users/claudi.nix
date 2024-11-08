@@ -25,10 +25,11 @@
       DATA = "/data";
     };
 
-    system.activationScripts.dataDir = ''
-      [ -d "$DATA" ] || (mkdir -p $DATA && chown claudi:users $DATA)
-    '';
   };
+
+  system.activationScripts.dataDir = ''
+    [ -d "$DATA" ] || (mkdir -p $DATA && chown claudi:users $DATA)
+  '';
 
   hardware.bluetooth.enable = true;
   security.pam.services.gdm.enableGnomeKeyring = true;
@@ -39,6 +40,7 @@
       enable = true;
       enableSSHSupport = true;
     };
+    # TODO: Should probably use filemanager.nix
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
