@@ -138,6 +138,19 @@ for m in spruce sirius aramid sapling; do
   fi
 done
 
+# Switch to key-based encryption on drive 2 of machines with 2 drives
+# Currently, this is just Minoo
+pool_name="dpool"
+zfs_keydir="/root"
+zfs_keypath="$zfs_keydir/.$pool_name.key"
+if [ "$machine" = "minoo" ] && [ ! -f "$zfs_keypath" ]; then
+  source lib/disks.sh
+  SUDO "mkdir -p $zfs_keydir"
+  SUDO "chmod 700 $zfs_keydir"
+  generate_key $zfs_keypath
+  change_key $pool_name $zfs_keypath
+fi
+
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update

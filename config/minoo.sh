@@ -25,10 +25,3 @@ minoo() {
   minoo_disk1
   minoo_disk2
 }
-
-minoo_use_keyfile() {
-  local keyfile="/root/.dpool.key"
-  generate_key $keyfile
-
-  change_key "dpool" $keyfile
-}
