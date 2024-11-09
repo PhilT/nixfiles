@@ -1,9 +1,14 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }: {
+  # DHCP Reservations setup on Linksys Router
+  ipAddresses = {
+    aramid = "192.168.1.87";
+    minoo = "192.168.1.248";
+    spruce = "192.168.1.226";
+    suuno = "192.168.1.205";
+  };
 
-{
   environment.systemPackages = with pkgs; [
     unison
-    nmap
   ];
 
   environment.etc."config/unison/common.prf" = {
