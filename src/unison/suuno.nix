@@ -5,7 +5,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  name = "suuno";
   paths = [
     "books"
     "documents"
@@ -20,25 +19,26 @@ let
   mountsConfig = lib.lists.foldr (path: str: "mountpoint = ${path}\n${str}") "";
   root = "/data";
   folders = map (path: "d ${root}/${path} - ${config.username} users -") paths;
-  extractIpAddress = "sed -En 's/.*${name} \\((.*)\\)/\\1/p'";
 in
 {
   imports = [
     ./default.nix
   ];
 
+  unisonTarget = "suuno";
+  unisonTargetIpAddress = config.ipAddresses.suuno;
+
   environment.systemPackages = with pkgs; [
     sshfs
 
-    (writeShellScriptBin "sync_${name}" ''
-      device_ip=`nmap -sn 192.168.1.0/24 | ${extractIpAddress}`
-      sshfs $device_ip:/ /mnt/${name} -p 8022 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
-      unison ${root} /mnt/${name} -include ${name} $@
-      mount | grep ${name} > /dev/null && umount /mnt/${name}
+    (writeShellScriptBin "sync_${config.unisonTarget}" ''
+      sshfs ${config.unisonTargetIpAddress}:/ /mnt/${config.unisonTarget} -p 8022 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
+      unison ${root} /mnt/${config.unisonTarget} -include ${config.unisonTarget} $@
+      mount | grep ${config.unisonTarget} > /dev/null && umount /mnt/${config.unisonTarget}
     '')
   ];
 
-  environment.etc."config/unison/${name}.prf" = {
+  environment.etc."config/unison/${config.unisonTarget}.prf" = {
     mode = "444";
     text = ''
       include common
@@ -56,8 +56,8 @@ in
   systemd.tmpfiles.rules = [
     "d ${config.userHome} - ${config.username} users -"
     "d ${config.userHome}/.unison - ${config.username} users -"
-    "d /mnt/${name} - ${config.username} users -"
+    "d /mnt/${config.unisonTarget} - ${config.username} users -"
 
-    "L+ ${config.userHome}/.unison/${name}.prf - - - - /etc/config/unison/${name}.prf"
+    "L+ ${config.userHome}/.unison/${config.unisonTarget}.prf - - - - /etc/config/unison/${config.unisonTarget}.prf"
   ] ++ folders;
 }

@@ -5,7 +5,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  name = "minoo";
   paths = [
     "books"
     "documents"
@@ -24,26 +23,22 @@ let
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
   root = config.dataDir;
   folders = map (path: "d ${root}/${path} - ${config.username} users -") paths;
-  extractIpAddress = "sed -En 's/.*${name} \\((.*)\\)/\\1/p'";
 in
 {
   imports = [
     ./default.nix
   ];
 
+  unisonTarget = "minoo";
+  unisonTargetIpAddress = config.ipAddresses.minoo;
+
   environment.systemPackages = with pkgs; [
-    (writeShellScriptBin "sync_${name}" ''
-      device_ip=`nmap -sn 192.168.1.0/24 | ${extractIpAddress}`
-      if [ -z "$device_ip" ]; then
-        echo "Couldn't get IP address of machine: ${name}"
-        echo "${extractIpAddress}"
-      else
-        unison ${root} ssh://$device_ip//${root} -include ${name} $@
-      fi
+    (writeShellScriptBin "sync_${config.unisonTarget}" ''
+      unison ${root} ssh://${config.unisonTargetIpAddress}//${root} -include ${config.unisonTarget} $@
     '')
   ];
 
-  environment.etc."config/unison/${name}.prf" = {
+  environment.etc."config/unison/${config.unisonTarget}.prf" = {
     mode = "444";
     text = ''
       include common
@@ -56,6 +51,6 @@ in
     "d ${config.userHome} - ${config.username} users -"
     "d ${config.userHome}/.unison - ${config.username} users -"
 
-    "L+ ${config.userHome}/.unison/${name}.prf - - - - /etc/config/unison/${name}.prf"
+    "L+ ${config.userHome}/.unison/${config.unisonTarget}.prf - - - - /etc/config/unison/${config.unisonTarget}.prf"
   ] ++ folders;
 }
