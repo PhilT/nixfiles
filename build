@@ -17,7 +17,7 @@ while getopts 'hdsyurbctm' OPTION; do
       echo "  -u                   upgrade channel and switch"
       echo "  -b                   rebuild & boot"
       echo "  -r <version>         release - rebuild & switch, git tag and label with <version> e.g. $0 -r v1"
-      echo "  -m [machine]         Build a different machine from the running one. e.g. sirius/aramid/spruce/sapling"
+      echo "  -m [machine]         Build a different machine from the running one. e.g. aramid/minoo/sapling/spruce"
       echo "  -c                   Diff of changes between latest & prev upgrade"
       echo "  -t                   Show trace"
       echo "  [module]             Pick an alternative base module from machines/$machine/. Defaults to default.nix"
@@ -131,7 +131,7 @@ if [ ! -f secrets/hashed_password ] || [ ! -d $home/.ssh ]; then
 fi
 
 # Export all public keys to secrets/ for use in src/ssh.nix
-for m in spruce sirius aramid sapling; do
+for m in aramid minoo sapling spruce; do
   if [ ! -f secrets/${prefix}_${m}.pub ]; then
     askpass "Enter KeePass password for public key export:"
     keepass_export_key public ${prefix}_${m} secrets/
