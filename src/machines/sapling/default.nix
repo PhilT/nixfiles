@@ -13,7 +13,6 @@
     # Sync
     ../../ssh.nix
     ../../unison/minoo.nix
-    ../../unison/suuno.nix
 
     # Windowing
     ../../sway/mako.nix

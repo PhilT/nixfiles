@@ -1,5 +1,18 @@
 { lib, config, ... }: {
   options = {
+    unisonTarget = lib.mkOption {
+      type = lib.types.str;
+    };
+
+    unisonTargetIpAddress = lib.mkOption {
+      type = lib.types.str;
+    };
+
+    ipAddresses = lib.mkOption {
+      type = with lib.types; attrsOf str;
+      description = "Used to identify Unison device targets";
+    };
+
     vulkan.enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
