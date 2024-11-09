@@ -1,6 +1,6 @@
 # Sync Unison with Minoo
 # Runs on Spruce and Aramid
-# FIXME: Some duplication exists between minoo.nix and suuno.nix
+# TODO: Some duplication exists between minoo.nix and suuno.nix
 
 { config, pkgs, lib, ... }:
 
@@ -34,7 +34,12 @@ in
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "sync_${name}" ''
       device_ip=`nmap -sn 192.168.1.0/24 | ${extractIpAddress}`
-      unison ${root} ssh://$device_ip//${root} -include ${name} $@
+      if [ -z "$device_ip" ]; then
+        echo "Couldn't get IP address of machine: ${name}"
+        echo "${extractIpAddress}"
+      else
+        unison ${root} ssh://$device_ip//${root} -include ${name} $@
+      fi
     '')
   ];
 
