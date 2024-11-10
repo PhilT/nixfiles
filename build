@@ -158,7 +158,7 @@ done
 echo -n "[SSH] "
 [ "$overwrite_sshkeys" -eq "1" ] && rm -rf $home/.ssh
 if [ ! -d $home/.ssh ]; then
-  echo "Missing $home/.ssh folder"
+  echo "No $home/.ssh folder. Creating"
   askpass "Enter KeePass password for ~/.ssh/:"
 
   # Export public/private keys for this machine to ~/.ssh/
@@ -178,12 +178,12 @@ if [ "$overwrite_sshkeys" -eq "1" ]; then
 fi
 
 if [ ! -f $machine_sshkey ]; then
-  echo "Missing $machine_sshkey"
+  echo "No $machine_sshkey. Exporting"
   askpass "Enter KeePass password for /etc/ssh/:"
 
   keepass_export_keys $sshdir $machine
-  sudo mv "$sshdir/$prefix" $machine_sshkey
-  sudo mv "$sshdir/$prefix.pub" "$machine_sshkey.pub"
+  sudo cp "$sshdir/$prefix" $machine_sshkey
+  sudo cp "$sshdir/$prefix.pub" "$machine_sshkey.pub"
   sudo chown root:root $machine_sshkey
   sudo chown root:root "$machine_sshkey.pub"
 else
@@ -212,10 +212,12 @@ echo "[$action] $machine"
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 [ "$version" ] && label="NIXOS_LABEL=$version"
 sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
-#                                                           -I nixpkgs=/data/code/nixpkgs # -------^
+#                                             -I nixpkgs=/data/code/nixpkgs # -------^
 
 # Remove secrets once we're done encrypting drives and accessing KeePass
+result=$?
+echo "Result of nixos-rebuild: $result"
 if [ "$?" -eq "0" ]; then
   [ -f secrets/wifi ] && sudo rm secrets/wifi
-  [ -f secrets/password ] && sudo rm secrets/password
+  [ -f secrets/hashed_password ] && rm secrets/hashed_password
 fi
