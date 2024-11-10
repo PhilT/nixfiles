@@ -57,14 +57,15 @@ keepass_export_key() {
 
 # args: <prefix> <machine> [service]
 keepass_export_keys() {
+  local ssh_dir=$1
+
   if [ -z "$3" ]; then
-    local keyfile=$1_$2
-    local without_machine=$1
+    local keyfile=${prefix}_$2
+    local without_machine=$prefix
   else
-    local keyfile=$1_$2_$3
-    local without_machine=$1_$3
+    local keyfile=${prefix}_$2_$3
+    local without_machine=${prefix}_$3
   fi
-  local ssh_dir=$home/.ssh
 
   keepass_export_key "public" $keyfile $ssh_dir
   mv $ssh_dir/$keyfile.pub $ssh_dir/$without_machine.pub
