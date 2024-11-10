@@ -6,7 +6,7 @@ codedir="/mnt/data/code"
 prepare() {
   askpass 'Password for KeePass'
   RUN "mkdir -p $home/.ssh"
-  keepass_export_keys $prefix $machine "github"
+  keepass_export_keys "$home/.ssh" $machine "github"
   keepass_fetch_wifi
 }
 

@@ -6,25 +6,30 @@ action=REBUILD
 show_trace=
 command=test
 cleanup=0
-while getopts 'hdsyurbctm' OPTION; do
+overwrite_sshkeys=0
+while getopts 'hdsyurbctmo' OPTION; do
   case "$OPTION" in
     h)
       echo "Usage: $0 [-hdsur] [version/machine] [module]"
-      echo "  -h                   this help"
-      echo "  -d                   run nix-collect-garbage"
-      echo "  -s                   rebuild & switch"
-      echo "  -y                   dry run"
-      echo "  -u                   upgrade channel and switch"
-      echo "  -b                   rebuild & boot"
-      echo "  -r <version>         release - rebuild & switch, git tag and label with <version> e.g. $0 -r v1"
-      echo "  -m [machine]         Build a different machine from the running one. e.g. aramid/minoo/sapling/spruce"
-      echo "  -c                   Diff of changes between latest & prev upgrade"
-      echo "  -t                   Show trace"
-      echo "  [module]             Pick an alternative base module from machines/$machine/. Defaults to default.nix"
+      echo "  -b             rebuild & boot"
+      echo "  -c             Diff of changes between latest & prev upgrade"
+      echo "  -d             run nix-collect-garbage"
+      echo "  -m [machine]   Build a different machine (aramid/minoo/sapling/spruce)"
+      echo "  -o             Overwrite SSH keys"
+      echo "  -r <version>   release - rebuild & switch, tag and label with <version> e.g. $0 -r v1"
+      echo "  -s             rebuild & switch"
+      echo "  -t             Show trace"
+      echo "  -u             upgrade channel and switch"
+      echo "  -y             dry run"
+      echo "  [module]       Pick a base module from machines/$machine/. Defaults to default.nix"
+      echo "  -h             this help"
       exit 0
       ;;
     d)
       cleanup=1
+      ;;
+    o)
+      overwrite_sshkeys=1
       ;;
     s)
       action=SWITCH
@@ -83,6 +88,7 @@ module=$1
 configuration_nix=src/machines/$machine/$module
 
 # Check we have Internet
+echo -n "[WIFI] "
 if ! ping -c 1 google.com > /dev/null 2>&1; then
   # Check we have Wifi credentials
   if [ -f "secrets/wifi" ]; then
@@ -105,44 +111,91 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   nmcli device wifi connect $ssid password $psk
   echo "[WIFI] Connecting..."
   while ! ping -c 1 google.com > /dev/null 2>&1; do sleep 1; done
+else
+  echo "Connected"
 fi
 
 [ "$version" ] && echo "[LABEL] $version"
 
 # Check if both catppuccin and nixos-hardware channels have been added
+echo -n "[CHANNELS] "
 if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
+  echo "Updating"
   sudo nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
   sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
   action=UPGRADE
+else
+  echo "Up-to-date"
 fi
 
 # Fetch hashed_password and ssh keys unless they already exist
 home=$HOME
-if [ ! -f secrets/hashed_password ] || [ ! -d $home/.ssh ]; then
-  askpass "Enter KeePass password for hashed_password & .ssh/:"
-  keepass_export_hashed_password "secrets/hashed_password"
-
-  # Export public/private keys for this machine to ~/.ssh/
-  mkdir -p $home/.ssh
-  chmod 700 $home/.ssh
-  keepass_export_keys $prefix $machine
-  keepass_export_keys $prefix $machine github
-  keepass_export_keys $prefix $machine gitlab
+sshdir="$home/.ssh"
+echo -n "[SECRETS] "
+hashedpw="secrets/hashed_password"
+if [ ! -f $hashedpw ]; then
+  echo "Missing "
+  askpass "Enter KeePass password for $hashedpw:"
+  keepass_export_hashed_password $hashedpw
+else
+  echo "$hashedpw exists"
 fi
 
 # Export all public keys to secrets/ for use in src/ssh.nix
 for m in aramid minoo sapling spruce; do
-  if [ ! -f secrets/${prefix}_${m}.pub ]; then
+  keyname="secrets/${prefix}_${m}.pub"
+  if [ "$overwrite_sshkeys" -eq "1" ]; then
+    rm $keyname
+  fi
+
+  if [ ! -f $keyname ]; then
     askpass "Enter KeePass password for public key export:"
     keepass_export_key public ${prefix}_${m} secrets/
+    echo "Exported key $keyname"
   fi
 done
+
+echo -n "[SSH] "
+[ "$overwrite_sshkeys" -eq "1" ] && rm -rf $home/.ssh
+if [ ! -d $home/.ssh ]; then
+  echo "Missing $home/.ssh folder"
+  askpass "Enter KeePass password for ~/.ssh/:"
+
+  # Export public/private keys for this machine to ~/.ssh/
+  mkdir -p $sshdir
+  chmod 700 $sshdir
+  keepass_export_keys $sshdir $machine github
+  keepass_export_keys $sshdir $machine gitlab
+else
+  echo "~/.ssh folder exists"
+fi
+
+machine_sshkey="/etc/ssh/ssh_host_ed25519_key"
+echo -n "[SSH] "
+if [ "$overwrite_sshkeys" -eq "1" ]; then
+  sudo rm $machine_sshkey
+  sudo rm "$machine_sshkey.pub"
+fi
+
+if [ ! -f $machine_sshkey ]; then
+  echo "Missing $machine_sshkey"
+  askpass "Enter KeePass password for /etc/ssh/:"
+
+  keepass_export_keys $sshdir $machine
+  sudo mv "$sshdir/$prefix" $machine_sshkey
+  sudo mv "$sshdir/$prefix.pub" "$machine_sshkey.pub"
+  sudo chown root:root $machine_sshkey
+  sudo chown root:root "$machine_sshkey.pub"
+else
+  echo "$machine_sshkey exists"
+fi
 
 # Switch to key-based encryption on drive 2 of machines with 2 drives
 # Currently, this is just Minoo
 pool_name="dpool"
 zfs_keydir="/root"
 zfs_keypath="$zfs_keydir/.${pool_name}.key"
+echo -n "[$pool_name] "
 if [ "$machine" = "minoo" ] && sudo test ! -f "$zfs_keypath"; then
   echo "No $pool_name encryption key at ${zfs_keypath}. Creating and assigning"
   source lib/disks2.sh
@@ -150,6 +203,8 @@ if [ "$machine" = "minoo" ] && sudo test ! -f "$zfs_keypath"; then
   sudo chmod 700 $zfs_keydir
   generate_key $zfs_keypath
   change_key $pool_name $zfs_keypath
+else
+  echo "$pool_name exists"
 fi
 
 echo "[$action] $machine"
