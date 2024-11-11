@@ -30,7 +30,7 @@ in
   ];
 
   unisonTarget = "minoo";
-  unisonTargetIpAddress = config.ipAddresses.minoo;
+  unisonTargetIpAddress = config.ipAddresses."${config.unisonTarget}";
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "sync_${config.unisonTarget}" ''

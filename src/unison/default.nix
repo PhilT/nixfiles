@@ -15,9 +15,11 @@
     mode = "444";
     text = ''
       # silent = true # Disable until testing is complete
+      auto = true
       showarchive = true
       maxthreads = 30
       fastcheck = true # Speeds up checks on Windows systems (Unix already uses fastcheck)
+      copyonconflict = true
 
       ignore = Name .thumbnails
       ignore = Name .devenv
