@@ -10,8 +10,8 @@ let
     "documents"
     "music"
     "notes"
-    "DCIM"
     "pictures/showcase"
+    "pictures/camera"
     "sync"
     "txt"
   ];
