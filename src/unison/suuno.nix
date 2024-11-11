@@ -26,7 +26,7 @@ in
   ];
 
   unisonTarget = "suuno";
-  unisonTargetIpAddress = config.ipAddresses.suuno;
+  unisonTargetIpAddress = config.ipAddresses."${config.unisonTarget}";
 
   environment.systemPackages = with pkgs; [
     sshfs
