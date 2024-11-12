@@ -192,19 +192,23 @@ fi
 
 # Switch to key-based encryption on drive 2 of machines with 2 drives
 # Currently, this is just Minoo
-pool_name="dpool"
-zfs_keydir="/root"
-zfs_keypath="$zfs_keydir/.${pool_name}.key"
-echo -n "[$pool_name] "
-if [ "$machine" = "minoo" ] && sudo test ! -f "$zfs_keypath"; then
-  echo "No $pool_name encryption key at ${zfs_keypath}. Creating and assigning"
-  source lib/disks2.sh
-  sudo mkdir -p $zfs_keydir
-  sudo chmod 700 $zfs_keydir
-  generate_key $zfs_keypath
-  change_key $pool_name $zfs_keypath
-else
-  echo "$pool_name exists"
+if [ "$machine" = "minoo" ]; then
+  pool_name="dpool"
+  zfs_keydir="/root"
+  zfs_keypath="$zfs_keydir/.${pool_name}.key"
+  echo -n "[$pool_name] "
+  if zpool list | grep $pool_name && sudo test ! -f "$zfs_keypath"; then
+    echo "No $pool_name encryption key at ${zfs_keypath}. Creating and assigning"
+    source lib/disks2.sh
+    sudo mkdir -p $zfs_keydir
+    sudo chmod 700 $zfs_keydir
+    generate_key $zfs_keypath
+    change_key $pool_name $zfs_keypath
+  elif sudo test -f "$zfs_keypath"; then
+    echo "$zfs_keypath exists"
+  else
+    echo "$pool_name not available. Skipping."
+  fi
 fi
 
 echo "[$action] $machine"
@@ -213,11 +217,3 @@ echo "[$action] $machine"
 [ "$version" ] && label="NIXOS_LABEL=$version"
 sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
 #                                             -I nixpkgs=/data/code/nixpkgs # -------^
-
-# Remove secrets once we're done encrypting drives and accessing KeePass
-result=$?
-echo "Result of nixos-rebuild: $result"
-if [ "$?" -eq "0" ]; then
-  [ -f secrets/wifi ] && sudo rm secrets/wifi
-  [ -f secrets/hashed_password ] && rm secrets/hashed_password
-fi

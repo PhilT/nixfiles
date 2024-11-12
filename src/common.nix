@@ -57,4 +57,13 @@
   programs.git.enable = true;
 
   environment.enableAllTerminfo = true;
+
+  # DHCP Reservations setup on Linksys Router
+  # Used mainly for Unison sync and SSH
+  networking.hosts = {
+    "192.168.1.87" = [ "aramid" ];
+    "192.168.1.248" = [ "minoo" ];
+    "192.168.1.226" = [ "spruce" ];
+    "192.168.1.205" = [ "suuno" ];
+  };
 }
