@@ -27,7 +27,7 @@ in
   programs.ssh.knownHosts = {
     "github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
     "gitlab.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
-    "192.168.1.248".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGR9XFTdYSj2RkPy4OaAVJvzP5D5o9JbUUYzlK2zc/aX";
+    "minoo".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGR9XFTdYSj2RkPy4OaAVJvzP5D5o9JbUUYzlK2zc/aX";
   };
 
   programs.ssh.extraConfig = ''
