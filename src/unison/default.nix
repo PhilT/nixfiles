@@ -1,32 +1,50 @@
-{ config, pkgs, lib, ... }: {
-  # DHCP Reservations setup on Linksys Router
-  ipAddresses = {
-    aramid = "192.168.1.87";
-    minoo = "192.168.1.248";
-    spruce = "192.168.1.226";
-    suuno = "192.168.1.205";
-  };
-
-  environment.systemPackages = with pkgs; [
-    unison
-  ];
+{ config, pkgs, lib, ... }:
+let
+  pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
+  folders = map (path: "d ${config.dataDir}/${path} - ${config.username} users -");
+in
+{
+  imports = [ ./options.nix ];
+  environment.systemPackages = with pkgs; [ unison ];
 
   environment.etc."config/unison/common.prf" = {
     mode = "444";
     text = ''
-      # silent = true # Disable until testing is complete
+      sshcmd = /run/current-system/sw/bin/ssh
       auto = true
-      showarchive = true
       maxthreads = 30
-      fastcheck = true # Speeds up checks on Windows systems (Unix already uses fastcheck)
+      fastcheck = true
+      times = true
+
       copyonconflict = true
+      prefer = newer
+      repeat = watch
 
       ignore = Name .thumbnails
       ignore = Name .devenv
       ignore = Name *.tmp
       ignore = Name .*~
       ignore = Name *~
+
+      ${pathsConfig config.unison.paths}
+      ${config.unison.extraConfig}
     '';
+  };
+
+  systemd.services.unison = {
+    enable = true;
+    description = "Unison filesync";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "/run/current-system/sw/bin/sync_${config.unison.target}";
+      ExecStop = "/run/current-system/sw/bin/pkill unison";
+      Restart = "always";
+      RestartSec = "5";
+      User = config.username;
+      Group = "users";
+    };
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
   };
 
   systemd.tmpfiles.rules = [
@@ -34,8 +52,5 @@
     "d ${config.userHome}/.unison - ${config.username} users -"
 
     "L+ ${config.userHome}/.unison/common.prf - - - - /etc/config/unison/common.prf"
-  ];
-
-  # Remove all .stfolder/.stfolder (1) and .stignore files from /data/**
-  # once migrated to unison
+  ] ++ (folders config.unison.paths);
 }
