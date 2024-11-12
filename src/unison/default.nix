@@ -11,7 +11,7 @@ in
     mode = "444";
     text = ''
       sshcmd = /run/current-system/sw/bin/ssh
-      auto = true
+      batch = true
       maxthreads = 30
       fastcheck = true
       times = true
@@ -40,6 +40,8 @@ in
       ExecStop = "/run/current-system/sw/bin/pkill unison";
       Restart = "always";
       RestartSec = "5";
+      RestartSteps = "10";
+      RestartMaxDelaySec = "1800";
       User = config.username;
       Group = "users";
     };
