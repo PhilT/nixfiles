@@ -19,25 +19,6 @@
           set preview_images_method kitty
         '';
       };
-
-      # TODO: How would this be useful for ranger?
-      # TODO: Need to set the downloads directory in Firefox
-      "config/gtk-3.0/bookmarks" = {
-        mode = "444";
-        text = ''
-          file:///data/code/matter matter
-          file:///data data
-          file:///data/code code
-          file:///data/documents documents
-          file:///data/downloads downloads
-          file:///data/music music
-          file:///data/pictures pictures
-          file:///data/screenshots screenshots
-          file:///data/software software
-          file:///data/sync sync
-          file:///data/notes notes
-        '';
-      };
     };
   };
 
