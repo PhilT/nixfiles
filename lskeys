@@ -9,6 +9,7 @@ echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid")"
 echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo")"
 echo "Sapling: $(keepass_export_key "public" "${prefix}_sapling")"
 echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce")"
+echo "Suuno: $(keepass_export_key "public" "${prefix}_suuno")"
 echo ""
 
 echo "GitHub"
