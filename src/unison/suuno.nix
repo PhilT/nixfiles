@@ -37,7 +37,7 @@ in
     (writeShellScriptBin "sync_${config.unison.target}" ''
       ${pkgs.sshfs}/bin/sshfs ${config.unison.target}:/ /mnt/${config.unison.target} -p 8022 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
       ${pkgs.unison}/bin/unison ${config.dataDir} /mnt/${config.unison.target} -include common $@
-      mount | grep ${config.unison.target} > /dev/null && umount /mnt/${config.unison.target}
+      /run/wrappers/bin/mount | grep ${config.unison.target} > /dev/null && /run/wrappers/bin/umount /mnt/${config.unison.target}
     '')
   ];
 
