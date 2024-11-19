@@ -21,6 +21,7 @@
           file:///data/code/matter matter
           file:///data data
           file:///data/code code
+          file:///data/spikes spikes
           file:///data/documents documents
           file:///data/downloads downloads
           file:///data/music music
