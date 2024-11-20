@@ -29,12 +29,12 @@ gen_key() {
 # TODO: Remove duplication of elements in ./build
 for machine in aramid minoo sapling spruce; do
   for service in home github gitlab; do
-    local keytype="ed25519"
+    keytype="ed25519"
     if [ "$service" = "home" ]; then
-      local name=$machine
-      [ "$machine" = "minoo" ] && local keytype="ecdsa"
+      name=$machine
+      [ "$machine" = "minoo" ] && keytype="ecdsa"
     else
-      local name=${machine}_$service
+      name=${machine}_$service
     fi
 
     gen_key $keytype $name
