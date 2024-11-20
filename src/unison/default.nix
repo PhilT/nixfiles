@@ -22,6 +22,7 @@ in
 
       ignore = Name .thumbnails
       ignore = Name .devenv
+      ignore = Name .direnv
       ignore = Name *.tmp
       ignore = Name .*~
       ignore = Name *~
