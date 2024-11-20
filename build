@@ -170,7 +170,12 @@ else
   echo "~/.ssh folder exists"
 fi
 
-machine_sshkey="/etc/ssh/ssh_host_ed25519_key"
+if [ "$machine" = "minoo" ]; then
+  prefix="id_ecdsa"
+  machine_sshkey="/etc/ssh/ssh_host_ecdsa_key"
+else
+  machine_sshkey="/etc/ssh/ssh_host_ed25519_key"
+fi
 echo -n "[SSH] "
 if [ "$overwrite_sshkeys" -eq "1" ]; then
   sudo rm $machine_sshkey
