@@ -36,7 +36,7 @@ in
     sshfs
 
     (writeShellScriptBin "sync_${config.unison.target}" ''
-      ${pkgs.sshfs}/bin/sshfs ${config.unison.target}:/sdcard /mnt/${config.unison.target} -p 2222 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
+      ${pkgs.sshfs}/bin/sshfs ${config.unison.target}:/ /mnt/${config.unison.target} -p 2222 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
       ${pkgs.unison}/bin/unison ${config.dataDir} /mnt/${config.unison.target} -include common $@
       /run/wrappers/bin/mount | grep ${config.unison.target} > /dev/null && /run/wrappers/bin/umount /mnt/${config.unison.target}
     '')
