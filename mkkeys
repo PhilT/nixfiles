@@ -8,24 +8,37 @@ source lib/keepass.sh
 # known_hosts is what an ssh client knows about when connecting to
 askpass "Enter database password:"
 
+gen_key() {
+  local keytype=$1
+  local keyfile=id_${keytype}_$2
+
+  if keepass_exists $keyfile; then
+    echo $keyfile exists
+  else
+    # Generate SSH key with best encryption (ed25519 is the default anyway)
+    # and 100 rounds (a bit slower but more secure).
+    ssh-keygen -q -t $keytype -a 100 -f secrets/$keyfile -N ""
+    keepass_create $keyfile
+    keepass_import_keys $keyfile
+    rm secrets/$keyfile
+    rm secrets/${keyfile}.pub
+    echo $keyfile created
+  fi
+}
+
 # TODO: Remove duplication of elements in ./build
 for machine in aramid minoo sapling spruce; do
   for service in home github gitlab; do
-    [ "$service" == "home" ] && name=$machine || name=${machine}_$service
-    keyfile=${prefix}_$name
-
-    if keepass_exists $keyfile; then
-      echo $keyfile exists
+    local keytype="ed25519"
+    if [ "$service" = "home" ]; then
+      local name=$machine
+      [ "$machine" = "minoo" ] && local keytype="ecdsa"
     else
-      # Generate SSH key with best encryption (ed25519 is the default anyway)
-      # and 100 rounds (a bit slower but more secure).
-      ssh-keygen -q -t ed25519 -a 100 -f secrets/$keyfile -N ""
-      keepass_create $keyfile
-      keepass_import_keys $keyfile
-      rm secrets/$keyfile
-      rm secrets/${keyfile}.pub
-      echo $keyfile created
+      local name=${machine}_$service
     fi
+
+    gen_key $keytype $name
   done
 done
+
 echo "$db updated"
