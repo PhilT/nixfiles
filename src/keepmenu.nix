@@ -33,16 +33,16 @@
 
       #keepmenu
       # See if this fixes issues editing fields such as TOTP
-      (keepmenu.overrideAttrs (oldAttrs: {
+      (keepmenu.overrideAttrs (oldAttrs: rec {
         version = "1.4.3";
 
         src = fetchFromGitHub {
           owner = "firecat53";
           repo = "keepmenu";
-          rev = "develop";
-          hash = "sha256-o2dQaysIpNG0CLvE4Jb/V5+LKsztfoOsMUKna6ymdg0=";
+          rev = version;
+          hash = "sha256-dqHHupVJKrK+MWL44NXTzwu3CRKINoq4EcaM0+8xhu0=";
         };
-        installCheckPhase = ''true''; # TODO: Remove once https://github.com/NixOS/nixpkgs/pull/328672 is merged
+        installCheckPhase = ''true''; # TODO: Remove once https://github.com/NixOS/nixpkgs/pull/328672 is in unstable branch
       }))
     ];
   };

@@ -30,6 +30,7 @@
 
   networking.hostName = config.machine;
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = lib.mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
   users.users."${config.username}" = {
     isNormalUser = true;

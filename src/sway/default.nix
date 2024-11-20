@@ -37,10 +37,11 @@ in with colors; {
     };
   };
 
+
   environment.systemPackages = with pkgs; [
     catppuccin-gtk-macchiato
-    catppuccin-cursors.macchiatoLavender
     catppuccin-papirus-macchiato
+    # catppuccin-cursors.macchiatoLavender - TODO: Re-enable once package is fixed in unstable
 
     # Add the the end of bin/sway for logging: -d |& tee sway.log
     # Keep hold of the old log file after a crash: [ -f sway.log ] && mv sway.log sway.log.old
@@ -121,7 +122,7 @@ in with colors; {
     "d ${config.xdgConfigHome}/darkman - ${config.username} users -"
 
     # Fix for cursors in Waybar/Firefox
-    "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"
+    # "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"
     "L+ ${config.xdgConfigHome}/gtk-3.0/settings.ini - - - - /etc/gtk-3.0/settings.ini"
     "L+ ${config.xdgConfigHome}/darkman/config.yaml - - - - /etc/darkman.yaml"
 
