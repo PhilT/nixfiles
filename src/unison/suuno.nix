@@ -15,6 +15,7 @@ in
       "books"
       "documents"
       "music"
+      "music_extra"
       "notes"
       "pictures/showcase"
       "pictures/camera"
