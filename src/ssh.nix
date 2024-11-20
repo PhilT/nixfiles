@@ -14,6 +14,11 @@ in
         rounds = 100;
         type = "ed25519";
       }
+      {
+        path = "/etc/ssh/ssh_host_ecdsa_key";
+        rounds = 100;
+        type = "ecdsa";
+      }
     ];
     settings = lib.mkIf config.ssh.preventRootLogin {
       PermitRootLogin = "no";
@@ -27,7 +32,7 @@ in
   programs.ssh.knownHosts = {
     "github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
     "gitlab.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
-    "minoo".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGR9XFTdYSj2RkPy4OaAVJvzP5D5o9JbUUYzlK2zc/aX";
+    "minoo".publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOWkHHuzy/5g47M7vI1FPL6lnZPGKJF1sd6m39y19Skp2gIPnlcyLt8671QgVDeXWisB78Bgm75XHatm0r5ECqc=";
     "suuno".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGGiHFo6GiqCA3YKp58oP7RELGJ362G0aJyR0NgViu5";
   };
 
