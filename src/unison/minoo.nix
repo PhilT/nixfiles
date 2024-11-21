@@ -10,7 +10,8 @@
     paths = [
       "books"
       "documents"
-      "spikes"
+      "code/archive"
+      "code/spikes"
       "music"
       "music_extra"
       "notes"
