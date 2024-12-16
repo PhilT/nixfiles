@@ -103,7 +103,7 @@ if ! ping -c 1 google.com > /dev/null 2>&1; then
   read ssid_override
   if [ "$ssid_override" ]; then
     echo "[WIFI] Password (PSK):"
-    ssid=ssid_override
+    ssid=$ssid_override
     read psk
   fi
 
