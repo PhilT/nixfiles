@@ -1,0 +1,15 @@
+# Copy to work.nix to have development.nix load it for work related non-public configuration
+{
+  # Allows users and services to call <something>.api-local.com/<bla> and have it route to localhost.
+  # Handy, when <something> is used to route traffic or for tenant based applications and services.
+  services.dnsmasq.enable = true;
+  services.dnsmasq.settings = {
+    address = "/.api-local.com/127.0.0.1";
+  };
+
+  environment = {
+    sessionVariables = {
+      GITLAB_CREDENTIALS = "username:token";
+    };
+  };
+}
