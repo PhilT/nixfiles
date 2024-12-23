@@ -36,12 +36,12 @@
     etc = {
       "process-compose/theme.yaml".source = ../dotfiles/process-compose-theme.yaml;
 
-      # TODO: disable_exit_confirmation does not work yet as I think devbox is using an
+      # TODO: Most of these settings do not work yet as I think devbox is using an
       # older version of process-compose. Hopefully this will be updated soon
       "process-compose/settings.yaml".text = ''
         theme: Custom Style
         sort:
-          by: NAME
+          by: STATUS,NAME
           isReversed: false
         disable_exit_confirmation: true
       '';
