@@ -2,10 +2,8 @@
 .git
 .ionide
 .scratch.txt
-.stignore
 .tags
 .vscode
-.direnv/
 AppData/
 Local Settings/
 Thumbs.db
