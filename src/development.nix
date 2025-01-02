@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
   imports = [
-  ] ++ lib.optional (builtins.pathExists ./work.nix) ./work.nix;
+  ] ++ lib.optional (builtins.pathExists ./work.nix) ./work.nix; # Copy from work.nix.example to use
 
   virtualisation.docker.enable = true;
 
