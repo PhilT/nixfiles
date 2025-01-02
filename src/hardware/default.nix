@@ -13,7 +13,10 @@
     "cryptd"
   ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" "i2c_dev" ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "i2c_dev"       # Needed by ddcutil
+  ];
   # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
