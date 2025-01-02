@@ -1,4 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
+  imports = [
+  ] ++ lib.optional (builtins.pathExists ./work.nix) ./work.nix;
+
   virtualisation.docker.enable = true;
 
   programs = {
@@ -8,7 +11,7 @@
 
   environment.systemPackages = with pkgs; [
     docker-compose
-    devenv
+    devbox
 
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
