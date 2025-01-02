@@ -12,6 +12,7 @@
   environment.systemPackages = with pkgs; [
     docker-compose
     devbox
+    quickemu
 
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
