@@ -75,7 +75,6 @@ in
       csharp-ls
       dotnet-sdk_8
       fsautocomplete
-      ruby-lsp
       terraform-ls
     ];
   };

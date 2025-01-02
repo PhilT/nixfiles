@@ -44,6 +44,8 @@
   security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = with pkgs; [
+    nix-output-monitor    # Fancy output for nixos-rebuild
+
     htop
     wget
     which
