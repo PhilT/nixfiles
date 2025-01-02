@@ -13,7 +13,7 @@
     systemPackages = with pkgs; [
       docker-compose
       devbox
-      quickemu
+      #quickemu # FIXME: Broken package
 
       (writeShellScriptBin "qemu-system-x86_64-uefi" ''
         qemu-system-x86_64 \

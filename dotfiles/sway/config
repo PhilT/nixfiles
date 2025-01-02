@@ -43,7 +43,9 @@ input "9011:26214:ydotoold_virtual_device" xkb_layout us
 
 focus_follows_mouse yes
 
-output * background /data/pictures/Italy2019.png fill
+output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
+output DP-3 background /data/pictures/wallpaper/wallpaper-left.jpg fill
+output DP-2 background /data/pictures/wallpaper/wallpaper-right.jpg fill
 
 exec swayidle -w \
   timeout 300 'light dim' resume 'light bright' \

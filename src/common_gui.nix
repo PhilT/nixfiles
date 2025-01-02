@@ -19,7 +19,7 @@
 
     # Audio/visual tools
     # gimp - Currently no Wayland until 3.0
-    goxel                 # Voxel editor
+    #goxel                 # Voxel editor # FIXME: Broken package
     yad                   # GUI Dialog for Goxel
     imv                   # Image viewer
     inkscape
@@ -32,6 +32,5 @@
     element-desktop       # Matrix chat client
     libreoffice
     slack
-
   ];
 }

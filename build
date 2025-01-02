@@ -220,5 +220,5 @@ echo "[$action] $machine"
 [ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && sudo nix-channel --update
 [ "$version" ] && label="NIXOS_LABEL=$version"
-sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace
+sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
 #                                             -I nixpkgs=/data/code/nixpkgs # -------^
