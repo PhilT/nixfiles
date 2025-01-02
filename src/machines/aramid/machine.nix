@@ -5,7 +5,9 @@
   nixfs.enable = true;
 
   networking.hostId = "d549b408";
-  boot.kernelParams = [ "nohibernate" ];  # Hibernate not supported on ZFS (no swapfiles)
+  boot.kernelParams = [
+    "nohibernate"                         # Hibernate not supported on ZFS (no swapfiles)
+  ];
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule
   boot.zfs.forceImportRoot = false;       # Hopefully don't need backwards compatibility
