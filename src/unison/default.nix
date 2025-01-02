@@ -21,7 +21,7 @@ in
       repeat = watch
 
       ignore = Name .thumbnails
-      ignore = Name .devenv
+      ignore = Name .devbox
       ignore = Name .direnv
       ignore = Name *.tmp
       ignore = Name .*~
