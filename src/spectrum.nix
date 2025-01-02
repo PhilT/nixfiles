@@ -18,7 +18,8 @@ let
   ftxui_git_tag = "7de4f8683d530ff5573483f40b17df4b3c6ed736";
 in
 stdenv.mkDerivation {
-  name = name;
+  pname = name;
+  version = "0.0.1";
 
   srcs = [
     (fetchFromGitHub {

@@ -2,7 +2,8 @@
 
 let
   graytheme = pkgs.vimUtils.buildVimPlugin {
-    name = "komau.vim";
+    pname = "komau.vim";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "ntk148v";
       repo = "komau.vim";
@@ -11,7 +12,8 @@ let
     };
   };
   colorscheme = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-colors-pencil";
+    pname = "vim-colors-pencil";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "preservim";
       repo = "vim-colors-pencil";
@@ -20,7 +22,8 @@ let
     };
   };
   fsharp = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-fsharp";
+    pname = "vim-fsharp";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "PhilT";
       repo = "vim-fsharp";
@@ -29,7 +32,8 @@ let
     };
   };
   scratch = pkgs.vimUtils.buildVimPlugin {
-    name = "scratch,vim";
+    pname = "scratch,vim";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "mtth";
       repo = "scratch.vim";
@@ -38,7 +42,8 @@ let
     };
   };
   winresizer = pkgs.vimUtils.buildVimPlugin {
-    name = "winresizer";
+    pname = "winresizer";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "simeji";
       repo = "winresizer";
@@ -47,7 +52,8 @@ let
     };
   };
   slim = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-slim";
+    pname = "vim-slim";
+    version = "0.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "slim-template";
       repo = "vim-slim";
