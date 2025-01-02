@@ -11,5 +11,10 @@
     sessionVariables = {
       GITLAB_CREDENTIALS = "username:token";
     };
+
+    systemPackages = with pkgs; [
+      jdk
+      (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.pubsub-emulator])
+    ];
   };
 }
