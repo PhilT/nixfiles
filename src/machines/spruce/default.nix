@@ -41,11 +41,9 @@
   ];
 
   # Graphical login for drive encryption
-  boot.plymouth = {
-    enable = true;
-    catppuccin.enable = true;
-    catppuccin.flavor = "macchiato";
-  };
+  boot.plymouth.enable = true;
+  catppuccin.plymouth.enable = true;
+  catppuccin.plymouth.flavor = "macchiato";
 
   services.hardware.openrgb.enable = true;
   hardware.graphics.enable = true;
