@@ -8,7 +8,9 @@
       noto-fonts-emoji
       source-sans
       roboto-mono
-      (nerdfonts.override { fonts = [ "Ubuntu" "UbuntuMono" "JetBrainsMono" ]; })
+      nerd-fonts.ubuntu
+      nerd-fonts.ubuntu-mono
+      nerd-fonts.jetbrains-mono
     ];
     fontconfig = {
       enable = true;
