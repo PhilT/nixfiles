@@ -52,8 +52,8 @@ in with colors; {
 
   programs.sway.extraPackages = with pkgs; [
     vulkan-validation-layers    # Needed for WLR_RENDERER
-    slurp
-    grim
+    slurp                       # Region selection, used by grim and wf-recorder
+    grim                        # Screenshots
     swaybg
     swayidle
     swaylock
