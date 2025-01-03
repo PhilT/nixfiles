@@ -24,8 +24,14 @@
     imv                   # Image viewer
     inkscape
     mpv                   # Video player
-    # simplescreenrecorder - Need to find a replacement for Wayland
     wineWowPackages.full  # Needed for FL Studdio installer
+    digikam               # Photo manager
+    wf-recorder           # Screen recorder
+
+    (writeShellScriptBin "record" ''
+      name=$1
+      wf-recorder -g "$(slurp)" --audio --file=/data/videos/screens/$name.mp4
+    '')
 
     # Comms
     vesktop               # Discord replacement that works in native Wayland
