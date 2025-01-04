@@ -9,7 +9,6 @@
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../common.nix
-    ../../common_gui.nix
 
     # Sync
     # Not only does this provide a sync command to my phone but also
