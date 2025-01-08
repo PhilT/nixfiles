@@ -1,7 +1,6 @@
 # Copy to work.nix to have development.nix load it for work related non-public configuration
 
 { config, pkgs, ... }: {
-
   # Allows users and services to call <something>.api-local.com/<bla> and have it route to localhost.
   # Handy, when <something> is used to route traffic or for tenant based applications and services.
   services.dnsmasq.enable = true;
