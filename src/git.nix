@@ -77,6 +77,9 @@ in
       ra = "rebase --abort";
       rs = "rebase --skip";
       ri = "rebase -i";
+      cc = "cherry-pick --continue";
+      ca = "cherry-pick --abort";
+      cs = "cherry-pick --skip";
       x = "update-index --chmod=+x";
     };
 
