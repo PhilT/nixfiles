@@ -65,7 +65,7 @@
       Add = [
         {
           Name = "SearXNG";
-          URLTemplate = "https://search.leptons.xyz/searxng/search?q={searchTerms}";
+          URLTemplate = "https://priv.au/search?q={searchTerms}";
           Method = "GET";
           IconURL = "https://search.leptons.xyz/searxng/favicon.ico";
         }
