@@ -1,7 +1,10 @@
 { config, lib, pkgs, ... }: {
   imports = [
     ./devbox.nix
-  ] ++ lib.optional (builtins.pathExists ./work.nix) ./work.nix; # Copy from work.nix.example to use
+                                                              # Copy from work.nix.example
+                                                              # This one is synced with Unison
+                                                              # and ignored in VC.
+  ] ++ lib.optional (builtins.pathExists /data/work/work.nix) /data/work/work.nix;
 
   virtualisation.docker.enable = true;
 
