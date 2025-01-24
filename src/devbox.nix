@@ -15,10 +15,11 @@
 
       # TODO: Most of these settings do not work yet as I think devbox is using an
       # older version of process-compose. Hopefully this will be updated soon
+
       "process-compose/settings.yaml".text = ''
         theme: Custom Style
         sort:
-          by: STATUS,NAME
+          by: NAMESPACE,STATUS,NAME
           isReversed: false
         disable_exit_confirmation: true
       '';
