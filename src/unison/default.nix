@@ -27,6 +27,10 @@ in
       ignore = Name .*~
       ignore = Name *~
 
+      ignore = Path work/*
+      ignorenot = Path work/work.nix
+      ignorenot = Path work/sync
+
       ${pathsConfig config.unison.paths}
       ${config.unison.extraConfig}
     '';
