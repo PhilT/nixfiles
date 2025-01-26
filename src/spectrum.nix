@@ -1,3 +1,6 @@
+# FIXME: Out-of-date - Playlist support was added in Jan 2025 which would be
+# nice to have. However, updating at the moment causes the FTXUI library to fail
+# to build. Good luck trying to fix that!
 {
   lib
 , stdenv
@@ -25,7 +28,7 @@ stdenv.mkDerivation {
     (fetchFromGitHub {
       owner = "v1nns";
       repo = name;
-      rev = "main";
+      rev = "9ab50ff8efc9e07eebd8a8e422ef45c754dea3d2";
       name = name;
       sha256 = "7y+45YTJYSbLOeqw0vy3nQ+N5s+q4kzbtcyd/DnlMA0=";
     })
