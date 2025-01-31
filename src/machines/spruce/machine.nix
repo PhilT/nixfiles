@@ -15,5 +15,5 @@
   };
 
   boot.initrd.kernelModules = [ "nouveau" ]; # Native resolution in early KMS (Kernel Mode Setting)
-  boot.kernelParams = [ "nouveau.runpm=0" ];
+  boot.kernelParams = [ "nouveau.runpm=0" "intel_iommu=on" ];
 }
