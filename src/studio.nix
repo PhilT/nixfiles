@@ -1,9 +1,9 @@
-{ lib, stdenv, fetchurl, pkgs, which }:
+{ lib, stdenv, requireFile, pkgs, which }:
 
 # Scrape latest version from https://www.image-line.com/fl-studio-download/
 let
   title = "FL Studio 2024";
-  fl_version = "24.1.1.4239";
+  fl_version = "24.2.1.4526";
   flstudioRunner = pkgs.writeShellScriptBin "flstudio" ''
     export WINEPREFIX=$HOME/.wine/flstudio
     export WINEARCH=win64
@@ -37,9 +37,10 @@ stdenv.mkDerivation {
   pname = "flstudio";
   version = fl_version;
 
-  src = fetchurl {
-    url = "https://demodownload.image-line.com/flstudio/flstudio_win64_${fl_version}.exe";
-    sha256 = "sha256-sXC1Z4VzXurAZ0F8+N6YotF83njJFdFu3Z/b+X+Fr3c=";
+  src = requireFile {
+    name = "flstudio_win64_${fl_version}.exe";
+    url = "https://support.image-line.com/redirect/flstudio_win_installer";
+    sha256 = "0hcax5w8wqg1wqinlkh3xwqswlyj61kqa7g1yzivkp791fj7ps4z";
   };
 
   buildInputs = [ flstudioRunner which ];
