@@ -4,7 +4,7 @@
 { config, lib, pkgs, ... }: {
   imports = [
     ./devbox.nix
-  ] ++ lib.optional (builtins.pathExists /data/work/work.nix) /data/work/work.nix;
+  ]; # ++ lib.optional (builtins.pathExists /data/work/work.nix) /data/work/work.nix;
 
   virtualisation.docker.enable = true;
 

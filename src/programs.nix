@@ -13,30 +13,17 @@ in
     # Starship - Highly configurable shell prompt
     starship.enable = true;
 
-    # Log all history to a separate history file after every command.
-    # CTRL+R stays clean for the current shell but you can always refer
-    # to /data/bash_history if you need a command from another shell.
-    # Use hgrep (below) to search this history file.
-    bash.promptInit = ''
-      log_bash_history() {
-        [[ $(history 1) =~ ^\ *[0-9]+\ +(.*)$ ]]
-        local cmd="''${BASH_REMATCH[1]}"
-        if [[ "$cmd" != "$PERSISTENT_HISTORY_LAST" && "$cmd" != "hcat" && "$cmd" != "hcompact" ]]; then
-          echo "$cmd" >> ${historyFile}
-          export PERSISTENT_HISTORY_LAST="$cmd"
-        fi
-      }
-      starship_precmd_user_func=log_bash_history
-    '';
+    # Fish! Shell
+    fish.enable = true;
 
-    bash.shellAliases = {
+  };
+
+  environment = {
+    shellAliases = {
       ss = "imv -t 15 -f";
       fd = "fd -H";
       list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
     };
-  };
-
-  environment = {
     sessionVariables = {
       HISTIGNORE = "history";
     };
