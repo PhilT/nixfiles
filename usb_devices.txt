@@ -1,0 +1,9 @@
+Bus 001 Device 020: ID 320f:504a USB HID GMMK 2 Compact TKL 65%
+Bus 001 Device 022: ID 35bd:0101 Bigscreen Beyond
+Bus 001 Device 004: ID 258a:2022 Glorious Model O Wireless
+Bus 001 Device 024: ID 28de:2102 Valve Software Valve VR Radio
+Bus 001 Device 025: ID 28de:2102 Valve Software Valve VR Radio
+Bus 001 Device 026: ID 28de:2300 Valve Software Tundra Tracker
+Bus 001 Device 027: ID 22e8:dac2 Cambridge Audio DacMagic Plus
+
+045e:076c and 045e:0750

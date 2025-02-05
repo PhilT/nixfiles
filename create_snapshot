@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Moves the existing windows disk to clean-windows and creates a new disk
+# using clean-windows as the base "snapshot" image.
+
+if [ -f tmp/clean-windows.qcow2 ] && [ -f tmp/windows.qcow2 ]; then
+  echo "Both windows.qcow2 AND clean-windows.qcow2 already exist, aborting..."
+  exit 1
+fi
+
+[ -f tmp/windows.qcow2 ] && mv tmp/windows.qcow2 tmp/clean-windows.qcow2
+qemu-img create -f qcow2 -b clean-windows.qcow2 -F qcow2 tmp/windows.qcow2

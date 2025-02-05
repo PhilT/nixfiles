@@ -1,0 +1,86 @@
+#!/usr/bin/env sh
+
+# https://wiki.debian.org/SecureBoot/VirtualMachine
+# https://macroform-node.medium.com/building-a-windows-11-vm-with-qemu-using-tpm-emulation-for-research-malware-analysis-part-1-8846378b9582
+
+# [ ] Add -d to swtpm
+
+tpm_dir=/data/code/nixfiles/tmp/emulated_tpm
+tpm_sock=${tpm_dir}/swtpm-sock
+OVMF_DIR=/nix/store/w4c0aw8bsin8794qqrrjvgxyvgsgafrg-OVMF-202411-fd/FV
+OVMF_CODE=${OVMF_DIR}/OVMF_CODE.fd
+OVMF_VARS=OVMF_VARS.ms.fd
+SSH_PORT="5555"
+
+if [ ! -f tmp/$OVMF_VARS ]; then
+  cp $OVMF_DIR/$OVMF_VARS tmp/$OVMF_VARS
+  chmod +w tmp/$OVMF_VARS
+fi
+
+[ ! -f tmp/windows.qcow2 ] && qemu-img create -f qcow2 tmp/windows.qcow2 128G
+
+rm -rf $tpm_dir
+[ ! -d $tpm_dir ] && mkdir -p $tpm_dir
+
+
+swtpm socket --tpmstate dir=${tpm_dir} \
+  --ctrl type=unixio,path=${tpm_sock} \
+  --log level=20 --tpm2 -d
+swtpm_pid=$!
+
+# Unbind USB Controller and bind to VFIO
+# echo "0000:00:14.0" | sudo tee /sys/bus/pci/devices/0000:00:14.0/driver/unbind
+# sudo modprobe vfio-pci
+# echo "8086 7a60" | sudo tee /sys/bus/pci/drivers/vfio-pci/new_id
+
+VM_CORES="4-15,18-31"
+
+cset shield --cpu=$VM_CORES --kthread=on
+
+taskset -c $VM_CORES qemu-system-x86_64-uefi \
+  -name "Windows 11 on Qemu",process=win11vm \
+  -machine q35,smm=on \
+  -vga none \
+  -nographic \
+  -serial none \
+  -parallel none \
+  -enable-kvm \
+  -m 22G \
+
+  -smp cpus=28,cores=14,threads=2,sockets=1 \
+  -cpu host \
+
+  -device vfio-pci,host=01:00.0,multifunction=on \
+  -device vfio-pci,host=01:00.1 \
+  -device qemu-xhci \
+  -device usb-host,vendorid=0x35bd,productid=0x0101 \
+  -device usb-host,vendorid=0x320f,productid=0x504a \
+  -device usb-host,vendorid=0x258a,productid=0x2022 \
+  -device usb-host,vendorid=0x28de,productid=0x2102 \
+  -device usb-host,vendorid=0x28de,productid=0x2102 \
+  -device usb-host,vendorid=0x28de,productid=0x2300 \
+  -device usb-host,vendorid=0x22e8,productid=0xdac2 \
+  -device usb-host,vendorid=0x0483,productid=0x0522 \
+  -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
+  -drive file=tmp/windows.qcow2,if=none,id=win \
+  -drive file=/dev/nvme2n1,format=raw,if=none,id=ssd0 \
+  -device virtio-blk-pci,drive=ssd0 \
+  -cdrom tmp/virtio-win-0.1.266.iso \
+  -device nvme,serial=deadbeef,drive=win \
+  -chardev socket,id=chrtpm,path=${tpm_sock} \
+  -tpmdev emulator,id=tpm0,chardev=chrtpm \
+  -device tpm-tis,tpmdev=tpm0 \
+  -global driver=cfi.pflash01,property=secure,value=on \
+  -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
+  -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \
+  -rtc clock=host,base=localtime
+
+  #-cdrom /data/downloads/windows_11_ltsc.iso \
+  #-device intel-hda -device hda-duplex \
+  #-net nic,model=virtio -net user,hostfwd=tcp::${SSH_PORT}-:22 \
+
+  #-device vfio-pci,host=0000:00:14.0 \
+
+{ kill $swtpm_pid && wait $swtpm_pid; } 2>/dev/null
+
+cset shield --reset
