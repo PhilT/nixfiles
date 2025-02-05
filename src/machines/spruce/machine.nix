@@ -29,6 +29,9 @@ in {
 
     "intel_iommu=on"
     "iommu=pt" # Might be needed for performance. Test and see
+#    "default_hugepagesz=1G"
+#    "hugepagesz=1G"
+#    "hugepages=24"  # 30GB allocated as hugepages
   ];
 
   # TODO: I don't think this is needed
