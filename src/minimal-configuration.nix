@@ -49,6 +49,7 @@
       "video"
       "wheel"
     ];
+    shell = pkgs.fish;
   };
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;

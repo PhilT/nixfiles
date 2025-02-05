@@ -1,42 +1,16 @@
 # TODO: Consider merging with common.nix mirroring common_gui.nix
-{ config, pkgs, ... }:
-let
-  historyFile = "${config.dataDir}/bash_history";
-in
-{
+{ config, pkgs, ... }: {
   programs = {
-    # `j term` cd quickly
-    autojump.enable = true;
+    fish.enable = true;     # Fish! Shell
+    starship.enable = true; # Starship - Highly configurable shell prompt
+  };
 
-    dconf.enable = true;
-
-    # Starship - Highly configurable shell prompt
-    starship.enable = true;
-
-    # Log all history to a separate history file after every command.
-    # CTRL+R stays clean for the current shell but you can always refer
-    # to /data/bash_history if you need a command from another shell.
-    # Use hgrep (below) to search this history file.
-    bash.promptInit = ''
-      log_bash_history() {
-        [[ $(history 1) =~ ^\ *[0-9]+\ +(.*)$ ]]
-        local cmd="''${BASH_REMATCH[1]}"
-        if [[ "$cmd" != "$PERSISTENT_HISTORY_LAST" && "$cmd" != "hcat" && "$cmd" != "hcompact" ]]; then
-          echo "$cmd" >> ${historyFile}
-          export PERSISTENT_HISTORY_LAST="$cmd"
-        fi
-      }
-      starship_precmd_user_func=log_bash_history
-    '';
-
-    bash.shellAliases = {
+  environment = {
+    shellAliases = {
       ss = "imv -t 15 -f";
       fd = "fd -H";
       list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
     };
-  };
-
-  environment = {
     sessionVariables = {
       HISTIGNORE = "history";
     };
@@ -59,11 +33,6 @@ in
         find . -type f -print0 | xargs -0 chmod 644
       '')
 
-      # Search in /data/bash_history file (see above)
-      (writeShellScriptBin "hgrep" "grep $@ ${historyFile}")
-      (writeShellScriptBin "hcat" "cat ${historyFile}")
-      (writeShellScriptBin "hcompact" "awk -i inplace '!seen[$0]++' ${historyFile}") # Runs on Sway start
-
       # System and hardware information: lsusb, lspci, lscpu, lsblk
       usbutils
       pciutils
@@ -78,7 +47,7 @@ in
       inotify-tools
       ncdu                  # Tree-based, interactive du
 
-      fd                    # Alternative to find
+      fd                    # Alternative to find, use fd <term> </start/path> -x <cmd> to run a command for each item found
       ripgrep
       unzip
       zip
