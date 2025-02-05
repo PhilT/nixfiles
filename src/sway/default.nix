@@ -19,8 +19,9 @@ in with colors; {
   };
 
   programs.sway.enable = true;
-  programs.sway.xwayland.enable = false; # Let's see if any apps need xwayland
+  programs.sway.xwayland.enable = false;    # Things go horribly wrong (for the display) with this enabled
   programs.sway.wrapperFeatures.gtk = true; # TODO: What is this?
+  programs.dconf.enable = true;             # Used in sway config to set some themes
 
   catppuccin.enable = true;
   catppuccin.flavor = variant;
@@ -65,29 +66,9 @@ in with colors; {
     GTK_THEME = "catppuccin-macchiato-lavender-standard";
     XCURSOR_SIZE = "32";
     NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland: Fixes Slack
-    # WLR_NO_HARDWARE_CURSORS = "1"; # Try if cursors keep disapearing/not rendering the correct one
 
     WLR_RENDERER = lib.mkIf config.vulkan.enable "vulkan";
-    # WLR_EGL_NO_MODIFIERS = "1"; # Try this
-    # WLR_DRM_NO_ATOMIC = "1";    # And this
-
-    # Not sure if any of this is needed, possibly the electron stuff
-    # but need to test. Maybe with Nouveau drivers it's not needed anymore.
-    # XDG_CURRENT_DESKTOP = "sway";
-    # XDG_SESSION_DESKTOP = "sway";
-
-    # SDL_VIDEODRIVER = "wayland";
-    # QT_QPA_PLATFORM = "wayland";
-    # QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    # _JAVA_AWT_WM_NONREPARENTING = "1";
-    # MOZ_ENABLE_WAYLAND = "1";
-
-    #  ELECTRON_OZONE_PLATFORM_HINT,auto # FIXME: Possibly not needed for non-nvidia
   };
-
-  # Hopefully I can just use the above sessionVariables instead
-  programs.sway.extraSessionCommands = ''
-  '';
 
   environment.etc = {
     "sway/config" = {
