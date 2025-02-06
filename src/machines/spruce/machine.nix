@@ -3,6 +3,10 @@ let
   vendor = "10de"; # Duplicated in gpu_ids.ini
   gpu = "2684";
   audio = "22ba";
+  usbVendor = "";
+  usbController = "";
+  gpuIds = "${vendor}:${gpu},${vendor}:${audio}";
+  usbControllerIds = ""; # ",${usbVendor}:${usbController}"
 in {
   networking.hostId = "79ef3090";
   machine = "spruce";
@@ -40,7 +44,7 @@ in {
 #  ];
 
   boot.extraModprobeConfig = ''
-    options vfio-pci ids=${vendor}:${gpu},${vendor}:${audio}
+    options vfio-pci ids=${gpuIds}${usbControllerIds}
   '';
 
   boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "kvm-intel" ];

@@ -29,15 +29,22 @@ swtpm socket --tpmstate dir=${tpm_dir} \
 swtpm_pid=$!
 
 # Unbind USB Controller and bind to VFIO
-# echo "0000:00:14.0" | sudo tee /sys/bus/pci/devices/0000:00:14.0/driver/unbind
-# sudo modprobe vfio-pci
-# echo "8086 7a60" | sudo tee /sys/bus/pci/drivers/vfio-pci/new_id
+#echo "0000:09:00.0" | sudo tee /sys/bus/pci/devices/0000:09:00.0/driver/unbind
+#echo "0000:0a:00.0" | sudo tee /sys/bus/pci/devices/0000:0a:00.0/driver/unbind
+#echo "0000:09:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind
+#echo "0000:0a:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind
 
 VM_CORES="4-15,18-31"
 
 #cset shield --cpu=$VM_CORES --kthread=on
+# taskset -c $VM_CORES
+#
+# TODO:
+# [ ] - Try to get USB Audio controller working
+# [ ] - Try again to get cset shield to work with taskset
+# [ ] - Which NIC card to use? Or should I use bridge networking? What's the advantage?
 
-taskset -c $VM_CORES qemu-system-x86_64-uefi \
+qemu-system-x86_64 \
   -name "Windows 11 on Qemu",process=win11vm \
   -machine q35,smm=on,usb=off,accel=kvm \
   -vga none \
@@ -47,39 +54,36 @@ taskset -c $VM_CORES qemu-system-x86_64-uefi \
   -m 24G \
   -smp cpus=28,cores=14,threads=2,sockets=1 \
   -cpu host,kvm=on \
+  -drive file=tmp/windows.qcow2,if=none,id=win \
+  -drive file=/dev/nvme2n1,format=raw,if=none,id=ssd0 \
   -device vfio-pci,host=01:00.0,multifunction=on \
   -device vfio-pci,host=01:00.1 \
   -device qemu-xhci \
-  -device usb-host,vendorid=0x35bd,productid=0x0101 \
   -device usb-host,vendorid=0x320f,productid=0x504a \
   -device usb-host,vendorid=0x258a,productid=0x2022 \
   -device usb-host,vendorid=0x258a,productid=0x2011 \
   -device usb-host,vendorid=0x28de,productid=0x2102 \
-  -device usb-host,vendorid=0x28de,productid=0x2102 \
   -device usb-host,vendorid=0x28de,productid=0x2300 \
-  -device usb-host,vendorid=0x22e8,productid=0xdac2 \
   -device usb-host,vendorid=0x0483,productid=0x0522 \
-  -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
-  -drive file=tmp/windows.qcow2,if=none,id=win \
-  -drive file=/dev/nvme2n1,format=raw,if=none,id=ssd0 \
+  -device usb-host,vendorid=0x0483,productid=0x0525 \
+  -device usb-host,vendorid=0x22e8,productid=0xdac2 \
   -device virtio-blk-pci,drive=ssd0 \
-  -cdrom tmp/virtio-win-0.1.266.iso \
-  -device nvme,serial=deadbeef,drive=win \
+  -device nvme,serial=deadbeef,drive=win,bootindex=1 \
+  -device tpm-tis,tpmdev=tpm0 \
+  -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
   -chardev socket,id=chrtpm,path=${tpm_sock} \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
-  -device tpm-tis,tpmdev=tpm0 \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
   -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \
   -rtc clock=host,base=localtime,driftfix=slew
 
+  # -cdrom tmp/virtio-win-0.1.266.iso \
   #-mem-prealloc \
   #-mem-path /dev/hugepages \
   #-cdrom /data/downloads/windows_11_ltsc.iso \
   #-device intel-hda -device hda-duplex \
   #-net nic,model=virtio -net user,hostfwd=tcp::${SSH_PORT}-:22 \
-
-  #-device vfio-pci,host=0000:00:14.0 \
 
 { kill $swtpm_pid && wait $swtpm_pid; } 2>/dev/null
 
