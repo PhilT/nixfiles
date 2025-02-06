@@ -16,6 +16,12 @@
         description = "Additional config to add to PRF file";
         default = "";
       };
+
+      waitFor = lib.mkOption {
+        type = with lib.types; listOf str;
+        description = "Used as the after directive in the Unison systemd service";
+        default = [ "network-online.target" ];
+      };
     };
   };
 }

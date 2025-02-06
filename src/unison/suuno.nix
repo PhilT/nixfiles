@@ -30,19 +30,35 @@ in
       forcepartial = Path pictures/showcase /data
       forcepartial = Path music /data
     '';
+    waitFor = [ "network-online.target" "mnt-suuno.mount" ];
+  };
+
+  # TODO: Confirm whether this is needed
+  programs.fuse.userAllowOther = true;
+
+  fileSystems."/mnt/suuno" = {
+    device = "phil@suuno:/";
+    fsType = "fuse.sshfs";
+    options = [
+      "port=2222"
+      "reconnect"
+      "ServerAliveInterval=15"
+      "ServerAliveCountMax=3"
+      "allow_other"
+      "IdentityFile=/etc/ssh/ssh_host_ecdsa_key"
+      "uid=${toString config.users.users.phil.uid}"
+      "gid=${toString config.users.groups.users.gid}"
+      "umask=0022"    # Set permissions so files are accessible as needed
+      "x-systemd.automount"  # enables automounting on access
+      # Optionally, add "x-systemd.idle-timeout=10sec" to unmount after inactivity
+    ];
   };
 
   environment.systemPackages = with pkgs; [
     sshfs
 
     (writeShellScriptBin "sync_${config.unison.target}" ''
-      echo "*** ${config.unison.target} *** Mounting"
-      ${pkgs.sshfs}/bin/sshfs ${config.unison.target}:/ /mnt/${config.unison.target} -p 2222 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
-      echo "*** ${config.unison.target} *** Running Unison"
       ${pkgs.unison}/bin/unison ${config.dataDir} /mnt/${config.unison.target} -include common $@
-      echo "*** ${config.unison.target} *** Unmounting"
-      /run/wrappers/bin/mount | grep ${config.unison.target} > /dev/null && /run/wrappers/bin/umount /mnt/${config.unison.target}
-      echo "*** ${config.unison.target} *** Done"
     '')
   ];
 

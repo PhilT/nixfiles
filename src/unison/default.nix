@@ -12,13 +12,16 @@ in
     text = ''
       sshcmd = /run/current-system/sw/bin/ssh
       batch = true
+      dumbtty = true
       maxthreads = 30
       fastcheck = true
       times = true
+      watch = true
 
       copyonconflict = true
       prefer = newer
       repeat = watch
+      retry = 5
 
       ignore = Name .thumbnails
       ignore = Name .devbox
@@ -50,7 +53,8 @@ in
       User = config.username;
       Group = "users";
     };
-    after = [ "network.target" ];
+    after = config.unison.waitFor;
+    wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
   };
 
