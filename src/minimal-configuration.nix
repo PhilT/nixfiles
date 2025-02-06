@@ -33,13 +33,22 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = lib.mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
+  users.groups.fuse = {}; # TODO: Confirm whether this is needed (in extraGroups as well)
   users.users."${config.username}" = {
     isNormalUser = true;
     createHome = true;
     uid = 1000;
     description = config.fullname;
     hashedPassword = (builtins.readFile ../secrets/hashed_password);
-    extraGroups = [ "wheel" "users" "docker" "networkmanager" "audio" "video" ];
+    extraGroups = [
+      "audio"
+      "docker"
+      "fuse"
+      "networkmanager"
+      "users"
+      "video"
+      "wheel"
+    ];
   };
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
