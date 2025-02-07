@@ -7,7 +7,6 @@
 
   programs.firefox.preferences = {
     "browser.tabs.inTitlebar" = 0;
-    "browser.download.dir" = "/data/downloads";
     "browser.backspace_action" = 0;
     "browser.warnOnQuit" = false;
     "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
@@ -18,6 +17,8 @@
   programs.firefox.policies = {
     DisableTelemetry = true;
     DefaultDownloadDirectory = "/data/downloads"; # FIXME: should really pass in $DATA
+    DownloadDirectory = "/data/downloads";
+    PromptForDownloadLocation = false;
     DisableAppUpdate = true;
     ManualAppUpdateOnly = true;
     DisplayBookmarksToolbar = "newtab";
@@ -58,14 +59,14 @@
     ExtensionSettings = {
       "uBlock0@raymondhill.net" = {
         installation_mode = "force_installed";
-        install_url = "https://github.com/gorhill/uBlock/releases/download/1.57.0/uBlock0_1.57.0.firefox.signed.xpi";
+        install_url = "https://github.com/gorhill/uBlock/releases/download/1.62.0/uBlock0_1.62.0.firefox.signed.xpi";
       };
     };
     SearchEngines = {
       Add = [
         {
           Name = "SearXNG";
-          URLTemplate = "https://priv.au/search?q={searchTerms}";
+          URLTemplate = "https://search.leptons.xyz/search?q={searchTerms}";
           Method = "GET";
           IconURL = "https://search.leptons.xyz/searxng/favicon.ico";
         }
