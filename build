@@ -193,7 +193,7 @@ fi
 
 if [ ! -f $machine_sshkey ]; then
   echo "No $machine_sshkey. Exporting"
-  askpass "Enter KeePass password for /etc/ssh/:"
+  askpass "Enter KeePass password for ${etc_dir}/ssh/:"
 
   keepass_export_keys $ssh_dir $machine
   sudo cp "$ssh_dir/$prefix" $machine_sshkey

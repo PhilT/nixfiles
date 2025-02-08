@@ -13,7 +13,7 @@ in
       sshcmd = /run/current-system/sw/bin/ssh
       batch = true
       dumbtty = true
-      maxthreads = 30
+      maxthreads = 20
       fastcheck = true
       times = true
       watch = true
