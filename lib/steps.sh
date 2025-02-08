@@ -57,7 +57,8 @@ install() {
   SUDO "mkdir -p /mnt/data/sync"
   SUDO "cp $db /mnt/data/sync"
   SUDO "chmod +w /mnt/data/sync/*"
-  SUDO "chown -R 1000:users /mnt/data"
+  SUDO "chown 1000:users /mnt/data"
+  SUDO "chown -R 1000:users /mnt/data/sync"
   SUDO "umount -l /mnt"
   SUDO "zpool export -a"
   reboot
