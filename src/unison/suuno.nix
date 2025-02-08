@@ -45,7 +45,7 @@ in
       "ServerAliveInterval=15"
       "ServerAliveCountMax=3"
       "allow_other"
-      "IdentityFile=/etc/ssh/ssh_host_ecdsa_key"
+      "IdentityFile=${config.etcDir}/ssh/ssh_host_ecdsa_key"
       "uid=${toString config.users.users.phil.uid}"
       "gid=${toString config.users.groups.users.gid}"
       "umask=0022"    # Set permissions so files are accessible as needed
