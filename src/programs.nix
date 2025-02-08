@@ -11,13 +11,12 @@
       fd = "fd -H";
       list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
     };
-    sessionVariables = {
-      HISTIGNORE = "history";
-    };
+
     systemPackages = with pkgs; [
       # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
 
+      # Load Neovim with previous session setup
       (writeShellScriptBin "v" ''
         nvim -S Session.vim
       '')
@@ -31,6 +30,20 @@
       (writeShellScriptBin "resetperms" ''
         find . -type d -print0 | xargs -0 chmod 755
         find . -type f -print0 | xargs -0 chmod 644
+      '')
+
+      # Helper script to merge passwords with Phone database
+      (writeShellScriptBin "mergepasswords" ''
+        machine=$(hostname)
+        source=/data/sync/HomeDatabase.kdbx
+
+        if [ "$machine" = "minoo" ]; then
+          target=/mnt/suuno/sync/HomeDatabase.kdbx
+          keepassxc-cli merge --same-credentials $source $target && cp $source $target
+        else
+          # TODO: Verify the below regex is correct for finding conflicting kdbx files
+          fd "\\\(conflict.*HomeDatabase.kdbx" /data/sync -x keepassxc-cli merge --same-credentials $source
+        fi
       '')
 
       # System and hardware information: lsusb, lspci, lscpu, lsblk
