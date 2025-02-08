@@ -3,7 +3,7 @@
 db=/data/sync/HomeDatabase.kdbx
 prefix=id_ed25519
 
-[ -f $db ] || db=/etc/HomeDatabase.kdbx
+[ -f $db ] || db=/etc/HomeDatabase.kdbx # Default is location on ISO
 if [ ! -f $db ]; then
   echo "No Keepass database found at ${db}!"
   exit 1

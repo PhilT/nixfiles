@@ -66,6 +66,12 @@
       description = "Location of source code dir";
     };
 
+    etcDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/etc";
+      description = "Location of persisted /etc";
+    };
+
     xdgConfigHome = lib.mkOption {
       type = lib.types.str;
       default = "${config.userHome}/.config";

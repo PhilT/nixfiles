@@ -7,6 +7,7 @@ show_trace=
 command=test
 cleanup=0
 overwrite_sshkeys=0
+
 while getopts 'hdsyurbctmo' OPTION; do
   case "$OPTION" in
     h)
@@ -55,7 +56,7 @@ while getopts 'hdsyurbctmo' OPTION; do
       ;;
     m)
       command=build
-      machine=GET
+      machine=PARAM
       ;;
     r)
       action=RELEASE
@@ -75,7 +76,8 @@ while getopts 'hdsyurbctmo' OPTION; do
 done
 shift $(($OPTIND - 1))
 
-if [ "$machine" = "GET" ]; then
+# Use current hostname or with machine specified with -m
+if [ "$machine" = "PARAM" ]; then
   machine=$1
   shift
 else
@@ -86,6 +88,13 @@ fi
 module=$1
 
 configuration_nix=src/machines/$machine/$module
+
+# Ephemeral storage
+if [ "$machine" = "aramid" ]; then
+  etc_dir=/data/etc
+else
+  etc_dir=/etc
+fi
 
 # Check we have Internet
 echo -n "[WIFI] "
@@ -129,8 +138,8 @@ else
 fi
 
 # Fetch hashed_password and ssh keys unless they already exist
-home=$HOME
-sshdir="$home/.ssh"
+home_dir=$HOME
+ssh_dir="$home_dir/.ssh"
 echo -n "[SECRETS] "
 hashedpw="secrets/hashed_password"
 if [ ! -f $hashedpw ]; then
@@ -156,25 +165,25 @@ for m in aramid minoo sapling spruce; do
 done
 
 echo -n "[SSH] "
-[ "$overwrite_sshkeys" -eq "1" ] && rm -rf $home/.ssh
-if [ ! -d $home/.ssh ]; then
-  echo "No $home/.ssh folder. Creating"
+[ "$overwrite_sshkeys" -eq "1" ] && rm -rf $home_dir/.ssh
+if [ ! -d $home_dir/.ssh ]; then
+  echo "No $home_dir/.ssh folder. Creating"
   askpass "Enter KeePass password for ~/.ssh/:"
 
   # Export public/private keys for this machine to ~/.ssh/
-  mkdir -p $sshdir
-  chmod 700 $sshdir
-  keepass_export_keys $sshdir $machine github
-  keepass_export_keys $sshdir $machine gitlab
+  mkdir -p $ssh_dir
+  chmod 700 $ssh_dir
+  keepass_export_keys $ssh_dir $machine github
+  keepass_export_keys $ssh_dir $machine gitlab
 else
   echo "~/.ssh folder exists"
 fi
 
 if [ "$machine" = "minoo" ]; then
   prefix="id_ecdsa"
-  machine_sshkey="/etc/ssh/ssh_host_ecdsa_key"
+  machine_sshkey="${etc_dir}/ssh/ssh_host_ecdsa_key"
 else
-  machine_sshkey="/etc/ssh/ssh_host_ed25519_key"
+  machine_sshkey="${etc_dir}/ssh/ssh_host_ed25519_key"
 fi
 echo -n "[SSH] "
 if [ "$overwrite_sshkeys" -eq "1" ]; then
@@ -186,9 +195,9 @@ if [ ! -f $machine_sshkey ]; then
   echo "No $machine_sshkey. Exporting"
   askpass "Enter KeePass password for /etc/ssh/:"
 
-  keepass_export_keys $sshdir $machine
-  sudo cp "$sshdir/$prefix" $machine_sshkey
-  sudo cp "$sshdir/$prefix.pub" "$machine_sshkey.pub"
+  keepass_export_keys $ssh_dir $machine
+  sudo cp "$ssh_dir/$prefix" $machine_sshkey
+  sudo cp "$ssh_dir/$prefix.pub" "$machine_sshkey.pub"
   sudo chown root:root $machine_sshkey
   sudo chown root:root "$machine_sshkey.pub"
 else

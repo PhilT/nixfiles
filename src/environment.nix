@@ -15,9 +15,6 @@
       CDPATH = "${config.dataDir}/work:${config.codeDir}:${config.dataDir}";
       DOTNET_CLI_TELEMETRY_OPTOUT = "true";
       FZF_DEFAULT_COMMAND = "rg --files --no-ignore-vcs --hidden --ignore-file /etc/ignore";
-      HISTCONTROL = "ignorespace:erasedups";   # Don't add commands starting with space, remove previous occurrances of command
-      HISTFILESIZE = "-1";                       # Unlimited history
-      HISTSIZE = "-1";                           # Unlimited history
 
       XDG_CONFIG_HOME = config.xdgConfigHome;
       XDG_DATA_HOME = config.xdgDataHome;
