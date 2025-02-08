@@ -50,6 +50,12 @@ dataset() {
   SUDO "mount -t zfs $pool/$name $mountpoint"
 }
 
+mkd() {
+  local name=$1
+
+  mkdir -p /mnt$name
+}
+
 fat() {
   local boot_partition=$1
 
