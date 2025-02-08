@@ -10,6 +10,8 @@ aramid() {
   pool "zpool" "$primary_partition"
   dataset "root"
   dataset "nix"
+  dataset "home"
   dataset "data"
+
   fat "$boot_partition"
 }

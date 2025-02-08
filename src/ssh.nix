@@ -1,21 +1,16 @@
-{ config, lib, pkgs, ... }:
-
-let
-  homeDir = config.users.users.${config.username}.home;
-in
-{
+{ config, lib, pkgs, ... }: {
   services.fail2ban.enable = true;
 
   services.openssh = {
     enable = true;
     hostKeys = [
       {
-        path = "/etc/ssh/ssh_host_ed25519_key";
+        path = "${config.etcDir}/ssh/ssh_host_ed25519_key";
         rounds = 100;
         type = "ed25519";
       }
       {
-        path = "/etc/ssh/ssh_host_ecdsa_key";
+        path = "${config.etcDir}/ssh/ssh_host_ecdsa_key";
         rounds = 100;
         type = "ecdsa";
       }
@@ -40,12 +35,12 @@ in
     Host gitlab.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${homeDir}/.ssh/id_ed25519_gitlab
+      IdentityFile ${config.userHome}/.ssh/id_ed25519_gitlab
 
     Host github.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${homeDir}/.ssh/id_ed25519_github
+      IdentityFile ${config.userHome}/.ssh/id_ed25519_github
   '';
 
   # Used by Unison to authorize a connection from an incoming client.

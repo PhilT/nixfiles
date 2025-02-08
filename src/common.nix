@@ -15,20 +15,20 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-    };
-    settings = {
-      auto-optimise-store = true;
+    # Remove unused derivations periodically
+    gc.automatic = true;
+    gc.dates = "weekly";
 
-      # @wheel means all users in the wheel group
-      trusted-users = [
-        config.username
-        "root"
-        "@wheel"
-      ];
-    };
+    # Optimise (cleanup) the Nix store periodically
+    optimise.automatic = true;
+    optimise.dates = [ "12:30" ];
+
+    # @wheel means all users in the wheel group
+    settings.trusted-users = [
+      config.username
+      "root"
+      "@wheel"
+    ];
   };
 
   boot.initrd.systemd.enable = true;

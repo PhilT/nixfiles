@@ -2,11 +2,12 @@
   machine = "aramid";
   username = "phil";
   fullname = "Phil Thompson";
+  etcDir = "${config.dataDir}/etc";
   nixfs.enable = true;
 
   networking.hostId = "d549b408";
   boot.kernelParams = [
-    "nohibernate"                         # Hibernate not supported on ZFS (no swapfiles)
+    "nohibernate"         # Hibernate not supported on ZFS (no swapfiles)
   ];
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule
@@ -24,6 +25,11 @@
       fsType = "zfs";
     };
 
+    "/home" = {
+      device = "zpool/home";
+      fsType = "zfs";
+    };
+
     "/data" = {
       device = "zpool/data";
       fsType = "zfs";
@@ -35,4 +41,20 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
   };
+
+  # Ephemeral OS
+  # TODO: Move to more general location once the rest
+  # of my machines are using it
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r zpool/root@blank
+  '';
+
+  etc."NetworkManager/system-connections" = {
+    source = "/data/etc/NetworkManager/system-connections/";
+  };
+
+  systemd.tmpfiles.rules = [
+    "L /var/lib/bluetooth - - - - /data/var/lib/bluetooth"
+  ];
+  # End of Ephemeral OS
 }

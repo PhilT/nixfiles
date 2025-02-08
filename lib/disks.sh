@@ -36,6 +36,8 @@ pool() {
   RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
 }
 
+# Create a ZFS dataset and snapshot it in it's empty state
+# to be able to rollback for ephemeral storage.
 dataset() {
   state=" ZFS"
   local name=$1
@@ -43,6 +45,7 @@ dataset() {
   [ "$name" = "root" ] && mountpoint="/mnt"
 
   SUDO "zfs create -o mountpoint=legacy $pool/$name"
+  SUDO "zfs snapshot $pool/$name@blank"
   SUDO "mkdir -p $mountpoint"
   SUDO "mount -t zfs $pool/$name $mountpoint"
 }

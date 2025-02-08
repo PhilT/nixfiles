@@ -10,6 +10,7 @@
     paths = [
       "books"
       "documents"
+      "Claudi"
       "code/archive"
       "code/spikes"
       "music"

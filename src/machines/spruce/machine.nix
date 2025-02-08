@@ -5,6 +5,7 @@
   fullname = "Phil Thompson";
   time.hardwareClockInLocalTime = true;
 
+  # TODO: Switch to ZFS
   luks.enable = true;
   luks.device = "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_2TB_S6Z2NJ0TA26792J_1-part2";
 
