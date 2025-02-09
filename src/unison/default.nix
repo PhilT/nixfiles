@@ -2,42 +2,41 @@
 let
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
   folders = map (path: "d ${config.dataDir}/${path} - ${config.username} users -");
+  unisonDir = "${config.persistedHomeDir}/unison";
 in
 {
   imports = [ ./options.nix ];
   environment.systemPackages = with pkgs; [ unison ];
+  environment.sessionVariables.UNISON_DIR = unisonDir;
 
-  environment.etc."config/unison/common.prf" = {
-    mode = "444";
-    text = ''
-      sshcmd = /run/current-system/sw/bin/ssh
-      batch = true
-      dumbtty = true
-      maxthreads = 20
-      fastcheck = true
-      times = true
-      watch = true
+  environment.etc."unison/common.prf".text = ''
+    sshcmd = /run/current-system/sw/bin/ssh
+    batch = true
+    dumbtty = true
+    maxthreads = 20
+    fastcheck = true
+    times = true
+    watch = true
 
-      copyonconflict = true
-      prefer = newer
-      repeat = watch
-      retry = 5
+    copyonconflict = true
+    prefer = newer
+    repeat = watch
+    retry = 5
 
-      ignore = Name .thumbnails
-      ignore = Name .devbox
-      ignore = Name .direnv
-      ignore = Name *.tmp
-      ignore = Name .*~
-      ignore = Name *~
+    ignore = Name .thumbnails
+    ignore = Name .devbox
+    ignore = Name .direnv
+    ignore = Name *.tmp
+    ignore = Name .*~
+    ignore = Name *~
 
-      ignore = Path work/*
-      ignorenot = Path work/work.nix
-      ignorenot = Path work/sync
+    ignore = Path work/*
+    ignorenot = Path work/work.nix
+    ignorenot = Path work/sync
 
-      ${pathsConfig config.unison.paths}
-      ${config.unison.extraConfig}
-    '';
-  };
+    ${pathsConfig config.unison.paths}
+    ${config.unison.extraConfig}
+  '';
 
   systemd.services.unison = {
     enable = true;
@@ -59,9 +58,6 @@ in
   };
 
   systemd.tmpfiles.rules = [
-    "d ${config.userHome} - ${config.username} users -"
-    "d ${config.userHome}/.unison - ${config.username} users -"
-
-    "L+ ${config.userHome}/.unison/common.prf - - - - /etc/config/unison/common.prf"
+    "d ${unisonDir} - ${config.username} users -"
   ] ++ (folders config.unison.paths);
 }
