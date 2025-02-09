@@ -21,7 +21,6 @@
       "screenshots"
       "studio"
       "sync"
-      "thunderbird_profile"
       "txt"
       "videos"
       "work"

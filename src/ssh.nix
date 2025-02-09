@@ -35,12 +35,12 @@
     Host gitlab.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.userHome}/.ssh/id_ed25519_gitlab
+      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_gitlab
 
     Host github.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.userHome}/.ssh/id_ed25519_github
+      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_github
   '';
 
   # Used by Unison to authorize a connection from an incoming client.
