@@ -48,16 +48,22 @@
       description = "Separate the /nix store for improved SSD lifespan";
     };
 
-    userHome = lib.mkOption {
+    homeDir = lib.mkOption {
       type = lib.types.str;
       default = "/home/${config.username}";
-      description = "User's home folder";
+      description = "User's home folder (wiped on boot)";
     };
 
     dataDir = lib.mkOption {
       type = lib.types.str;
       default = "/data";
       description = "Location of main data partition";
+    };
+
+    persistedHomeDir = lib.mkOption {
+      type = lib.types.str;
+      default = "${config.dataDir}/home";
+      description = "User's home folder (persisted on boot)";
     };
 
     codeDir = lib.mkOption {
@@ -72,15 +78,21 @@
       description = "Location of persisted /etc";
     };
 
+    varDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/var";
+      description = "Location of persisted /var";
+    };
+
     xdgConfigHome = lib.mkOption {
       type = lib.types.str;
-      default = "${config.userHome}/.config";
-      description = "Standard XDG_CONFIG_HOME";
+      default = "${config.homeDir}/.config";
+      description = "XDG_CONFIG_HOME wiped on boot";
     };
 
     xdgDataHome = lib.mkOption {
       type = lib.types.str;
-      default = "${config.userHome}/.local/share";
+      default = "${config.homeDir}/.local/share";
       description = "Standard XDG_DATA_HOME";
     };
 
