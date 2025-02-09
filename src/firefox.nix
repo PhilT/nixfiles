@@ -1,9 +1,25 @@
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: {
   programs.firefox.enable = true;
   programs.firefox.package = pkgs.firefox-esr;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
+
+  environment.etc."firefox/profiles.ini".text = ''
+    [Profile0]
+    Name=default
+    IsRelative=1
+    Path=${config.persistedHomeDir}/firefox
+    Default=1
+
+    [General]
+    StartWithLastProfile=1
+    Version=2
+  '';
+
+  systemd.tmpfiles.rules = [
+    "d ${config.homeDir}/.mozilla - ${config.username} users"
+    "d ${config.homeDir}/.mozilla/firefox - ${config.username} users"
+    "L+ ${config.homeDir}/.mozilla/firefox/profiles.ini - ${config.username} users /etc/firefox/profiles.ini"
+  ];
 
   programs.firefox.preferences = {
     "browser.tabs.inTitlebar" = 0;
@@ -16,8 +32,8 @@
   # https://mozilla.github.io/policy-templates
   programs.firefox.policies = {
     DisableTelemetry = true;
-    DefaultDownloadDirectory = "/data/downloads"; # FIXME: should really pass in $DATA
-    DownloadDirectory = "/data/downloads";
+    DefaultDownloadDirectory = "${config.dataDir}/downloads";
+    DownloadDirectory = "${config.dataDir}/downloads";
     PromptForDownloadLocation = false;
     DisableAppUpdate = true;
     ManualAppUpdateOnly = true;
@@ -26,6 +42,7 @@
     OfferToSaveLogins = false;
     OverrideFirstRunPage = "";
     PasswordManagerEnabled = false;
+    DisableMasterPasswordCreation = true;
     EnableTrackingProtection = {
       Value = true;
       Locked = false;

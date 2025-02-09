@@ -25,7 +25,6 @@
     # Desktop
     ../../desktop/default.nix
     ../../desktop/light.nix
-    ../../desktop/gaming.nix
   ];
 
   waybarModules = [

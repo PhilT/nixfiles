@@ -38,4 +38,9 @@
     libreoffice
     slack
   ];
+
+  systemd.tmpfiles.rules = [
+    "L+ ${config.xdgConfigHome}/Slack - - - - ${config.persistedHomeDir}/Slack"
+    "L+ ${config.xdgConfigHome}/vesktop - - - - ${config.persistedHomeDir}/vesktop"
+  ];
 }
