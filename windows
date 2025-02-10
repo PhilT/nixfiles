@@ -2,6 +2,7 @@
 
 # https://wiki.debian.org/SecureBoot/VirtualMachine
 # https://macroform-node.medium.com/building-a-windows-11-vm-with-qemu-using-tpm-emulation-for-research-malware-analysis-part-1-8846378b9582
+# https://ubuntu.com/server/docs/gpu-virtualization-with-qemu-kvm - Suggestion for -device for GPU passthrough settings
 
 # [ ] Add -d to swtpm
 
@@ -44,6 +45,10 @@ VM_CORES="4-15,18-31"
 # [ ] - Try again to get cset shield to work with taskset
 # [ ] - Which NIC card to use? Or should I use bridge networking? What's the advantage?
 
+CORES=28
+IOMMU_GPU="01:00.0"
+IOMMU_GPU_AUDIO="01:00.1"
+
 qemu-system-x86_64 \
   -name "Windows 11 on Qemu",process=win11vm \
   -machine q35,smm=on,usb=off,accel=kvm \
@@ -52,12 +57,12 @@ qemu-system-x86_64 \
   -serial none \
   -parallel none \
   -m 24G \
-  -smp cpus=28,cores=14,threads=2,sockets=1 \
-  -cpu host,kvm=on \
+  -smp $CORES,cores=$(($CORES / 2)),threads=2,sockets=1 \
+  -cpu host,kvm=off,hv_relaxed,hv_spinlocks=0x1fff,hv_time,hv_vapic,hv_vendor_id=0xDEADBEEFFF \
   -drive file=tmp/windows.qcow2,if=none,id=win \
   -drive file=/dev/nvme2n1,format=raw,if=none,id=ssd0 \
-  -device vfio-pci,host=01:00.0,multifunction=on \
-  -device vfio-pci,host=01:00.1 \
+  -device vfio-pci,host=$IOMMU_GPU,bus=1,addr=00.0,multifunction=on,x-vga=on \
+  -device vfio-pci,host=$IOMMU_GPU_AUDIO,bus=1,addr=00.1 \
   -device qemu-xhci \
   -device usb-host,vendorid=0x320f,productid=0x504a \
   -device usb-host,vendorid=0x258a,productid=0x2022 \
