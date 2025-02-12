@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+IOMMU_USB="0000:07:00.0"
+
+unbind=$1
+
+if [ "$unbind" = "-u" ]; then
+  echo "Unbinding..."
+  echo "${IOMMU_USB}" > /sys/bus/pci/devices/${IOMMU_USB}/driver/unbind
+  echo "${IOMMU_USB}" > /sys/bus/pci/drivers/xhci_hcd/bind
+else
+  echo "Binding..."
+  echo "${IOMMU_USB}" > /sys/bus/pci/devices/${IOMMU_USB}/driver/unbind
+  echo "1b73 1100" > /sys/bus/pci/drivers/vfio-pci/new_id
+  #echo "${IOMMU_USB}" > /sys/bus/pci/drivers/vfio-pci/bind
+fi

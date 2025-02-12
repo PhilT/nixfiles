@@ -3,6 +3,7 @@
 # https://wiki.debian.org/SecureBoot/VirtualMachine
 # https://macroform-node.medium.com/building-a-windows-11-vm-with-qemu-using-tpm-emulation-for-research-malware-analysis-part-1-8846378b9582
 # https://ubuntu.com/server/docs/gpu-virtualization-with-qemu-kvm - Suggestion for -device for GPU passthrough settings
+# Turn off Windows Fast Start: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power -> HiberbootEnabled -> 0
 
 # [ ] Add -d to swtpm
 
@@ -12,6 +13,13 @@ OVMF_DIR=/nix/store/my571d8qw91lxnhsk439z8sj233c2cz7-OVMF-202411-fd/FV
 OVMF_CODE=${OVMF_DIR}/OVMF_CODE.fd
 OVMF_VARS=OVMF_VARS.ms.fd
 SSH_PORT="5555"
+NVME_GAMES=/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_2TB_S4J4NG0M600518W
+
+CORES=28
+IOMMU_GPU="01:00.0"
+IOMMU_GPU_AUDIO="01:00.1"
+
+IOMMU_USB_CONTROLLER="0000:07:00.0"
 
 if [ ! -f tmp/$OVMF_VARS ]; then
   cp $OVMF_DIR/$OVMF_VARS tmp/$OVMF_VARS
@@ -30,10 +38,8 @@ swtpm socket --tpmstate dir=${tpm_dir} \
 swtpm_pid=$!
 
 # Unbind USB Controller and bind to VFIO
-#echo "0000:09:00.0" | sudo tee /sys/bus/pci/devices/0000:09:00.0/driver/unbind
-#echo "0000:0a:00.0" | sudo tee /sys/bus/pci/devices/0000:0a:00.0/driver/unbind
-#echo "0000:09:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind
-#echo "0000:0a:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind
+#echo "0000:${IOMMU_USB_CONTROLLER}" | tee /sys/bus/pci/devices/0000:${IOMMU_USB_CONTROLLER}/driver/unbind
+#echo "0000:${IOMMU_USB_CONTROLLER}" | tee /sys/bus/pci/drivers/vfio-pci/bind
 
 VM_CORES="4-15,18-31"
 
@@ -45,10 +51,6 @@ VM_CORES="4-15,18-31"
 # [ ] - Try again to get cset shield to work with taskset
 # [ ] - Which NIC card to use? Or should I use bridge networking? What's the advantage?
 
-CORES=28
-IOMMU_GPU="01:00.0"
-IOMMU_GPU_AUDIO="01:00.1"
-
 qemu-system-x86_64 \
   -name "Windows 11 on Qemu",process=win11vm \
   -machine q35,smm=on,usb=off,accel=kvm \
@@ -58,11 +60,13 @@ qemu-system-x86_64 \
   -parallel none \
   -m 24G \
   -smp $CORES,cores=$(($CORES / 2)),threads=2,sockets=1 \
+  -enable-kvm \
   -cpu host,kvm=off,hv_relaxed,hv_spinlocks=0x1fff,hv_time,hv_vapic,hv_vendor_id=0xDEADBEEFFF \
   -drive file=tmp/windows.qcow2,if=none,id=win \
-  -drive file=/dev/nvme2n1,format=raw,if=none,id=ssd0 \
-  -device vfio-pci,host=$IOMMU_GPU,bus=1,addr=00.0,multifunction=on,x-vga=on \
-  -device vfio-pci,host=$IOMMU_GPU_AUDIO,bus=1,addr=00.1 \
+  -drive file=${NVME_GAMES},format=raw,if=virtio,id=games \
+  -device vfio-pci,host=$IOMMU_GPU,multifunction=on,x-vga=on \
+  -device vfio-pci,host=$IOMMU_GPU_AUDIO \
+  -device vfio-pci,host=$IOMMU_USB_CONTROLLER \
   -device qemu-xhci \
   -device usb-host,vendorid=0x320f,productid=0x504a \
   -device usb-host,vendorid=0x258a,productid=0x2022 \
@@ -72,7 +76,6 @@ qemu-system-x86_64 \
   -device usb-host,vendorid=0x0483,productid=0x0522 \
   -device usb-host,vendorid=0x0483,productid=0x0525 \
   -device usb-host,vendorid=0x22e8,productid=0xdac2 \
-  -device virtio-blk-pci,drive=ssd0 \
   -device nvme,serial=deadbeef,drive=win,bootindex=1 \
   -device tpm-tis,tpmdev=tpm0 \
   -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
@@ -83,6 +86,11 @@ qemu-system-x86_64 \
   -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \
   -rtc clock=host,base=localtime,driftfix=slew
 
+  # -device virtio-blk-pci,drive=games \
+  #-drive file=/dev/nvme0n1p3,format=raw,if=none,id=ssd1 \
+  #-device virtio-blk-pci,drive=ssd1 \
+
+  # -smp cpus=28,cores=14,threads=2,sockets=1 \
   # -cdrom tmp/virtio-win-0.1.266.iso \
   #-mem-prealloc \
   #-mem-path /dev/hugepages \
@@ -91,5 +99,8 @@ qemu-system-x86_64 \
   #-net nic,model=virtio -net user,hostfwd=tcp::${SSH_PORT}-:22 \
 
 { kill $swtpm_pid && wait $swtpm_pid; } 2>/dev/null
+
+#echo "0000:${IOMMU_USB_CONTROLLER}" > /sys/bus/pci/devices/0000:${IOMMU_USB_CONTROLLER}/driver/unbind
+#echo "0000:${IOMMU_USB_CONTROLLER}" > /sys/bus/pci/drivers/xhci_hcd/bind
 
 #cset shield --reset
