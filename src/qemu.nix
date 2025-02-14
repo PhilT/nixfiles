@@ -8,7 +8,7 @@
     samba
     (qemu.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
     swtpm
-    cpuset
+    libhugetlbfs                   # Hugepages
 
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
