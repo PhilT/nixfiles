@@ -69,6 +69,7 @@ in
       pciutils
       cpu-x
       lshw
+      btop                  # Sexy top
 
       # Utils
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as it has large file support).
