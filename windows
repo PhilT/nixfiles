@@ -47,9 +47,13 @@ swtpm_pid=$!
 CORES=28
 HOST_CORES="0,1,16,17"
 VM_CORES="2-15,18-31"
+RAM=24
 
 # Hugepages
-hugeadm --pool-pages-min "2MB:12288"
+HUGEPAGES_SIZE=2
+HUGEPAGES_TOTAL=$((RAM * 1024 / HUGEPAGES_SIZE))
+echo "Hugepages total: ${HUGEPAGES_TOTAL}"
+hugeadm --pool-pages-min "${HUGEPAGES_SIZE}MB:${HUGEPAGES_TOTAL}"
 hugeadm --set-recommended-shmmax
 mkdir -p /dev/hugepages
 mount -t hugetlbfs nodev /dev/hugepages
@@ -57,17 +61,20 @@ mount -t hugetlbfs nodev /dev/hugepages
 # https://www.qemu.org/docs/master/system/i386/hyperv.html
 HV_ENLIGHT="hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv"
 
+read -p "Start VM? (y/n): " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+
 taskset -c $VM_CORES qemu-system-x86_64 \
   -name "Windows 11 on Qemu",process=win11vm \
   -machine q35,smm=on,usb=off,accel=kvm \
+  -enable-kvm \
   -vga none \
   -nographic \
   -serial none \
   -parallel none \
-  -m 24G \
   -smp $CORES,cores=$(($CORES / 2)),threads=2,sockets=1 \
-  -enable-kvm \
   -cpu host,kvm=off,${HV_ENLIGHT},hv_spinlocks=0x1fff,hv_vendor_id=0xDEADBEEFFF \
+  -m ${RAM}G \
   -mem-prealloc \
   -mem-path /dev/hugepages \
   -drive file=tmp/windows.qcow2,if=none,id=win \
@@ -87,7 +94,6 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -device usb-host,vendorid=0x0483,productid=0x0525 \
   -device usb-host,vendorid=0x22e8,productid=0xdac2 \
   -device usb-host,vendorid=0x8087,productid=0x0033 \
-  -device usb-host,vendorid=0x046d,productid=0x0825 \
   -device nvme,serial=deadbeef,drive=win,bootindex=1 \
   -device tpm-tis,tpmdev=tpm0 \
   -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
@@ -96,9 +102,15 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \
   -rtc clock=host,base=localtime,driftfix=slew
 
+
+  #-object memory-backend-file,id=mem1,share=on,mem-path=/dev/hugepages,prealloc=yes,size=${RAM}G \
+  #-numa node,cpus=0-27,memdev=mem1 \
+  #-object memory-backend-file,id=mem1,share=on,mem-path=/dev/hugepages,prealloc=yes,size="${RAM}G" \
+  #-numa node,cpus=0-27,memdev=mem1 \
   #-drive file=/dev/nvme0n1p3,format=raw,if=none,id=ssd1 \
   #-device virtio-blk-pci,drive=ssd1 \
 
+  # -device usb-host,vendorid=0x046d,productid=0x0825 \
   # -smp cpus=28,cores=14,threads=2,sockets=1 \
   # -cdrom tmp/virtio-win-0.1.266.iso \
   #-cdrom /data/downloads/windows_11_ltsc.iso \
@@ -107,8 +119,10 @@ taskset -c $VM_CORES qemu-system-x86_64 \
 
 { kill $swtpm_pid && wait $swtpm_pid; } 2>/dev/null
 
+fi
+
 umount /dev/hugepages
-hugeadm --pool-pages-min "2MB:0"
+hugeadm --pool-pages-min "${HUGEPAGES_SIZE}MB:0"
 
 #echo "0000:${IOMMU_USB_CONTROLLER}" > /sys/bus/pci/devices/0000:${IOMMU_USB_CONTROLLER}/driver/unbind
 #echo "0000:${IOMMU_USB_CONTROLLER}" > /sys/bus/pci/drivers/xhci_hcd/bind

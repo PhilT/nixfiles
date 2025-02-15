@@ -33,15 +33,9 @@ in {
 
     "intel_iommu=on"
     "iommu=pt" # Might be needed for performance. Test and see
-#    "default_hugepagesz=1G"
-#    "hugepagesz=1G"
-#    "hugepages=24"  # 30GB allocated as hugepages
+    #"hugepagesz=1G"
+    #"hugepages=24"
   ];
-
-  # TODO: I don't think this is needed
-#  boot.blacklistedKernelModules = [
-#    "nouveau"
-#  ];
 
   boot.extraModprobeConfig = ''
     options vfio-pci ids=${gpuIds}${usbControllerIds}
@@ -65,4 +59,19 @@ in {
       (builtins.readFile ../../../secrets/id_ed25519_spruce.pub)
     ];
   };
+
+  # NEW OPTIONS
+  #boot.kernel.sysctl = {
+  #  "vm.min_free_kbytes" = "57671680";
+  #  "kernel.shmmax" = "25769803776";
+  #};
+
+  systemd.extraConfig = ''
+    CPUAffinity=0,1,16,17
+  '';
+
+  # TODO: I don't think this is needed
+  #boot.blacklistedKernelModules = [
+  #  "nouveau"
+  #];
 }
