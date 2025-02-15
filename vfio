@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+action=$1
+device=$2
+vendor=$(cat /sys/bus/pci/devices/$device/vendor)
+product=$(cat /sys/bus/pci/devices/$device/device)
+
+unbind() {
+  if [ -e /sys/bus/pci/devices/$device/driver ]; then
+    echo "${device}" > /sys/bus/pci/devices/${device}/driver/unbind
+  fi
+}
+
+if [ -z "$action" ]; then
+  echo "Usage: $0 <action> <device>"
+  echo "  action - bind | unbind"
+  echo "  device - bus device e.g. 0000:01:00.0"
+elif [ "$action" = "bind" ]; then
+  echo "Binding..."
+  unbind
+  echo "$vendor $product" > /sys/bus/pci/drivers/vfio-pci/new_id
+  #echo "${device}" > /sys/bus/pci/drivers/vfio-pci/bind
+elif [ "$action" = "unbind" ]; then
+  echo "Unbinding..."
+  unbind
+  echo "${device}" > /sys/bus/pci/drivers/xhci_hcd/bind
+else
+  echo "Unknown action: $action"
+fi
