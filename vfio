@@ -16,12 +16,12 @@ if [ -z "$action" ]; then
   echo "  action - bind | unbind"
   echo "  device - bus device e.g. 0000:01:00.0"
 elif [ "$action" = "bind" ]; then
-  echo "Binding..."
+  echo "Binding ${device}"
   unbind
   echo "$vendor $product" > /sys/bus/pci/drivers/vfio-pci/new_id
   #echo "${device}" > /sys/bus/pci/drivers/vfio-pci/bind
 elif [ "$action" = "unbind" ]; then
-  echo "Unbinding..."
+  echo "Unbinding ${device}"
   unbind
   echo "${device}" > /sys/bus/pci/drivers/xhci_hcd/bind
 else
