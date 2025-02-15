@@ -8,6 +8,7 @@ product=$(cat /sys/bus/pci/devices/$device/device)
 unbind() {
   if [ -e /sys/bus/pci/devices/$device/driver ]; then
     echo "${device}" > /sys/bus/pci/devices/${device}/driver/unbind
+    #echo "$vendor $product" > /sys/bus/pci/drivers/vfio-pci/remove_id
   fi
 }
 
@@ -16,13 +17,14 @@ if [ -z "$action" ]; then
   echo "  action - bind | unbind"
   echo "  device - bus device e.g. 0000:01:00.0"
 elif [ "$action" = "bind" ]; then
-  echo "Binding ${device}"
+  echo "Binding ${device}, ${vendor} ${product}"
   unbind
   echo "$vendor $product" > /sys/bus/pci/drivers/vfio-pci/new_id
   #echo "${device}" > /sys/bus/pci/drivers/vfio-pci/bind
 elif [ "$action" = "unbind" ]; then
-  echo "Unbinding ${device}"
+  echo "Unbinding ${device}, ${vendor} ${product}"
   unbind
+  # ./vfio: line 27: echo: write error: No such device
   echo "${device}" > /sys/bus/pci/drivers/xhci_hcd/bind
 else
   echo "Unknown action: $action"
