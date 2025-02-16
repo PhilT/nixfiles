@@ -139,7 +139,8 @@ fi
 
 # Fetch hashed_password and ssh keys unless they already exist
 home_dir=$HOME
-ssh_dir="$home_dir/.ssh"
+persisted_home_dir=/home/phil
+ssh_dir="$persisted_home_dir/ssh"
 echo -n "[SECRETS] "
 hashedpw="secrets/hashed_password"
 if [ ! -f $hashedpw ]; then
@@ -165,10 +166,10 @@ for m in aramid minoo sapling spruce; do
 done
 
 echo -n "[SSH] "
-[ "$overwrite_sshkeys" -eq "1" ] && rm -rf $home_dir/.ssh
-if [ ! -d $home_dir/.ssh ]; then
-  echo "No $home_dir/.ssh folder. Creating"
-  askpass "Enter KeePass password for ~/.ssh/:"
+[ "$overwrite_sshkeys" -eq "1" ] && rm -rf $ssh_dir
+if [ ! -d $ssh_dir ]; then
+  echo "No $ssh_dir folder. Creating"
+  askpass "Enter KeePass password for ${ssh_dir}:"
 
   # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $ssh_dir
@@ -176,7 +177,7 @@ if [ ! -d $home_dir/.ssh ]; then
   keepass_export_keys $ssh_dir $machine github
   keepass_export_keys $ssh_dir $machine gitlab
 else
-  echo "~/.ssh folder exists"
+  echo "${ssh_dir} folder exists"
 fi
 
 if [ "$machine" = "minoo" ]; then
