@@ -58,7 +58,7 @@ in
     sshfs
 
     (writeShellScriptBin "sync_${config.unison.target}" ''
-      ${pkgs.unison}/bin/unison ${config.dataDir} /mnt/${config.unison.target} -include common $@
+      UNISON=${config.environment.variables.UNISON} ${pkgs.unison}/bin/unison ${config.dataDir} /mnt/${config.unison.target} -include common $@
     '')
   ];
 

@@ -29,7 +29,7 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "sync_${config.unison.target}" ''
-      ${pkgs.unison}/bin/unison ${config.dataDir} ssh://${config.unison.target}/${config.dataDir} -include common $@
+      UNISON=${config.environment.variables.UNISON} ${pkgs.unison}/bin/unison ${config.dataDir} ssh://${config.unison.target}/${config.dataDir} -include common $@
     '')
   ];
 }

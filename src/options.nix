@@ -48,21 +48,24 @@
       description = "Separate the /nix store for improved SSD lifespan";
     };
 
-    homeDir = lib.mkOption {
-      type = lib.types.str;
-      default = "/home/${config.username}";
-      description = "User's home folder (wiped on boot)";
-    };
-
+    # The following options relating to transient or persisted storage
+    # will only take affect once the machine is using ./ephemeral_os.nix.
+    # These default locations will not be wiped on boot.
     dataDir = lib.mkOption {
       type = lib.types.str;
       default = "/data";
       description = "Location of main data partition";
     };
 
+    homeDir = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/${config.username}";
+      description = "User's home folder (wiped on boot)";
+    };
+
     persistedHomeDir = lib.mkOption {
       type = lib.types.str;
-      default = "${config.dataDir}/home";
+      default = config.homeDir;
       description = "User's home folder (persisted on boot)";
     };
 
