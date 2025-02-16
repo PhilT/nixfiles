@@ -1,6 +1,8 @@
 # Cut down version of default.nix to sway to build
 # default.nix was causing kernel panic on Aramid.
 # This tries to stage the packages a bit more.
+# TODO: Once we reinstall Aramid with default.nix
+#       we can remove this configuration.
 
 { config, lib, pkgs, ... }: {
   imports = [

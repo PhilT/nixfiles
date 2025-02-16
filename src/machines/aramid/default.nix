@@ -9,6 +9,7 @@
     ../../hardware/default.nix
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
+    ../../ephemeral_os.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix

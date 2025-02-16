@@ -7,7 +7,7 @@ in
 {
   imports = [ ./options.nix ];
   environment.systemPackages = with pkgs; [ unison ];
-  environment.sessionVariables.UNISON_DIR = unisonDir;
+  environment.variables.UNISON = unisonDir;
 
   environment.etc."unison/common.prf".text = ''
     sshcmd = /run/current-system/sw/bin/ssh
@@ -59,5 +59,6 @@ in
 
   systemd.tmpfiles.rules = [
     "d ${unisonDir} - ${config.username} users -"
+    "L+ ${unisonDir}/common.prf - - - - /etc/unison/common.prf"
   ] ++ (folders config.unison.paths);
 }

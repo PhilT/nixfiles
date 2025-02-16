@@ -10,7 +10,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    #(callPackage ./studio.nix {})
     (callPackage ./spectrum.nix {})
     (callPackage ./mxw.nix {}) # Glorious Model O tool
     qmk                        # Tool to configure QMK based keyboards
@@ -23,7 +22,6 @@
     imv                   # Image viewer
     inkscape
     mpv                   # Video player
-    wineWowPackages.full  # Needed for FL Studdio installer
     digikam               # Photo manager
     wf-recorder           # Screen recorder
 
@@ -37,10 +35,5 @@
     element-desktop       # Matrix chat client
     libreoffice
     slack
-  ];
-
-  systemd.tmpfiles.rules = [
-    "L+ ${config.xdgConfigHome}/Slack - - - - ${config.persistedHomeDir}/Slack"
-    "L+ ${config.xdgConfigHome}/vesktop - - - - ${config.persistedHomeDir}/vesktop"
   ];
 }
