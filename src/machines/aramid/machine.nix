@@ -2,6 +2,7 @@
   machine = "aramid";
   username = "phil";
   fullname = "Phil Thompson";
+  persistedHomeDir = "${config.dataDir}/home";
   etcDir = "${config.dataDir}/etc";
   varDir = "${config.dataDir}/var";
   nixfs.enable = true;
@@ -26,12 +27,6 @@
       fsType = "zfs";
     };
 
-    # TODO: Enable once we're happy to have it removed on boot
-    # "/home" = {
-    #   device = "zpool/home";
-    #   fsType = "zfs";
-    # };
-
     "/data" = {
       device = "zpool/data";
       fsType = "zfs";
@@ -43,27 +38,4 @@
       options = [ "fmask=0077" "dmask=0077" "defaults" ];
     };
   };
-
-  # Ephemeral OS
-  # TODO: Move to more general location once the rest
-  # of my machines are using it
-  # boot.initrd.systemd.services.initrd-rollback-root = {
-  #   after = [ "zfs-import-rpool.service" ];
-  #   before = [ "sysroot.mount" "local-fs.target" ];
-  #   description = "Rollback root fs";
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     ExecStart =
-  #       "${config.boot.zfs.package}/sbin/zfs rollback -r zpool/root@blank";
-  #   };
-  # };
-
-  environment.etc."NetworkManager/system-connections" = {
-    source = "${config.etcDir}/NetworkManager/system-connections/";
-  };
-
-  systemd.tmpfiles.rules = lib.mkIf (config.varDir != "/var") [
-    "L /var/lib/bluetooth - - - - ${config.varDir}/lib/bluetooth"
-  ];
-  # End of Ephemeral OS
 }

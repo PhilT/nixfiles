@@ -14,7 +14,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    wineasio
     pavucontrol           # Audio control panel
     pulseaudio
   ];
