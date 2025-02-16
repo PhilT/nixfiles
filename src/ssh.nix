@@ -3,6 +3,11 @@
 
   services.openssh = {
     enable = true;
+    authorizedKeysFiles = [
+      "%h/.ssh/authorized_keys"
+      "${config.persistedHomeDir}/ssh/authorized_keys"
+      "/etc/ssh/authorized_keys.d/%u"
+    ];
     hostKeys = [
       {
         path = "${config.etcDir}/ssh/ssh_host_ed25519_key";
