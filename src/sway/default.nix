@@ -14,12 +14,18 @@ let
 in with colors; {
   xdg.portal = {
     enable = true;
+    config.common.default = "wlr";
     wlr.enable = true;
+    wlr.settings.screencast = {
+      output_name = "eDP-1";
+      chooser_type = "simple";
+      chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+    };
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   programs.sway.enable = true;
-  programs.sway.xwayland.enable = false;    # Things go horribly wrong (for the display) with this enabled
+  programs.sway.xwayland.enable = true;    # Things go horribly wrong (for the display) with this enabled
   programs.sway.wrapperFeatures.gtk = true; # TODO: What is this?
   programs.dconf.enable = true;             # Used in sway config to set some themes
 
