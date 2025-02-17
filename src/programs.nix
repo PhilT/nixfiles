@@ -8,9 +8,9 @@
     git.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
-      # Add any missing dynamic libraries for unpackaged programs
-      # here, NOT in environment.systemPackages
+      # Add any missing dynamic libraries for unpackaged programs here
       # For now this is mostly for testing Pop (pop.com) screen sharing app
+      # Use ldd <path to binary> to get a list
       xorg.libxshmfence
       glib
       nss
@@ -44,7 +44,8 @@
     shellAliases = {
       ss = "imv -t 15 -f";
       fd = "fd -H";
-      list-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
+      ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
+      ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations"
     };
 
     systemPackages = with pkgs; [
