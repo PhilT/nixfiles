@@ -45,7 +45,7 @@
       ss = "imv -t 15 -f";
       fd = "fd -H";
       ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
-      ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations"
+      ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
     };
 
     systemPackages = with pkgs; [
