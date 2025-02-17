@@ -25,7 +25,7 @@ workspace 0 output DP-2 eDP-1
 
 workspace 1
 
-xwayland disable
+xwayland enable
 
 # This only works in sway
 # See src/common.nix for console setting
