@@ -106,7 +106,7 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -device usb-host,vendorid=0x8087,productid=0x0033 \
   -device nvme,serial=deadbeef,drive=win,bootindex=1 \
   -device tpm-tis,tpmdev=tpm0 \
-  -nic tap,ipv6=off,model=virtio-net-pci,mac=84:1b:76:c9:01:a5 \
+  -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
   -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \

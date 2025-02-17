@@ -19,18 +19,18 @@
   users.groups.vfio = {};
   users.users."${config.username}".extraGroups = [ "vfio" "kvm" ];
 
-  services.samba = {
-    enable = true;
-  };
-
-  networking = {
-    bridges = {
-      br0 = {
-        interfaces = [
-          "eth0"
-          "virbr0"
-        ];
-      };
-    };
-  };
+#  services.samba = {
+#    enable = true;
+#  };
+#
+#  networking = {
+#    bridges = {
+#      br0 = {
+#        interfaces = [
+#          "eth0"
+#          "virbr0"
+#        ];
+#      };
+#    };
+#  };
 }
