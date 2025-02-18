@@ -90,6 +90,8 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -drive file=tmp/windows.qcow2,if=none,id=win \
   -chardev socket,id=chrtpm,path=${tpm_sock} \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
+  -netdev bridge,id=net0,br=br0 \
+  -device virtio-net-pci,netdev=net0, mac=84:1b:76:c9:01:a5 \
   -device vfio-pci,host=$GPU,multifunction=on,x-vga=on \
   -device vfio-pci,host=$GPU_AUDIO \
   -device vfio-pci,host=$USB_CONTROLLER \
@@ -106,7 +108,6 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -device usb-host,vendorid=0x8087,productid=0x0033 \
   -device nvme,serial=deadbeef,drive=win,bootindex=1 \
   -device tpm-tis,tpmdev=tpm0 \
-  -nic user,ipv6=off,model=rtl8139,mac=84:1b:76:c9:01:a5 \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
   -drive if=pflash,format=raw,unit=1,file="tmp/${OVMF_VARS}" \
