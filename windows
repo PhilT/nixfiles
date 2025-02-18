@@ -15,9 +15,13 @@
 # [ ] - Which NIC card to use? Or should I use bridge networking? What's the advantage?
 # [ ] Add -d to swtpm - Not sure this is working properly - Windows is reporting an error with TPM
 
+if [ -z "$OVMF_DIR" ]; then
+  echo "Expected \$OVMF_DIR to be defined in qemu.nix"
+  exit 1
+fi
+
 tpm_dir=/data/code/nixfiles/tmp/emulated_tpm
 tpm_sock=${tpm_dir}/swtpm-sock
-OVMF_DIR=/nix/store/my571d8qw91lxnhsk439z8sj233c2cz7-OVMF-202411-fd/FV
 OVMF_CODE=${OVMF_DIR}/OVMF_CODE.fd
 OVMF_VARS=OVMF_VARS.ms.fd
 SSH_PORT="5555"
@@ -90,8 +94,7 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -drive file=tmp/windows.qcow2,if=none,id=win \
   -chardev socket,id=chrtpm,path=${tpm_sock} \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
-  -netdev bridge,id=net0,br=br0 \
-  -device virtio-net-pci,netdev=net0, mac=84:1b:76:c9:01:a5 \
+  -nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5 \
   -device vfio-pci,host=$GPU,multifunction=on,x-vga=on \
   -device vfio-pci,host=$GPU_AUDIO \
   -device vfio-pci,host=$USB_CONTROLLER \
