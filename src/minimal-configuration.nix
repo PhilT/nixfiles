@@ -1,19 +1,25 @@
 { config, lib, pkgs, ... }: {
   imports = [ ./options.nix ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   system.stateVersion = "24.05";
 
-  boot.initrd.luks.devices = lib.mkIf config.luks.enable {
-    root.device = config.luks.device;
+  boot = {
+    loader = {
+      timeout = 0; # Use SPACE to override
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    initrd.luks.devices = lib.mkIf config.luks.enable {
+      root.device = config.luks.device;
+    };
+
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+    extraModulePackages = with config.boot.kernelPackages; [];
   };
 
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
-
-  # Latest ZFS supported kernel. Support for 6.11 in RC (https://github.com/openzfs/zfs/releases)
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
 
   # Pin to an older linux version when current NixOS one is incompatible with ZFS
   # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
@@ -26,8 +32,6 @@
   #     modDirVersion = "6.10.14";
   #   };
   # });
-
-  boot.extraModulePackages = with config.boot.kernelPackages; [];
 
   networking.hostName = config.machine;
   networking.networkmanager.enable = true;
