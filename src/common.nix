@@ -31,15 +31,34 @@
     ];
   };
 
-  boot.initrd.systemd.enable = true;
+  boot = {
+    initrd = {
+      verbose = false;
+      systemd.enable = true;
+    };
 
-  # Don't log boot up to screen, turn off warning about sgx
-  boot.kernelParams = [ "quiet" "nosgx" ];
+    kernelParams = [
+      "quiet"         # Don't log boot up to screen
+      "nosgx"         # Turn off warning about sgx
+    ];
+  };
+
+
 
   console = {
-    packages=[ pkgs.terminus_font ];
-    font="${pkgs.terminus_font}/share/consolefonts/ter-i18b.psf.gz";
+    packages= with pkgs;[ terminus_font ];
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
     useXkbConfig = true;
+  };
+
+  fonts.packages = with pkgs; [ meslo-lgs-nf ];
+  services.kmscon = {
+    enable = true;
+    hwRender = true;
+    extraConfig = ''
+      font-name=MesloGS NF
+      font-size=14
+    '';
   };
 
   # This only works in a console
