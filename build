@@ -152,18 +152,7 @@ else
 fi
 
 # Export all public keys to secrets/ for use in src/ssh.nix
-for m in aramid minoo sapling spruce; do
-  keyname="secrets/${prefix}_${m}.pub"
-  if [ "$overwrite_sshkeys" -eq "1" ]; then
-    rm $keyname
-  fi
-
-  if [ ! -f $keyname ]; then
-    askpass "Enter KeePass password for public key export:"
-    keepass_export_key public ${prefix}_${m} secrets/
-    echo "Exported key $keyname"
-  fi
-done
+./mkkeys $overwrite_sshkeys home
 
 echo -n "[SSH] "
 [ "$overwrite_sshkeys" -eq "1" ] && rm -rf $ssh_dir

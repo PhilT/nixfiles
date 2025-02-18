@@ -6,38 +6,79 @@ source lib/keepass.sh
 
 # authorized_keys is what sshd accepts as incoming requests.
 # known_hosts is what an ssh client knows about when connecting to
-askpass "Enter database password:"
 
-gen_key() {
-  local keytype=$1
-  local keyfile=id_${keytype}_$2
+overwrite_sshkeys=$1
+shift
+services=$@
 
-  if keepass_exists $keyfile; then
-    echo $keyfile exists
-  else
-    # Generate SSH key with best encryption (ed25519 is the default anyway)
-    # and 100 rounds (a bit slower but more secure).
-    ssh-keygen -q -t $keytype -a 100 -f secrets/$keyfile -N ""
-    keepass_create $keyfile
-    keepass_import_keys $keyfile
-    rm secrets/$keyfile
-    rm secrets/${keyfile}.pub
-    echo $keyfile created
+if [ -z "$services" ]; then
+  services="home github gitlab"
+fi
+
+export_key() {
+  local keyfile=$1
+  local keypath=$2
+  keepass_export_key public $keyfile secrets/
+  keepass_export_key private $keyfile secrets/
+  chmod 600 $keypath
+  echo "$keypath exported"
+}
+
+optionally_remove_key() {
+  local keypath=$1
+  if [ "$overwrite_sshkeys" -eq "1" ]; then
+    rm -f $keypath
+    rm -f "${keypath}.pub"
   fi
 }
 
-# TODO: Remove duplication of elements in ./build
-for machine in aramid minoo sapling spruce; do
-  for service in home github gitlab; do
+# Generate SSH key with best encryption (ed25519 is the default anyway)
+# and 100 rounds (a bit slower but more secure).
+gen_key() {
+  local keytype=$1
+  local keyfile=$2
+  local keypath=$3
+
+  ssh-keygen -q -t $keytype -a 100 -f secrets/$keyfile -N ""
+  keepass_create $keyfile
+  keepass_import_keys $keyfile
+  echo "$keypath created"
+}
+
+do_key() {
+  local keytype=$1
+  local name=$2
+  local keyfile="id_${keytype}_${name}"
+  local keypath="secrets/${keyfile}"
+
+  optionally_remove_key $keypath
+
+  if [ -f $keypath ] || [ -f "${keypath}.pub" ]; then
+    echo "$keypath exists. Skipping"
+  else
+    askpass "Enter KeePass password for SSH key access:"
+    if keepass_exists $keyfile; then
+      export_key $keyfile $keypath
+    else
+      gen_key $keytype $keyfile $keypath
+    fi
+  fi
+}
+
+for machine in aramid minoo minoo_ecdsa sapling spruce; do
+  for service in $services; do
     keytype="ed25519"
     if [ "$service" = "home" ]; then
-      name=$machine
-      [ "$machine" = "minoo" ] && keytype="ecdsa"
+      name="$machine"
+      if [ "$machine" = "minoo_ecdsa" ]; then
+        name="minoo"
+        keytype="ecdsa"
+      fi
     else
       name=${machine}_$service
     fi
 
-    gen_key $keytype $name
+    do_key $keytype $name
   done
 done
 
