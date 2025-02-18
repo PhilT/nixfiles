@@ -24,13 +24,10 @@ in {
     options = [ "rw" "uid=1000" ];
   };
 
-  boot.initrd.kernelModules = [
-    #"nouveau" # Native resolution in early KMS (Kernel Mode Setting)
-  ];
-  boot.kernelParams = [
-    #"nouveau.runpm=0"
-    #"nvidia-drm.modeset=0" # Probably not needed as I'm not loading the propriatary Nvidia drivers
+  # Ensure both displays are initialized so Plymouth can be displayed on DP-1
+  boot.initrd.kernelModules = [ "i915" ];
 
+  boot.kernelParams = [
     "intel_iommu=on"
     "iommu=pt" # Might be needed for performance. Test and see
     #"hugepagesz=1G"
@@ -65,10 +62,6 @@ in {
   #  "vm.min_free_kbytes" = "57671680";
   #  "kernel.shmmax" = "25769803776";
   #};
-
-  systemd.extraConfig = ''
-    CPUAffinity=0,1,16,17
-  '';
 
   # TODO: I don't think this is needed
   #boot.blacklistedKernelModules = [
