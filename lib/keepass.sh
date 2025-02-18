@@ -34,8 +34,9 @@ keepass_exists() {
 # args: <prefix>_<machine>[_<service>]
 keepass_import_keys() {
   local keyfile=$1
-  echo $passwd | keepassxc-cli attachment-import -q $db $keyfile public secrets/$keyfile.pub
-  echo $passwd | keepassxc-cli attachment-import -q $db $keyfile private secrets/$keyfile
+  local options="$2 "
+  echo $passwd | keepassxc-cli attachment-import -q $options $db $keyfile public secrets/$keyfile.pub
+  echo $passwd | keepassxc-cli attachment-import -q $options $db $keyfile private secrets/$keyfile
 }
 
 # Export SSH key
