@@ -49,8 +49,4 @@
 
   # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   hardware.keyboard.qmk.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    virglrenderer
-  ];
 }
