@@ -6,6 +6,7 @@ askpass "KeePass password"
 
 echo "Local"
 echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid")"
+echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo")"
 echo "Minoo: $(keepass_export_key "public" "id_ecdsa_minoo")"
 echo "Sapling: $(keepass_export_key "public" "${prefix}_sapling")"
 echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce")"
