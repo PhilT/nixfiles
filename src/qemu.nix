@@ -1,10 +1,9 @@
 # https://astrid.tech/2022/09/22/0/nixos-gpu-vfio/
 
 { config, lib, pkgs, ... }: {
-  #virtualisation.spiceUSBRedirection.enable = true;
-
   environment.systemPackages = with pkgs;[
-    (qemu.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
+    (OVMF.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
+    qemu
     swtpm
     libhugetlbfs                   # Hugepages
 
@@ -18,19 +17,9 @@
   # FIXME: Or remove: Calling qemu as root anyway so this is probably not needed
   users.groups.vfio = {};
   users.users."${config.username}".extraGroups = [ "vfio" "kvm" ];
-
-#  services.samba = {
-#    enable = true;
-#  };
-#
-#  networking = {
-#    bridges = {
-#      br0 = {
-#        interfaces = [
-#          "eth0"
-#          "virbr0"
-#        ];
-#      };
-#    };
-#  };
+  networking = {
+    # Disable DHCP on physical interface as it's done on the bridge instead
+    interfaces.eth0.useDHCP = false;
+    bridges.br0.interfaces = [ "eth0" ];
+  };
 }
