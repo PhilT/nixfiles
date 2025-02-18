@@ -42,6 +42,7 @@
 
   environment = {
     shellAliases = {
+      l = "ls -alh";
       ss = "imv -t 15 -f";
       fd = "fd -H";
       ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";

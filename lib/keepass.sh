@@ -38,33 +38,37 @@ keepass_import_keys() {
   echo $passwd | keepassxc-cli attachment-import -q $db $keyfile private secrets/$keyfile
 }
 
+# Export SSH key
 # args: <public|private> <prefix>_<machine>[_<service>] <path>
 # if path not specified, sends files to stdout
 keepass_export_key() {
-  local public_private=$1
+  local access=$1
   local keyfile=$2
   local ext=""
   if [ -z "$3" ]; then
     local stdout="--stdout"
   else
-    [ "$public_private" = "public" ] && ext=".pub"
+    [ "$access" = "public" ] && ext=".pub"
     local path=$3/$keyfile$ext
   fi
 
   rm -f $path
-  echo $passwd | keepassxc-cli attachment-export -q $stdout $db $keyfile $public_private $path #2> /dev/null
+  echo $passwd | keepassxc-cli attachment-export -q $stdout $db $keyfile $access $path #2> /dev/null
 }
 
+# Exports public & private key to specified
 # args: <prefix> <machine> [service]
 keepass_export_keys() {
   local ssh_dir=$1
+  local machine=$2
+  local service=$3
 
-  if [ -z "$3" ]; then
-    local keyfile=${prefix}_$2
+  if [ -z "$service" ]; then
+    local keyfile=${prefix}_$machine
     local without_machine=$prefix
   else
-    local keyfile=${prefix}_$2_$3
-    local without_machine=${prefix}_$3
+    local keyfile=${prefix}_${machine}_${service}
+    local without_machine=${prefix}_${service}
   fi
 
   keepass_export_key "public" $keyfile $ssh_dir
