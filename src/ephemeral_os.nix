@@ -27,6 +27,7 @@
   systemd.tmpfiles.rules = [
     "L+ ${config.xdgConfigHome}/Slack - - - - ${config.persistedHomeDir}/Slack"
     "L+ ${config.xdgConfigHome}/vesktop - - - - ${config.persistedHomeDir}/vesktop"
+  ] ++ lib.mkIf (config.varDir != "/var/lib") [
     "L /var/lib/bluetooth - - - - ${config.varDir}/lib/bluetooth"
   ];
 }

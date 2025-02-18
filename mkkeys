@@ -38,10 +38,19 @@ gen_key() {
   local keytype=$1
   local keyfile=$2
   local keypath=$3
+  local force=""
 
-  ssh-keygen -q -t $keytype -a 100 -f secrets/$keyfile -N ""
-  keepass_create $keyfile
-  keepass_import_keys $keyfile
+  if [ "$overwrite_sshkeys" = "2" ]; then
+    echo "Overwriting SSH key in KeePass. Skipping ssh-keygen"
+    force="-f"
+  else
+    ssh-keygen -q -t $keytype -a 100 -f secrets/$keyfile -N ""
+  fi
+
+  if ! keepass_exists $keyfile; then
+    keepass_create $keyfile
+  fi
+  keepass_import_keys $keyfile $force
   echo "$keypath created"
 }
 
@@ -53,13 +62,15 @@ do_key() {
 
   optionally_remove_key $keypath
 
-  if [ -f $keypath ] || [ -f "${keypath}.pub" ]; then
+  if [ -f $keypath ] && [ -f "${keypath}.pub" ] && [ "$overwrite_sshkeys" != "2" ]; then
+    # If both keys exist locally and we're not overwritting the keys stored in KeePass then skip
     echo "$keypath exists. Skipping"
   else
     askpass "Enter KeePass password for SSH key access:"
-    if keepass_exists $keyfile; then
+    if keepass_exists $keyfile && [ "$overwrite_sshkeys" != "2" ]; then
       export_key $keyfile $keypath
     else
+      # This will skip key gen and just import the keys if $overwrite_sshkeys is 2
       gen_key $keytype $keyfile $keypath
     fi
   fi

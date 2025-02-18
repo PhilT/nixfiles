@@ -4,9 +4,7 @@
   services.openssh = {
     enable = true;
     authorizedKeysFiles = [
-      "%h/.ssh/authorized_keys"
       "${config.persistedHomeDir}/ssh/authorized_keys"
-      "/etc/ssh/authorized_keys.d/%u"
     ];
     hostKeys = [
       {
@@ -20,6 +18,9 @@
         type = "ecdsa";
       }
     ];
+
+    # Default is true - iso.nix overrides it to allow root login
+    # on installation.
     settings = lib.mkIf config.ssh.preventRootLogin {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
@@ -46,6 +47,11 @@
       IdentitiesOnly yes
       PreferredAuthentications publickey
       IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_github
+
+    Host *
+      IdentitiesOnly yes
+      PreferredAuthentications publickey
+      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519
   '';
 
   # Used by Unison to authorize a connection from an incoming client.
