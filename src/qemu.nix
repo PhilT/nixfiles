@@ -30,9 +30,16 @@
   # FIXME: Or remove: Calling qemu as root anyway so this is probably not needed
   users.groups.vfio = {};
   users.users."${config.username}".extraGroups = [ "vfio" "kvm" ];
-  #networking = {
-  #  # Disable DHCP on physical interface as it's done on the bridge instead
-  #  interfaces.eth0.useDHCP = false;
-  #  bridges.br0.interfaces = [ "eth0" ];
-  #};
+  networking = {
+    # Disable DHCP on physical interface as it's done on the bridge instead
+    useDHCP = false;
+    defaultGateway = "192.168.1.1";
+    nameservers = [ "192.168.1.1" "8.8.8.8" ];
+    bridges."br0".interfaces = [ "eth0" ];
+
+    interfaces."br0".ipv4.addresses = [{
+      address = "192.168.1.226";
+      prefixLength = 24;
+    }];
+  };
 }
