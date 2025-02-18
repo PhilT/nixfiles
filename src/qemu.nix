@@ -1,6 +1,8 @@
 # https://astrid.tech/2022/09/22/0/nixos-gpu-vfio/
 
 { config, lib, pkgs, ... }: {
+  environment.etc."qemu/bridge.conf".text = "allow br0\n";
+  environment.sessionVariables.OVMF_DIR = "${pkgs.OVMF.fd}/FV";
   environment.systemPackages = with pkgs;[
     (OVMF.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
     qemu
@@ -17,9 +19,9 @@
   # FIXME: Or remove: Calling qemu as root anyway so this is probably not needed
   users.groups.vfio = {};
   users.users."${config.username}".extraGroups = [ "vfio" "kvm" ];
-  networking = {
-    # Disable DHCP on physical interface as it's done on the bridge instead
-    interfaces.eth0.useDHCP = false;
-    bridges.br0.interfaces = [ "eth0" ];
-  };
+  #networking = {
+  #  # Disable DHCP on physical interface as it's done on the bridge instead
+  #  interfaces.eth0.useDHCP = false;
+  #  bridges.br0.interfaces = [ "eth0" ];
+  #};
 }
