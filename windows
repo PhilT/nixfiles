@@ -95,6 +95,8 @@ taskset -c $VM_CORES qemu-system-x86_64 \
   -chardev socket,id=chrtpm,path=${tpm_sock} \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
   -nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5 \
+  -device ivshmem-plain,memdev=ivshmem,bus=pcie.0 \
+  -object memory-backend-file,id=ivshmem,share=on,mem-path=/dev/shm/looking-glass,size=256M \
   -device vfio-pci,host=$GPU,multifunction=on,x-vga=on \
   -device vfio-pci,host=$GPU_AUDIO \
   -device vfio-pci,host=$USB_CONTROLLER \
