@@ -10,6 +10,7 @@
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
     ../../ephemeral_os.nix
+    ../../plymouth.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
@@ -42,11 +43,6 @@
     "clock"
     "tray"
   ];
-
-  # Graphical login for drive encryption
-  boot.plymouth.enable = true;
-  catppuccin.plymouth.enable = true;
-  catppuccin.plymouth.flavor = "macchiato";
 
   hardware.graphics.enable = true;
 }
