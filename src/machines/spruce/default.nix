@@ -7,6 +7,7 @@
     ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
+    ../../plymouth.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
@@ -39,11 +40,6 @@
     "tray"
   ];
 
-  # Graphical login for drive encryption
-  boot.plymouth.enable = true;
-  catppuccin.plymouth.enable = true;
-  catppuccin.plymouth.flavor = "macchiato";
-
   # This appears to use quite a lot of resources
   # RGB software is also known to cause reprojection issues
   # and could be interferring with my Gaming setup
@@ -53,4 +49,9 @@
 
   # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   hardware.keyboard.qmk.enable = true;
+
+  # It's a bit small without this
+  boot.plymouth.extraConfig = ''
+    DeviceScale=2
+  '';
 }

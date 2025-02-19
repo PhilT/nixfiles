@@ -24,7 +24,7 @@ elif [ "$action" = "bind" ]; then
 elif [ "$action" = "unbind" ]; then
   echo "Unbinding ${device}, ${vendor} ${product}"
   unbind
-  # ./vfio: line 27: echo: write error: No such device
+  # ./vfio: line 28: echo: write error: No such device
   echo "${device}" > /sys/bus/pci/drivers/xhci_hcd/bind
 else
   echo "Unknown action: $action"
