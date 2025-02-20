@@ -50,7 +50,7 @@
   # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
   hardware.keyboard.qmk.enable = true;
 
-  # It's a bit small without this
+  # Plymouth UI is a bit small without this
   boot.plymouth.extraConfig = ''
     DeviceScale=2
   '';
