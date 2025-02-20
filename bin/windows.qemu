@@ -1,0 +1,57 @@
+-name Windows11VM,process=win11vm
+-machine q35,smm=on,usb=off,accel=kvm
+-enable-kvm
+-vga none
+-nographic
+-serial none
+-parallel none
+-smp $CORES,cores=$CORES_HALF,threads=2,sockets=1
+-cpu host,host-phys-bits-limit=39,kvm=off,$HV_ENLIGHT,hv_spinlocks=0x1fff,hv_vendor_id=0xDEADBEEFFF
+-m $RAM_G
+#-mem-prealloc
+#-mem-path /dev/hugepages
+-chardev socket,id=chrtpm,path=$tpm_sock
+-tpmdev emulator,id=tpm0,chardev=chrtpm
+-nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5
+
+# Windows Virtual Disk
+-drive file=tmp/windows.qcow2,if=none,id=win
+-device nvme,serial=deadbeef,drive=win,bootindex=1
+
+# VFIO 4090,3rd party USB controller, Games SSD
+-device vfio-pci,host=$GPU,multifunction=on,x-vga=on
+-device vfio-pci,host=$GPU_AUDIO
+-device vfio-pci,host=$USB_CONTROLLER
+-device vfio-pci,host=$GAMES_SSD
+
+-device qemu-xhci
+
+# GMMK 2 Keyboard
+#-device usb-host,vendorid=0x320f,productid=0x504a
+
+# Glorious Model O (Wireless & Wired)
+#-device usb-host,vendorid=0x258a,productid=0x2022
+#-device usb-host,vendorid=0x258a,productid=0x2011
+
+# Bluetooth controller
+#-device usb-host,vendorid=0x8087,productid=0x0033
+
+
+# SIMAGIC Alpha U and P1000 pedals
+-device usb-host,vendorid=0x0483,productid=0x0522
+-device usb-host,vendorid=0x0483,productid=0x0525
+
+-device tpm-tis,tpmdev=tpm0
+-global driver=cfi.pflash01,property=secure,value=on
+-drive if=pflash,format=raw,unit=0,file=$OVMF_CODE,readonly=on
+-drive if=pflash,format=raw,unit=1,file=tmp/$OVMF_VARS
+-rtc clock=host,base=localtime,driftfix=slew
+
+# Needed for Looking Glass
+-device ivshmem-plain,memdev=ivshmem,bus=pcie.0
+-object memory-backend-file,id=ivshmem,share=on,mem-path=/dev/shm/looking-glass,size=128M
+
+# Spice server for keyboard and mouse input
+-spice port=5900,addr=127.0.0.1,disable-ticketing=on
+-device virtio-mouse-pci
+-device virtio-keyboard-pci
