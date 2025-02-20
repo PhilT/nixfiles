@@ -50,7 +50,7 @@ in with colors; {
     catppuccin-papirus-macchiato
     catppuccin-cursors.macchiatoLavender
 
-    # Add the the end of bin/sway for logging: -d |& tee sway.log
+    # Add to the end of bin/sway for logging: -d |& tee sway.log
     # Keep hold of the old log file after a crash: [ -f sway.log ] && mv sway.log sway.log.old
     (writeShellScriptBin "start_sway" ''
       ${pkgs.sway}/bin/sway
