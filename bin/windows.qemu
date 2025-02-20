@@ -8,8 +8,8 @@
 -smp $CORES,cores=$CORES_HALF,threads=2,sockets=1
 -cpu host,host-phys-bits-limit=39,kvm=off,$HV_ENLIGHT,hv_spinlocks=0x1fff,hv_vendor_id=0xDEADBEEFFF
 -m $RAM_G
-#-mem-prealloc
-#-mem-path /dev/hugepages
+-mem-prealloc
+-mem-path /dev/hugepages
 -chardev socket,id=chrtpm,path=$tpm_sock
 -tpmdev emulator,id=tpm0,chardev=chrtpm
 -nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5
