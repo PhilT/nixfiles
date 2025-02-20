@@ -9,7 +9,7 @@ qemu-system-x86_64-uefi \
   -display sdl,gl=on \
   -enable-kvm \
   -m 10G \
-  -nic user,model=virtio \
+  -nic user,model=virtio,mac=86:1B:76:C9:02:A6 \
   -drive file=tmp/nixos.qcow2,if=none,id=nvm \
   -device nvme,serial=deadbeef,drive=nvm \
   -cdrom result/iso/*.iso
