@@ -15,7 +15,7 @@ while getopts 'hdsyurbctmo' OPTION; do
       echo "  -b             rebuild & boot"
       echo "  -c             Diff of changes between latest & prev upgrade"
       echo "  -d             run nix-collect-garbage"
-      echo "  -m [machine]   Build a different machine (aramid/minoo/sapling/spruce)"
+      echo "  -m [machine]   Build a different machine (aramid/minoo/seedling/spruce)"
       echo "  -o             Overwrite SSH keys"
       echo "  -r <version>   release - rebuild & switch, tag and label with <version> e.g. $0 -r v1"
       echo "  -s             rebuild & switch"

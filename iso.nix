@@ -23,13 +23,13 @@
       ${builtins.readFile ./lib/steps.sh}
       ${builtins.readFile ./config/aramid.sh}
       ${builtins.readFile ./config/minoo.sh}
-      ${builtins.readFile ./config/sapling.sh}
+      ${builtins.readFile ./config/seedling.sh}
       ${builtins.readFile ./config/spruce.sh}
 
       run "$@"
     '')
 
-    (writeShellScriptBin "sapling" ''nixi "$@" sapling'')
+    (writeShellScriptBin "seedling" ''nixi "$@" seedling'')
     (writeShellScriptBin "aramid" ''nixi "$@" aramid'')
     (writeShellScriptBin "spruce" ''nixi "$@" spruce'')
     (writeShellScriptBin "minoo" ''nixi "$@" minoo'')

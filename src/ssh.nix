@@ -61,6 +61,7 @@
     (builtins.readFile ../secrets/id_ed25519_spruce.pub)
     (builtins.readFile ../secrets/id_ed25519_aramid.pub)
     (builtins.readFile ../secrets/id_ed25519_sapling.pub)
+    (builtins.readFile ../secrets/id_ed25519_seedling.pub)
     (builtins.readFile ../secrets/id_ed25519_minoo.pub)
   ];
 }

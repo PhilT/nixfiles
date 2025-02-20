@@ -1,5 +1,5 @@
 # HyperV VM - whatever I like
-sapling() {
+seedling() {
   local disk="/dev/nvme0n1"
   local boot_partition="${disk}p1"
   local primary_partition="nvme-QEMU_NVMe_Ctrl_deadbeef-part2"
