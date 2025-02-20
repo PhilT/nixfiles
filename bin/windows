@@ -15,23 +15,27 @@ if test -z "$OVMF_DIR"
   exit 1
 end
 
-set -gx tpm_dir /data/code/nixfiles/tmp/emulated_tpm
-set -gx tpm_sock {$tpm_dir}/swtpm-sock
-set -gx OVMF_CODE {$OVMF_DIR}/OVMF_CODE.fd
-set -gx OVMF_VARS OVMF_VARS.ms.fd
+set tpm_dir /data/code/nixfiles/tmp/emulated_tpm
+set TPM_SOCK $tpm_dir/swtpm-sock
+set OVMF_CODE $OVMF_DIR/OVMF_CODE.fd
+set OVMF_VARS OVMF_VARS.ms.fd
 
-set -gx GPU "0000:01:00.0"
-set -gx GPU_AUDIO "0000:01:00.1"
-set -gx USB_CONTROLLER "0000:07:00.0"
-set -gx GAMES_SSD "0000:08:00.0"
+set GPU "0000:01:00.0"
+set GPU_AUDIO "0000:01:00.1"
+set USB_CONTROLLER "0000:07:00.0"
+set GAMES_SSD "0000:08:00.0"
 
 # CPU Pinning
-set -gx CORES 32
-set -gx CORES_HALF (math $CORES / 2)
-set -gx HOST_CORES "0,16,17"
-set -gx VM_CORES "1-15,18-31"
-set -gx RAM 24
-set -gx RAM_G {$RAM}G
+set CPUS 32
+set CORES (math $CPUS / 2)
+set HOST_CORES "0,16,17"
+set VM_CORES "1-15,18-31"
+set RAM 24
+
+# https://www.qemu.org/docs/master/system/i386/hyperv.html
+set HV_ENLIGHT "hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv"
+
+set qemu_vars VM_CORES CPUS CORES HV_ENLIGHT RAM TPM_SOCK GPU GPU_AUDIO USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS
 
 # Hugepages
 if $enable_hugepages
@@ -66,17 +70,25 @@ end
 # Setup TPM Emulation
 rm -rf $tpm_dir
 test -d $tpm_dir || mkdir -p $tpm_dir
-swtpm socket --tpmstate dir=$tpm_dir --ctrl type=unixio,path=$tpm_sock --log level=20 --tpm2 -d
+swtpm socket --tpmstate dir=$tpm_dir --ctrl type=unixio,path=$TPM_SOCK --log level=20 --tpm2 -d
 
 # CPU Scaling
 echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
-# https://www.qemu.org/docs/master/system/i386/hyperv.html
-set -gx HV_ENLIGHT "hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv"
+function execute_with_params
+  # Remove comments and empty lines and split into multiple args
+  set qemu_params (cat bin/$argv | sed '/^#/d' | sed '/^$/d' | string join " ")
+  set qemu_params " $qemu_params"
+  # Variable replacement
+  for qemu_var in $qemu_vars
+    set qemu_params (string replace -a "{{$qemu_var}}" $$qemu_var $qemu_params)
+  end
+  eval (string split " " $qemu_params)
+end
 
-set qemu_params (cat bin/windows.qemu | sed '/^#/d' | sed '/^$/d' | envsubst -no-unset | string join " " | string split " ")
-# taskset -c $VM_CORES \
-qemu-system-x86_64 $qemu_params
+
+
+execute_with_params "windows.qemu"
 
 pkill swtpm
 
