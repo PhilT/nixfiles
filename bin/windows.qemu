@@ -1,16 +1,25 @@
--name Windows11VM,process=win11vm
+# Comments are lines that start with '#'.
+# Don't add comments to the end of a parameter as they won't get removed.
+# Variables are defined with {{NAME}}. These will need adding to $qemu_params
+# in bin/windows to get replaced with actual values.
+# Parameters are split on spaces so nothing can have a space in it. Use a
+# variable instead.
+
+#taskset -c {{VM_CORES}}
+qemu-system-x86_64
+-name Sapling,process=sapling
 -machine q35,smm=on,usb=off,accel=kvm
 -enable-kvm
 -vga none
 -nographic
 -serial none
 -parallel none
--smp $CORES,cores=$CORES_HALF,threads=2,sockets=1
--cpu host,host-phys-bits-limit=39,kvm=off,$HV_ENLIGHT,hv_spinlocks=0x1fff,hv_vendor_id=0xDEADBEEFFF
--m $RAM_G
+-smp {{CPUS}},cores={{CORES}},threads=2,sockets=1
+-cpu host,host-phys-bits-limit=39,kvm=off,{{HV_ENLIGHT}},hv_spinlocks=0x1fff,hv_vendor_id=0xDEADBEEFFF
+-m {{RAM}}G
 -mem-prealloc
 -mem-path /dev/hugepages
--chardev socket,id=chrtpm,path=$tpm_sock
+-chardev socket,id=chrtpm,path={{TPM_SOCK}}
 -tpmdev emulator,id=tpm0,chardev=chrtpm
 -nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5
 
@@ -19,10 +28,10 @@
 -device nvme,serial=deadbeef,drive=win,bootindex=1
 
 # VFIO 4090,3rd party USB controller, Games SSD
--device vfio-pci,host=$GPU,multifunction=on,x-vga=on
--device vfio-pci,host=$GPU_AUDIO
--device vfio-pci,host=$USB_CONTROLLER
--device vfio-pci,host=$GAMES_SSD
+-device vfio-pci,host={{GPU}},multifunction=on,x-vga=on
+-device vfio-pci,host={{GPU_AUDIO}}
+-device vfio-pci,host={{USB_CONTROLLER}}
+-device vfio-pci,host={{GAMES_SSD}}
 
 -device qemu-xhci
 
@@ -43,8 +52,8 @@
 
 -device tpm-tis,tpmdev=tpm0
 -global driver=cfi.pflash01,property=secure,value=on
--drive if=pflash,format=raw,unit=0,file=$OVMF_CODE,readonly=on
--drive if=pflash,format=raw,unit=1,file=tmp/$OVMF_VARS
+-drive if=pflash,format=raw,unit=0,file={{OVMF_CODE}},readonly=on
+-drive if=pflash,format=raw,unit=1,file=tmp/{{OVMF_VARS}}
 -rtc clock=host,base=localtime,driftfix=slew
 
 # Needed for Looking Glass
