@@ -25,8 +25,8 @@ in with colors; {
   };
 
   programs.sway.enable = true;
-  programs.sway.xwayland.enable = true;    # Things go horribly wrong (for the display) with this enabled
-  programs.sway.wrapperFeatures.gtk = true; # TODO: What is this?
+  programs.sway.xwayland.enable = true;
+  programs.sway.wrapperFeatures.gtk = true; # wrapper to execute sway with required environment variables for GTK applications
   programs.dconf.enable = true;             # Used in sway config to set some themes
 
   catppuccin.enable = true;

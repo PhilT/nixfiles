@@ -6,37 +6,11 @@
     neovim.enable = true;
     neovim.defaultEditor = true;
     git.enable = true;
+
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
       # Add any missing dynamic libraries for unpackaged programs here
-      # For now this is mostly for testing Pop (pop.com) screen sharing app
       # Use ldd <path to binary> to get a list
-      xorg.libxshmfence
-      glib
-      nss
-      nspr
-      dbus
-      at-spi2-atk
-      libdrm
-      gdk-pixbuf
-      gtk3
-      pango
-      cairo
-      xorg.libX11
-      xorg.libXcomposite
-      xorg.libXdamage
-      xorg.libXext
-      xorg.libXfixes
-      xorg.libXrandr
-      expat
-      xorg.libxcb
-      libxkbcommon
-      mesa
-      alsa-lib
-      at-spi2-core
-      cups
-      xorg.libXtst
-      openh264
     ];
   };
 
