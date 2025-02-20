@@ -24,7 +24,7 @@ WARNING: Ensure partitioning is setup in `config/<machine>.sh`
       ```
 * Boot up NixOS ISO, then run the following commands:
 ```
-<machine> [options] [branch]  # e.g. sapling # to start the installer for sapling
+<machine> [options] [branch]  # e.g. spruce # to start the installer for spruce
 reboot                        # and remove USB sticks
 ```
 
@@ -43,7 +43,8 @@ cd /data/nixfiles
 * Suuno - A play on the previous phone name (Samsung A15) [ACTIVE]
 * Aramid - Strong synthetic fibres (X1 Carbon) [ACTIVE]
 * Minoo - Some combination of Mini and N100 (File server) [ACTIVE]
-* Sapling - Windows 11 Guest running on Spruce [ACTIVE]
+* Sapling - Windows 11 Guest VM running on Spruce [ACTIVE]
+* Seedling - NixOS Guest VM running on Spruce [DEVELOPING]
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html

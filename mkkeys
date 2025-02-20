@@ -76,7 +76,7 @@ do_key() {
   fi
 }
 
-for machine in aramid minoo minoo_ecdsa sapling spruce; do
+for machine in aramid minoo minoo_ecdsa sapling seedling spruce; do
   for service in $services; do
     keytype="ed25519"
     if [ "$service" = "home" ]; then

@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  machine = "sapling";
+  machine = "seedling";
   username = "phil";
   fullname = "Phil Thompson";
   vulkan.enable = false;
