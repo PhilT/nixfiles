@@ -29,7 +29,7 @@ in {
 
   boot.kernelParams = [
     "intel_iommu=on"
-    "iommu=pt" # Might be needed for performance. Test and see
+    #"iommu=pt" # Might be needed for performance. Test and see
     #"hugepagesz=1G"
     #"hugepages=24"
   ];
