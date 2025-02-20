@@ -72,7 +72,6 @@
       inotify-tools
       ncdu                  # Tree-based, interactive du
 
-      envsubst              # Variable substitution on file contents (see bin/windows)
       fd                    # Alternative to find, use fd <term> </start/path> -x <cmd> to run a command for each item found
       ripgrep
       unzip
