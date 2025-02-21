@@ -1,0 +1,25 @@
+#!/usr/bin/env fish
+
+set device $argv[1]
+set interface $argv[2]
+
+if test -z $interface
+  echo "Usage: $(status basename) <device> <interface>"
+  echo "  device - bus device e.g. 0000:01:00.0"
+  echo "  interface - xhci_hcd | nvme | ahci"
+  exit 1
+end
+
+set vendor (cat /sys/bus/pci/devices/$device/vendor)
+set product (cat /sys/bus/pci/devices/$device/device)
+
+# Unbind from previous interface
+if test -e /sys/bus/pci/devices/$device/driver
+  echo $device > /sys/bus/pci/devices/$device/driver/unbind
+end
+
+# bind (with create) to new interface
+echo "$vendor $product" > /sys/bus/pci/drivers/$interface/new_id &> /dev/null
+if test $status -eq 1
+  echo $device > /sys/bus/pci/drivers/$interface/bind
+end
