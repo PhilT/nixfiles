@@ -9,12 +9,16 @@
 # sudo lshw -businfo # Devices and connected bus (e.g. 0000:04:00.0)
 
 set enable_hugepages true
+set enable_vfio true
+set enable_ovmf true
+set enable_tpm true
 
-if test -z "$OVMF_DIR"
+if $enable_ovmf && test -z "$OVMF_DIR"
   echo "Expected \$OVMF_DIR to be defined in qemu.nix"
   exit 1
 end
 
+set dir (status dirname)
 set tpm_dir /data/code/nixfiles/tmp/emulated_tpm
 set TPM_SOCK $tpm_dir/swtpm-sock
 set OVMF_CODE $OVMF_DIR/OVMF_CODE.fd
@@ -25,7 +29,7 @@ set GPU_AUDIO "0000:01:00.1"
 set USB_CONTROLLER "0000:07:00.0"
 set GAMES_SSD "0000:08:00.0"
 
-# CPU Pinning
+# CPU Pinning - currently off (taskset commented out) while testing with all cores
 set CPUS 32
 set CORES (math $CPUS / 2)
 set HOST_CORES "0,16,17"
@@ -33,16 +37,21 @@ set VM_CORES "1-15,18-31"
 set RAM 24
 
 # https://www.qemu.org/docs/master/system/i386/hyperv.html
-set HV_ENLIGHT "hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv"
+set CPU_PARAMS hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,\
+hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv,hv_spinlocks=0x1fff,\
+hv_vendor_id=0xDEADBEEFFF
 
-set qemu_vars VM_CORES CPUS CORES HV_ENLIGHT RAM TPM_SOCK GPU GPU_AUDIO USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS
+# Variables that will be substituted in windows.qemu
+set qemu_vars VM_CORES CPUS CORES CPU_PARAMS RAM TPM_SOCK GPU GPU_AUDIO \
+  USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS HUGEPAGES_PARAMS
 
-# Hugepages
+# Setup Hugepages
 if $enable_hugepages
+  set HUGEPAGES_PARAMS " -mem-prealloc -mem-path /dev/hugepages"
   set HUGEPAGES_SIZE 2
   set HUGEPAGES_TOTAL (math $RAM x 1024 / $HUGEPAGES_SIZE)
-  echo Hugepages total: {$HUGEPAGES_TOTAL}
-  hugeadm --pool-pages-min {$HUGEPAGES_SIZE}MB:{$HUGEPAGES_TOTAL}
+  echo Hugepages total: $HUGEPAGES_TOTAL
+  hugeadm --pool-pages-min {$HUGEPAGES_SIZE}MB:$HUGEPAGES_TOTAL
   if not test $status
     echo "Failed to set the correct number of Hugepages. Aborting"
     exit 1
@@ -53,45 +62,55 @@ if $enable_hugepages
 end
 
 # Bind PCI devices
-./vfio-bind $USB_CONTROLLER vfio-pci
-./vfio-bind $GAMES_SSD vfio-pci
+if $enable_vfio
+  echo "Binding devices to VFIO"
+  $dir/vfio-bind $USB_CONTROLLER vfio-pci
+  $dir/vfio-bind $GAMES_SSD vfio-pci
+  #$dir/vfio-bind $GPU vfio-pci
+  #$dir/vfio-bind $GPU_AUDIO vfio-pci
+end
 
 # OVMF vars need to be writable but Nix store is readonly
-if not test -f tmp/$OVMF_VARS
+if $enable_ovmf && not test -f tmp/$OVMF_VARS
   cp $OVMF_DIR/$OVMF_VARS tmp/$OVMF_VARS
   chmod +w tmp/$OVMF_VARS
 end
 
 # Create a virtual drive for Windows if one doesn't exist
-if not test -f tmp/windows.qcow2
+if test -d tmp/ && not test -f tmp/windows.qcow2
   qemu-img create -f qcow2 tmp/windows.qcow2 128G
 end
 
-# Setup TPM Emulation
-rm -rf $tpm_dir
-test -d $tpm_dir || mkdir -p $tpm_dir
-swtpm socket --tpmstate dir=$tpm_dir --ctrl type=unixio,path=$TPM_SOCK --log level=20 --tpm2 -d
-
-# CPU Scaling
-echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-
-function execute_with_params
-  # Remove comments and empty lines and split into multiple args
-  set qemu_params (cat bin/$argv | sed '/^#/d' | sed '/^$/d' | string join " ")
-  set qemu_params " $qemu_params"
-  # Variable replacement
-  for qemu_var in $qemu_vars
-    set qemu_params (string replace -a "{{$qemu_var}}" $$qemu_var $qemu_params)
-  end
-  eval (string split " " $qemu_params)
+# Setup TPM emulation
+if $enable_tpm
+  rm -rf $tpm_dir
+  test -d $tpm_dir || mkdir -p $tpm_dir
+  swtpm socket --tpmstate dir=$tpm_dir --ctrl type=unixio,path=$TPM_SOCK \
+    --log level=20 --tpm2 -d
 end
 
+# CPU scaling
+printf "CPU scaling: "
+echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
+# Remove comments and empty lines
+set qemu_params (
+  cat $dir/windows.qemu | sed '/^#/d' | sed '/^$/d' | string join " "
+)
 
-execute_with_params "windows.qemu"
+# Variable replacement
+for qemu_var in $qemu_vars
+  set qemu_params (string replace -a "{{$qemu_var}}" "$$qemu_var" $qemu_params)
+end
 
-pkill swtpm
+# Run QEMU
+#taskset -c {{VM_CORES}} \
+eval (string split " " $qemu_params)
 
+# Shutdown TPM eumulator
+$enable_tpm && pkill swtpm
+
+# Clear up Hugepages
 if $enable_hugepages
   echo "Freeing Hugepages"
   umount /dev/hugepages
@@ -99,9 +118,14 @@ if $enable_hugepages
 end
 
 # Bind PCI devices back to physical controllers
-echo "Freeing VFIO binds"
-./vfio-bind $USB_CONTROLLER xhci_hcd
-./vfio-bind $GAMES_SSD nvme
+if $enable_vfio
+  echo "Freeing VFIO binds"
+  $dir/vfio-bind $USB_CONTROLLER xhci_hcd
+  $dir/vfio-bind $GAMES_SSD nvme
+  #$dir/vfio-bind $GPU nouveau
+  #$dir/vfio-bind $GPU_AUDIO nouveau
+end
 
-# CPU Scaling
+# CPU scaling
+printf "CPU scaling: "
 echo powersave | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
