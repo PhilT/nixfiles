@@ -17,7 +17,6 @@
     "kvm-intel"
     "i2c_dev"       # Needed by ddcutil
   ];
-  # boot.kernelParams = [ "iomem=relaxed" ]; # Needed when flashing rom
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

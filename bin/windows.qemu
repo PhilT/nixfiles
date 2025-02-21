@@ -5,12 +5,13 @@
 # Everything is split on spaces so nothing can have a space in it otherwise
 # it'll become a separate parameter.
 
-qemu-system-x86_64
+{{QEMU}}
 -name SaplingVM,process=sapling-vm
+-daemonize
+-pidfile tmp/qemu.pid
 -machine q35,smm=on,usb=off,accel=kvm
 -enable-kvm
--vga none
--nographic
+#-nographic
 -serial none
 -parallel none
 -smp {{CPUS}},cores={{CORES}},threads=2,sockets=1
@@ -61,3 +62,6 @@ qemu-system-x86_64
 -spice port=5900,addr=127.0.0.1,disable-ticketing=on
 -device virtio-mouse-pci
 -device virtio-keyboard-pci
+-device virtio-serial-pci
+-chardev spicevmc,id=vdagent,name=vdagent
+-device virtserialport,chardev=vdagent,name=com.redhat.spice.0
