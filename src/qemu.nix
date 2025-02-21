@@ -1,10 +1,22 @@
 # https://astrid.tech/2022/09/22/0/nixos-gpu-vfio/
 
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let
+  vendor = "10de";
+  gpu = "2684";
+  audio = "22ba";
+  gpuIds = "${vendor}:${gpu},${vendor}:${audio}";
+in {
   #environment.etc."qemu/bridge.conf".text = "allow br0\n";
   environment.etc."looking-glass-client.ini".text = ''
     [win]
     fullScreen=yes
+
+    [input]
+    rawMouse=yes
+
+    [spice]
+    audio=no
   '';
   environment.sessionVariables.OVMF_DIR = "${pkgs.OVMF.fd}/FV";
   environment.systemPackages = with pkgs;[
@@ -26,12 +38,35 @@
   '';
 
   systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 phil users -"
+    "f /dev/shm/looking-glass 0660 phil kvm -"
   ];
 
-  # FIXME: Or remove: Calling qemu as root anyway so this is probably not needed
-  users.groups.qemu = {};
-  users.users."${config.username}".extraGroups = [ "qemu" "kvm" ];
+  boot.kernelParams = [
+    "intel_iommu=on"
+    #"iommu=pt" # Might be needed for performance. Test and see
+    #"hugepagesz=1G"
+    #"hugepages=24"
+  ];
+
+  boot.extraModprobeConfig = ''
+    options vfio-pci ids=${gpuIds}
+  '';
+
+  boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "kvm-intel" ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", TAG+="uaccess"
+    SUBSYSTEM=="hugetlbfs", ENV{DEVNAME}=="*hugepages", MODE="0770", GROUP="hugepages"
+  '';
+
+  users.groups.vfio = {};
+  users.groups.hugepages = {};
+  users.users."${config.username}".extraGroups = [
+    "kvm"
+    "vfio"
+    "hugepages"
+  ];
+
   #networking = {
   #  # Disable DHCP on physical interface as it's done on the bridge instead
   #  useDHCP = false;
