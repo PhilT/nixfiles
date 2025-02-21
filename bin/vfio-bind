@@ -1,7 +1,10 @@
 #!/usr/bin/env fish
 
+set enable_logging false
+
 set device $argv[1]
 set interface $argv[2]
+set iommu_group $argv[3]
 
 if test -z $interface
   echo "Usage: $(status basename) <device> <interface>"
@@ -15,11 +18,19 @@ set product (cat /sys/bus/pci/devices/$device/device)
 
 # Unbind from previous interface
 if test -e /sys/bus/pci/devices/$device/driver
+  $enable_logging && echo "Unbinding $device"
   echo $device > /sys/bus/pci/devices/$device/driver/unbind
 end
 
 # bind (with create) to new interface
-echo "$vendor $product" > /sys/bus/pci/drivers/$interface/new_id &> /dev/null
+$enable_logging && echo "Binding $vendor:$product to $interface as new device"
+echo "$vendor $product" > /sys/bus/pci/drivers/$interface/new_id
 if test $status -eq 1
+  $enable_logging && echo "Device already exists. Binding to existing $interface"
   echo $device > /sys/bus/pci/drivers/$interface/bind
+end
+
+if test $interface = "vfio-pci"
+  $enable_logging && echo "Adding permissions to $device in IOMMU group $iommu_group"
+  sudo chmod o+rw /dev/vfio/$iommu_group
 end
