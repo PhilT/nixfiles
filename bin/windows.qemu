@@ -11,16 +11,14 @@
 -pidfile tmp/qemu.pid
 -machine q35,smm=on,usb=off,accel=kvm
 -enable-kvm
-#-nographic
 -serial none
 -parallel none
 -smp {{CPUS}},cores={{CORES}},threads=2,sockets=1
 -cpu host,host-phys-bits-limit=39,kvm=off,{{CPU_PARAMS}}
 -m {{RAM}}G
 {{HUGEPAGES_PARAMS}}
--chardev socket,id=chrtpm,path={{TPM_SOCK}}
--tpmdev emulator,id=tpm0,chardev=chrtpm
 -nic user,model=virtio-net-pci,mac=84:1b:76:c9:01:a5
+-rtc clock=host,base=localtime,driftfix=slew
 
 # Windows Virtual Disk
 -drive file=tmp/windows.qcow2,if=none,id=win
@@ -44,15 +42,22 @@
 # Bluetooth controller
 -device usb-host,vendorid=0x8087,productid=0x0033
 
+# Logitech, Inc. Webcam C270
+-device usb-host,vendorid=0x046d,productid=0x0825
+
 # SIMAGIC Alpha U and P1000 pedals
 -device usb-host,vendorid=0x0483,productid=0x0522
 -device usb-host,vendorid=0x0483,productid=0x0525
 
+# Trusted Platform Module
+-chardev socket,id=chrtpm,path={{TPM_SOCK}}
+-tpmdev emulator,id=tpm0,chardev=chrtpm
 -device tpm-tis,tpmdev=tpm0
+
+# OVMF - UEFI bootloader support
 -global driver=cfi.pflash01,property=secure,value=on
 -drive if=pflash,format=raw,unit=0,file={{OVMF_CODE}},readonly=on
 -drive if=pflash,format=raw,unit=1,file=tmp/{{OVMF_VARS}}
--rtc clock=host,base=localtime,driftfix=slew
 
 # Shared memory for Looking Glass
 -device ivshmem-plain,memdev=ivshmem,bus=pcie.0

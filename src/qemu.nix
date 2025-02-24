@@ -56,6 +56,7 @@ in {
 
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio", TAG+="uaccess"
+    SUBSYSTEM=="usb", TAG+="uaccess"
     SUBSYSTEM=="hugetlbfs", ENV{DEVNAME}=="*hugepages", MODE="0770", GROUP="hugepages"
   '';
 

@@ -68,7 +68,10 @@ exec hcompact
 # Windows/Super key as main modifier
 set $mod Mod4
 
+# Set some apps to load into certain workspace
 assign [app_id="Slack"] workspace number 6
+assign [app_id="looking-glass-client"] workspace number 5
+assign [app_id="Thunderbird"] workspace number 8
 
 # PROGRAMS
 bindsym $mod+z exec cd /data/code/nixfiles && bin/windows
