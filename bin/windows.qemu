@@ -8,6 +8,7 @@
 {{QEMU}}
 -name SaplingVM,process=sapling-vm
 -daemonize
+-D tmp/qemu.log
 -pidfile tmp/qemu.pid
 -machine q35,smm=on,usb=off,accel=kvm
 -enable-kvm
