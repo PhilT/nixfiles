@@ -57,7 +57,7 @@ in {
   # These rules only apply to connected devices. E.g. If my wheel is off it won't apply the permissions
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio", TAG+="uaccess"
-    SUBSYSTEM=="usb", TAG+="uaccess"
+    ACTION=="add|bind", SUBSYSTEM=="usb", TAG+="uaccess"
     SUBSYSTEM=="hugetlbfs", ENV{DEVNAME}=="*hugepages", MODE="0770", GROUP="hugepages"
   '';
 
