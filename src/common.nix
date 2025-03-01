@@ -43,22 +43,6 @@
     ];
   };
 
-  console = {
-    packages= with pkgs;[ terminus_font ];
-    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
-    useXkbConfig = true;
-  };
-
-  fonts.packages = with pkgs; [ meslo-lgs-nf ];
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    extraConfig = ''
-      font-name=MesloGS NF
-      font-size=14
-    '';
-  };
-
   # This only works in a console
   # See dotfiles/sway/config for GUI setting
   services.xserver.xkb = {

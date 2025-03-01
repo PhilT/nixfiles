@@ -21,4 +21,20 @@
       };
     };
   };
+
+  console = {
+    packages= with pkgs;[ terminus_font ];
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
+    useXkbConfig = true;
+  };
+
+  services.kmscon = {
+    enable = true;
+    hwRender = true;
+    extraConfig = ''
+      font-name=monospace
+      font-size=20
+    '';
+  };
+
 }
