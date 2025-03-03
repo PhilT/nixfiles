@@ -15,7 +15,7 @@
     options = [ "rw" "uid=1000" ];
   };
 
-  # Ensure both displays are initialized so Plymouth can be displayed on DP-1
+  # Ensure both displays are initialized so Plymouth can be displayed
   boot.initrd.kernelModules = [ "i915" ];
 
   # FIXME: This didn't seem to work - as in, when ignoring the LUKS password prompt on

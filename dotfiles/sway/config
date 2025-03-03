@@ -7,21 +7,21 @@ output * scale 2
 output * pos 0 0
 
 # Spruce
-output DP-1 scale 2
-output DP-1 pos 0 0
 output HDMI-A-1 scale 2
-output HDMI-A-1 pos 1920 0
+output HDMI-A-1 pos 0 0
+output DP-1 scale 2
+output DP-1 pos 1920 0
 
-workspace 1 output DP-1 eDP-1
-workspace 2 output DP-1 eDP-1
-workspace 3 output DP-1 eDP-1
-workspace 4 output DP-1 eDP-1
-workspace 5 output DP-1 eDP-1
-workspace 6 output HDMI-A-1 eDP-1
-workspace 7 output HDMI-A-1 eDP-1
-workspace 8 output HDMI-A-1 eDP-1
-workspace 9 output HDMI-A-1 eDP-1
-workspace 0 output HDMI-A-1 eDP-1
+workspace 1 output HDMI-A-1 eDP-1
+workspace 2 output HDMI-A-1 eDP-1
+workspace 3 output HDMI-A-1 eDP-1
+workspace 4 output HDMI-A-1 eDP-1
+workspace 5 output HDMI-A-1 eDP-1
+workspace 6 output DP-1 eDP-1
+workspace 7 output DP-1 eDP-1
+workspace 8 output DP-1 eDP-1
+workspace 9 output DP-1 eDP-1
+workspace 0 output DP-1 eDP-1
 
 workspace 1
 
@@ -63,7 +63,6 @@ exec darkman set dark # Force dark mode in QT apps such as KeePassXC - Sometimes
 
 exec waybar
 exec mako -c /etc/config/mako
-exec hcompact
 
 # Windows/Super key as main modifier
 set $mod Mod4
@@ -205,3 +204,7 @@ client.background        $base
 
 # Cursors
 seat seat0 xcursor_theme catppuccin-macchiato-lavender-cursors
+
+# Needed for UWSM to start
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
