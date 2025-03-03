@@ -9,23 +9,12 @@ let
   gpuIds = "${vendor}:${gpu},${vendor}:${audio}";
 in {
   #environment.etc."qemu/bridge.conf".text = "allow br0\n";
-  environment.etc."looking-glass-client.ini".text = ''
-    [win]
-    fullScreen=yes
-
-    [input]
-    rawMouse=yes
-
-    [spice]
-    audio=no
-  '';
   environment.sessionVariables.OVMF_DIR = "${pkgs.OVMF.fd}/FV";
   environment.systemPackages = with pkgs;[
     (OVMF.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
     qemu
     swtpm
     libhugetlbfs              # Hugepages
-    looking-glass-client      # View the VM without the monitors being attached
 
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
@@ -37,10 +26,6 @@ in {
   systemd.extraConfig = ''
     DefaultLimitMEMLOCK=infinity
   '';
-
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 phil kvm -"
-  ];
 
   boot.kernelParams = [
     "intel_iommu=on"
