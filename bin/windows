@@ -8,7 +8,7 @@
 # lshw -short # Nice list of all devices and peripherals
 # sudo lshw -businfo # Devices and connected bus (e.g. 0000:04:00.0)
 
-set enable_hugepages true
+set enable_hugepages false
 set enable_vfio true
 set enable_ovmf true
 set enable_tpm true
@@ -33,8 +33,8 @@ set GAMES_SSD "0000:08:00.0"
 # CPU Pinning - currently off (taskset commented out) while testing with all cores
 set CPUS 32
 set CORES (math $CPUS / 2)
-set HOST_CORES "0,16,17"
-set VM_CORES "1-15,18-31"
+#set HOST_CORES "0,16,17"
+set VM_CORES "" #"taskset -c 1-15,18-31 " # lscpu -e
 set RAM 24
 
 # https://www.qemu.org/docs/master/system/i386/hyperv.html
@@ -102,13 +102,8 @@ for qemu_var in $qemu_vars
 end
 
 # Run QEMU
-#taskset -c {{VM_CORES}} \
 eval (string split " " $qemu_params)
 set qemu_pid (cat tmp/qemu.pid)
-
-# Startup viewer
-sleep 1
-looking-glass-client
 
 while kill -0 $qemu_pid > /dev/null 2>&1
   sleep 1
@@ -127,8 +122,8 @@ end
 # Bind PCI devices back to physical controllers
 if $enable_vfio
   echo "Freeing VFIO binds"
-  #sudo $dir/vfio-bind $USB_CONTROLLER xhci_hcd 22
-  #sudo $dir/vfio-bind $GAMES_SSD nvme 23
+  sudo $dir/vfio-bind $USB_CONTROLLER xhci_hcd 22
+  sudo $dir/vfio-bind $GAMES_SSD nvme 23
   #sudo $dir/vfio-bind $GPU nouveau
   #sudo $dir/vfio-bind $GPU_AUDIO nouveau
 end
