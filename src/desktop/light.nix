@@ -21,7 +21,7 @@
         exit 1
       fi
 
-      # Use sudo ddcutil detect to get bus number
+      # Use `sudo ddcutil detect` to get bus number
       sudo ddcutil setvcp 10 $amount --bus 3 &
       sudo ddcutil setvcp 10 $amount --bus 9 &
     '')

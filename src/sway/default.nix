@@ -36,25 +36,19 @@ in with colors; {
   services.pipewire.enable = true; # Screen sharing
   services.greetd = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "/run/current-system/sw/bin/start_sway";
+    settings = rec {
+      initial_session = {
+        command = "${pkgs.sway}/bin/sway";
         user = config.username;
       };
+      default_session = initial_session;
     };
   };
-
 
   environment.systemPackages = with pkgs; [
     catppuccin-gtk-macchiato
     catppuccin-papirus-macchiato
     catppuccin-cursors.macchiatoLavender
-
-    # Add to the end of bin/sway for logging: -d |& tee sway.log
-    # Keep hold of the old log file after a crash: [ -f sway.log ] && mv sway.log sway.log.old
-    (writeShellScriptBin "start_sway" ''
-      ${pkgs.sway}/bin/sway
-    '')
   ];
 
   programs.sway.extraPackages = with pkgs; [
