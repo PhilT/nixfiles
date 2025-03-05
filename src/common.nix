@@ -40,6 +40,7 @@
     kernelParams = [
       "quiet"         # Don't log boot up to screen
       "nosgx"         # Turn off warning about sgx
+      "acpi_enforce_resources=lax" # Fix an issue in journal that disables overlapped memory
     ];
   };
 
