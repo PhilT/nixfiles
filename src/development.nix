@@ -11,6 +11,7 @@
   environment = {
     systemPackages = with pkgs; [
       docker-compose # TODO: Should be able to remove once process-compose is rolled out
+      godot
 
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
