@@ -16,8 +16,8 @@
                                # (e.g. my GMMK 2)
 
     # Audio/visual tools
-    # gimp - Currently no Wayland until 3.0
-    #goxel                 # Voxel editor # FIXME: Broken package
+    #gimp                 # Gimp 3 package coming: https://github.com/NixOS/nixpkgs/issues/390754
+    goxel                 # Voxel editor # FIXME: Broken package
     yad                   # GUI Dialog for Goxel
     imv                   # Image viewer
     inkscape
