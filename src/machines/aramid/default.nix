@@ -45,4 +45,5 @@
   ];
 
   hardware.graphics.enable = true;
+  networking.networkmanager.wifi.powersave = true;
 }
