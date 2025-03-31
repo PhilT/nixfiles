@@ -3,7 +3,6 @@
   machine = "spruce";
   username = "phil";
   fullname = "Phil Thompson";
-  time.hardwareClockInLocalTime = true;
 
   # TODO: Switch to ZFS
   luks.enable = true;
