@@ -58,6 +58,12 @@
   users.mutableUsers = false;
   security.sudo.wheelNeedsPassword = false;
 
+  services.chrony = {
+    enable = true;
+    enableNTS = true;
+    servers = [ "ntp.3eck.net" "nts1.adopo.net" "time.cloudflare.com" ];
+  };
+
   environment.systemPackages = with pkgs; [
     nix-output-monitor    # Fancy output for nixos-rebuild
 
