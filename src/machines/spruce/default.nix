@@ -12,6 +12,7 @@
     ../../common_gui.nix
     ../../development.nix
     ../../qemu.nix
+    ../../dedrm.nix
 
     # Sync
     ../../ssh.nix
