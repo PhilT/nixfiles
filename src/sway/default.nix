@@ -25,7 +25,7 @@ in with colors; {
   };
 
   programs.sway.enable = true;
-  programs.sway.xwayland.enable = false;
+  programs.sway.xwayland.enable = true;
   programs.sway.wrapperFeatures.gtk = true; # wrapper to execute sway with required environment variables for GTK applications
   programs.dconf.enable = true;             # Used in sway config to set some themes
 
