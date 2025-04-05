@@ -18,17 +18,19 @@
       "config/gtk-3.0/bookmarks" = {
         mode = "444";
         text = ''
-          file:///data/code/matter matter
-          file:///data data
-          file:///data/code code
-          file:///data/documents documents
-          file:///data/downloads downloads
-          file:///data/music music
-          file:///data/pictures pictures
-          file:///data/screenshots screenshots
-          file:///data/software software
-          file:///data/sync sync
-          file:///data/notes notes
+          file://${config.codeDir}/matter matter
+          file://${config.dataDir} data
+          file://${config.codeDir} code
+          file://${config.dataDir}/documents documents
+          file://${config.dataDir}/downloads downloads
+          file://${config.dataDir}/music music
+          file://${config.dataDir}/pictures pictures
+          file://${config.dataDir}/screenshots screenshots
+          file://${config.dataDir}/software software
+          file://${config.dataDir}/sync sync
+          file://${config.dataDir}/notes notes
+          file://${config.dataDir}/notes notes
+          file://${config.dataDir}/studio studio
         '';
       };
 
