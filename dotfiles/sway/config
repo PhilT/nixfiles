@@ -25,7 +25,7 @@ workspace 0 output DP-1 eDP-1
 
 workspace 1
 
-# xwayland enable
+xwayland enable
 
 # This only works in sway
 # See src/common.nix for console setting
@@ -81,6 +81,7 @@ bindsym $mod+w exec firefox-esr
 bindsym $mod+f exec thunar
 bindsym $mod+e exec thunderbird
 bindsym $mod+a exec slack
+bindsym $mod+n exec renoise
 bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
 bindsym $mod+p exec tofi-run -c /etc/config/tofi.ini | sh
 bindsym $mod+backslash exec keepmenu -c /etc/config/keepmenu.ini &
@@ -147,6 +148,10 @@ mode "resize" {
   bindsym j resize grow height 10px
   bindsym k resize shrink height 10px
   bindsym l resize grow width 10px
+
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
 
