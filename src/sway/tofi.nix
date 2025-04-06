@@ -10,7 +10,7 @@
         mode = "444";
         text = ''
           font = ${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/JetBrainsMonoNerdFontMono-Regular.ttf
-          font-size = 18
+          font-size = 20
 
           text-color = #cad3f5
           prompt-color = #ed8796
