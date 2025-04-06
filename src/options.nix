@@ -14,7 +14,7 @@
 
     programs.kitty.fontSize = lib.mkOption {
       type = lib.types.int;
-      default = 10;
+      default = 18;
       description = "Set the font size in Kitty";
     };
 

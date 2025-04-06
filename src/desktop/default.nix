@@ -1,3 +1,3 @@
 { config, pkgs, ... }: {
-  programs.kitty.fontSize = 9;
+  programs.kitty.fontSize = 18;
 }
