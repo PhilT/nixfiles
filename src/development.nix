@@ -24,11 +24,13 @@
       surge-XT
       stochas
       librearp
+      lsp-plugins
 
       # VST plugins
       (callPackage ./vst/sala.nix {})
       # (callPackage ./vst/ot_piano_s.nix {})
       (callPackage ./vst/argotlunar.nix {})
+      (callPackage ./vst/excite_snare_drum.nix {})
 
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
