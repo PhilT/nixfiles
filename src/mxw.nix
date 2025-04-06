@@ -9,6 +9,7 @@ pkgs.rustPlatform.buildRustPackage rec {
   pname = "mxw";
   version = "0.1.2";
   cargoHash = "sha256-LBrWBrdY6c5U9SIQEPNC5tE3d3bffeuZndFPwxtEetA=";
+  useCargoVendor = true;
 
   buildInputs = with pkgs; [ libudev-zero ];
   nativeBuildInputs = with pkgs; [ pkg-config libudev-zero ];
