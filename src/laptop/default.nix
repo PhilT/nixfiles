@@ -3,7 +3,7 @@
   # CPU power/speed optimiser https://github.com/AdnanHodzic/auto-cpufreq
   services.auto-cpufreq.enable = true;
 
-  programs.kitty.fontSize = 9;
+  programs.kitty.fontSize = 18;
 
   environment.systemPackages = with pkgs; [
     pamixer           # Control volume with laptop media keys
