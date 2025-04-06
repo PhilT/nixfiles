@@ -120,7 +120,7 @@ in with colors;
           border: none;
           border-radius: 4px;
           font-family: JetBrains Mono;
-          font-size: 13px;
+          font-size: 22px;
           min-height: 0;
         }
 

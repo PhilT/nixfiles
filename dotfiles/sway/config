@@ -3,14 +3,14 @@
 include /etc/sway/config.d/*
 
 # Some defaults
-output * scale 2
+output * scale 1
 output * pos 0 0
 
 # Spruce
-output HDMI-A-1 scale 2
+output HDMI-A-1 scale 1
 output HDMI-A-1 pos 0 0
-output DP-1 scale 2
-output DP-1 pos 1920 0
+output DP-1 scale 1
+output DP-1 pos 3840 0
 
 workspace 1 output HDMI-A-1 eDP-1
 workspace 2 output HDMI-A-1 eDP-1
