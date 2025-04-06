@@ -64,7 +64,7 @@ in with colors; {
 
   environment.sessionVariables = {
     GTK_THEME = "catppuccin-macchiato-lavender-standard";
-    XCURSOR_SIZE = "32";
+    XCURSOR_SIZE = "48";
     NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland: Fixes Slack
 
     WLR_RENDERER = lib.mkIf config.vulkan.enable "vulkan";
