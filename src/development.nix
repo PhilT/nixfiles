@@ -21,12 +21,14 @@
 
       # TODO: MOVE TO STUDIO?
       renoise
-      helm
       surge-XT
+      stochas
+      librearp
 
       # VST plugins
       (callPackage ./vst/sala.nix {})
       # (callPackage ./vst/ot_piano_s.nix {})
+      (callPackage ./vst/argotlunar.nix {})
 
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
