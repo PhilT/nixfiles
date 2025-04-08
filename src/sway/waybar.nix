@@ -12,6 +12,7 @@ in with colors;
       mode = "444";
       text = (builtins.toJSON {
         layer = "top";
+        spacing = "8";
         modules-left = ["sway/workspaces"];
         modules-center = ["sway/window"];
         modules-right = config.waybarModules;
@@ -108,6 +109,9 @@ in with colors;
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
           tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
         };
+        tray = {
+          icon-size = 24;
+        };
       });
     };
 
@@ -120,7 +124,7 @@ in with colors;
           border: none;
           border-radius: 4px;
           font-family: JetBrains Mono;
-          font-size: 22px;
+          font-size: 24px;
           min-height: 0;
         }
 
@@ -147,7 +151,7 @@ in with colors;
 
         #workspaces button {
           background-color: ${rgba lavender "0.3"};
-          padding: 2px 8px 0;
+          padding: 2px 12px 0;
           margin: 2px;
           color: ${rgb text};
           border-bottom-left-radius: 0;
