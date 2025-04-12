@@ -11,6 +11,7 @@ in with colors; {
     text = ''
       font=monospace 18
       width=500
+      height=300
       default-timeout=5000
       background-color=${hex base}
       text-color=${hex text}
