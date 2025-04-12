@@ -25,6 +25,9 @@
       stochas
       librearp
       lsp-plugins
+      odin2
+      cardinal
+      fire
 
       # VST plugins
       (callPackage ./vst/sala.nix {})
