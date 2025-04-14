@@ -60,7 +60,9 @@ exec swayidle -w \
 exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-macchiato-lavender'"
 exec dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
 exec dconf write /org/gnome/desktop/interface/text-scaling-factor "2.0"
+exec dconf write /org/gnome/desktop/interface/cursor-size "48"
 exec dconf write /org/gtk/settings/file-chooser/show-hidden "True"
+
 exec darkman set dark # Force dark mode in QT apps such as KeePassXC - Sometimes doesn't work
 
 exec waybar
@@ -210,7 +212,7 @@ client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
 
 # Cursors
-seat seat0 xcursor_theme catppuccin-macchiato-lavender-cursors
+seat * xcursor_theme catppuccin-macchiato-lavender-cursors 48
 
 # Needed for UWSM to start
 exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
