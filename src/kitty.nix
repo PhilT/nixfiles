@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
-{
+let fontSize = 18;
+in {
   environment = {
     systemPackages = with pkgs; [
       kitty
@@ -40,7 +40,7 @@ with lib;
         text = ''
           include /etc/config/kitty-theme.conf
           font_family monospace
-          font_size ${toString config.programs.kitty.fontSize}
+          font_size ${fontSize}
           text_composition_strategy legacy
           copy_on_select clipboard
           strip_trailing_spaces always
