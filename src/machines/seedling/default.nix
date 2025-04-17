@@ -6,6 +6,8 @@
     ../../minimal-configuration.nix
     ../../hardware/default.nix
     ../../hardware/bluetooth.nix
+    ../../ephemeral_os.nix
+    ../../plymouth.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
@@ -21,7 +23,9 @@
     ../../sway/default.nix
 
     # Desktop
-    ../../desktop/default.nix
     ../../desktop/light.nix
   ];
+
+  # Plymouth UI is a bit small without this
+  boot.plymouth.extraConfig = "DeviceScale=2";
 }
