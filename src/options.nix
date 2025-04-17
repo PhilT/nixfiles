@@ -12,12 +12,6 @@
       description = "Avoids a conflict with iso.nix that sets PermitRootLogin to yes";
     };
 
-    programs.kitty.fontSize = lib.mkOption {
-      type = lib.types.int;
-      default = 18;
-      description = "Set the font size in Kitty";
-    };
-
     machine = lib.mkOption {
       type = lib.types.str;
     };

@@ -3,16 +3,17 @@
     <catppuccin/modules/nixos>
 
     ./machine.nix
-    ../../hardware/default.nix
-    ../../hardware/filesystems.nix
-    ../../hardware/bluetooth.nix
     ../../minimal-configuration.nix
+    ../../hardware/default.nix
+    ../../hardware/bluetooth.nix
     ../../plymouth.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
     ../../qemu.nix
     ../../dedrm.nix
+
+    ../../hardware/filesystems.nix
 
     # Sync
     ../../ssh.nix
@@ -25,7 +26,6 @@
     ../../sway/default.nix
 
     # Desktop
-    ../../desktop/default.nix
     ../../desktop/light.nix
   ];
 
@@ -52,7 +52,5 @@
   hardware.keyboard.qmk.enable = true;
 
   # Plymouth UI is a bit small without this
-  boot.plymouth.extraConfig = ''
-    DeviceScale=2
-  '';
+  boot.plymouth.extraConfig = "DeviceScale=2";
 }

@@ -6,9 +6,9 @@
     <catppuccin/modules/nixos>
 
     ./machine.nix
+    ../../minimal-configuration.nix
     ../../hardware/default.nix
     ../../hardware/bluetooth.nix
-    ../../minimal-configuration.nix
     ../../ephemeral_os.nix
     ../../plymouth.nix
     ../../common.nix
@@ -26,7 +26,6 @@
     ../../sway/default.nix
 
     # Laptops
-    ../../laptop/default.nix
     ../../laptop/light.nix
   ];
 
@@ -43,6 +42,14 @@
     "clock"
     "tray"
   ];
+
+  environment.systemPackages = with pkgs; [
+    pamixer           # Control volume with laptop media keys
+    playerctl         # Control playback with laptop media keys
+  ];
+
+  # CPU power/speed optimiser https://github.com/AdnanHodzic/auto-cpufreq
+  services.auto-cpufreq.enable = true;
 
   hardware.graphics.enable = true;
   networking.networkmanager.wifi.powersave = true;
