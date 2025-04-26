@@ -2,7 +2,7 @@ local is_windows = vim.fn.has('win32') == 1
 local group = vim.api.nvim_create_augroup('mygroup', { clear = true })
 local autocmd = vim.api.nvim_create_autocmd
 --TODO: Probably remove this once I've decided how I'll get stuff done from now on.
---local todo_path = file_exist('TODO.md') and 'TODO.md' or os.getenv('NOTES')..'/todo.txt'      -- Set TODO file to local project if it exists otherwise main todo.txt in D:\txt
+local todo_path = file_exist('TODO.md') and 'TODO.md' or os.getenv('NOTES')..'/todo.txt'      -- Set TODO file to local project if it exists otherwise main todo.txt in D:\txt
 
 function _G.term_run(command)                                                   -- Run a build command e.g. 'run', 'test', 'build'
   autocmd('TermEnter', {                                                        -- When entering insert mode in terminal switch back out of it
@@ -20,9 +20,9 @@ function _G.create_fsharp_env()                                                 
     vim.cmd('vsplit')                                                           -- Create 3 vertical panes with the last one
     vim.cmd('vsplit')                                                           -- containing a test watcher and the todo list
     if is_windows then
-      vim.cmd('term watch.cmd')
+      vim.cmd('term bin/watch')
     else
-      vim.cmd('term ./watch.cmd')
+      vim.cmd('term bin/watch')
     end
     vim.cmd('wincmd G')
     vim.cmd('split '..todo_path)
@@ -56,9 +56,9 @@ function _G.init_build_mappings()                                               
   vim.keymap.set('n', '<Leader>t', function() run_command('test') end)          -- dotnet test unit
 end
 
-if file_exist('bin/dotnetcmd') then                                            -- If a file exists called x contains dotnet
+if file_exist('bin/dotnetcmd') then                                             -- If a file exists called x contains dotnet
   setup_lsp_client()                                                            --   then startup the F# environment
   init_build_mappings()
 
-  print('F# environment loaded')
+  print('F# environment autoloaded')
 end
