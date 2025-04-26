@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-let fontSize = 18;
+let fontSize = "18";
 in {
   environment = {
     systemPackages = with pkgs; [
