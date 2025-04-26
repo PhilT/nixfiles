@@ -94,6 +94,7 @@ in
           completion-nvim
           fsharp
           lualine-nvim
+          none-ls-nvim               # Hook for running Famtomas
           nvim-lspconfig             # Language server client settings
           nvim-tree-lua
           plenary-nvim               # Required by Telescope
