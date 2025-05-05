@@ -28,12 +28,37 @@ data_disk() {
   SUDO "sgdisk -Z $disk" # Wipe partitions
 }
 
+# pool: <e.g. zpool>
+# device: <e.g. nvme-Samsung_SSD_990_123-part2>
+# encryption: <on|off>
 pool() {
   pool=$1
   local device=$2
+  local encryption=$3
+  local password=""
+  local options=""
+
+  if [ "$encryption" = "on" ]; then
+    password="echo $passwd | "
+    options=" \
+      -O encryption=on \
+      -O keyformat=passphrase \
+      -O keylocation=prompt"
+  fi
 
   STATE "POOL" "Setup ZFS pool"
-  RUN "echo $passwd | sudo zpool create -f -o ashift=12 -O atime=off -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=lz4 -O mountpoint=none -O acltype=posixacl -O xattr=sa $pool $device"
+  RUN " \
+    $password \
+    sudo zpool create -f \
+    $options \
+    -o ashift=12 \
+    -O atime=off \
+    -O compression=lz4 \
+    -O mountpoint=none \
+    -O acltype=posixacl \
+    -O xattr=sa \
+    $pool \
+    $device"
 }
 
 # Create a ZFS dataset and snapshot it in it's empty state
@@ -53,7 +78,7 @@ dataset() {
 mkd() {
   local name=$1
 
-  mkdir -p /mnt$name
+  SUDO "mkdir -p /mnt$name"
 }
 
 fat() {

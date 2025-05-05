@@ -14,8 +14,14 @@
     options = [ "rw" "uid=1000" ];
   };
 
-  # Ensure both displays are initialized so Plymouth can be displayed
-  boot.initrd.kernelModules = [ "i915" ];
+  boot.initrd.kernelModules = [
+    "i915"        # Ensure both displays are initialized so Plymouth can be displayed
+    "dm-snapshot" # Used by Spruce (Can be removed when switching to ZFS)
+  ];
+
+  boot.kernel.sysctl = {
+    "vm.transparent_hugepages" = "always"; # Better performance for Gaming in VMs
+  };
 
   # FIXME: This didn't seem to work - as in, when ignoring the LUKS password prompt on
   # the machine and trying to SSH in remotely, I got host not found.

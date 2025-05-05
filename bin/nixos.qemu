@@ -1,0 +1,1 @@
+-bios {{OVMF_NIX_DIR}}/FV/OVMF.fd \

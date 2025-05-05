@@ -7,7 +7,7 @@ aramid() {
 
   boot_disk "$disk" "2G"
 
-  pool "zpool" "$primary_partition"
+  pool "zpool" "$primary_partition" "on"
   dataset "root"
   dataset "nix"
   dataset "home"

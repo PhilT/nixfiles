@@ -1,1 +1,5 @@
+#!/usr/bin/env sh
+
 nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=iso.nix
+cp result/iso/*.iso /data/iso/nixos.iso
+chmod +w /data/iso/nixos.iso
