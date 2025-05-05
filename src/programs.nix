@@ -1,8 +1,5 @@
 # TODO: Consider merging with common.nix mirroring common_gui.nix
 { config, pkgs, ... }: {
-  programs.fish.enable = true;                # Fish! Shell
-  documentation.man.generateCaches = false;   # Stops painfully slow builds when using Fish
-
   programs = {
     starship.enable = true; # Starship - Highly configurable shell prompt
     neovim.enable = true;

@@ -33,6 +33,8 @@
   #   };
   # });
 
+  programs.fish.enable = true;                # Fish! Shell
+  documentation.man.generateCaches = false;   # Stops painfully slow builds when using Fish
   networking.hostName = config.machine;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = lib.mkForce [];
