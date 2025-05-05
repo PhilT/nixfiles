@@ -12,7 +12,6 @@
     "aesni_intel"
     "cryptd"
   ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [
     "kvm-intel"
     "i2c_dev"       # Needed by ddcutil

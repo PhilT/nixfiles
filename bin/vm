@@ -8,14 +8,39 @@
 # lshw -short # Nice list of all devices and peripherals
 # sudo lshw -businfo # Devices and connected bus (e.g. 0000:04:00.0)
 
-set enable_hugepages false
-set enable_vfio true
-set enable_ovmf true
-set enable_tpm true
+set MACHINE $argv[1]
 
-if $enable_ovmf && test -z "$OVMF_DIR"
-  echo "Expected \$OVMF_DIR to be defined in qemu.nix"
+if test "$MACHINE" = "seedling"
+  set enable_vfio true
+  set enable_ovmf true
+  set enable_tpm false
+  set os "nixos"
+
+  set SERIAL "deadbeee"
+  set MAC "84:1b:76:c9:01:a6"
+  set ISO "nixos.iso"
+  set OVMF_DIR "$OVMF_NIX_DIR"
+else if test "$MACHINE" = "sapling"
+  set enable_vfio true
+  set enable_ovmf true
+  set enable_tpm true
+  set os "windows"
+
+  set SERIAL "deadbeef"
+  set MAC "84:1b:76:c9:01:a5"
+  set ISO "windows_11_ltsc.iso"
+  set OVMF_DIR "$OVMF_MS_DIR"
+else
+  echo "VM machine not recognised"
   exit 1
+end
+
+# Provides UEFI support for VMs
+if $enable_ovmf
+  if test -z "$OVMF_DIR" || test -z "$OVMF_MS_DIR"
+    echo "Expected \$OVMF_DIR and \$OVMF_MS_DIR to be defined in qemu.nix"
+    exit 1
+  end
 end
 
 set dir (status dirname)
@@ -42,45 +67,27 @@ set CPU_PARAMS hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,\
 hv-stimer,hv-tlbflush,hv-frequencies,hv-apicv,hv_spinlocks=0x1fff,\
 hv_vendor_id=0xDEADBEEFFF
 
-# Variables that will be substituted in windows.qemu
+# Variables that will be substituted in vm.qemu
 set qemu_vars QEMU VM_CORES CPUS CORES CPU_PARAMS RAM TPM_SOCK GPU GPU_AUDIO \
-  USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS HUGEPAGES_PARAMS
-
-# Setup Hugepages
-if $enable_hugepages
-  set HUGEPAGES_PARAMS " -mem-prealloc -mem-path /dev/hugepages"
-  set HUGEPAGES_SIZE 2
-  set HUGEPAGES_TOTAL (math $RAM x 1024 / $HUGEPAGES_SIZE)
-  echo Hugepages total: $HUGEPAGES_TOTAL
-  sudo hugeadm --pool-pages-min {$HUGEPAGES_SIZE}MB:$HUGEPAGES_TOTAL
-  if test $status -ne 0
-    echo "Failed to set the correct number of Hugepages. Aborting"
-    exit 1
-  end
-  sudo hugeadm --set-recommended-shmmax
-  sudo mkdir -p /dev/hugepages
-  sudo mount -t hugetlbfs nodev /dev/hugepages
-  sudo chown phil:users /dev/hugepages
-end
+  USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS HUGEPAGES_PARAMS MACHINE SERIAL \
+  ISO MAC
 
 # Bind PCI devices
 if $enable_vfio
   echo "Binding devices to VFIO"
   sudo $dir/vfio-bind $USB_CONTROLLER vfio-pci 22
   sudo $dir/vfio-bind $GAMES_SSD vfio-pci 23
-  #sudo $dir/vfio-bind $GPU vfio-pci
-  #sudo $dir/vfio-bind $GPU_AUDIO vfio-pci
 end
 
 # OVMF vars need to be writable but Nix store is readonly
 if $enable_ovmf && not test -f tmp/$OVMF_VARS
-  cp $OVMF_DIR/$OVMF_VARS tmp/$OVMF_VARS
+  cp $OVMF_MS_DIR/$OVMF_VARS tmp/$OVMF_VARS
   chmod +w tmp/$OVMF_VARS
 end
 
-# Create a virtual drive for Windows if one doesn't exist
-if test -d tmp/ && not test -f tmp/windows.qcow2
-  qemu-img create -f qcow2 tmp/windows.qcow2 128G
+# Create a virtual drive for the machine if one doesn't exist
+if not test -f /data/vdisks/$MACHINE.qcow2
+  qemu-img create -f qcow2 /data/vdisks/$MACHINE.qcow2 300G
 end
 
 # Setup TPM emulation
@@ -93,7 +100,7 @@ end
 
 # Remove comments and empty lines
 set qemu_params (
-  cat $dir/windows.qemu | sed '/^#/d' | sed '/^$/d' | string join " "
+  cat $dir/vm.qemu $dir/$os.qemu | sed '/^#/d' | sed '/^$/d' | string join " "
 )
 
 # Variable replacement
@@ -103,7 +110,7 @@ end
 
 # Run QEMU
 eval (string split " " $qemu_params)
-set qemu_pid (cat tmp/qemu.pid)
+set qemu_pid (cat tmp/$MACHINE-qemu.pid)
 
 while kill -0 $qemu_pid > /dev/null 2>&1
   sleep 1
@@ -112,18 +119,9 @@ end
 # Shutdown TPM eumulator
 $enable_tpm && pkill swtpm
 
-# Clear up Hugepages
-if $enable_hugepages
-  echo "Freeing Hugepages"
-  sudo umount /dev/hugepages
-  sudo hugeadm --pool-pages-min {$HUGEPAGES_SIZE}MB:0
-end
-
 # Bind PCI devices back to physical controllers
 if $enable_vfio
   echo "Freeing VFIO binds"
   sudo $dir/vfio-bind $USB_CONTROLLER xhci_hcd 22
   sudo $dir/vfio-bind $GAMES_SSD nvme 23
-  #sudo $dir/vfio-bind $GPU nouveau
-  #sudo $dir/vfio-bind $GPU_AUDIO nouveau
 end

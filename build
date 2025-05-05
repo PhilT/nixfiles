@@ -90,7 +90,7 @@ module=$1
 configuration_nix=src/machines/$machine/$module
 
 # Ephemeral storage
-if [ "$machine" = "aramid" ]; then
+if [ "$machine" = "aramid" ] || [ "$machine" = "seedling" ]; then
   etc_dir=/data/etc
 else
   etc_dir=/etc

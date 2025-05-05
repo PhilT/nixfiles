@@ -7,19 +7,40 @@ let
   gpu = "2684";
   audio = "22ba";
   gpuIds = "${vendor}:${gpu},${vendor}:${audio}";
+  ovmfSecureBoot = pkgs.OVMF.overrideAttrs (final: prev: {
+    pname = prev.pname + "-secure-boot";
+    secureBoot = true;
+    msVarsTemplate = true;
+  });
 in {
   #environment.etc."qemu/bridge.conf".text = "allow br0\n";
-  environment.sessionVariables.OVMF_DIR = "${pkgs.OVMF.fd}/FV";
+  environment.sessionVariables = {
+    OVMF_NIX_DIR = "${pkgs.OVMF.fd}/FV";
+    OVMF_MS_DIR = "${ovmfSecureBoot.fd}/FV";
+  };
   environment.systemPackages = with pkgs;[
-    (OVMF.overrideAttrs (oldAttrs: { secureBoot = true; msVarsTemplate = true; }))
+    OVMF                      # For NixOS
+    ovmfSecureBoot            # For Windows
     qemu
     swtpm
-    libhugetlbfs              # Hugepages
+    socat                     # For sending commands to Qemu via a socket
 
+    # TODO: Probably don't need this any more
     (writeShellScriptBin "qemu-system-x86_64-uefi" ''
       qemu-system-x86_64 \
         -bios ${pkgs.OVMF.fd}/FV/OVMF.fd \
         "$@"
+    '')
+
+    # vm-cmd <seedling|sapling> <save|restore>
+    (writeShellScriptBin "vm-cmd" ''
+      machine=$1
+      cmd=$2
+      {
+        echo '{"execute":"qmp_capabilities"}';
+        sleep 0.1;  # Optional short delay to ensure order
+        echo '{"execute":"human-monitor-command","arguments":{"command-line":"''${cmd} /data/vdisks/''${machine}_snapshot"}}';
+      } | socat UNIX-CONNECT:/tmp/$${machine}-qmp.sock -
     '')
   ];
 
@@ -29,9 +50,6 @@ in {
 
   boot.kernelParams = [
     "intel_iommu=on"
-    #"iommu=pt" # Might be needed for performance. Test and see
-    #"hugepagesz=1G"
-    #"hugepages=24"
   ];
 
   boot.extraModprobeConfig = ''
@@ -45,7 +63,6 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio", TAG+="uaccess"
     SUBSYSTEM=="usb", TAG+="uaccess"
-    SUBSYSTEM=="hugetlbfs", ENV{DEVNAME}=="*hugepages", MODE="0770", GROUP="hugepages"
   '';
 
   users.groups.vfio = {};
@@ -53,7 +70,6 @@ in {
   users.users."${config.username}".extraGroups = [
     "kvm"
     "vfio"
-    "hugepages"
   ];
 
   #networking = {

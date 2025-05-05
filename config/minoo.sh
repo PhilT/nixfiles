@@ -6,7 +6,7 @@ minoo_disk1() {
 
   boot_disk "$disk" "2G"
 
-  pool "zpool" "$primary_partition"
+  pool "zpool" "$primary_partition" "on"
   dataset "root"
   dataset "nix"
   fat "$boot_partition"
@@ -17,7 +17,7 @@ minoo_disk2() {
   local disk="usb-SanDisk_Extreme_55AE_32343133464E343032383531-0:0"
 
   data_disk "/dev/disk/by-id/$disk"
-  pool "dpool" "$disk"
+  pool "dpool" "$disk" "on"
   dataset "data"
 }
 
