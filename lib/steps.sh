@@ -32,10 +32,12 @@ format() {
 
 clone() {
   [ -z "$branch" ] && branch="main"
+  local nixfiles_repo="git@github.com:PhilT/nixfiles.git"
+  local ssh_command="GIT_SSH_COMMAND='ssh -i $HOME/.ssh/id_ed25519_github'"
 
   # Fetch latest nixfiles repo
   SUDO "mkdir -p $codedir"
-  SUDO "git clone -b $branch --single-branch --depth 1 git@github.com:PhilT/nixfiles.git" "$codedir"
+  SUDO "$ssh_command git clone -b $branch --single-branch --depth 1 $nixfiles_repo" "$codedir"
 
   SUDO "chown nixos:users $codedir/nixfiles/secrets"
   keepass_export_hashed_password "$codedir/nixfiles/secrets/hashed_password"

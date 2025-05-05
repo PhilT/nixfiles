@@ -4,6 +4,7 @@ source lib/keepass.sh
 
 # Generates SSH keys and adds them to KeePass
 
+# Nomenclature:
 # authorized_keys is what sshd accepts as incoming requests.
 # known_hosts is what an ssh client knows about when connecting to
 

@@ -77,7 +77,8 @@ assign [app_id="looking-glass-client"] workspace number 5
 assign [app_id="thunderbird"] workspace number 8
 
 # PROGRAMS
-bindsym $mod+z exec cd /data/code/nixfiles && bin/windows
+bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
+bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
 bindsym $mod+c exec kitty
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+Mod1+q exit
