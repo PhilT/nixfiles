@@ -2,7 +2,7 @@
 seedling() {
   local disk="/dev/nvme0n1"
   local boot_partition="${disk}p1"
-  local primary_partition="nvme-QEMU_NVMe_Ctrl_deadbeee-part1"
+  local primary_partition="nvme-QEMU_NVMe_Ctrl_deadbeee-part2"
 
   boot_disk "$disk" "2G"
 
