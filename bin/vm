@@ -9,6 +9,7 @@
 # sudo lshw -businfo # Devices and connected bus (e.g. 0000:04:00.0)
 
 set MACHINE $argv[1]
+set install $argv[2]
 
 if test "$MACHINE" = "seedling"
   set enable_vfio true
@@ -18,7 +19,6 @@ if test "$MACHINE" = "seedling"
 
   set SERIAL "deadbeee"
   set MAC "84:1b:76:c9:01:a6"
-  set ISO "nixos.iso"
   set OVMF_DIR "$OVMF_NIX_DIR"
 else if test "$MACHINE" = "sapling"
   set enable_vfio true
@@ -28,12 +28,20 @@ else if test "$MACHINE" = "sapling"
 
   set SERIAL "deadbeef"
   set MAC "84:1b:76:c9:01:a5"
-  set ISO "windows_11_ltsc.iso"
   set OVMF_DIR "$OVMF_MS_DIR"
 else
-  echo "VM machine not recognised"
+  echo "Usage: $argv[0] <machine> [install]"
+  echo " machine: sapling or seedling"
+  echo " install: Adding `install` will include the required installation ISOs"
   exit 1
 end
+
+if test "$install" = "install"
+  set cdrom "$dir/cdrom-$os.qemu"
+else
+  set cdrom ""
+end
+
 
 # Provides UEFI support for VMs
 if $enable_ovmf
@@ -70,7 +78,7 @@ hv_vendor_id=0xDEADBEEFFF
 # Variables that will be substituted in vm.qemu
 set qemu_vars QEMU VM_CORES CPUS CORES CPU_PARAMS RAM TPM_SOCK GPU GPU_AUDIO \
   USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS HUGEPAGES_PARAMS MACHINE SERIAL \
-  ISO MAC
+  MAC
 
 # Bind PCI devices
 if $enable_vfio
@@ -100,7 +108,7 @@ end
 
 # Remove comments and empty lines
 set qemu_params (
-  cat $dir/vm.qemu $dir/$os.qemu | sed '/^#/d' | sed '/^$/d' | string join " "
+  cat $dir/vm.qemu $dir/$os.qemu $cdrom | sed '/^#/d' | sed '/^$/d' | string join " "
 )
 
 # Variable replacement
