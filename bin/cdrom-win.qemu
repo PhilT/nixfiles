@@ -1,0 +1,4 @@
+# Installation media
+-drive file=/data/iso/windows_11_ltsc.iso,media=cdrom
+-drive file=/data/iso/virtio-win-0.1.266.iso,media=cdrom
+

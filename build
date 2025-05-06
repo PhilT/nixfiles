@@ -4,9 +4,18 @@ source lib/keepass.sh
 
 action=REBUILD
 show_trace=
+label=
 command=test
 cleanup=0
 overwrite_sshkeys=0
+
+# Ensure that when run from nixos-enter (for emergencies) as root, sudo is skipped
+# However, logging in as non-root (`su phil`) may fix the problem. Needs testing
+if [ "$(whoami)" = "root" ]; then
+  SUDO=""
+else
+  SUDO="sudo "
+fi
 
 while getopts 'hdsyurbctmo' OPTION; do
   case "$OPTION" in
@@ -128,10 +137,10 @@ fi
 
 # Check if both catppuccin and nixos-hardware channels have been added
 echo -n "[CHANNELS] "
-if ! sudo nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
+if ! ${SUDO}nix-channel --list | tr '\n' ' ' | grep -sE 'catppuccin.*nixos-hardware' > /dev/null; then
   echo "Updating"
-  sudo nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
-  sudo nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
+  ${SUDO}nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin
+  ${SUDO}nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
   action=UPGRADE
 else
   echo "Up-to-date"
@@ -177,8 +186,8 @@ else
 fi
 echo -n "[SSH] "
 if [ "$overwrite_sshkeys" -eq "1" ]; then
-  sudo rm $machine_sshkey
-  sudo rm "$machine_sshkey.pub"
+  ${SUDO}rm $machine_sshkey
+  ${SUDO}rm "$machine_sshkey.pub"
 fi
 
 if [ ! -f $machine_sshkey ]; then
@@ -187,10 +196,10 @@ if [ ! -f $machine_sshkey ]; then
 
   mkdir -p ${etc_dir}/ssh
   keepass_export_keys $ssh_dir $machine
-  sudo cp "$ssh_dir/$prefix" $machine_sshkey
-  sudo cp "$ssh_dir/$prefix.pub" "$machine_sshkey.pub"
-  sudo chown root:root $machine_sshkey
-  sudo chown root:root "$machine_sshkey.pub"
+  ${SUDO}cp "$ssh_dir/$prefix" $machine_sshkey
+  ${SUDO}cp "$ssh_dir/$prefix.pub" "$machine_sshkey.pub"
+  ${SUDO}chown root:root $machine_sshkey
+  ${SUDO}chown root:root "$machine_sshkey.pub"
 else
   echo "$machine_sshkey exists"
 fi
@@ -202,14 +211,14 @@ if [ "$machine" = "minoo" ]; then
   zfs_keydir="/root"
   zfs_keypath="$zfs_keydir/.${pool_name}.key"
   echo -n "[$pool_name] "
-  if zpool list | grep $pool_name && sudo test ! -f "$zfs_keypath"; then
+  if zpool list | grep $pool_name && ${SUDO}test ! -f "$zfs_keypath"; then
     echo "No $pool_name encryption key at ${zfs_keypath}. Creating and assigning"
     source lib/disks2.sh
-    sudo mkdir -p $zfs_keydir
-    sudo chmod 700 $zfs_keydir
+    ${SUDO}mkdir -p $zfs_keydir
+    ${SUDO}chmod 700 $zfs_keydir
     generate_key $zfs_keypath
     change_key $pool_name $zfs_keypath
-  elif sudo test -f "$zfs_keypath"; then
+  elif ${SUDO}test -f "$zfs_keypath"; then
     echo "$zfs_keypath exists"
   else
     echo "$pool_name not available. Skipping."
@@ -217,8 +226,8 @@ if [ "$machine" = "minoo" ]; then
 fi
 
 echo "[$action] $machine"
-[ "$cleanup" = "1" ] && sudo nix-collect-garbage -d
-[ "$action" = "UPGRADE" ] && sudo nix-channel --update
+[ "$cleanup" = "1" ] && ${SUDO}nix-collect-garbage -d
+[ "$action" = "UPGRADE" ] && ${SUDO}nix-channel --update
 [ "$version" ] && label="NIXOS_LABEL=$version"
-sudo $label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
+${SUDO}$label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
 #                                             -I nixpkgs=/data/code/nixpkgs # -------^
