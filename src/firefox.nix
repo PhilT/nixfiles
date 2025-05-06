@@ -82,13 +82,19 @@
     SearchEngines = {
       Add = [
         {
+          Name = "Perplexity";
+          URLTemplate = "https://www.perplexity.ai/search?q={searchTerms}";
+          Method = "GET";
+          IconURL = "https://www.perplexity.ai/favicon.ico";
+        }
+        {
           Name = "SearXNG";
           URLTemplate = "https://search.leptons.xyz/search?q={searchTerms}";
           Method = "GET";
           IconURL = "https://search.leptons.xyz/searxng/favicon.ico";
         }
       ];
-      Default = "SearXNG";
+      Default = "Perplexity";
     };
     UserMessaging = {
       WhatsNew = false;
