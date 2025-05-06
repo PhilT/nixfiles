@@ -19,22 +19,3 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
     vim.lsp.buf.format()
   end,
 })
-
-local null_ls = require("null-ls")
-
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.fantomas.with({
-      command = "dotnet", -- assuming Fantomas is a .NET tool
-      args = { "fantomas", "-" },
-      to_stdin = true,
-    }),
-  },
-})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.fs", "*.fsx" },
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
