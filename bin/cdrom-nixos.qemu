@@ -1,0 +1,3 @@
+# Installation media
+-drive file=/data/iso/nixos.iso,media=cdrom
+

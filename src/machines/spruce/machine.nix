@@ -8,11 +8,13 @@
   luks.enable = true;
   luks.device = "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_2TB_S6Z2NJ0TA26792J_1-part2";
 
-  fileSystems."/games" = {
-    device = "/dev/disk/by-label/Games";
-    fsType = "ntfs";
-    options = [ "rw" "uid=1000" ];
-  };
+# Causes NixOS to get into a non-boot state if the drive isn't unmounted correctly which
+# happens quite a bit when using as a VM. So safer to remove it.
+#  fileSystems."/games" = {
+#    device = "/dev/disk/by-label/Games";
+#    fsType = "ntfs";
+#    options = [ "rw" "uid=1000" ];
+#  };
 
   boot.initrd.kernelModules = [
     "i915"        # Ensure both displays are initialized so Plymouth can be displayed

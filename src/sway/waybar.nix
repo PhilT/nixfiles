@@ -63,11 +63,6 @@ in with colors;
           unit = "GB";
           path = "/";
         };
-        "disk#games" = {
-          format = "{specific_free:0.2f} GB";
-          unit = "GB";
-          path = "/games";
-        };
         temperature = {
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";

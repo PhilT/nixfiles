@@ -34,7 +34,6 @@
     "cpu"
     "memory"
     "disk"
-    "disk#games"
     "temperature"
     "bluetooth"
     "clock"

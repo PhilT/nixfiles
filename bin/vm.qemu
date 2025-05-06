@@ -27,9 +27,6 @@
 -drive file=/data/vdisks/{{MACHINE}}.qcow2,if=none,id={{MACHINE}}
 -device nvme,serial={{SERIAL}},drive={{MACHINE}},bootindex=1
 
-# Installation media
--cdrom /data/iso/{{ISO}}
-
 # VFIO 4090,3rd party USB controller, Games SSD
 -device vfio-pci,host={{GPU}},multifunction=on,x-vga=on
 -device vfio-pci,host={{GPU_AUDIO}}
