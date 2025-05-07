@@ -84,7 +84,10 @@ set qemu_vars QEMU VM_CORES CPUS CORES CPU_PARAMS RAM TPM_SOCK GPU GPU_AUDIO \
 if $enable_vfio
   echo "Binding devices to VFIO"
   sudo $dir/vfio-bind $USB_CONTROLLER vfio-pci 22
-  sudo $dir/vfio-bind $GAMES_SSD vfio-pci 23
+
+  if test "$os" = "windows"
+    sudo $dir/vfio-bind $GAMES_SSD vfio-pci 23
+  end
 end
 
 # OVMF vars need to be writable but Nix store is readonly
@@ -131,5 +134,7 @@ $enable_tpm && pkill swtpm
 if $enable_vfio
   echo "Freeing VFIO binds"
   sudo $dir/vfio-bind $USB_CONTROLLER xhci_hcd 22
-  sudo $dir/vfio-bind $GAMES_SSD nvme 23
+  if test "$os" = "windows"
+    sudo $dir/vfio-bind $GAMES_SSD nvme 23
+  end
 end
