@@ -7,21 +7,21 @@ output * scale 1
 output * pos 0 0
 
 # Spruce
+output DP-1 scale 1
 output HDMI-A-1 scale 1
 output HDMI-A-1 pos 0 0
-output DP-1 scale 1
 output DP-1 pos 3840 0
 
-workspace 1 output HDMI-A-1 eDP-1
-workspace 2 output HDMI-A-1 eDP-1
-workspace 3 output HDMI-A-1 eDP-1
-workspace 4 output HDMI-A-1 eDP-1
-workspace 5 output HDMI-A-1 eDP-1
-workspace 6 output DP-1 eDP-1
-workspace 7 output DP-1 eDP-1
-workspace 8 output DP-1 eDP-1
-workspace 9 output DP-1 eDP-1
-workspace 0 output DP-1 eDP-1
+workspace 1 output DP-1 eDP-1
+workspace 2 output DP-1 eDP-1
+workspace 3 output DP-1 eDP-1
+workspace 4 output DP-1 eDP-1
+workspace 5 output DP-1 eDP-1
+workspace 6 output HDMI-A-1 eDP-1
+workspace 7 output HDMI-A-1 eDP-1
+workspace 8 output HDMI-A-1 eDP-1
+workspace 9 output HDMI-A-1 eDP-1
+workspace 0 output HDMI-A-1 eDP-1
 
 workspace 1
 
@@ -44,8 +44,8 @@ input "9011:26214:ydotoold_virtual_device" xkb_layout us
 focus_follows_mouse yes
 
 output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
-output DP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
-output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill
+output DP-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill
+output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
 
 exec swayidle -w \
   timeout 300 'light dim' resume 'light bright' \

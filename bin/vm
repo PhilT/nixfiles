@@ -138,3 +138,6 @@ if $enable_vfio
     sudo $dir/vfio-bind $GAMES_SSD nvme 23
   end
 end
+
+# Ensure monitors come back on
+light on
