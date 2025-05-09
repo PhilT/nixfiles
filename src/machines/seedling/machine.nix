@@ -8,9 +8,6 @@
   # Hibernate not supported on ZFS (no swapfiles)
   # but this is a VM so we can create snapshots with Qemu
   boot.kernelParams = [ "nohibernate" ];
-  boot.initrd.kernelModules = [
-    "nouveau" # Native resolution for nvidia card in early KMS (Kernel Mode Setting)
-  ];
 
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule

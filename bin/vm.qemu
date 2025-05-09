@@ -15,10 +15,10 @@
 -enable-kvm
 -serial none
 -parallel none
--display none
--vga none
+-display {{DISPLAY}}
+-vga {{VGA}}
 -smp {{CPUS}},cores={{CORES}},threads=2,sockets=1
--cpu host,host-phys-bits-limit=39,kvm=off,{{CPU_PARAMS}}
+-cpu host,host-phys-bits=on,host-phys-bits-limit=39,kvm=off,{{CPU_PARAMS}}
 -m {{RAM}}G
 -nic user,model=virtio-net-pci,mac={{MAC}}
 -rtc clock=host,base=localtime,driftfix=slew
@@ -27,11 +27,10 @@
 -drive file=/data/vdisks/{{MACHINE}}.qcow2,if=none,id={{MACHINE}}
 -device nvme,serial={{SERIAL}},drive={{MACHINE}},bootindex=1
 
-# VFIO 4090,3rd party USB controller, Games SSD
+# VFIO 4090,3rd party USB controller
 -device vfio-pci,host={{GPU}},multifunction=on,x-vga=on
 -device vfio-pci,host={{GPU_AUDIO}}
 -device vfio-pci,host={{USB_CONTROLLER}}
--device vfio-pci,host={{GAMES_SSD}}
 
 -device qemu-xhci
 

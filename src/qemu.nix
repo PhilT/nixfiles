@@ -50,6 +50,7 @@ in {
 
   boot.kernelParams = [
     "intel_iommu=on"
+    "iommu=pt"          # Performance tweak
   ];
 
   boot.extraModprobeConfig = ''

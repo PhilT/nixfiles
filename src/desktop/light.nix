@@ -14,9 +14,11 @@
       elif [[ "$1" == "off" ]]; then
         swaymsg "output HDMI-A-1 power off"
         swaymsg "output DP-1 power off"
+        exit 0
       elif [[ "$1" == "on" ]]; then
         swaymsg "output HDMI-A-1 power on"
         swaymsg "output DP-1 power on"
+        exit 0
       else
         exit 1
       fi
