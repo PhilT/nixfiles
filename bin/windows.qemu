@@ -1,3 +1,6 @@
+# Games SSD
+-device vfio-pci,host={{GAMES_SSD}}
+
 # Trusted Platform Module
 -chardev socket,id=chrtpm,path={{TPM_SOCK}}
 -tpmdev emulator,id=tpm0,chardev=chrtpm

@@ -10,6 +10,7 @@
 
 set MACHINE $argv[1]
 set install $argv[2]
+set dir (status dirname)
 
 if test "$MACHINE" = "seedling"
   set enable_vfio true
@@ -37,9 +38,13 @@ else
 end
 
 if test "$install" = "install"
-  set cdrom "$dir/cdrom-$os.qemu"
+  set cdrom " $dir/cdrom-$os.qemu"
+  set DISPLAY "gtk"
+  set VGA "std"
 else
   set cdrom ""
+  set DISPLAY "none"
+  set VGA "none"
 end
 
 
@@ -51,7 +56,6 @@ if $enable_ovmf
   end
 end
 
-set dir (status dirname)
 set QEMU qemu-system-x86_64
 set tpm_dir /data/code/nixfiles/tmp/emulated_tpm
 set TPM_SOCK $tpm_dir/swtpm-sock
@@ -78,7 +82,7 @@ hv_vendor_id=0xDEADBEEFFF
 # Variables that will be substituted in vm.qemu
 set qemu_vars QEMU VM_CORES CPUS CORES CPU_PARAMS RAM TPM_SOCK GPU GPU_AUDIO \
   USB_CONTROLLER GAMES_SSD OVMF_CODE OVMF_VARS HUGEPAGES_PARAMS MACHINE SERIAL \
-  MAC
+  MAC DISPLAY VGA
 
 # Bind PCI devices
 if $enable_vfio
@@ -110,8 +114,10 @@ if $enable_tpm
 end
 
 # Remove comments and empty lines
+set files (string split " " "$dir/vm.qemu $dir/$os.qemu$cdrom")
+echo Concatenating $files
 set qemu_params (
-  cat $dir/vm.qemu $dir/$os.qemu $cdrom | sed '/^#/d' | sed '/^$/d' | string join " "
+  cat $files | sed '/^#/d' | sed '/^$/d' | string join " "
 )
 
 # Variable replacement

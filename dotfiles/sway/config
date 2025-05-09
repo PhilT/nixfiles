@@ -27,7 +27,7 @@ workspace 8
 exec thunderbird
 
 workspace 7
-exec firefox
+exec firefox-esr
 
 workspace 1
 exec kitty
