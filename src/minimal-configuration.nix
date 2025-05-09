@@ -3,6 +3,8 @@
 
   system.stateVersion = "24.05";
 
+  nixpkgs.config.allowUnfree = true;
+
   boot = {
     loader = {
       timeout = 0; # Use SPACE to override

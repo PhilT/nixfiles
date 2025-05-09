@@ -1,18 +1,23 @@
-{ config, lib, pkgs, ... }:
-
-# Maybe try sway-nvidia
-{
+{ config, lib, pkgs, ... }: {
 #  boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
+
+  boot.kernelModules = [
+    "nvidia"
+    "nvidia_uvm"
+    "nvidia_modeset"
+    "nvidia_drm"
+  ];
+
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     forceFullCompositionPipeline = true;
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    #package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   environment.sessionVariables = {

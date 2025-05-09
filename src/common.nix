@@ -12,8 +12,6 @@
     ./tmux.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
   nix = {
     # Remove unused derivations periodically
     gc.automatic = true;

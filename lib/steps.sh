@@ -43,8 +43,10 @@ clone() {
   keepass_export_hashed_password "$codedir/nixfiles/secrets/hashed_password"
 }
 
-unstable() {
-  STATE "CHAN" "Switch to unstable channel"
+channels() {
+  STATE "CHAN" "Add channels"
+  SUDO "nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin"
+  SUDO "nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware"
   SUDO "nix-channel --add https://nixos.org/channels/nixos-unstable nixos"
   SUDO "nix-channel --update"
 }
@@ -52,7 +54,7 @@ unstable() {
 install() {
   STATE "INST" "Installing NixOS"
   SUDO "mkdir -p /mnt/etc/nixos"
-  SUDO "ln -fs $codedir/nixfiles/src/machines/$machine/minimal.nix /mnt/etc/nixos/configuration.nix"
+  SUDO "ln -fs $codedir/nixfiles/src/machines/$machine/$installtype.nix /mnt/etc/nixos/configuration.nix"
   SUDO "nixos-install --no-root-password"
   STATE "REBT" "Rebooting..."
   RUN "rm $codedir/nixfiles/secrets/*"

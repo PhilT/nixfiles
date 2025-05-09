@@ -3,7 +3,8 @@
 dryrun=0
 installonly=0
 showconfig=0
-options='nish'
+installtype=minimal
+options='fishn'
 
 run() {
   while getopts $options OPTION; do
@@ -11,9 +12,11 @@ run() {
       n) dryrun=1 ;;
       i) installonly=1 ;;
       s) showconfig=1 ;;
+      f) installtype=default ;;
       h) echo "Usage: $0 -$options [branch] <machine>"
-        echo " -n(o op), -i(nstall only), -s(how hardware config), -h(elp)."
-        exit 0 ;;
+         echo "  -n(o op), -i(nstall only), -s(how hardware config), "
+         echo "  -f(ull install, default is minimal), -h(elp)."
+         exit 0 ;;
     esac
   done
   shift $(($OPTIND - 1))
@@ -40,7 +43,7 @@ run() {
     connect
     format
     clone
-    unstable
+    channels
     install
   fi
 }
