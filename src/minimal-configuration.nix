@@ -16,7 +16,7 @@
       root.device = config.luks.device;
     };
 
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_14;
     extraModulePackages = with config.boot.kernelPackages; [];
   };
 

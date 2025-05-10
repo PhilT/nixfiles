@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }: {
-#  boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
-
+  boot.blacklistedKernelModules = [ "nouveau" ];
   boot.kernelModules = [
     "nvidia"
     "nvidia_uvm"
