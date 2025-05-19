@@ -25,9 +25,11 @@ workspace 0 output HDMI-A-1 eDP-1
 
 workspace 8
 exec thunderbird
+exec sleep 2
 
 workspace 7
 exec firefox-esr
+exec sleep 3
 
 workspace 1
 exec kitty

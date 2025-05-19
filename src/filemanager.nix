@@ -18,9 +18,9 @@
       "config/gtk-3.0/bookmarks" = {
         mode = "444";
         text = ''
-          file://${config.codeDir}/matter matter
           file://${config.dataDir} data
           file://${config.codeDir} code
+          file://${config.codeDir}/matter matter
           file://${config.dataDir}/documents documents
           file://${config.dataDir}/downloads downloads
           file://${config.dataDir}/music music

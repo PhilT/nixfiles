@@ -2,6 +2,7 @@
 
 db=/data/sync/HomeDatabase.kdbx
 prefix=id_ed25519
+askpass_prompt=
 
 [ -f $db ] || db=/etc/HomeDatabase.kdbx # Default is location on ISO
 if [ ! -f $db ]; then
@@ -11,12 +12,21 @@ fi
 
 # args: "Question text"
 askpass() {
+  if [ ! -z "$1" ]; then
+    askpass_prompt=$1
+  fi
+
   if [ -z "$passwd" ]; then
-    echo $1
+    echo $askpass_prompt
     stty -echo
     read passwd
     stty echo
   fi
+}
+
+# Set the question text for subsequent calls to askpass
+askpass_prompt() {
+  askpass_prompt=$1
 }
 
 # args: <prefix>_<machine>[_<service>]
@@ -57,7 +67,7 @@ keepass_export_key() {
   echo $passwd | keepassxc-cli attachment-export -q $stdout $db $keyfile $access $path #2> /dev/null
 }
 
-# Exports public & private key to specified
+# Exports public & private key to specified folder
 # args: <prefix> <machine> [service]
 keepass_export_keys() {
   local ssh_dir=$1
@@ -72,13 +82,17 @@ keepass_export_keys() {
     local without_machine=${prefix}_${service}
   fi
 
-  keepass_export_key "public" $keyfile $ssh_dir
-  mv $ssh_dir/$keyfile.pub $ssh_dir/$without_machine.pub
-  keepass_export_key "private" $keyfile $ssh_dir
-  mv $ssh_dir/$keyfile $ssh_dir/$without_machine
+  if [ ! -f $ssh_dir/$without_machine.pub ]; then
+    askpass
+    keepass_export_key "public" $keyfile $ssh_dir
+    mv $ssh_dir/$keyfile.pub $ssh_dir/$without_machine.pub
+    keepass_export_key "private" $keyfile $ssh_dir
+    mv $ssh_dir/$keyfile $ssh_dir/$without_machine
 
-  chmod 644 $ssh_dir/$without_machine.pub
-  chmod 600 $ssh_dir/$without_machine
+    chmod 644 $ssh_dir/$without_machine.pub
+    chmod 600 $ssh_dir/$without_machine
+  fi
+
 }
 
 keepass_export_password() {
