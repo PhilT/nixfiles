@@ -4,6 +4,9 @@ source lib/keepass.sh
 
 askpass "KeePass password"
 
+echo "Hetzner"
+echo "Spruce: $(keepass_export_key "public" "${prefix}_spruce_hetzner")"
+
 echo "Local"
 echo "Aramid: $(keepass_export_key "public" "${prefix}_aramid")"
 echo "Minoo: $(keepass_export_key "public" "${prefix}_minoo")"
