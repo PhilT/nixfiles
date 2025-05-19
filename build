@@ -167,16 +167,18 @@ echo -n "[SSH] "
 [ "$overwrite_sshkeys" -eq "1" ] && rm -rf $ssh_dir
 if [ ! -d $ssh_dir ]; then
   echo "No $ssh_dir folder. Creating"
-  askpass "Enter KeePass password for ${ssh_dir}:"
-
-  # Export public/private keys for this machine to ~/.ssh/
   mkdir -p $ssh_dir
   chmod 700 $ssh_dir
-  keepass_export_keys $ssh_dir $machine github
-  keepass_export_keys $ssh_dir $machine gitlab
 else
   echo "${ssh_dir} folder exists"
 fi
+
+askpass_prompt "Enter KeePass password for ${ssh_dir}:"
+
+# Export public/private keys for this machine to ~/.ssh/
+keepass_export_keys $ssh_dir $machine github
+keepass_export_keys $ssh_dir $machine gitlab
+keepass_export_keys $ssh_dir $machine hetzner
 
 if [ "$machine" = "minoo" ]; then
   prefix="id_ecdsa"
