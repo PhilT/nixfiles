@@ -72,7 +72,7 @@ set CPUS 32
 set CORES (math $CPUS / 2)
 #set HOST_CORES "0,16,17"
 set VM_CORES "" #"taskset -c 1-15,18-31 " # lscpu -e
-set RAM 24
+set RAM 8
 
 # https://www.qemu.org/docs/master/system/i386/hyperv.html
 set CPU_PARAMS hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,\
@@ -126,11 +126,17 @@ for qemu_var in $qemu_vars
 end
 
 # Run QEMU
-eval (string split " " $qemu_params)
-set qemu_pid (cat tmp/$MACHINE-qemu.pid)
+if test "$install" = "dry"
+  echo "QEMU params start ---"
+  echo $qemu_params
+  echo "--- end of QEMU params"
+else
+  eval (string split " " $qemu_params)
+  set qemu_pid (cat tmp/$MACHINE-qemu.pid)
 
-while kill -0 $qemu_pid > /dev/null 2>&1
-  sleep 1
+  while kill -0 $qemu_pid > /dev/null 2>&1
+    sleep 1
+  end
 end
 
 # Shutdown TPM eumulator
