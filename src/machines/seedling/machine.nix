@@ -7,7 +7,13 @@
 
   # Hibernate not supported on ZFS (no swapfiles)
   # but this is a VM so we can create snapshots with Qemu
-  boot.kernelParams = [ "nohibernate" ];
+  boot.blacklistedKernelModules = [ "efifb" "vesafb" "nouveau" ];
+  boot.kernelParams = [
+    "nohibernate"
+    "video=efifb:off"
+    "video=vesafb:off"
+    "nomodeset"  # optional fallback to disable generic modesetting
+  ];
 
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs.autoScrub.enable = true;   # Setup a scrub schedule

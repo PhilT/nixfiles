@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }: {
-  boot.blacklistedKernelModules = [ "nouveau" ];
   boot.kernelModules = [
     "nvidia"
     "nvidia_uvm"
@@ -13,10 +12,11 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
-    forceFullCompositionPipeline = true;
+    #forceFullCompositionPipeline = true;
     open = false;
     nvidiaSettings = true;
     #package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   environment.sessionVariables = {
