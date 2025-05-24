@@ -178,7 +178,7 @@ askpass_prompt "Enter KeePass password for ${ssh_dir}:"
 # Export public/private keys for this machine to ~/.ssh/
 keepass_export_keys $ssh_dir $machine github
 keepass_export_keys $ssh_dir $machine gitlab
-keepass_export_keys $ssh_dir $machine hetzner
+keepass_export_keys $ssh_dir "spruce" hetzner
 
 if [ "$machine" = "minoo" ]; then
   prefix="id_ecdsa"
