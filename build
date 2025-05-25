@@ -148,7 +148,12 @@ fi
 
 # Fetch hashed_password and ssh keys unless they already exist
 home_dir=$HOME
-persisted_home_dir=/home/phil
+
+persisted_home_dir="/data/home"
+if [ ! -d $persisted_home_dir ]; then
+  persisted_home_dir="$home_dir"
+fi
+
 ssh_dir="$persisted_home_dir/ssh"
 echo -n "[SECRETS] "
 hashedpw="secrets/hashed_password"
@@ -162,6 +167,10 @@ fi
 
 # Export all public keys to secrets/ for use in src/ssh.nix
 ./mkkeys $overwrite_sshkeys home
+./mkkeys $overwrite_sshkeys hetzner
+# TODO: Might need to also add github and gitlab services (in other words one line here
+# with no service specified will export all)
+# Not sure why this is not happening in the keepass_export_keys lines below.
 
 echo -n "[SSH] "
 [ "$overwrite_sshkeys" -eq "1" ] && rm -rf $ssh_dir
