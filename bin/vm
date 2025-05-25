@@ -47,7 +47,6 @@ else
   set VGA "none"
 end
 
-
 # Provides UEFI support for VMs
 if $enable_ovmf
   if test -z "$OVMF_DIR" || test -z "$OVMF_MS_DIR"
@@ -72,7 +71,7 @@ set CPUS 32
 set CORES (math $CPUS / 2)
 #set HOST_CORES "0,16,17"
 set VM_CORES "" #"taskset -c 1-15,18-31 " # lscpu -e
-set RAM 8
+set RAM 24
 
 # https://www.qemu.org/docs/master/system/i386/hyperv.html
 set CPU_PARAMS hv_relaxed,hv_vapic,hv-vpindex,hv-runtime,hv-time,hv-synic,\
