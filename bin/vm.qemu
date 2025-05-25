@@ -18,7 +18,7 @@
 -display {{DISPLAY}}
 -vga {{VGA}}
 -smp {{CPUS}},cores={{CORES}},threads=2,sockets=1
--cpu host,host-phys-bits=on,host-phys-bits-limit=39,kvm=off,{{CPU_PARAMS}}
+-cpu host,host-phys-bits=on,host-phys-bits-limit=46,kvm=off,{{CPU_PARAMS}}
 -m {{RAM}}G
 -nic user,model=virtio-net-pci,mac={{MAC}}
 -rtc clock=host,base=localtime,driftfix=slew
