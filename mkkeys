@@ -13,7 +13,7 @@ shift
 services=$@
 
 if [ -z "$services" ]; then
-  services="home github gitlab"
+  services="home github gitlab hetzner"
 fi
 
 export_key() {
@@ -51,6 +51,7 @@ gen_key() {
   if ! keepass_exists $keyfile; then
     keepass_create $keyfile
   fi
+
   keepass_import_keys $keyfile $force
   echo "$keypath created"
 }
@@ -90,7 +91,11 @@ for machine in aramid minoo minoo_ecdsa sapling seedling spruce; do
       name=${machine}_$service
     fi
 
-    do_key $keytype $name
+    # Generate keys for all machines and services
+    # expect for hetzner then only generate key for spruce
+    if [ ! "$service" = "hetzner" ] || [ "$machine" = "spruce" ]; then
+      do_key $keytype $name
+    fi
   done
 done
 

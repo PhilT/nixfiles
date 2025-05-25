@@ -9,6 +9,7 @@ in {
     authorizedKeysFiles = [
       "${config.persistedHomeDir}/ssh/authorized_keys"
     ];
+    # Not sure why we need these. Don't think I'm logging in as root anywhere
     hostKeys = [
       {
         path = "${config.etcDir}/ssh/ssh_host_ed25519_key";

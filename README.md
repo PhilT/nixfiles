@@ -42,6 +42,21 @@ cd /data/nixfiles
 ./build -s
 ```
 
+## SSH
+
+SSH keys are used to authenticate between clients and the server.
+
+Naming is `id_<enctype>_<machine>_<service>`
+where:
+* enctype is the encryption type e.g. ed25519 or ecdsa
+* machine is the name of the device e.g. spruce or aramid (See below Naming of devices)
+* service e.g. github, gitlab, hetzner, home - In the case the of home this is removed
+  from the key name when applied to the machine
+
+Minoo needs an ECDSA key in addition to it's ED25519 key as ED25519 isn't
+supported by the SSH Server on Suuno.
+
+
 ## Naming of devices
 * Spruce - As the case was originally made of wood (14900K, RTX4090 PC) [ACTIVE]
 * Darko - From Donnie Darko (Razer Blade 2019) [RETIRED]
