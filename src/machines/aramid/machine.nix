@@ -3,6 +3,7 @@
   username = "phil";
   fullname = "Phil Thompson";
   persistedHomeDir = "${config.dataDir}/home";
+  persistedMachineDir = "${config.dataDir}/machine"
   etcDir = "${config.dataDir}/etc";
   varDir = "${config.dataDir}/var";
   nixfs.enable = true;

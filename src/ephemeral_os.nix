@@ -26,8 +26,8 @@
 
   systemd.tmpfiles.rules = lib.mkMerge [
     [
-      "L+ ${config.xdgConfigHome}/Slack - - - - ${config.persistedHomeDir}/Slack"
-      "L+ ${config.xdgConfigHome}/vesktop - - - - ${config.persistedHomeDir}/vesktop"
+      "L+ ${config.xdgConfigHome}/Slack - - - - ${config.persistedMachineDir}/Slack"
+      "L+ ${config.xdgConfigHome}/vesktop - - - - ${config.persistedMachineDir}/vesktop"
     ]
     (lib.mkIf (config.varDir != "/var/lib") [
       "L /var/lib/bluetooth - - - - ${config.varDir}/lib/bluetooth"

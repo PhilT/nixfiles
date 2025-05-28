@@ -2,7 +2,7 @@
 let
   pathsConfig = lib.lists.foldr (path: str: "path = ${path}\n${str}") "";
   folders = map (path: "d ${config.dataDir}/${path} - ${config.username} users -");
-  unisonDir = "${config.persistedHomeDir}/unison";
+  unisonDir = "${config.persistedMachineDir}/unison";
 in
 {
   imports = [ ./options.nix ];

@@ -1,8 +1,9 @@
 { config, pkgs, ... }: {
   imports = [
-    ./machine.nix
-    ../../minimal-configuration.nix
-    ../../nvidia.nix
     ../../hardware/default.nix
+    ../../minimal-configuration.nix
+    ../../machine.nix
+    ../../nvidia.nix
+    ./machine.nix
   ];
 }

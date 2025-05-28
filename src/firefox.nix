@@ -7,7 +7,7 @@
     [Profile0]
     Name=default
     IsRelative=1
-    Path=${config.persistedHomeDir}/firefox
+    Path=${config.persistedMachineDir}/firefox
     Default=1
 
     [General]

@@ -18,11 +18,17 @@
     libgourou                   # Needed to decrypt ACSM ebook files
 
     (writeShellScriptBin "de-acsm" ''
+      pushd /tmp
+      mkdir -p acsm
+      cd acsm
       acsmdownloader -D ${config.persistedHomeDir}/adept /data/downloads/URLLink.acsm
       [ -f /data/home/Adobe_PrivateLicenseKey--anonymous.der ] || acsmdownloader --export-private-key
       echo "Calibre->Plugins->Customize DeDRM->Manage Adobe Digital Editions Keys->Import Existing keyfiles"
-      read
+      read -p "Press ENTER to add ePubs"
       calibredb add *.epub
+      read -p "Verify ebooks have been added to Calibre and can be read then press ENTER"
+      rm *.epub
+      popd
     '')
 
     # Audio/visual tools

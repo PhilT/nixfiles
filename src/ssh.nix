@@ -1,5 +1,8 @@
-# I considered linking .ssh to the persistedHomeDir but actually this would result in knownHosts being updated should I connect
-# to a new server which I don't want to persist between reboots.
+# I considered linking .ssh to the persistedHomeDir but actually this would
+# result in knownHosts being updated should I connect to a new server which
+# I don't want to persist between reboots. Additionally, we want the SSH dir
+# to stick around (persist between boots) but it's unique to a machine so it
+# belongs in /data/machine/.
 { config, lib, pkgs, ... }:
 let
   HETZNER_SERVER_IP = "95.216.193.4";
@@ -9,7 +12,7 @@ in {
   services.openssh = {
     enable = true;
     authorizedKeysFiles = [
-      "${config.persistedHomeDir}/ssh/authorized_keys"
+      "${config.persistedMachineDir}/ssh/authorized_keys"
     ];
     # Not sure why we need these. Don't think I'm logging in as root anywhere
     hostKeys = [
@@ -52,22 +55,22 @@ in {
     Host ${HETZNER_SERVER_IP}
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_hetzner
+      IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519_hetzner
 
     Host gitlab.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_gitlab
+      IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519_gitlab
 
     Host github.com
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519_github
+      IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519_github
 
     Host *
       IdentitiesOnly yes
       PreferredAuthentications publickey
-      IdentityFile ${config.persistedHomeDir}/ssh/id_ed25519
+      IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519
   '';
 
   # Used by Unison to authorize a connection from an incoming client.
