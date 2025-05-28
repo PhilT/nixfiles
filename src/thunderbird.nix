@@ -5,7 +5,7 @@
     [Profile0]
     Name=default
     IsRelative=0
-    Path=${config.persistedHomeDir}/thunderbird
+    Path=${config.persistedMachineDir}/thunderbird
     Default=1
 
     [General]

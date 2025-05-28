@@ -5,9 +5,7 @@
     <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
     <catppuccin/modules/nixos>
 
-    ./machine.nix
-    ../../minimal-configuration.nix
-    ../../hardware/default.nix
+    ./minimal.nix
     ../../hardware/bluetooth.nix
     ../../ephemeral_os.nix
     ../../plymouth.nix

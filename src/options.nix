@@ -57,10 +57,18 @@
       description = "User's home folder (wiped on boot)";
     };
 
+    # Synced with server and propagated to other machines
     persistedHomeDir = lib.mkOption {
       type = lib.types.str;
       default = config.homeDir;
       description = "User's home folder (persisted on boot)";
+    };
+
+    # Not synced with server
+    persistedMachineDir = lib.mkOption {
+      type = lib.types.str;
+      default = config.homeDir;
+      description = "Machine specific home folder (persisted on boot)";
     };
 
     codeDir = lib.mkOption {
