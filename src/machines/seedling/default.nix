@@ -2,10 +2,7 @@
   imports = [
     <catppuccin/modules/nixos>
 
-    ./machine.nix
-    ../../minimal-configuration.nix
-    ../../nvidia.nix
-    ../../hardware/default.nix
+    ./minimal.nix
     ../../hardware/bluetooth.nix
     ../../ephemeral_os.nix
     ../../plymouth.nix

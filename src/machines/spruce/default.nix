@@ -2,18 +2,13 @@
   imports = [
     <catppuccin/modules/nixos>
 
-    ./machine.nix
-    ../../minimal-configuration.nix
-    ../../hardware/default.nix
+    ./minimal.nix
     ../../hardware/bluetooth.nix
     ../../plymouth.nix
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
     ../../qemu.nix
-    ../../dedrm.nix
-
-    ../../hardware/filesystems.nix
 
     # Sync
     ../../ssh.nix

@@ -64,10 +64,10 @@ do_key() {
 
   optionally_remove_key $keypath
 
-  if [ -f $keypath ] && [ -f "${keypath}.pub" ] && [ "$overwrite_sshkeys" != "2" ]; then
-    # If both keys exist locally and we're not overwritting the keys stored in KeePass then skip
-    echo "$keypath exists. Skipping"
-  else
+  # If both keys exist locally and we're not overwriting the keys stored in
+  # KeePass then skip
+  if [ ! -f $keypath ] || [ ! -f "${keypath}.pub" ] || [ "$overwrite_sshkeys" = "2" ]; then
+    [ "$overwrite_sshkeys" = "2" ] && echo "Overwriting $keypath" || echo "$keypath does not exist"
     askpass "Enter KeePass password for SSH key access:"
     if keepass_exists $keyfile && [ "$overwrite_sshkeys" != "2" ]; then
       export_key $keyfile $keypath

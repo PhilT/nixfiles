@@ -4,6 +4,7 @@
   username = "phil";
   fullname = "Phil Thompson";
   #persistedHomeDir = "${config.dataDir}/home";
+  persistedMachineDir = "${config.dataDir}/machine";
 
   # TODO: Switch to ZFS
   luks.enable = true;

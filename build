@@ -27,7 +27,7 @@ while getopts 'ahdsyurbctmop' OPTION; do
       ;;
     h)
       echo "Usage: $0 [-hdsur] [version/machine] [module]"
-      echo "  -a <param>     Output the value of a config option .e.g persistedHomeDir"
+      echo "  -a <param>     Output the value of a config option e.g. persistedHomeDir"
       echo "  -b             rebuild & boot"
       echo "  -c             Diff of changes between latest & prev upgrade"
       echo "  -d             run nix-collect-garbage"
@@ -163,12 +163,12 @@ fi
 # Fetch hashed_password and ssh keys unless they already exist
 home_dir=$HOME
 
-persisted_home_dir="/data/home"
-if [ ! -d $persisted_home_dir ]; then
-  persisted_home_dir="$home_dir"
+persisted_machine_dir="/data/machine"
+if [ ! -d $persisted_machine_dir ]; then
+  persisted_machine_dir="$home_dir"
 fi
 
-ssh_dir="$persisted_home_dir/ssh"
+ssh_dir="$persisted_machine_dir/ssh"
 echo -n "[SECRETS] "
 hashedpw="secrets/hashed_password"
 if [ ! -f $hashedpw ]; then

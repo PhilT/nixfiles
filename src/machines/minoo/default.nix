@@ -4,10 +4,8 @@
   imports = [
     <catppuccin/modules/nixos>
 
-    ./machine.nix
-    ../../hardware/default.nix
+    ./minimal.nix
     ../../hardware/bluetooth.nix
-    ../../minimal-configuration.nix
     ../../common.nix
 
     # Sync
