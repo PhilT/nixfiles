@@ -17,10 +17,17 @@ else
   SUDO="sudo "
 fi
 
-while getopts 'hdsyurbctmo' OPTION; do
+while getopts 'ahdsyurbctmop' OPTION; do
   case "$OPTION" in
+    a)
+      action=OPTION
+      command=nixos-option
+      shift $(($OPTIND - 1))
+      option=$1
+      ;;
     h)
       echo "Usage: $0 [-hdsur] [version/machine] [module]"
+      echo "  -a <param>     Output the value of a config option .e.g persistedHomeDir"
       echo "  -b             rebuild & boot"
       echo "  -c             Diff of changes between latest & prev upgrade"
       echo "  -d             run nix-collect-garbage"
@@ -32,6 +39,7 @@ while getopts 'hdsyurbctmo' OPTION; do
       echo "  -u             upgrade channel and switch"
       echo "  -y             dry run"
       echo "  [module]       Pick a base module from machines/$machine/. Defaults to default.nix"
+      echo "  -p <url>       Fetch a SHA256 for the given package"
       echo "  -h             this help"
       exit 0
       ;;
@@ -80,6 +88,12 @@ while getopts 'hdsyurbctmo' OPTION; do
         git tag "$version"
       fi
 
+      ;;
+    p)
+      action=PREFETCH
+      command=prefetch
+      shift $(($OPTIND - 1))
+      url="$1"
       ;;
   esac
 done
@@ -240,5 +254,14 @@ echo "[$action] $machine"
 [ "$cleanup" = "1" ] && ${SUDO}nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && ${SUDO}nix-channel --update
 [ "$version" ] && label="NIXOS_LABEL=$version"
-${SUDO}$label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
-#                                             -I nixpkgs=/data/code/nixpkgs # -------^
+
+if [ "$action" = "PREFETCH" ]; then
+  # Might need to add --unpack if we're prefetching an archive
+  nix-prefetch-url $url
+elif [ "$action" = "OPTION" ]; then
+  NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-option $option
+else
+  ${SUDO}$label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
+  #                                 TODO: Change this to an option \/ so we don't need a comment
+  #                                               -I nixpkgs=/data/code/nixpkgs # -------^
+fi
