@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   imports = [
     ./dbgate.nix
     ./filemanager.nix
@@ -11,9 +10,20 @@
 
   environment.systemPackages = with pkgs; [
     (callPackage ./spectrum.nix {})
-    (callPackage ./mxw.nix {}) # Glorious Model O tool
-    qmk                        # Tool to configure QMK based keyboards
-                               # (e.g. my GMMK 2)
+    (callPackage ./mxw.nix {})  # Glorious Model O tool
+    qmk                         # Tool to configure QMK based keyboards
+                                # (e.g. my GMMK 2)
+    evince                      # PDF reader
+    calibre                     # ebook manager
+    libgourou                   # Needed to decrypt ACSM ebook files
+
+    (writeShellScriptBin "de-acsm" ''
+      acsmdownloader -D ${config.persistedHomeDir}/adept /data/downloads/URLLink.acsm
+      [ -f /data/home/Adobe_PrivateLicenseKey--anonymous.der ] || acsmdownloader --export-private-key
+      echo "Calibre->Plugins->Customize DeDRM->Manage Adobe Digital Editions Keys->Import Existing keyfiles"
+      read
+      calibredb add *.epub
+    '')
 
     # Audio/visual tools
     gimp3
@@ -35,5 +45,13 @@
     element-desktop       # Matrix chat client
     libreoffice
     slack
+  ];
+
+
+  systemd.tmpfiles.rules = [
+    "d ${config.xdgConfigHome} - ${config.username} users -"
+    "d ${config.xdgConfigHome}/calibre - ${config.username} users -"
+
+    "L+ ${config.xdgConfigHome}/calibre/plugins - - - - ${config.persistedHomeDir}/calibre/plugins"
   ];
 }
