@@ -65,6 +65,7 @@
 
       # Utils
       exfatprogs            # Tools for managing exfat partitions on USB sticks (Use instead of fat32 as it has large file support).
+      parted                # Disk partition tool
       nix-prefetch-github   # <owner> <repo> - Get SHA and REV of Github repo for e.g. youtube-dl (above)
       nvd                   # Nix diff versions (Used in ./build)
       nix-tree              # Tree view of Nix derivations
