@@ -27,6 +27,7 @@ connect() {
 }
 
 format() {
+  wipe="true"
   $machine
 }
 
