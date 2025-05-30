@@ -28,6 +28,11 @@
       fsType = "zfs";
     };
 
+    "/home" = {
+      device = "zpool/home";
+      fsType = "zfs";
+    };
+
     "/data" = {
       device = "zpool/data";
       fsType = "zfs";
