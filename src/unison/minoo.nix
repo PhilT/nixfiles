@@ -8,11 +8,15 @@
   unison = {
     target = "minoo";
     paths = [
-      "books"
-      "documents"
       "Claudi"
+      "books"
+      "calibre_library" # TODO: Merge books and calibre_library - Just have a calibre library called books/
       "code/archive"
       "code/spikes"
+      "documents"
+      "downloads"
+      "home"
+      "iso"
       "music"
       "music_extra"
       "notes"
@@ -22,6 +26,7 @@
       "studio"
       "sync"
       "txt"
+      "vdisks"
       "videos"
       "work"
     ];
