@@ -1,23 +1,27 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let ZFS_ROLLBACK = "${config.boot.zfs.package}/sbin/zfs rollback -r";
+in {
   # TODO: Move to more general location once the rest
   # of my machines are using it
-  # boot.initrd.systemd.services.initrd-rollback-root = {
-  #   after = [ "zfs-import-rpool.service" ];
-  #   before = [ "sysroot.mount" "local-fs.target" ];
-  #   description = "Rollback root fs";
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     ExecStart =
-  #       "${config.boot.zfs.package}/sbin/zfs rollback -r zpool/root@blank";
-  #   };
-  # };
-
-  fileSystems = {
-    # TODO: Enable once we're happy to have it removed on boot
-    # "/home" = {
-    #   device = "zpool/home";
-    #   fsType = "zfs";
-    # };
+  boot.initrd.systemd.services = {
+    initrd-rollback-root = {
+      after = [ "zfs-import-rpool.service" ];
+      before = [ "sysroot.mount" "local-fs.target" ];
+      description = "Rollback root filesystem";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${ZFS_ROLLBACK} zpool/root@blank";
+      };
+    };
+    initrd-rollback-home = {
+      after = [ "zfs-import-rpool.service" ];
+      before = [ "sysroot.mount" "local-fs.target" ];
+      description = "Rollback home filesystem";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${ZFS_ROLLBACK} zpool/home@blank";
+      };
+    };
   };
 
   environment.etc."NetworkManager/system-connections" = {
