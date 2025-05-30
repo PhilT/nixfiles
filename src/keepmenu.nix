@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.ydotool.enable = true;
   programs.ydotool.group = "users";
 
