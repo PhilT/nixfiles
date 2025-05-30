@@ -11,8 +11,8 @@
 
   systemd.tmpfiles.rules = [
     "d ${config.dataDir} - ${config.username} users -"
-    "d ${config.dataDir}/machines - ${config.username} users -"
+    "d ${config.dataDir}/machine - ${config.username} users -"
 
-    "L+ ${config.dataDir}/machines - - - - /etc/machine/README"
+    "L+ ${config.dataDir}/machine - - - - /etc/machine/README"
   ];
 }
