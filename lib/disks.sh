@@ -3,14 +3,25 @@
 # Delete all Linux Boot Manager entries from EFI
 # For some reason, Aramid keeps creating entries whenever a reinstall is performed
 rm_boot_entries() {
-  efibootmgr | grep "Linux Boot Manager" | sed -E "s/Boot([0-9]+).*/\1/" | while read num; do
+  [ "$wipe" = "true" ] || return
+
+  WAIT "Press ENTER to remove boot entries"
+
+  efibootmgr | \
+    grep "Linux Boot Manager" | \
+    sed -E "s/Boot([0-9]+).*/\1/" | \
+    while read num; do
     efibootmgr -Bb $num
   done
 }
 
 boot_disk() {
+  [ "$wipe" = "true" ] || return
+
   local disk=$1
   local boot_size=$2
+
+  WAIT "Press ENTER to repartition $disk"
 
   STATE "PART" "Setup boot and primary partitions"
   SUDO "sgdisk -Z $disk" # Wipe partitions
@@ -22,7 +33,11 @@ boot_disk() {
 }
 
 data_disk() {
+  [ "$wipe" = "true" ] || return
+
   local disk=$1
+
+  WAIT "Press ENTER to repartition $disk"
 
   STATE "PART" "Setup data disk"
   SUDO "sgdisk -Z $disk" # Wipe partitions
@@ -33,10 +48,15 @@ data_disk() {
 # encryption: <on|off>
 pool() {
   pool=$1
+
+  [ "$wipe" = true ] || zpool list | grep -q $pool || return
+
   local device=$2
   local encryption=$3
   local password=""
   local options=""
+
+  WAIT "Press ENTER to recreate zpool $pool"
 
   if [ "$encryption" = "on" ]; then
     password="echo $passwd | "
@@ -67,12 +87,18 @@ dataset() {
   state=" ZFS"
   local name=$1
   local mountpoint="/mnt/$name"
+  local dataset="$pool/$name"
   [ "$name" = "root" ] && mountpoint="/mnt"
 
-  SUDO "zfs create -o mountpoint=legacy $pool/$name"
-  SUDO "zfs snapshot $pool/$name@blank"
+  if ! zfs list | grep -q $dataset; then
+    SUDO "zfs create -o mountpoint=legacy $dataset"
+    SUDO "zfs snapshot $dataset@blank"
+  else
+    ECHO "$dataset exists. Skipping"
+  fi
+
   SUDO "mkdir -p $mountpoint"
-  SUDO "mount -t zfs $pool/$name $mountpoint"
+  SUDO "mount --onlyonce -t zfs $dataset $mountpoint"
 }
 
 mkd() {
@@ -84,7 +110,11 @@ mkd() {
 fat() {
   local boot_partition=$1
 
-  SUDO "mkfs.vfat -n boot $boot_partition > /dev/null"
+  if [ "$wipe" != "true" ]; then
+    WAIT "Press ENTER to format $boot_partition"
+    SUDO "mkfs.vfat -n boot $boot_partition > /dev/null"
+  fi
+
   SUDO "mkdir -p /mnt/boot"
-  SUDO "mount $boot_partition /mnt/boot"
+  SUDO "mount --onlyonce $boot_partition /mnt/boot"
 }

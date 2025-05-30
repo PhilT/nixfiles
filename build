@@ -17,7 +17,7 @@ else
   SUDO="sudo "
 fi
 
-while getopts 'ahdsyurbctmop' OPTION; do
+while getopts 'ahdsyurbctmopR' OPTION; do
   case "$OPTION" in
     a)
       action=OPTION
@@ -31,6 +31,7 @@ while getopts 'ahdsyurbctmop' OPTION; do
       echo "  -b             rebuild & boot"
       echo "  -c             Diff of changes between latest & prev upgrade"
       echo "  -d             run nix-collect-garbage"
+      echo "  -F             Create any missing datasets"
       echo "  -m [machine]   Build a different machine (aramid/minoo/seedling/spruce)"
       echo "  -o             Overwrite SSH keys"
       echo "  -r <version>   release - rebuild & switch, tag and label with <version> e.g. $0 -r v1"
@@ -46,6 +47,8 @@ while getopts 'ahdsyurbctmop' OPTION; do
     d)
       cleanup=1
       ;;
+    F)
+      action=DATASETS
     o)
       overwrite_sshkeys=1
       ;;
@@ -236,7 +239,7 @@ if [ "$machine" = "minoo" ]; then
   zfs_keydir="/root"
   zfs_keypath="$zfs_keydir/.${pool_name}.key"
   echo -n "[$pool_name] "
-  if zpool list | grep $pool_name && ${SUDO}test ! -f "$zfs_keypath"; then
+  if zpool list | grep -q $pool_name && ${SUDO}test ! -f "$zfs_keypath"; then
     echo "No $pool_name encryption key at ${zfs_keypath}. Creating and assigning"
     source lib/disks2.sh
     ${SUDO}mkdir -p $zfs_keydir
@@ -268,6 +271,8 @@ if [ "$action" = "PREFETCH" ]; then
   nix-prefetch-url $url
 elif [ "$action" = "OPTION" ]; then
   NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-option $option
+elif [ "$action" = "DATASETS" ]; then
+  config/$machine.sh
 else
   ${SUDO}$label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
   #                                 TODO: Change this to an option \/ so we don't need a comment

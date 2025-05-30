@@ -47,6 +47,12 @@ STATE() {
 WAIT() {
   local message=$1
 
-  [ ! -z "$message" ] && echo "[$state] $1"
+  [ ! -z "$message" ] && echo "[$state] $message"
   [ "$dryrun" -eq "0" ] && read
+}
+
+ECHO() {
+  local message=$1
+
+  echo "[$state] $message"
 }
