@@ -7,11 +7,10 @@ let
   gpu = "2684";
   audio = "22ba";
   gpuIds = "${vendor}:${gpu},${vendor}:${audio}";
-  ovmfSecureBoot = pkgs.OVMF.overrideAttrs (final: prev: {
-    pname = prev.pname + "-secure-boot";
+  ovmfSecureBoot = pkgs.OVMF.override {
     secureBoot = true;
     msVarsTemplate = true;
-  });
+  };
 in {
   #environment.etc."qemu/bridge.conf".text = "allow br0\n";
   environment.sessionVariables = {

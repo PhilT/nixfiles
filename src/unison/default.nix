@@ -23,6 +23,11 @@ in
     repeat = watch
     retry = 5
 
+    backupcurrent = Name *
+    backuplocation = central
+    maxbackups = 5
+    backupdir = ${config.dataDir}/backups
+
     ignore = Name .thumbnails
     ignore = Name .devbox
     ignore = Name .direnv
@@ -60,5 +65,7 @@ in
   systemd.tmpfiles.rules = [
     "d ${unisonDir} - ${config.username} users -"
     "L+ ${unisonDir}/common.prf - - - - /etc/unison/common.prf"
+
+    "d ${config.dataDir}/backups - ${config.username} users -" # Unison backup folder
   ] ++ (folders config.unison.paths);
 }
