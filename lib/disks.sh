@@ -1,9 +1,19 @@
 #!/usr/bin/env sh
 
+safe_mount() {
+  local dev="$1"
+  local target="$2"
+  local type=$3
+  if ! mountpoint -q "$target"; then
+    [ "$type" = "zfs" ] && type="-t zfs "
+    SUDO "mount $type$dev $target"
+  fi
+}
+
 # Delete all Linux Boot Manager entries from EFI
 # For some reason, Aramid keeps creating entries whenever a reinstall is performed
 rm_boot_entries() {
-  [ "$wipe" = "true" ] || return
+  [ "$wipe" != "true" ] && return
 
   WAIT "Press ENTER to remove boot entries"
 
@@ -16,7 +26,7 @@ rm_boot_entries() {
 }
 
 boot_disk() {
-  [ "$wipe" = "true" ] || return
+  [ "$wipe" != "true" ] && return
 
   local disk=$1
   local boot_size=$2
@@ -49,14 +59,14 @@ data_disk() {
 pool() {
   pool=$1
 
-  [ "$wipe" = true ] || zpool list | grep -q $pool || return
+  [ "$wipe" != "true" ] && zpool list | grep -q $pool && return
 
   local device=$2
   local encryption=$3
   local password=""
   local options=""
 
-  WAIT "Press ENTER to recreate zpool $pool"
+  WAIT "Press ENTER to recreate zpool '$pool'"
 
   if [ "$encryption" = "on" ]; then
     password="echo $passwd | "
@@ -86,9 +96,9 @@ pool() {
 dataset() {
   state=" ZFS"
   local name=$1
-  local mountpoint="/mnt/$name"
   local dataset="$pool/$name"
-  [ "$name" = "root" ] && mountpoint="/mnt"
+  local mountpoint="${root}$name"
+  [ "$name" = "root" ] && mountpoint="$root"
 
   if ! zfs list | grep -q $dataset; then
     SUDO "zfs create -o mountpoint=legacy $dataset"
@@ -98,23 +108,23 @@ dataset() {
   fi
 
   SUDO "mkdir -p $mountpoint"
-  SUDO "mount --onlyonce -t zfs $dataset $mountpoint"
+  safe_mount $dataset $mountpoint "zfs"
 }
 
 mkd() {
   local name=$1
 
-  SUDO "mkdir -p /mnt$name"
+  SUDO "mkdir -p ${root}$name"
 }
 
 fat() {
   local boot_partition=$1
 
-  if [ "$wipe" != "true" ]; then
+  if [ "$wipe" = "true" ]; then
     WAIT "Press ENTER to format $boot_partition"
     SUDO "mkfs.vfat -n boot $boot_partition > /dev/null"
   fi
 
-  SUDO "mkdir -p /mnt/boot"
-  SUDO "mount --onlyonce $boot_partition /mnt/boot"
+  SUDO "mkdir -p ${root}boot"
+  safe_mount "$boot_partition" "${root}boot"
 }
