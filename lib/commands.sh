@@ -4,7 +4,7 @@ state="BOOT"
 
 RUN() {
   echo "[$state] $1"
-  if [ "$dryrun" -eq "0" ]; then
+  if [ "$dryrun" -ne "1" ]; then
     temp_result=$(eval "$1")
     resultcode=$?
     if [ "$resultcode" -ne "0" ]; then
@@ -29,7 +29,7 @@ SUDO() {
 }
 
 SHOW_RESULT() {
-  if [ "$dryrun" -eq "0" ]; then
+  if [ "$dryrun" -ne "1" ]; then
     echo "$temp_result"
   else
     echo "(result of command would appear here)"
@@ -48,7 +48,7 @@ WAIT() {
   local message=$1
 
   [ ! -z "$message" ] && echo "[$state] $message"
-  [ "$dryrun" -eq "0" ] && read
+  [ "$dryrun" -eq "1" ] || read
 }
 
 ECHO() {
