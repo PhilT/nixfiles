@@ -26,7 +26,6 @@
       "studio"
       "sync"
       "txt"
-      "vdisks"
       "videos"
       "work"
     ];
