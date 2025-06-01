@@ -70,6 +70,7 @@
       nvd                   # Nix diff versions (Used in ./build)
       nix-tree              # Tree view of Nix derivations
       inotify-tools
+      libnotify             # notify-send "Backup Complete"
       ncdu                  # Tree-based, interactive du
 
       fd                    # Alternative to find, use fd <term> </start/path> -x <cmd> to run a command for each item found

@@ -100,8 +100,9 @@ if $enable_ovmf && not test -f tmp/$OVMF_VARS
 end
 
 # Create a virtual drive for the machine if one doesn't exist
-if not test -f /data/vdisks/$MACHINE.qcow2
-  qemu-img create -f qcow2 /data/vdisks/$MACHINE.qcow2 300G
+set image_path "/data/vdisks/$MACHINE.qcow2"
+if not test -f $image_path
+  qemu-img create -f qcow2 $image_path 300G
 end
 
 # Setup TPM emulation
@@ -149,6 +150,11 @@ if $enable_vfio
     sudo $dir/vfio-bind $GAMES_SSD nvme 23
   end
 end
+
+# Backup disk images to server
+notify-send "Backup In Progress" "Do NOT turn off the computer"
+rsync --inplace $image_path minoo:/data/vdisks/$MACHINE.qcow2
+notify-send "Backup Complete" "$image_path has been synced to the server."
 
 # Ensure monitors come back on
 light on
