@@ -3,6 +3,7 @@
 {
   fonts = {
     packages = with pkgs; [
+      corefonts
       atkinson-hyperlegible
       noto-fonts
       noto-fonts-emoji
