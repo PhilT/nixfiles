@@ -9,7 +9,7 @@
 # sudo lshw -businfo # Devices and connected bus (e.g. 0000:04:00.0)
 
 set MACHINE $argv[1]
-set install $argv[2]
+set option $argv[2]
 set dir (status dirname)
 
 if test "$MACHINE" = "seedling"
@@ -21,6 +21,7 @@ if test "$MACHINE" = "seedling"
   set SERIAL "deadbeee"
   set MAC "84:1b:76:c9:01:a6"
   set OVMF_DIR "$OVMF_NIX_DIR"
+  set OVMF_VARS OVMF_VARS.fd
 else if test "$MACHINE" = "sapling"
   set enable_vfio true
   set enable_ovmf true
@@ -30,21 +31,26 @@ else if test "$MACHINE" = "sapling"
   set SERIAL "deadbeef"
   set MAC "84:1b:76:c9:01:a5"
   set OVMF_DIR "$OVMF_MS_DIR"
+  set OVMF_VARS OVMF_VARS.ms.fd
 else
-  echo "Usage: $argv[0] <machine> [install]"
+  echo "Usage: $argv[0] <machine> [install|display]"
   echo " machine: sapling or seedling"
   echo " install: Adding `install` will include the required installation ISOs"
+  echo " display: Adding `display` will give a display for first time configuration"
   exit 1
 end
 
-if test "$install" = "install"
+set cdrom ""
+set DISPLAY "none"
+set VGA "none"
+
+if test "$option" = "install"
   set cdrom " $dir/cdrom-$os.qemu"
+end
+
+if test "$option" = "install" || test "$option" = "display"
   set DISPLAY "gtk"
   set VGA "std"
-else
-  set cdrom ""
-  set DISPLAY "none"
-  set VGA "none"
 end
 
 # Provides UEFI support for VMs
@@ -59,7 +65,6 @@ set QEMU qemu-system-x86_64
 set tpm_dir /data/code/nixfiles/tmp/emulated_tpm
 set TPM_SOCK $tpm_dir/swtpm-sock
 set OVMF_CODE $OVMF_DIR/OVMF_CODE.fd
-set OVMF_VARS OVMF_VARS.ms.fd
 
 set GPU "0000:01:00.0"
 set GPU_AUDIO "0000:01:00.1"
@@ -95,7 +100,7 @@ end
 
 # OVMF vars need to be writable but Nix store is readonly
 if $enable_ovmf && not test -f tmp/$OVMF_VARS
-  cp $OVMF_MS_DIR/$OVMF_VARS tmp/$OVMF_VARS
+  cp $OVMF_DIR/$OVMF_VARS tmp/$OVMF_VARS
   chmod +w tmp/$OVMF_VARS
 end
 
@@ -126,7 +131,7 @@ for qemu_var in $qemu_vars
 end
 
 # Run QEMU
-if test "$install" = "dry"
+if test "$option" = "dry"
   echo "QEMU params start ---"
   echo $qemu_params
   echo "--- end of QEMU params"

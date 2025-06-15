@@ -8,6 +8,7 @@
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
+    ../../studio.nix
     ../../qemu.nix
 
     # Sync

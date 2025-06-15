@@ -17,8 +17,11 @@ Upload to GitHub/GitLab etc.
 ```
 ### Test in a VM
 ```
-./bin/vm <sapling|seedling>
+./bin/vm <sapling|seedling> install   # Mount install CDROM, enable display
+./bin/vm <sapling|seedling> display   # Enable display
+./bin/vm <sapling|seedling>           # Rely on VFIO display (Nvidia)
 ```
+
 ### Or, create a USB stick with NixOS ISO (in `result/iso/`)
 
 If USB previously used as ISO then it will have 2 partitions which should be
@@ -38,7 +41,7 @@ reboot                        # and remove USB sticks
 
 After first boot, run:
 ```
-cd /data/nixfiles
+cd /data/code/nixfiles
 ./build -s
 ```
 
