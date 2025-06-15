@@ -23,6 +23,10 @@
 -nic user,model=virtio-net-pci,mac={{MAC}}
 -rtc clock=host,base=localtime,driftfix=slew
 
+# OVMF - UEFI bootloader support
+-drive if=pflash,format=raw,unit=0,file={{OVMF_CODE}},readonly=on
+-drive if=pflash,format=raw,unit=1,file=tmp/{{OVMF_VARS}}
+
 # Virtual Disk
 -drive file=/data/vdisks/{{MACHINE}}.qcow2,if=none,id={{MACHINE}}
 -device nvme,serial={{SERIAL}},drive={{MACHINE}},bootindex=1
