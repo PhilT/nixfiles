@@ -1,5 +1,6 @@
 # CLI for configuring Glorious Model O Wireless Mouse
 # Configure various settings (e.g. polling  rate, colors, brightness)
+# Only works while plugged in via USB
 # Examples:
 #  mxw config led-brightness 50
 #  mxw config led-effect solid 00eeff
