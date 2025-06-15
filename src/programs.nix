@@ -52,7 +52,7 @@
           keepassxc-cli merge --same-credentials $source $target && cp $source $target
         else
           # TODO: Verify the below regex is correct for finding conflicting kdbx files
-          fd "\\\(conflict.*HomeDatabase.kdbx" /data/sync -x keepassxc-cli merge --same-credentials $source
+          fd "conflict.*HomeDatabase.kdbx" /data/sync -x keepassxc-cli merge --same-credentials $source
         fi
       '')
 
