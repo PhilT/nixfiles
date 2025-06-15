@@ -9,32 +9,7 @@
   virtualisation.docker.enable = true;
 
   environment = {
-    # TODO: MOVE TO STUDIO?
-    sessionVariables = {
-      VST_PATH = "/run/current-system/sw/lib/vst/";
-      VST3_PATH = "/run/current-system/sw/lib/vst3/";
-    };
-
     systemPackages = with pkgs; [
-      docker-compose # TODO: Should be able to remove once process-compose is rolled out
-      godot
-
-      # TODO: MOVE TO STUDIO?
-      renoise
-      surge-XT
-      stochas
-      librearp
-      lsp-plugins
-      odin2
-      cardinal
-      fire
-
-      # VST plugins
-      (callPackage ./vst/sala.nix {})
-      # (callPackage ./vst/ot_piano_s.nix {})
-      (callPackage ./vst/argotlunar.nix {})
-      (callPackage ./vst/excite_snare_drum.nix {})
-
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
         nix-shell shell.nix --run "nvim -S Session.vim"

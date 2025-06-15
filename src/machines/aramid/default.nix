@@ -12,6 +12,7 @@
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
+    ../../studio.nix
 
     # Sync
     ../../ssh.nix
