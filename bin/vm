@@ -151,10 +151,5 @@ if $enable_vfio
   end
 end
 
-# Backup disk images to server
-notify-send "Backup In Progress" "Do NOT turn off the computer"
-rsync --inplace $image_path minoo:/data/vdisks/$MACHINE.qcow2
-notify-send "Backup Complete" "$image_path has been synced to the server."
-
 # Ensure monitors come back on
 light on
