@@ -6,7 +6,10 @@ require'lspconfig'.clangd.setup{on_attach = on_attach}                          
 require'lspconfig'.csharp_ls.setup{on_attach = on_attach}                       -- C#
 require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                  -- F#
 require'lspconfig'.gdscript.setup{on_attach = on_attach}                        -- GD Script (Godot)
-require'lspconfig'.ruby_lsp.setup{on_attach = on_attach, cmd = {'devbox', 'run', '--', 'ruby-lsp'}} -- Ruby
+require'lspconfig'.ruby_lsp.setup{                                              -- Ruby
+  on_attach = on_attach,
+  cmd = {'devbox', 'run', 'ruby-lsp'}
+}
 require'lspconfig'.rust_analyzer.setup{on_attach = on_attach}                   -- Rust
 require'lspconfig'.terraformls.setup{}
 
