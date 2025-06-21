@@ -3,6 +3,7 @@
   programs = {
     starship.enable = true; # Starship - Highly configurable shell prompt
     neovim.enable = true;
+    neovim.withRuby = false;
     neovim.defaultEditor = true;
     git.enable = true;
 
@@ -19,6 +20,7 @@
       ss = "imv -t 15 -f";
       fd = "fd -H";
       ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
+      ls-references = "nix-store --query --roots "; # add /nix/store/<hash>-package-name from fd package-name /
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
     };
 
