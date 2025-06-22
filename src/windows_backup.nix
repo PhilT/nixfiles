@@ -14,4 +14,13 @@
       '';
     };
   };
+
+  systemd.timers.rsync-backup = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5min";         # Wait 5 minutes after boot
+      AccuracySec = "1min";       # Acceptable delay window
+      Persistent = true;          # Catch up if missed due to being powered off
+    };
+  };
 }
