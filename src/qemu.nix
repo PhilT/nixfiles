@@ -56,7 +56,8 @@ in {
     options vfio-pci ids=${gpuIds}
   '';
 
-  boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "kvm-intel" ];
+  boot.blacklistedKernelModules = [ "nvidia" "nouveau" "snd_hda_intel" ];
+  boot.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio_virqfd" "vfio" "kvm-intel" ];
 
   # These rules only apply to connected devices. E.g. If my wheel is off it won't apply the permissions
   # This requires Sway to be started as a systemd service so that it's managed properly

@@ -30,6 +30,7 @@
 
   waybarModules = [
     "pulseaudio"
+    "network"
     "cpu"
     "memory"
     "disk"
