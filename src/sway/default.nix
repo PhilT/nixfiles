@@ -7,10 +7,6 @@ let
     accents = [ accent ];
     variant = variant;
   });
-  catppuccin-papirus-macchiato = pkgs.catppuccin-papirus-folders.override ({
-    flavor = variant;
-    accent = accent;
-  });
 in with colors; {
   xdg.portal = {
     enable = true;
@@ -47,9 +43,16 @@ in with colors; {
 
   environment.systemPackages = with pkgs; [
     catppuccin-gtk-macchiato
-    catppuccin-papirus-macchiato
+    catppuccin-papirus-folders
     catppuccin-cursors.macchiatoLavender
   ];
+
+  system.activationScripts.catppuccin-setup = {
+    text = ''
+      ${pkgs.catppuccin-papirus-folders}/bin/papirus-folders -C cat-${variant}-${accent} --theme Papirus-Dark
+    '';
+    deps = [];
+  };
 
   programs.sway.extraPackages = with pkgs; [
     vulkan-validation-layers    # Needed for WLR_RENDERER

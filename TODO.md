@@ -1,6 +1,6 @@
 # Seedling
 [ ] Asks for SSH key twice
-[ ] Fails to find id_ed25519_spruce_hetzner.pub
+[ ] Fails to find id_ed25519_spruce_hetzner.pub (This is probably just old install of KeePass database)
 [ ] /data/code/nixfiles owned by root. Probably incorrect. Also SSH key unknown and permission denied
     when trying to git pull. Needs fixing. Need to be able to pull any changes in case of problems
 
