@@ -47,13 +47,6 @@ in with colors; {
     catppuccin-cursors.macchiatoLavender
   ];
 
-  system.activationScripts.catppuccin-setup = {
-    text = ''
-      ${pkgs.catppuccin-papirus-folders}/bin/papirus-folders -C cat-${variant}-${accent} --theme Papirus-Dark
-    '';
-    deps = [];
-  };
-
   programs.sway.extraPackages = with pkgs; [
     vulkan-validation-layers    # Needed for WLR_RENDERER
     slurp                       # Region selection, used by grim and wf-recorder

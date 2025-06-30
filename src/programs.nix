@@ -22,11 +22,21 @@
       ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";
       ls-references = "nix-store --query --roots "; # add /nix/store/<hash>-package-name from fd package-name /
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
+      rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
     };
 
     systemPackages = with pkgs; [
       # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
+
+      (writeShellScriptBin "sw-generation" ''
+        if [ -z "$1" ]; then
+          echo "$0 <generation>"
+          exit 1
+        fi
+        sudo nix-env --switch-generation $1 -p /nix/var/nix/profiles/system
+        sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
+      '')
 
       # Load Neovim with previous session setup
       (writeShellScriptBin "v" ''

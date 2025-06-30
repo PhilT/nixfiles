@@ -79,7 +79,10 @@ supported by the SSH Server on Suuno.
 * https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488
 * https://nixos.wiki/wiki/Backlight
 
-## Troubleshooting
+## Troubleshooting/Issues
+
+Currently not using display scaling due to Renoise (and a few other apps) not
+supporting Wayland (blurry fonts).
 
 ### SSH
 
