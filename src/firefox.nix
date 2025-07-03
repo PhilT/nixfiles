@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   programs.firefox.enable = true;
-  programs.firefox.package = pkgs.firefox-esr;
+  programs.firefox.package = pkgs.firefox-esr-140;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
   environment.etc."firefox/profiles.ini".text = ''
