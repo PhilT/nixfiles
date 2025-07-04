@@ -64,6 +64,7 @@ in with colors;
           path = "/";
         };
         temperature = {
+          thermal-zone = 1;
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
           format-icons = ["" "" ""];
