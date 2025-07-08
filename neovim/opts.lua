@@ -39,4 +39,3 @@ opt.cursorline = true                                                           
 opt.foldenable = false                                                          -- Turn off code folding
 opt.number = false                                                              -- Hide line numbers
 --opt.signcolumn = 'yes'                                                          -- Keeps sign column visable to stop edit window shifting left and right
-

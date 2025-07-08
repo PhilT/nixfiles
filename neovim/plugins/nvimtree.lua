@@ -1,14 +1,6 @@
 require("nvim-tree").setup {
   view = {
-    float = {
-      enable = true,
-      open_win_config = {
-        relative = 'win',
-        width = 60,
-        height = 60,
-        col = 10
-      }
-    }
+    width = 40,
   },
   actions = {
     open_file = {
