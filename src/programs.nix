@@ -1,4 +1,5 @@
 # TODO: Consider merging with common.nix mirroring common_gui.nix
+# Or perhaps split things up into more specific files.
 { config, pkgs, ... }: {
   programs = {
     starship.enable = true; # Starship - Highly configurable shell prompt
@@ -23,6 +24,7 @@
       ls-references = "nix-store --query --roots "; # add /nix/store/<hash>-package-name from fd package-name /
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
       rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
+      rm = "trashy";
     };
 
     systemPackages = with pkgs; [
@@ -85,10 +87,13 @@
       libnotify             # notify-send "Backup Complete"
       ncdu                  # Tree-based, interactive du
 
+      trashy                # Trash can cli tool - move files to trash can with alias to rm
       fd                    # Alternative to find, use fd <term> </start/path> -x <cmd> to run a command for each item found
       ripgrep
       unzip
       zip
+
+      tipp10                # Typing Tutor
     ];
   };
 }
