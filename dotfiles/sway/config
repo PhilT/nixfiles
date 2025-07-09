@@ -29,7 +29,7 @@ exec thunderbird
 workspace 7
 exec firefox-esr
 
-exec fish -c 'sleep 5; swaymsg workspace 1; kitty &'
+exec fish -c 'sleep 5; swaymsg workspace 1; kitty &; sleep 2; swaymsg workspace 2; tipp10'
 
 xwayland enable
 
