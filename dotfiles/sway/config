@@ -23,14 +23,6 @@ workspace 8 output HDMI-A-1 eDP-1
 workspace 9 output HDMI-A-1 eDP-1
 workspace 0 output HDMI-A-1 eDP-1
 
-workspace 8
-exec thunderbird
-
-workspace 7
-exec firefox-esr
-
-exec fish -c 'sleep 5; swaymsg workspace 1; kitty &; sleep 2; swaymsg workspace 2; tipp10'
-
 xwayland enable
 
 # This only works in sway
@@ -69,7 +61,7 @@ exec dconf write /org/gnome/desktop/interface/text-scaling-factor "2.0"
 exec dconf write /org/gnome/desktop/interface/cursor-size "48"
 exec dconf write /org/gtk/settings/file-chooser/show-hidden "True"
 
-exec darkman set dark # Force dark mode in QT apps such as KeePassXC - Sometimes doesn't work
+exec darkman set dark # Force dark mode in QT apps such as KeePassXC - Running KeePassXC a second time doesn't apply darkmode
 
 exec waybar
 exec mako -c /etc/config/mako
