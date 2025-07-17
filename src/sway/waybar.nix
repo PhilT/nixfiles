@@ -13,6 +13,7 @@ in with colors;
       text = (builtins.toJSON {
         layer = "top";
         spacing = "8";
+        height = "30";
         modules-left = ["sway/workspaces"];
         modules-center = ["sway/window"];
         modules-right = config.waybarModules;

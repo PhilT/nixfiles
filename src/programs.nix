@@ -24,7 +24,7 @@
       ls-references = "nix-store --query --roots "; # add /nix/store/<hash>-package-name from fd package-name /
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
       rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
-      rm = "trashy";
+      rm = "trash";
     };
 
     systemPackages = with pkgs; [
