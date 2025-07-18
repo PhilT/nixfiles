@@ -11,8 +11,6 @@
   environment.systemPackages = with pkgs; [
     (callPackage ./spectrum.nix {})
     (callPackage ./mxw.nix {})  # Glorious Model O tool
-    qmk                         # Tool to configure QMK based keyboards
-                                # (e.g. my GMMK 2)
     evince                      # PDF reader
     calibre                     # ebook manager
     libgourou                   # Needed to decrypt ACSM ebook files
