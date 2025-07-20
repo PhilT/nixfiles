@@ -8,6 +8,10 @@ let
     variant = variant;
   });
 in with colors; {
+  imports = [
+    ./config.nix
+  ];
+
   xdg.portal = {
     enable = true;
     config.common.default = "wlr";
@@ -69,10 +73,6 @@ in with colors; {
   };
 
   environment.etc = {
-    "sway/config" = {
-      source = ../../dotfiles/sway/config; mode = "444";
-    };
-
     "sway/config.d/catppuccin-macchiato" = {
       source = ../../dotfiles/sway/catppuccin-macchiato; mode = "444";
     };
