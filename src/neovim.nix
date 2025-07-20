@@ -31,16 +31,6 @@ let
       sha256 = "IJQp6GeJkotjJkHbosJay7mUwaa6QhE8bLx6+TerVHU=";
     };
   };
-  scratch = pkgs.vimUtils.buildVimPlugin {
-    pname = "scratch,vim";
-    version = "0.0.1";
-    src = pkgs.fetchFromGitHub {
-      owner = "mtth";
-      repo = "scratch.vim";
-      rev = "master";
-      sha256 = "P8SuMZKckMu+9AUI89X8+ymJvJhlsbT7UR7XjnWwwz8=";
-    };
-  };
   winresizer = pkgs.vimUtils.buildVimPlugin {
     pname = "winresizer";
     version = "0.0.1";
@@ -91,15 +81,15 @@ in
 
           auto-pairs
           catppuccin-nvim
-          completion-nvim
           fsharp
           lualine-nvim
           nvim-lspconfig             # Language server client settings
           nvim-tree-lua
+          nvim-treesitter
           plenary-nvim               # Required by Telescope
           quickfix-reflector-vim
-          scratch
           slim
+          supermaven-nvim
           telescope-fzy-native-nvim
           telescope-nvim
           todo-txt-vim
@@ -146,6 +136,7 @@ in
         luafile ${../neovim/theme.lua}
         luafile ${../neovim/keys.lua}
         luafile ${../neovim/autocmds.lua}
+        luafile ${../neovim/plugins/ai.lua}
         luafile ${../neovim/plugins/lualine.lua}
         luafile ${../neovim/plugins/fugitive.lua}
         luafile ${../neovim/plugins/nvimtree.lua}

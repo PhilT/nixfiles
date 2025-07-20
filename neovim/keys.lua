@@ -57,8 +57,7 @@ vim.keymap.set('n', '<Leader>l', set_theme_light, {desc = 'Light theme'})       
 map('n', '<C-x>', '<cmd>wa<CR><cmd>mksession!<CR><cmd>qa<CR>')                  -- CTRL+x to save all buffers, save session and exit vim
 
 -- Scratch
-map('n', 'go', '<cmd>Scratch<CR>')                                              -- go to switch to Scratch window for making notes
-map('n', 'gp', '<cmd>ScratchPreview<CR>')                                       -- gp to open Scratch window without switching to it
+map('n', 'go', '<cmd>ScratchFile<CR>')                                          -- go to switch to Scratch window for making notes
 
 -- Windows
 map('n', 'zz', '<c-w>_ \\| <c-w>\\|')                                           -- Zoom in and maximize current window
@@ -93,38 +92,13 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {desc = 'Previous error'})
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {desc = 'Next error'})
 vim.keymap.set('n', '<Leader>g', vim.diagnostic.setqflist, {desc = 'Show errors for project'})
 
-local tab_completion = function()
-  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local line = vim.api.nvim_get_current_line()
-  print(string.sub(line, col, col))
-
-  if vim.fn.pumvisible() == 0 then
-    local char = string.sub(line, col, col)
-    if col == 0 or char == ' ' then
-      return '<tab>'
-    else
-      return '<c-x><c-o>'
-    end
-  else
-    return '<c-n>'
-  end
-end
-
-local back_completion = function()
-  return vim.fn.pumvisible() == 1 and '<c-p>' or '<s-tab>'
-end
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o> and map it to TAB
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- Used to be for completion but disabled for now
 end
 
 function setup_lsp_keys()
-  vim.keymap.set('i', '<tab>', tab_completion, expropts)
-  vim.keymap.set('i', '<s-tab>',  back_completion, expropts)
-
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, bufopts)
