@@ -90,7 +90,7 @@
         bindsym $mod+n exec renoise
         bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
         bindsym $mod+p exec tofi-run -c /etc/config/tofi.ini | sh
-        bindsym $mod+backslash exec keepmenu -c /etc/config/keepmenu.ini &
+        bindsym $mod+o exec keepmenu -c /etc/config/keepmenu.ini &
 
         # Left-click - move, right-click - resize
         floating_modifier $mod normal
@@ -222,4 +222,3 @@
     };
   };
 }
-
