@@ -51,6 +51,7 @@
   # Via supports my new Epomaker Split65
   hardware.keyboard.qmk.enable = true;
   environment.systemPackages = [ pkgs.via ];
+  keyboardLayout = "us";
 
   # Plymouth UI is a bit small without this
   boot.plymouth.extraConfig = "DeviceScale=2";
