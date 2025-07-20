@@ -42,6 +42,18 @@
       description = "Separate the /nix store for improved SSD lifespan";
     };
 
+    keyboardLayout = lib.mkOption {
+      type = lib.types.str;
+      default = "gb";
+      description = "Used in common.nix & sway/config.nix. Spruce has a US layout";
+    };
+
+    waybarModules = lib.mkOption {
+      type = with lib.types; listOf str;
+      default = [];
+      description = "What Waybar modules to show";
+    };
+
     # The following options relating to transient or persisted storage
     # will only take affect once the machine is using ./ephemeral_os.nix.
     # These default locations will not be wiped on boot.
@@ -99,12 +111,6 @@
       type = lib.types.str;
       default = "${config.homeDir}/.local/share";
       description = "Standard XDG_DATA_HOME";
-    };
-
-    waybarModules = lib.mkOption {
-      type = with lib.types; listOf str;
-      default = [];
-      description = "What Waybar modules to show";
     };
   };
 }

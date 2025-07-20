@@ -45,7 +45,7 @@
   # This only works in a console
   # See dotfiles/sway/config for GUI setting
   services.xserver.xkb = {
-    layout = "gb";
+    layout = config.keyboardLayout;
     options = "ctrl:nocaps";
   };
 
