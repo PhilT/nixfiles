@@ -10,6 +10,8 @@
 
   environment = {
     systemPackages = with pkgs; [
+      gcc
+
       (writeShellScriptBin "matter" ''
         cd $CODE/matter
         nix-shell shell.nix --run "nvim -S Session.vim"
@@ -19,7 +21,15 @@
         cd $CODE/matter
         nix-shell shell.nix --run "gox -s 2"
       '')
-    ];
 
+      (
+        vscode-with-extensions.override {
+          vscode = vscodium;
+          vscodeExtensions = with vscode-extensions; [
+            supermaven.supermaven
+          ];
+        }
+      )
+    ];
   };
 }

@@ -25,7 +25,7 @@
     ../../desktop/light.nix
 
     # Windows
-    ../../windows_backup.nix
+    # ../../windows_backup.nix
   ];
 
   waybarModules = [
