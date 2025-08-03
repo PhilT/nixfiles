@@ -2,6 +2,7 @@
   machine = "seedling";
   username = "phil";
   fullname = "Phil Thompson";
+  swayOptions = "--unsupported-gpu";
 
   networking.hostId = "c3a88d59";
 

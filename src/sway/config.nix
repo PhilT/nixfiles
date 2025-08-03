@@ -17,11 +17,14 @@
         output HDMI-A-1 pos 0 0
         output DP-1 pos 3840 0
 
-        workspace 1 output DP-1 eDP-1
-        workspace 2 output DP-1 eDP-1
-        workspace 3 output DP-1 eDP-1
-        workspace 4 output DP-1 eDP-1
-        workspace 5 output DP-1 eDP-1
+        # Seedling
+        output DP-3 pos 3840 0
+
+        workspace 1 output DP-1 DP-3 eDP-1
+        workspace 2 output DP-1 DP-3 eDP-1
+        workspace 3 output DP-1 DP-3 eDP-1
+        workspace 4 output DP-1 DP-3 eDP-1
+        workspace 5 output DP-1 DP-3 eDP-1
         workspace 6 output HDMI-A-1 eDP-1
         workspace 7 output HDMI-A-1 eDP-1
         workspace 8 output HDMI-A-1 eDP-1
@@ -49,6 +52,7 @@
         output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
         output DP-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill
         output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
+        output DP-3 background /data/pictures/wallpaper/wallpaper-right.jpg fill
 
         exec swayidle -w \
           timeout 300 'light dim' resume 'light bright' \
