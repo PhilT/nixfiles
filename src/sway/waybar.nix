@@ -30,11 +30,11 @@ in with colors;
           };
           sort-by-number = true;
           persistent-workspaces = {
-            "1" = ["DP-1" "eDP-1"];
-            "2" = ["DP-1" "eDP-1"];
-            "3" = ["DP-1" "eDP-1"];
-            "4" = ["DP-1" "eDP-1"];
-            "5" = ["DP-1" "eDP-1"];
+            "1" = ["DP-1" "DP-3" "eDP-1"];
+            "2" = ["DP-1" "DP-3" "eDP-1"];
+            "3" = ["DP-1" "DP-3" "eDP-1"];
+            "4" = ["DP-1" "DP-3" "eDP-1"];
+            "5" = ["DP-1" "DP-3" "eDP-1"];
             "6" = ["HDMI-A-1" "eDP-1"];
             "7" = ["HDMI-A-1" "eDP-1"];
             "8" = ["HDMI-A-1" "eDP-1"];
