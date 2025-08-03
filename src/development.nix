@@ -27,6 +27,7 @@
           vscode = vscodium;
           vscodeExtensions = with vscode-extensions; [
             supermaven.supermaven
+            shopify.ruby-lsp
           ];
         }
       )
