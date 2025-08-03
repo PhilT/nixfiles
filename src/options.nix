@@ -48,6 +48,12 @@
       description = "Used in common.nix & sway/config.nix. Spruce has a US layout";
     };
 
+    swayOptions = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      description = "Extra options to pass to sway";
+    };
+
     waybarModules = lib.mkOption {
       type = with lib.types; listOf str;
       default = [];

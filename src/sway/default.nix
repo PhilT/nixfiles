@@ -38,7 +38,7 @@ in with colors; {
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.sway}/bin/sway";
+        command = "${pkgs.sway}/bin/sway ${config.swayOptions}";
         user = config.username;
       };
       default_session = initial_session;
