@@ -24,6 +24,17 @@
     ../../desktop/light.nix
   ];
 
-  # Plymouth UI is a bit small without this
-  boot.plymouth.extraConfig = "DeviceScale=2";
+  waybarModules = [
+    "pulseaudio"
+    "cpu"
+    "memory"
+    "disk"
+    "temperature"
+    "clock"
+    "tray"
+  ];
+
+  hardware.graphics.enable = true;
+
+  keyboardLayout = "us";
 }

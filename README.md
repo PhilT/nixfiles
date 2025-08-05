@@ -45,6 +45,12 @@ cd /data/code/nixfiles
 ./build -s
 ```
 
+## Wallpaper
+
+```
+thor wallpaper:download [left|right] [--apply]
+```
+
 ## SSH
 
 SSH keys are used to authenticate between clients and the server.

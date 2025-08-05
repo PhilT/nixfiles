@@ -77,5 +77,6 @@
     curl
     keepassxc
     git
+    ruby_3_4              # Needed for nixfiles
   ];
 }
