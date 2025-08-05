@@ -2,7 +2,9 @@
   machine = "seedling";
   username = "phil";
   fullname = "Phil Thompson";
+
   swayOptions = "--unsupported-gpu";
+  persistedMachineDir = "${config.dataDir}/machine";
 
   networking.hostId = "c3a88d59";
 
