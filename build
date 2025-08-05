@@ -250,6 +250,14 @@ if [ "$machine" = "minoo" ]; then
   fi
 fi
 
+# Ensure there are some wallpapers in /data/pictures/wallpaper
+# so that sway doesn't complain on first boot
+if [ ! -f "/data/pictures/wallpaper/wallpaper-left.jpg" ]; then
+  echo "No wallpapers found. Downloading"
+  bundle install # FIME: When this ./build script is converted to Ruby we'll need to move this
+  thor wallpaper:download
+fi
+
 echo "[$action] $machine"
 [ "$cleanup" = "1" ] && ${SUDO}nix-collect-garbage -d
 [ "$action" = "UPGRADE" ] && ${SUDO}nix-channel --update

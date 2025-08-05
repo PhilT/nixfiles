@@ -11,6 +11,7 @@
   ssh.preventRootLogin = false; # Override as installation-cd-minimal.nix sets PermitRootLogin to true
 
   environment.systemPackages = with pkgs; [
+    ruby_3_4
     neovim
     git
     keepassxc
