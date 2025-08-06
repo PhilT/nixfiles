@@ -43,9 +43,7 @@ in {
     '')
   ];
 
-  systemd.extraConfig = ''
-    DefaultLimitMEMLOCK=infinity
-  '';
+  systemd.services.libvirtd.serviceConfig.limitMEMLOCK = "infinity";
 
   boot.kernelParams = [
     "intel_iommu=on"
