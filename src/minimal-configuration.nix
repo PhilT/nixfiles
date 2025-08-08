@@ -24,14 +24,15 @@
   i18n.defaultLocale = "en_GB.UTF-8";
 
   # Pin to an older linux version when current NixOS one is incompatible with ZFS
+  # FIXME: Let's consider switching to an LTS kernel version once ZFS is supported in it, perhaps 6.18
   # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
   #   argsOverride = rec {
   #     src = pkgs.fetchurl {
   #           url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
-  #           sha256 = "sha256-VeW8vGjWZ3b8RolikfCiSES+tXgXNFqFTWXj0FX6Qj4=";
+  #           sha256 = "sha256-PxzNCm3JyXd8tvzvNXx35KI4bITFK21bvNp5wWrzOxs=";
   #     };
-  #     version = "6.10.14";
-  #     modDirVersion = "6.10.14";
+  #     version = "6.14.11";
+  #     modDirVersion = "6.14.11";
   #   };
   # });
 
