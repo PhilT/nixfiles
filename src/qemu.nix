@@ -43,7 +43,14 @@ in {
     '')
   ];
 
-  systemd.services.libvirtd.serviceConfig.limitMEMLOCK = "infinity";
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "-";
+      item = "memlock";
+      value = "infinity";
+    }
+  ];
 
   boot.kernelParams = [
     "intel_iommu=on"
