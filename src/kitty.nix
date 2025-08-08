@@ -45,8 +45,9 @@ in {
           copy_on_select clipboard
           strip_trailing_spaces always
           background_opacity 1.0
-          scrollback_pager_history_size 4000
-          scrollback_pager /run/current-system/sw/bin/nvim -u NONE -c "set nonumber nolist showtabline=0 foldcolumn=0 laststatus=0 noshowmode noruler noshowcmd shortmess+=F" -c "autocmd TermOpen * normal G" -c "map q :qa!<CR>" -c "set clipboard+=unnamedplus" -c "silent write! /tmp/kitty_scrollback_buffer | te echo -n \"$(cat /tmp/kitty_scrollback_buffer)\" && sleep 1000 "
+          scrollback_lines -1
+          scrollback_pager_history_size 0
+          scrollback_pager /run/current-system/sw/bin/less -R
         '';
       };
     };
