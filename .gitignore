@@ -3,3 +3,5 @@ secrets/*
 !secrets/*.template
 src/work.nix
 tmp
+master.key
+credentials.yml.enc
