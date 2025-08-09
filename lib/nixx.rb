@@ -16,6 +16,8 @@ class Nixx < Thor
     desc: "Build a different machine (aramid/minoo/seedling/spruce)"
   option :module, type: :string, default: nil, aliases: :o,
     desc: "Pick a base module from machines/$machine/. Defaults to default.nix"
+  option :trace, type: :boolean, default: false, aliases: :t,
+    desc: "Show trace"
   def build
     @machine = options[:machine] || `hostname`.strip
     @sudo = `whoami`.strip == "root" ? "" : "sudo " # When run from nixos-enter we don't need sudo
@@ -28,7 +30,7 @@ class Nixx < Thor
     configuration_nix = File.join(ROOT_DIR, "src/machines/#{@machine}/#{modul}")
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
-    system("#{@sudo} NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
+    system("#{@sudo} NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom")
   end
 
   desc "credentials", "Manage encrypted credentials"
@@ -36,8 +38,8 @@ class Nixx < Thor
 
   private
 
-  def exec(cmd)
-
+  def trace
+    options[:trace] ? " --show-trace" : ""
   end
 
   def ephemeral_os?
