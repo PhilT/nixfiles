@@ -1,8 +1,5 @@
-#!/usr/bin/env ruby
-
 require 'thor'
-require 'active_support/encrypted_file'
-require 'yaml'
+require_relative 'credentials'
 
 class Nixx < Thor
   # Basic build functionality
@@ -29,6 +26,9 @@ class Nixx < Thor
 
     system("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
   end
+
+  desc "credentials", "Manage encrypted credentials"
+  subcommand "credentials", Credentials
 
   private
 
