@@ -2,7 +2,7 @@
   imports = [
     ../../hardware/default.nix
     ../../hardware/filesystems.nix
-    ../../minimal-configuration.nix
+    ../../minimal.nix
     ../../machine.nix
     ./machine.nix
   ];

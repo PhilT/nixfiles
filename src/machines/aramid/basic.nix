@@ -13,7 +13,7 @@
     ../../hardware/default.nix
     ../../hardware/filesystems.nix
     ../../hardware/bluetooth.nix
-    ../../minimal-configuration.nix
+    ../../minimal.nix
     ../../common.nix
 
     # Windowing
