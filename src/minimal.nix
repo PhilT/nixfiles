@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }: {
-  imports = [ ./options.nix ];
+  imports = [
+    ./base.nix
+    ./options.nix
+  ];
 
   system.stateVersion = "24.05";
 
@@ -72,12 +75,6 @@
   environment.systemPackages = with pkgs; [
     nix-output-monitor    # Fancy output for nixos-rebuild
 
-    htop
-    wget
-    which
-    curl
     keepassxc
-    git
-    ruby_3_4              # Needed for nixfiles
   ];
 }
