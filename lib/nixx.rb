@@ -23,8 +23,8 @@ class Nixx < Thor
     command = "boot" if options[:boot]
     command = "upgrade" if options[:upgrade]
     @machine = options[:machine] || `hostname`.strip
-    mod = options[:module] || "default.nix"
-    configuration_nix = File.join(__dir__, "src/machines/#{@machine}/#{mod}")
+    modul = options[:module] || "default.nix"
+    configuration_nix = File.join(__dir__, "src/machines/#{@machine}/#{modul}")
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
     system("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
