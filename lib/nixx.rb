@@ -17,16 +17,18 @@ class Nixx < Thor
   option :module, type: :string, default: nil, aliases: :o,
     desc: "Pick a base module from machines/$machine/. Defaults to default.nix"
   def build
+    @machine = options[:machine] || `hostname`.strip
+    @sudo = `whoami`.strip == "root" ? "" : "sudo " # When run from nixos-enter we don't need sudo
+
     command = "build"
     command = "switch" if options[:switch]
     command = "boot" if options[:boot]
     command = "upgrade" if options[:upgrade]
-    @machine = options[:machine] || `hostname`.strip
     modul = options[:module] || "default.nix"
     configuration_nix = File.join(ROOT_DIR, "src/machines/#{@machine}/#{modul}")
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
-    system("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
+    system("#{@sudo} NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
   end
 
   desc "credentials", "Manage encrypted credentials"
