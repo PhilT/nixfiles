@@ -5,7 +5,7 @@ require 'uri'
 require 'thor'
 
 class Wallpaper < Thor
-  API_URL = URI("https://wallhaven.cc/api/v1/search?sorting=random&q=landscape,lowlight,space&atleast=1920x1080")
+  API_URL = URI("https://wallhaven.cc/api/v1/search?sorting=random&q=lowlight&atleast=1920x1080")
   SAVE_DIR = '/data/pictures/wallpaper/'
   FILENAMES = ['wallpaper-left.jpg', 'wallpaper-right.jpg']
 
@@ -31,6 +31,7 @@ class Wallpaper < Thor
   end
 
   def random_wallpapers(data)
+    puts "Taking a sample from #{data.size} images"
     urls = data.sample(2).map { URI(it['path']) }
 
     raise "Not enough wallpapers found" if urls.count < 2
