@@ -45,10 +45,16 @@ cd /data/code/nixfiles
 ./build -s
 ```
 
-## Wallpaper
+## Nixx
 
+New commandline tool to build NixOS. WIP.
 ```
-thor wallpaper:download [left|right] [--apply]
+bin/nixx build [options]
+```
+
+## Wallpaper
+```
+bin/wallpaper download [left|right] [--apply]
 ```
 
 ## SSH
