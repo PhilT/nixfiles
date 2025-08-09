@@ -255,7 +255,7 @@ fi
 if [ ! -f "/data/pictures/wallpaper/wallpaper-left.jpg" ]; then
   echo "No wallpapers found. Downloading"
   bundle install # FIME: When this ./build script is converted to Ruby we'll need to move this
-  thor wallpaper:download
+  bin/wallpaper download
 fi
 
 echo "[$action] $machine"
