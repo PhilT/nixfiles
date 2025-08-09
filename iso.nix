@@ -12,6 +12,8 @@
   ssh.preventRootLogin = false; # Root access needed when installing in case there are display issues
 
   environment.systemPackages = with pkgs; [
+    neovim
+
     (writeShellScriptBin "nixi" ''
       ${builtins.readFile ./lib/commands.sh}
       ${builtins.readFile ./lib/disks.sh}
