@@ -1,6 +1,8 @@
 require 'thor'
 require_relative 'credentials'
 
+ROOT_DIR = File.expand_path(File.join(__dir__, ".."))
+
 class Nixx < Thor
   # Basic build functionality
   desc "build", "Rebuild NixOS"
@@ -21,7 +23,7 @@ class Nixx < Thor
     command = "upgrade" if options[:upgrade]
     @machine = options[:machine] || `hostname`.strip
     modul = options[:module] || "default.nix"
-    configuration_nix = File.join(__dir__, "src/machines/#{@machine}/#{modul}")
+    configuration_nix = File.join(ROOT_DIR, "src/machines/#{@machine}/#{modul}")
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
     system("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command} |& nom")
