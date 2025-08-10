@@ -4,7 +4,6 @@ require_relative 'credentials'
 ROOT_DIR = File.expand_path(File.join(__dir__, ".."))
 
 class Nixx < Thor
-  # Basic build functionality
   desc "build", "Rebuild NixOS"
   option :switch, type: :boolean, default: false, aliases: :s,
     desc: "Switch to the new machine config"
@@ -33,7 +32,7 @@ class Nixx < Thor
 
     add_channels
 
-    puts "[#{command.upcase}] #{@machine}"
+    log command.upcase, @machine
     sudo("nix-collect-garbage -d") if options[:clean]
     sudo("nix-channel --update") if @upgrade
     sudo("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom")
@@ -51,28 +50,15 @@ class Nixx < Thor
   private
 
   def add_channels
-    print "[CHANNELS] "
     channel_list = sudo("nix-channel --list", return_output: true).strip.gsub("\n", " ")
     if channel_list =~ /catppuccin.*nixos-hardware/
+      log "CHANNELS", "Up-to-date"
       puts "Up-to-date"
     else
-      puts "Updating"
+      log "CHANNELS", "Updating"
       sudo("nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin")
       sudo("nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware")
       @upgrade = true
-    end
-  end
-
-  def sudo(cmd, return_output: false)
-    @sudo ||= `whoami`.strip == "root" ? "" : "sudo " # When run from nixos-enter we don't need sudo
-    run("#{@sudo}#{cmd}", return_output:)
-  end
-
-  def run(cmd, return_output: false)
-    if return_output
-      `#{cmd}`
-    else
-      system(cmd)
     end
   end
 
