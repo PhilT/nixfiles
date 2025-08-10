@@ -4,6 +4,7 @@
     curl
     gcc
     git
+    git-filter-repo
     gnumake
     htop
     libyaml
