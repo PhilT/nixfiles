@@ -21,6 +21,16 @@ in
 
       ${cloneAll repos}
     '')
+
+    # Push to nixfiles-public (skipping sensitive files)
+    (writeShellScriptBin "nixpp" ''
+      git checkout -b public-ready
+      git rm --cached config/credentials.yml.enc
+      git commit --amend
+      git push public main
+      git checkout -
+      git branch -D public-ready
+    '')
   ];
 
   environment.etc = {
