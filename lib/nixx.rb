@@ -3,6 +3,8 @@ require_relative 'credentials'
 require_relative 'system'
 
 ROOT_DIR = File.expand_path(File.join(__dir__, ".."))
+CATPPUCCIN_CHANNEL = "https://github.com/catppuccin/nix/archive/main.tar.gz"
+HARDWARE_CHANNEL = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
 
 class Nixx < Thor
   include System
@@ -23,21 +25,17 @@ class Nixx < Thor
   option :trace, type: :boolean, default: false, aliases: :t,
     desc: "Show trace"
   def build
-    @machine = options[:machine] || `hostname`.strip
-    @upgrade = true if options[:upgrade]
 
     command = "build"
     command = "switch" if options.slice(:switch, :upgrade, :clean).any?
     command = "boot" if options[:boot]
-    modul = options[:module] || "default.nix"
-    configuration_nix = File.join(ROOT_DIR, "src/machines/#{@machine}/#{modul}")
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
     add_channels
 
-    log command.upcase, @machine
+    log command.upcase, machine
     sudo("nix-collect-garbage -d") if options[:clean]
-    sudo("nix-channel --update") if @upgrade
+    sudo("nix-channel --update") if upgrade
     sudo("NIXOS_CONFIG=#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom")
   end
 
@@ -47,10 +45,26 @@ class Nixx < Thor
     run("nix-prefetch-url #{url}")
   end
 
+  desc "option OPTION", "Output the value of a config option e.g. persistedHomeDir"
+  option :module, type: :string, default: nil, aliases: :o,
+    desc: "Pick a base module from machines/$machine/. Defaults to default.nix"
+  option :machine, type: :string, default: nil, aliases: :m,
+    desc: "Build a different machine (aramid/minoo/seedling/spruce)"
+  def option(option)
+    run("NIXOS_CONFIG=#{configuration_nix} nixos-option #{option}")
+  end
+
   desc "credentials", "Manage encrypted credentials"
   subcommand "credentials", Credentials
 
   private
+
+  def upgrade = @upgrade ||= true if options[:upgrade]
+  def machine = @machine ||= options[:machine] || `hostname`.strip
+  def modul = @modul ||= options[:module] || "default.nix"
+  def configuration_nix
+    @configuration_nix ||= File.join(ROOT_DIR, "src/machines/#{machine}/#{modul}")
+  end
 
   def add_channels
     channel_list = sudo("nix-channel --list", return_output: true).strip.gsub("\n", " ")
@@ -59,9 +73,9 @@ class Nixx < Thor
       puts "Up-to-date"
     else
       log "CHANNELS", "Updating"
-      sudo("nix-channel --add https://github.com/catppuccin/nix/archive/main.tar.gz catppuccin")
-      sudo("nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware")
-      @upgrade = true
+      sudo("nix-channel --add #{CATPPUCCIN_CHANNEL} catppuccin")
+      sudo("nix-channel --add #{HARDWARE_CHANNEL} nixos-hardware")
+      upgrade = true
     end
   end
 
@@ -70,6 +84,6 @@ class Nixx < Thor
   end
 
   def ephemeral_os?
-    %w[aramid seedling].include?(@machine)
+    %w[aramid seedling].include?(machine)
   end
 end
