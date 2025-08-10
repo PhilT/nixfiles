@@ -1,9 +1,12 @@
 require 'thor'
 require_relative 'credentials'
+require_relative 'system'
 
 ROOT_DIR = File.expand_path(File.join(__dir__, ".."))
 
 class Nixx < Thor
+  include System
+
   desc "build", "Rebuild NixOS"
   option :switch, type: :boolean, default: false, aliases: :s,
     desc: "Switch to the new machine config"
