@@ -1,6 +1,8 @@
 module System
+  ROOT_DIR = File.expand_path(File.join(__dir__, ".."))
+
   def log(section, message)
-    puts "[#{section.upcase}] #{message}"
+    puts "[#{section.upcase.ljust(10)}] #{message}"
   end
 
   def exit_with(message)
@@ -20,5 +22,4 @@ module System
       system(cmd)
     end
   end
-
 end

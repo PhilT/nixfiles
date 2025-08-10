@@ -14,19 +14,6 @@ in {
     authorizedKeysFiles = [
       "${config.persistedMachineDir}/ssh/authorized_keys"
     ];
-    # Not sure why we need these. Don't think I'm logging in as root anywhere
-    hostKeys = [
-      {
-        path = "${config.etcDir}/ssh/ssh_host_ed25519_key";
-        rounds = 100;
-        type = "ed25519";
-      }
-      {
-        path = "${config.etcDir}/ssh/ssh_host_ecdsa_key";
-        rounds = 100;
-        type = "ecdsa";
-      }
-    ];
 
     # Default is true - iso.nix overrides it to allow root login
     # on installation.
@@ -50,7 +37,7 @@ in {
     "suuno".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGGiHFo6GiqCA3YKp58oP7RELGJ362G0aJyR0NgViu5";
   };
 
-  # These options are applied while connecting to GitHub
+  # These options are applied while connecting to GitHub, Hetzner, GitLab, etc
   programs.ssh.extraConfig = ''
     Host ${HETZNER_SERVER_IP}
       IdentitiesOnly yes
@@ -77,10 +64,10 @@ in {
   # This file is on the server.
   # Also copied to phone (should be available in /etc/ssh/authorized_keys)
   users.users."${config.username}".openssh.authorizedKeys.keys = [
-    (builtins.readFile ../secrets/id_ed25519_spruce.pub)
-    (builtins.readFile ../secrets/id_ed25519_aramid.pub)
-    (builtins.readFile ../secrets/id_ed25519_sapling.pub)
-    (builtins.readFile ../secrets/id_ed25519_seedling.pub)
-    (builtins.readFile ../secrets/id_ed25519_minoo.pub)
+    (builtins.readFile /tmp/id_ed25519_spruce.pub)
+    (builtins.readFile /tmp/id_ed25519_aramid.pub)
+    (builtins.readFile /tmp/id_ed25519_sapling.pub)
+    (builtins.readFile /tmp/id_ed25519_seedling.pub)
+    (builtins.readFile /tmp/id_ed25519_minoo.pub)
   ];
 }

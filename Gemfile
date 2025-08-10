@@ -7,3 +7,5 @@ source "https://rubygems.org"
 gem "thor", "~> 1.4"
 
 gem "activesupport", "~> 8.0"
+
+gem "pry", "~> 0.15.2"

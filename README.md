@@ -50,6 +50,7 @@ cd /data/code/nixfiles
 New commandline tool to build NixOS. WIP.
 ```
 bin/nixx build [options]
+bin/nixx credentials edit # Create/edit credentials file. See config/credentials.yml.example
 ```
 
 ## Wallpaper
