@@ -17,7 +17,7 @@ module System
 
   def run(cmd, return_output: false)
     if return_output
-      `#{cmd}`
+      `#{cmd}`.strip
     else
       system(cmd)
     end

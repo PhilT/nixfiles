@@ -2,6 +2,7 @@ require "thor"
 require_relative "credentials"
 require_relative "system"
 require_relative "ssh"
+require_relative "zfs"
 
 CATPPUCCIN_CHAN = "https://github.com/catppuccin/nix/archive/main.tar.gz"
 HARDWARE_CHAN = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
@@ -9,6 +10,7 @@ HARDWARE_CHAN = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
 class Nixx < Thor
   include System
   include Ssh
+  include Zfs
 
   desc "build", "Rebuild NixOS"
   option :switch, type: :boolean, default: false, aliases: :s,
@@ -26,7 +28,7 @@ class Nixx < Thor
   option :trace, type: :boolean, default: false, aliases: :t,
     desc: "Show trace"
   option :dryrun, type: :boolean, default: false,
-    desc: "Dry run - don't write any keys to disk"
+    desc: "Dry run - don't write any SSH keys to disk and run dry-build"
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing keys"
   def build
@@ -36,11 +38,14 @@ class Nixx < Thor
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
 
     add_channels
+
     write_keys_to_ssh_dir(
       machine,
       dry_run: options[:dryrun],
       overwrite: options[:overwrite]
     )
+
+    switch_to_key_based_encryption if machine == "minoo"
 
     log command, machine
     sudo("nix-collect-garbage -d") if options[:clean]
@@ -94,7 +99,6 @@ class Nixx < Thor
   def add_channels
     channel_list =
       sudo("nix-channel --list", return_output: true)
-      .strip
       .gsub("\n", " ")
     if channel_list =~ /catppuccin.*nixos-hardware/
       log "CHANNELS", "Up-to-date"
