@@ -1,6 +1,6 @@
 require 'active_support/encrypted_file'
 require 'yaml'
-require_relative 'flow_handling'
+require_relative 'system'
 
 CREDENTIALS_PATH = File.join(__dir__, "../config/credentials.yml.enc")
 MASTER_KEY_PATH  = File.join(__dir__, "../config/master.key")
@@ -15,13 +15,13 @@ INITIAL_CONTENT  = <<~YAML
 YAML
 
 class Credentials < Thor
-  include FlowHandling
+  include System
 
   desc "edit", "Edit encrypted credentials. Generates a new key if none exists"
   def edit
-    exit_with "EDITOR environment variable not set. Ensure this is set" unless ENV['EDITOR']
+    exit_with "EDITOR environment variable not set." unless ENV['EDITOR']
 
-    generate_key unless File.exist?(MASTER_KEY_PATH)
+    generate_key unless File.exist?(CREDENTIALS_PATH)
 
     decrypted_content = encrypted_file.read
     Tempfile.create(["credentials", ".yml"]) do |f|
@@ -39,7 +39,7 @@ class Credentials < Thor
       end
 
       encrypted_file.write(updated_content)
-      puts "Credentials updated"
+      log "CREDENTIALS", "Updated"
     end
   end
 
