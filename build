@@ -17,7 +17,7 @@ else
   SUDO="sudo "
 fi
 
-while getopts 'ahdsyurbctmopR' OPTION; do
+while getopts 'ahdsyurbctmopF' OPTION; do
   case "$OPTION" in
     a)
       action=OPTION
@@ -31,7 +31,7 @@ while getopts 'ahdsyurbctmopR' OPTION; do
       echo "  -b             rebuild & boot"
       echo "  -c             Diff of changes between latest & prev upgrade"
       echo "  -d             run nix-collect-garbage"
-      echo "  -F             Create any missing datasets"
+      echo "  -F             Create any missing datasets and mount them"
       echo "  -m [machine]   Build a different machine (aramid/minoo/seedling/spruce)"
       echo "  -o             Overwrite SSH keys"
       echo "  -r <version>   release - rebuild & switch, tag and label with <version> e.g. $0 -r v1"
@@ -49,6 +49,7 @@ while getopts 'ahdsyurbctmopR' OPTION; do
       ;;
     F)
       action=DATASETS
+      ;;
     o)
       overwrite_sshkeys=1
       ;;
@@ -272,7 +273,13 @@ if [ "$action" = "PREFETCH" ]; then
 elif [ "$action" = "OPTION" ]; then
   NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-option $option
 elif [ "$action" = "DATASETS" ]; then
-  config/$machine.sh
+  dryrun=0
+  root="/"
+  source "lib/commands.sh"
+  source "lib/disks.sh"
+  source "lib/disks2.sh"
+  source "config/$machine.sh"
+  $machine
 else
   ${SUDO}$label NIXOS_CONFIG=$(pwd)/$configuration_nix nixos-rebuild $command $show_trace |& nom
   #                                 TODO: Change this to an option \/ so we don't need a comment

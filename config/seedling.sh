@@ -12,9 +12,9 @@ seedling() {
   dataset "home"
   dataset "data"
 
-  mkd "/data/etc/ssh"
-  mkd "/data/etc/NetworkManager/system-connections"
-  mkd "/data/var/lib/bluetooth"
+  mkd "data/etc/ssh"
+  mkd "data/etc/NetworkManager/system-connections"
+  mkd "data/var/lib/bluetooth"
 
   fat "$boot_partition"
 }

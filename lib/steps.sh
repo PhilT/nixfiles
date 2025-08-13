@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
 [ -z "$home" ] && home="/home/nixos"
-codedir="/mnt/data/code"
+root="/mnt/"
+codedir="${root}data/code"
 
 prepare() {
   askpass 'Password for KeePass'
@@ -54,17 +55,17 @@ channels() {
 
 install() {
   STATE "INST" "Installing NixOS"
-  SUDO "mkdir -p /mnt/etc/nixos"
-  SUDO "ln -fs $codedir/nixfiles/src/machines/$machine/$installtype.nix /mnt/etc/nixos/configuration.nix"
+  SUDO "mkdir -p ${root}etc/nixos"
+  SUDO "ln -fs $codedir/nixfiles/src/machines/$machine/$installtype.nix ${root}etc/nixos/configuration.nix"
   SUDO "nixos-install --no-root-password"
   STATE "REBT" "Rebooting..."
   RUN "rm $codedir/nixfiles/secrets/*"
-  SUDO "mkdir -p /mnt/data/sync"
-  SUDO "cp $db /mnt/data/sync"
-  SUDO "chmod +w /mnt/data/sync/*"
-  SUDO "chown 1000:users /mnt/data"
-  SUDO "chown -R 1000:users /mnt/data/sync"
-  SUDO "umount -l /mnt"
+  SUDO "mkdir -p ${root}data/sync"
+  SUDO "cp $db ${root}data/sync"
+  SUDO "chmod +w ${root}data/sync/*"
+  SUDO "chown 1000:users ${root}data"
+  SUDO "chown -R 1000:users ${root}data/sync"
+  SUDO "umount -l $root"
   SUDO "zpool export -a"
   reboot
 }
