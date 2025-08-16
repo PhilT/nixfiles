@@ -14,25 +14,6 @@
   environment.systemPackages = with pkgs; [
     neovim
 
-    (writeShellScriptBin "nixi" ''
-      ${builtins.readFile ./lib/commands.sh}
-      ${builtins.readFile ./lib/disks.sh}
-      ${builtins.readFile ./lib/keepass.sh}
-      ${builtins.readFile ./lib/run.sh}
-      ${builtins.readFile ./lib/steps.sh}
-      ${builtins.readFile ./config/aramid.sh}
-      ${builtins.readFile ./config/minoo.sh}
-      ${builtins.readFile ./config/seedling.sh}
-      ${builtins.readFile ./config/spruce.sh}
-
-      run "$@"
-    '')
-
-    (writeShellScriptBin "seedling" ''nixi "$@" seedling'')
-    (writeShellScriptBin "aramid" ''nixi "$@" aramid'')
-    (writeShellScriptBin "spruce" ''nixi "$@" spruce'')
-    (writeShellScriptBin "minoo" ''nixi "$@" minoo'')
+    (callPackage ./src/nixx.nix {})
   ];
-
-  environment.etc."HomeDatabase.kdbx".source = /data/sync/HomeDatabase.kdbx;
 }

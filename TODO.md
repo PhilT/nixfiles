@@ -1,8 +1,6 @@
+[ ] Remove state() from setup.rb or use it properly and adjust log()
+
 # Seedling
-[ ] Asks for SSH key twice
-[ ] Fails to find id_ed25519_spruce_hetzner.pub (This is probably just old install of KeePass database)
-[ ] /data/code/nixfiles owned by root. Probably incorrect. Also SSH key unknown and permission denied
-    when trying to git pull. Needs fixing. Need to be able to pull any changes in case of problems
 
 [ ] Neovim wrapper for opening files is broken in Thunar - Unable to find terminal
 [ ] I'd still like to have a default Firefox setup that starts off with a blank profile which is then created
@@ -13,8 +11,6 @@
     Can't do this until Gimp 3 is released
 [ ] Video capture
 [ ] Learn ranger
-[ ] Look into using gvfs-trash to delete files (to a recycle bin)
-    I think this is working - although maybe not when using rm
 [ ] Configure Matrix
 [ ] Research a contact management store that can be accessed with dmenu or the himalaya vim plugin
 [ ] Add autocmds to switch colorscheme when viewing emails (himalaya)

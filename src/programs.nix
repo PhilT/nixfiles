@@ -25,6 +25,7 @@
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
       rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
       rm = "trash";
+      nixx = "${config.codeDir}/nixfiles/lib/nixx";
     };
 
     systemPackages = with pkgs; [

@@ -21,7 +21,10 @@ module Zfs
   end
 
   def in_zpool?(pool_name)
-    run("zpool list", return_output: true).include?(pool_name)
+    response = run("zpool list", handle_failure: true)
+    return response unless response
+
+    response.include?(pool_name)
   end
 
   def generate_key(keyfile)

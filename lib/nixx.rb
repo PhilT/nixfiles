@@ -1,16 +1,63 @@
 require "thor"
 require_relative "credentials"
+require_relative "wallpaper"
 require_relative "system"
 require_relative "ssh"
 require_relative "zfs"
-
-CATPPUCCIN_CHAN = "https://github.com/catppuccin/nix/archive/main.tar.gz"
-HARDWARE_CHAN = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
+require_relative "disks"
+require_relative "setup"
+require_relative "iso"
+require_relative "usb"
 
 class Nixx < Thor
   include System
-  include Ssh
   include Zfs
+
+  class_option :dryrun, type: :boolean, default: false,
+    desc: "Dry run - don't write any SSH keys to disk and run dry-build"
+  class_option :module, type: :string, default: nil, aliases: :o,
+    desc: "Pick a base module from machines/$machine/. Defaults to default.nix, for build & minimal.nix for setup"
+  class_option :machine, type: :string, default: nil, aliases: :m,
+    desc: "Build a different machine (aramid/minoo/seedling/spruce)"
+  class_option :wifi, type: :string, default: "home",
+    desc: "WIFI network to connect to. home/mobile"
+
+  desc "iso", "Build a NixOS ISO"
+  def iso
+    Iso.write
+  end
+
+  desc "usb DEVICE", "Build a NixOS USB image. DEVICE = device name e.g. sda"
+  def usb(device)
+    Usb.write(device)
+  end
+
+  desc "setup", "Setup a new NixOS machine"
+  option :show, type: :boolean, default: false,
+    desc: "Show hardware configuration"
+  option :install_only, type: :boolean, default: false,
+    desc: "Install NixOS without formatting"
+  def setup
+    root = "/mnt/"
+    credentials = Credentials.new
+    disks = Disks.new(machine, wipe: true, root:, credentials:)
+    setup = Setup.new(machine, options, root:, credentials:)
+
+    if options[:show]
+      setup.show_config
+    elsif options[:install_only]
+      setup.github_ssh_key
+      setup.install
+    else
+      setup.github_ssh_key
+      setup.wifi
+      disks.partition
+      setup.clone
+      setup.add_channels
+      setup.wallpaper
+      setup.install
+    end
+  end
 
   desc "build", "Rebuild NixOS"
   option :switch, type: :boolean, default: false, aliases: :s,
@@ -21,38 +68,36 @@ class Nixx < Thor
     desc: "Upgrade the channel and switch"
   option :clean, type: :boolean, default: false,
     desc: "Run nix-collect-garbage -d"
-  option :machine, type: :string, default: nil, aliases: :m,
-    desc: "Build a different machine (aramid/minoo/seedling/spruce)"
-  option :module, type: :string, default: nil, aliases: :o,
-    desc: "Pick a base module from machines/$machine/. Defaults to default.nix"
   option :trace, type: :boolean, default: false, aliases: :t,
     desc: "Show trace"
-  option :dryrun, type: :boolean, default: false,
-    desc: "Dry run - don't write any SSH keys to disk and run dry-build"
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing keys"
   def build
-    command = options["dryrun"] ? "dry-build" : "build"
+    command = options[:dryrun] ? "dry-build" : "build"
     command = "switch" if options.slice(:switch, :upgrade, :clean).any?
     command = "boot" if options[:boot]
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
+    root = "/"
+    credentials = Credentials.new
+    disks = Disks.new(machine, wipe: false, root:, credentials:)
+    setup = Setup.new(machine, options, root:, credentials:)
+    ssh = Ssh.new(machine, options, credentials)
 
-    add_channels
+    setup.add_channels
+    setup.all_ssh_keys
+    setup.wifi use_network_manager: true
 
-    write_keys_to_ssh_dir(
-      machine,
-      dry_run: options[:dryrun],
-      overwrite: options[:overwrite]
-    )
-
-    switch_to_key_based_encryption if machine == "minoo"
+    switch_to_key_based_encryption if disks.more_than_one?
 
     log command, machine
     sudo("nix-collect-garbage -d") if options[:clean]
     sudo("nix-channel --update") if upgrade
 
-    make_public_keys_available do
-      sudo("#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom")
+    ssh.with_public_keys do
+      sudo(
+        "#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom",
+        use_system: true
+      )
     end
   end
 
@@ -63,16 +108,27 @@ class Nixx < Thor
   end
 
   desc "option OPTION", "Output value of a config option e.g. persistedHomeDir"
-  option :module, type: :string, default: nil, aliases: :o,
-    desc: "Pick a base module from machines/$machine/. Defaults to default.nix"
-  option :machine, type: :string, default: nil, aliases: :m,
-    desc: "Build a different machine (aramid/minoo/seedling/spruce)"
   def option(option)
     run("#{configuration_nix} nixos-option #{option}")
   end
 
+  desc "diff", "Diff changes between latest & prev upgrade"
+  def diff
+    run "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)"
+  end
+
+  desc "datasets", "Create any missing datasets and mount them"
+  def datasets
+    credentials = Credentials.new
+    disks = Disks.new(machine, wipe: false, root: "/", credentials:)
+    disks.partition
+  end
+
   desc "credentials", "Manage encrypted credentials"
   subcommand "credentials", Credentials
+
+  desc "wallpaper", "Download wallpaper from Wallhaven"
+  subcommand "wallpaper", Wallpaper
 
   private
 
@@ -88,30 +144,20 @@ class Nixx < Thor
     @modul ||= options[:module] || "default.nix"
   end
 
+  def overwrite
+    @overwrite ||= options[:overwrite]
+  end
+
+  def trace
+    options[:trace] ? " --show-trace" : ""
+  end
+
   def configuration_nix
     @configuration_nix ||=
       begin
         config = File.join(ROOT_DIR, "src/machines/#{machine}/#{modul}")
         "NIXOS_CONFIG=#{config}"
       end
-  end
-
-  def add_channels
-    channel_list =
-      sudo("nix-channel --list", return_output: true)
-      .gsub("\n", " ")
-    if channel_list =~ /catppuccin.*nixos-hardware/
-      log "CHANNELS", "Up-to-date"
-    else
-      log "CHANNELS", "Updating"
-      sudo("nix-channel --add #{CATPPUCCIN_CHAN} catppuccin")
-      sudo("nix-channel --add #{HARDWARE_CHAN} nixos-hardware")
-      upgrade = true
-    end
-  end
-
-  def trace
-    options[:trace] ? " --show-trace" : ""
   end
 
   def ephemeral_os?
