@@ -1,5 +1,16 @@
 require('telescope').setup({
   defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden',                  -- include hidden files
+      '--ignore-file=/etc/ignore', -- ignore files
+    },
     layout_strategy = 'horizontal',
     sorting_strategy = 'ascending',
     mappings = {
