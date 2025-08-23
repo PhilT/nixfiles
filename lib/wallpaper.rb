@@ -9,7 +9,7 @@ class Wallpaper < Thor
   SAVE_DIR = '/data/pictures/wallpaper/'
   FILENAMES = ['wallpaper-left.jpg', 'wallpaper-right.jpg']
 
-  desc "download", "Download wallpaper from Wallhaven"
+  desc "download [SCREEN]", "Download wallpaper from Wallhaven. SCREEN can be 'left' or 'right'"
   option :apply, type: :boolean, default: false, desc: "Apply wallpaper to sway"
   def download(screen = nil)
     puts "Downloading wallpapers..."
