@@ -1,0 +1,50 @@
+---
+<machine_name>:
+  primary:
+    boot:
+      remove_entries: true # If true, removes all entries from the boot partition
+      device: /dev/nvme0n1
+      partition: p1
+      size: 2G
+    pool:
+      name: zpool
+      partition: <name of partition from /dev/disk/by-id>
+      encryption: on
+      datasets:
+        - name: root
+        - name: nix
+        - name: home
+        - name: data
+      directories:
+        - data/etc/ssh
+        - data/etc/NetworkManager/system-connections
+        - data/var/lib/bluetooth
+
+<machine_name2>:
+  primary:
+    boot:
+      remove_entries: false
+      device: /dev/nvme0n1
+      partition: p1
+      size: 2G
+    pool:
+      name: zpool
+      partition: <name of partition from /dev/disk/by-id>
+      encryption: on
+      datasets:
+        - name: root
+        - name: nix
+  secondary:
+    data:
+      device: /dev/nvme1n1
+    pool:
+      name: dpool
+      partition: <name of partition from /dev/disk/by-id>
+      encryption: on
+      datasets:
+        - home
+        - data
+      directories:
+        - data/etc/ssh
+        - data/etc/NetworkManager/system-connections
+        - data/var/lib/bluetooth

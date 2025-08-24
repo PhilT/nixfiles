@@ -2,14 +2,15 @@ require "open3"
 module System
   ROOT_DIR = Dir.pwd
 
-  @state = "BOOT"
+  @@state = "BOOT"
 
-  def log(section, message)
+  def log(section, message, newline: true)
     return if options[:log] == false
+    @@state = section
 
     section = "[#{section.upcase.ljust(10)}] " if section
     section = " " * 13 if section.nil?
-    puts "#{section}#{message}"
+    print "#{section}#{message}#{newline ? "\n" : ""}"
   end
 
   def exit_with(message)
@@ -17,14 +18,18 @@ module System
     exit 1
   end
 
+  # show: If true, prints the stdout
+  # dryrun: Allows callers to override the dryrun option for non-mutating commands
+  # handle_failure: If true, doesn't exit but returns the exit code
   # use_system: If true, run the command using system instead of Open3.This is
+  #             used by nixx to run nixos-rebuild commands which output progress.
   #
   # Returns nil if the command is unknown
   # Returns false if the command failed
   # Returns stdout if the command succeeded
   def run(*args, show: false, dryrun: options[:dryrun], handle_failure: false, use_system: false)
     cmd = args.join(" ")
-    log @state, cmd
+    log @@state, cmd
     success = false
 
     if dryrun
@@ -43,7 +48,7 @@ module System
     end
 
     if dryrun || success
-      log @state, stdout if show
+      log @@state, stdout if show
       stdout
     elsif handle_failure
       success
@@ -57,21 +62,20 @@ module System
     end
   end
 
-  def sudo(*args, dir: nil, show: false, dryrun: options[:dryrun], use_system: false)
-    @sudo ||= `whoami`.strip == "root" ? "" : "sudo " # When run from nixos-enter we don't need sudo
-    cd = dir ? "cd #{dir} && " : ""
-    cmd = args.prepend cd, @sudo
-    run(cmd, show:, dryrun:, use_system:)
-  end
+  # Run command as sudo if we aren't root.
+  # Accepts the same arguments as run with the addition of a `dir:` argument which
+  # is the directory to run the command in.
+  def sudo(*args, dir: nil, **kwargs)
+    # When run from nixos-enter we don't need sudo
+    @sudo ||= `whoami`.strip == "root" ? nil : "sudo"
 
-  def state(state, title)
-    @state = state
-    log nil, ""
-    log state, title
+    cd = dir ? "cd #{dir} && " : nil
+    cmd = args.prepend(cd, @sudo).compact
+    run(cmd, **kwargs)
   end
 
   def wait(message)
-    log @state, message if message
+    log @@state, message if message
     return if dryrun
 
     gets

@@ -49,6 +49,7 @@ class Credentials < Thor
     end
 
     def save
+      log "CREDS" , "Saving"
       encrypted_file.write(credentials.deep_stringify_keys.to_yaml)
     end
 

@@ -28,13 +28,15 @@ class Nixx < Thor
   end
 
   desc "usb DEVICE", "Build a NixOS USB image. DEVICE = device name e.g. sda"
-  def usb(device)
+  def usb(device = nil)
+    exit_with "No device specified. Usage: nixx usb DEVICE" unless device
+
     Usb.write(device)
   end
 
   desc "keys", "Generate and add SSH keys to credentials file. View them with `nixx credentials show`"
   def keys
-    Ssh.new(nil, options, credentials).generate_all_keys
+    Ssh.new(nil, options).generate_all_keys
   end
 
   desc "setup", "Setup a new NixOS machine"
@@ -119,7 +121,7 @@ class Nixx < Thor
 
   desc "diff", "Diff changes between latest & prev upgrade"
   def diff
-    run "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)"
+    run "nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)", show: true
   end
 
   desc "datasets", "Create any missing datasets and mount them"

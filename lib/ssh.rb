@@ -75,10 +75,13 @@ class Ssh
     @ssh_keys.each do |service, machines|
       machines.each do |machine, key_types|
         key_types.each do |key_type, keys|
-          next if keys&.dig(:public)
-
-          @ssh_keys[service][machine][key_type] = generate_key_pair
-          dirty = true
+          if keys&.dig(:public)
+            log "SSH", "#{key_type} key for #{service}/#{machine} exists"
+          else
+            log "SSH", "Generating #{key_type} key for #{service}/#{machine}"
+            @ssh_keys[service][machine][key_type] = generate_key_pair
+            dirty = true
+          end
         end
       end
     end

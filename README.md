@@ -1,19 +1,25 @@
 # My NixOS Setup
 
+## Nixx
+
+New commandline tool to build NixOS. type `nixx` to see a list of commands
+(you might need to do `lib/nixx` if you're not using the my configuration).
+
 ## Initializing a new machine
 
-WARNING: Ensure partitioning is setup in `config/<machine>.sh`
+WARNING: Ensure partitioning is setup in `config/machines.yml`
 
 ### Ensure GitHub/GitLab have the SSH keys on your account
 ```
-./mkkeys 0
-./lskeys
+nixx credentials edit # Create/edit credentials file. Add some blank entries then do:
+nixx keys             # Generate and set any missing SSH keys in credentials file
+nixx credentials show # Show the contents of the credentials file
 ```
 Upload to GitHub/GitLab etc.
 
 ### Build the install ISO with
 ```
-./mkiso
+nixx iso
 ```
 ### Test in a VM
 ```
@@ -22,35 +28,22 @@ Upload to GitHub/GitLab etc.
 ./bin/vm <sapling|seedling>           # Rely on VFIO display (Nvidia)
 ```
 
-### Or, create a USB stick with NixOS ISO (in `result/iso/`)
+### Create a USB stick with NixOS ISO (in `result/iso/`)
 
-If USB previously used as ISO then it will have 2 partitions which should be
-unmounted before runnning `dd`:
+This will wipe the USB stick and copy the ISO with 2 partitions.
 ```
-lsblk --list | grep sda[1-9]
-sudo umount /dev/sda1 /dev/sda2
-sudo dd if=result/iso/*.iso of=/dev/sda bs=1M status=progress
-sudo umount /dev/sda1 /dev/sda2
+nixx usb <dev> # e.g. nixx usb sda
 ```
 
-### Boot up NixOS ISO, then run the following commands:
+### Boot up NixOS ISO, then run the following command to install NixOS and reboot:
 ```
-<machine> [options] [branch]  # e.g. spruce # to start the installer for spruce
-reboot                        # and remove USB sticks
+nixx setup <machine_name>  # e.g. nixx setup spruce # to start the installer for spruce
 ```
 
 After first boot, run:
 ```
 cd /data/code/nixfiles
-./build -s
-```
-
-## Nixx
-
-New commandline tool to build NixOS. WIP.
-```
-bin/nixx build [options]
-bin/nixx credentials edit # Create/edit credentials file. See config/credentials.yml.example
+nixx build -s            # Rebuild NixOS and switch to the new machine config
 ```
 
 ## Wallpaper
@@ -75,15 +68,15 @@ supported by the SSH Server on Suuno.
 
 ## Naming of devices
 * Spruce - As the case was originally made of wood (14900K, RTX4090 PC) [ACTIVE]
+* Aramid - Strong synthetic fibres (X1 Carbon Gen 12) [ACTIVE]
+* Sapling - Windows 11 Guest VM running on Spruce [ACTIVE]
+* Seedling - NixOS Guest VM running on Spruce [DEVELOPING]
+* Minoo - Some combination of Mini and N100 (File server) [ACTIVE]
+* Suuno - A play on the previous phone name (Samsung A15) [ACTIVE]
 * Darko - From Donnie Darko (Razer Blade 2019) [RETIRED]
 * Mev - Mobile Electric Visions (Huawei P30 Pro) [RETIRED]
 * Sirius - Brightest star in the galaxy (Starlabs Starlite V) [RETIRED]
 * Soono - From Something of Nothing (Nothing Phone) [RETIRED]
-* Suuno - A play on the previous phone name (Samsung A15) [ACTIVE]
-* Aramid - Strong synthetic fibres (X1 Carbon Gen 12) [ACTIVE]
-* Minoo - Some combination of Mini and N100 (File server) [ACTIVE]
-* Sapling - Windows 11 Guest VM running on Spruce [ACTIVE]
-* Seedling - NixOS Guest VM running on Spruce [DEVELOPING]
 
 ## References
 * https://www.gnu.org/software/parted/manual/parted.html

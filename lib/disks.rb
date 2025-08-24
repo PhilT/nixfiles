@@ -5,8 +5,16 @@ class Disks
   include System
 
   def initialize(machine, wipe: false, root: "/", credentials: Credentials.new)
+    machines_config_path = File.join(ROOT_DIR, "config/machines.yml")
+    if !File.exist?(machines_config_path)
+      exit_with <<~HELP
+        No config/machines.yml file found.
+        Use config/machines.yml.example as a starting point.
+      HELP
+    end
+
     @machine = machine
-    @machines = YAML.load_file(File.join(ROOT_DIR, "config/machines.yml"))
+    @machines = YAML.load_file(machines_config_path)
     @wipe = wipe # FIXME: Wipe might be related to root. As in, we'll only ever
     @root = root # wipe the disks if root is /mnt and vice versa
     @credentials = credentials
@@ -32,15 +40,20 @@ class Disks
   private
 
   def safe_mount(device, target, type = nil)
-    if !system("mountpoint -q #{target}")
+    if !mount_point?(target) || options[:dryrun]
       type = "-t zfs " if type == "zfs"
       sudo "mount #{type}#{device} #{target}"
     end
   end
 
+  def mount_point?(target)
+    run("mountpoint -q #{target}", handle_failure: true)
+  end
+
   def rm_boot_entries(boot)
     return unless @wipe && boot["remove_entries"]
 
+    log "BOOT", "Removing boot entries"
     entries = run("efibootmgr")
     entries
       .split("\n")
@@ -55,7 +68,7 @@ class Disks
 
     wait "Press ENTER to repartition #{device}"
 
-    state "PART", "Setup boot and primary partitions"
+    log "PART", "Setup boot and primary partitions"
     sudo "sgdisk -Z #{device}" # Wipe partitions
     sudo "parted -s #{device} -- mklabel gpt"
     sudo "parted -s #{device} -- mkpart ESP fat32 0% #{boot_size}"
@@ -69,7 +82,7 @@ class Disks
 
     wait "Press ENTER to repartition #{device}"
 
-    state "PART", "Setup data disk"
+    log "PART", "Setup data disk"
     sudo "sgdisk -Z #{device}" # Wipe partitions
   end
 
@@ -80,7 +93,7 @@ class Disks
     exsits = in_zpool?(name)
     return if !@wipe && exists
 
-    state "POOL", "Setup ZFS pool"
+    log "POOL", "Setup ZFS pool"
     create = exists ? "recreate" : "create"
     wait "Press ENTER to #{create} zpool '#{name}'"
 
@@ -113,7 +126,7 @@ class Disks
     datasets = pool.dig("datasets")
     return unless datasets
 
-    state "DATASET", "Setup datasets: #{datasets.join(", ")}"
+    log "DATASET", "Setup datasets: #{datasets.join(", ")}"
 
     datasets.each do |name|
       dataset = "#{pool["name"]}/#{name}"

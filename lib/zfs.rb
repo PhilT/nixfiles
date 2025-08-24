@@ -2,6 +2,7 @@
 
 module Zfs
   def switch_to_key_based_encryption
+    log "ZFS", "Switching to key-based encryption"
     pool_name = "dpool"
     zfs_keydir = "/root"
     zfs_keypath = "#{zfs_keydir}/.#{pool_name}.key"
@@ -22,9 +23,7 @@ module Zfs
 
   def in_zpool?(pool_name)
     response = run("zpool list", handle_failure: true)
-    return response unless response
-
-    response.include?(pool_name)
+    response && response.include?(pool_name)
   end
 
   def generate_key(keyfile)

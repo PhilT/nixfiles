@@ -22,7 +22,8 @@ class Setup
     @nixfiles_dir = File.join(@root, "data/code/nixfiles")
     @configuration_nix = File.join(@nixfiles_dir, "src/machines", @machine, @module, ".nix")
     @github_ssh_key = "#{HOME_DIR}/github_ssh_key"
-    @ssh = Ssh.new(@machine, options, credentials)
+    @credentials = credentials
+    @ssh = Ssh.new(@machine, options, @credentials)
   end
 
   def show_config
@@ -31,6 +32,7 @@ class Setup
   end
 
   def github_ssh_key
+    log "SSH", "Write GitHub SSH key to #{@github_ssh_key}"
     keys = @ssh.key_pair_for("github", "ed25519")
     File.write(@github_ssh_key, keys[:private])
     File.write("#{@github_ssh_key}.pub", keys[:public])
@@ -38,6 +40,7 @@ class Setup
   end
 
   def all_ssh_keys
+    log "SSH", "Write all SSH keys to SSH dir"
     @ssh.generate_all_keys
 
     persisted_machine_dir = "/data/machine"
@@ -47,11 +50,11 @@ class Setup
 
   def wifi(use_network_manager: false)
     if connected? && !dry_run?
-      state "NET", "Connected"
+      log "NET", "Connected"
     else
-      state "NET", "Disconnected. Establish WIFI connection"
-      network = "wifi_#{options[:wifi]}"
-      ssid, psk = all_credentials.dig(network).slice("ssid", "password")
+      log "NET", "Disconnected. Establish WIFI connection"
+      network = "wifi_#{options[:wifi]}".to_sym
+      ssid, psk = @credentials[network].slice("ssid", "password")
 
       if use_network_manager
         sudo "nmcli device wifi connect #{ssid} password #{psk}"
@@ -65,6 +68,7 @@ class Setup
   end
 
   def add_channels
+    log "CHANNELS", "Checking channels"
     channel_list = sudo("nix-channel --list", dryrun: false).split(/\n| /)
     if ALL_CHANNELS.all?{ channel_list.include?(it) }
       log "CHANNELS", "Up-to-date"
@@ -92,12 +96,12 @@ class Setup
     sudo "mkdir -p #{@root}/etc/nixos"
     sudo "ln -fs #{@configuration_nix} #{@root}/etc/nixos/configuration.nix"
     sudo "nixos-install", "--no-root-password"
-    state "REBOOT", "Rebooting..."
+    log "REBOOT", "Rebooting..."
     sudo "chown", "1000:users", File.join(@root, "data")
     sudo "chown", "-R", "1000:users", @nixfiles_dir
     sudo "umount", "-l", @root
     sudo "zpool", "export", "-a"
-    reboot
+    sudo "reboot"
   end
 
   private
@@ -113,7 +117,7 @@ class Setup
   end
 
   def wait_for_connection
-    print "Waiting for connection..."
+    log "NET", "Waiting for connection...", newline: false
     while !connected? do
       sleep 1
       print "."
