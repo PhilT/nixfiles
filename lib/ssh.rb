@@ -19,7 +19,7 @@ class Ssh
     @ssh_keys = credentials[:ssh]
   end
 
-  # One machine setup, write its SSH keys from the credentials file to the
+  # On machine setup, write its SSH keys from the credentials file to the
   # .ssh folder.
   def write_keys_to(ssh_dir)
     if File.directory?(ssh_dir)

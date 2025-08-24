@@ -32,6 +32,11 @@ class Nixx < Thor
     Usb.write(device)
   end
 
+  desc "keys", "Generate and add SSH keys to credentials file. View them with `nixx credentials show`"
+  def keys
+    Ssh.new(nil, options, credentials).generate_all_keys
+  end
+
   desc "setup", "Setup a new NixOS machine"
   option :show, type: :boolean, default: false,
     desc: "Show hardware configuration"
@@ -84,7 +89,7 @@ class Nixx < Thor
     ssh = Ssh.new(machine, options, credentials)
 
     setup.add_channels
-    setup.all_ssh_keys
+    setup.all_ssh_keys # Writes any missing keys to the credentials file and to SSH dir
     setup.wifi use_network_manager: true
 
     switch_to_key_based_encryption if disks.more_than_one?

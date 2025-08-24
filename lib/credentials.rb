@@ -4,14 +4,6 @@ require "active_support/core_ext/hash/keys"
 require "yaml"
 require_relative "system"
 
-INITIAL_CONTENT  = <<~YAML
-  ---
-  disks:
-    encryption_password: PASSWORD
-  wifi_home:
-    ssid: SSID
-    password: PASSWORD
-YAML
 
 class Credentials < Thor
   include System
@@ -19,11 +11,12 @@ class Credentials < Thor
   CREDENTIALS_PATH = File.join(ROOT_DIR, "config/credentials.yml.enc")
   MASTER_KEY_PATH  = File.join(ROOT_DIR, "config/master.key")
 
-  desc "edit", "Edit encrypted credentials. Generates a new key if none exists"
+  desc "edit", "Create/edit credentials file."
   def edit
     exit_with "EDITOR environment variable not set." unless ENV["EDITOR"]
 
-    generate_key unless File.exist?(CREDENTIALS_PATH)
+    generate_key unless File.exist?(MASTER_KEY_PATH)
+    generate_file unless File.exist?(CREDENTIALS_PATH)
 
     decrypted_content = encrypted_file.read
     Tempfile.create(["credentials", ".yml"]) do |f|
@@ -45,8 +38,8 @@ class Credentials < Thor
     end
   end
 
-  desc "read", "Read & output encrypted credentials from credentials.yml.enc"
-  def read
+  desc "show", "Output encrypted credentials from credentials.yml.enc"
+  def show
     puts encrypted_file.read
   end
 
@@ -70,7 +63,11 @@ class Credentials < Thor
 
   def generate_key
     File.write(MASTER_KEY_PATH, ActiveSupport::EncryptedFile.generate_key)
-    encrypted_file.write(INITIAL_CONTENT)
+  end
+
+  def generate_file
+    initial_content = File.read(File.join(ROOT_DIR, "config/credentials.yml.example"))
+    encrypted_file.write(initial_content)
   end
 
   def encrypted_file

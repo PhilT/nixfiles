@@ -42,8 +42,7 @@ class Setup
 
     persisted_machine_dir = "/data/machine"
     persisted_machine_dir = ENV["HOME"] unless File.directory?(persisted_machine_dir)
-    ssh_dir = "#{persisted_machine_dir}/ssh"
-    @ssh.write_keys_to ssh_dir
+    @ssh.write_keys_to "#{persisted_machine_dir}/ssh"
   end
 
   def wifi(use_network_manager: false)
