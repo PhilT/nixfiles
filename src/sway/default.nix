@@ -33,7 +33,6 @@ in with colors; {
   catppuccin.flavor = variant;
 
   services.gnome.gnome-keyring.enable = true;
-  services.pipewire.enable = true; # Screen sharing
   services.greetd = {
     enable = true;
     settings = rec {
