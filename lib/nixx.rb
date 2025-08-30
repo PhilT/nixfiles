@@ -12,6 +12,7 @@ require_relative "usb"
 class Nixx < Thor
   include System
   include Zfs
+  include Iso
 
   class_option :dryrun, type: :boolean, default: false,
     desc: "Dry run - don't write any SSH keys to disk and run dry-build"
@@ -24,7 +25,9 @@ class Nixx < Thor
 
   desc "iso", "Build a NixOS ISO"
   def iso
-    Iso.write
+    Ssh.new(nil, options).with_public_keys do
+      writeIso ROOT_DIR
+    end
   end
 
   desc "usb DEVICE", "Build a NixOS USB image. DEVICE = device name e.g. sda"
