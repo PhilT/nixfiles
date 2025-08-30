@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+inotifywait -m -r -e modify,create,delete,move lib |
+  while read path action file
+    echo "Detected $action on $file in $path"
+    $argv
+  end

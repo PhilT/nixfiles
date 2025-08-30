@@ -10,8 +10,6 @@ require_relative "credentials"
 class Ssh
   include System
 
-  attr_reader :options
-
   def initialize(machine, options = {}, credentials = Credentials.new)
     @machine = machine
     @options = options
@@ -26,8 +24,8 @@ class Ssh
       log "SSH", "#{ssh_dir} folder exists"
     else
       log "SSH", "No SSH folder. Creating #{ssh_dir}"
-      Dir.mkdir(ssh_dir)
-      File.chmod(700, ssh_dir)
+      mkdir(ssh_dir)
+      chmod(700, ssh_dir)
     end
 
     @ssh_keys.each do |service, machines|
@@ -124,12 +122,9 @@ class Ssh
     keypath_pub = "#{keypath}.pub"
     log "SSH", "Writing to #{keypath} and #{keypath_pub}"
 
-    if !options[:dryrun]
-      File.write(keypath, keys[:private])
-      File.write(keypath_pub, keys[:public])
-      File.chmod(0600, keypath)
-      log "SSH", "#{keypath} and .pub written"
-    end
+    write(keypath, keys[:private])
+    write(keypath_pub, keys[:public])
+    chmod(0600, keypath)
   end
 
   def write_public_keys_to_tmp

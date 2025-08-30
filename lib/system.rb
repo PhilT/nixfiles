@@ -2,6 +2,8 @@ require "open3"
 module System
   ROOT_DIR = Dir.pwd
 
+  attr_reader :options
+
   @@state = "BOOT"
 
   def log(section, message, newline: true)
@@ -18,6 +20,21 @@ module System
     exit 1
   end
 
+  def write(path, content)
+    log @@state, "Write to #{path}"
+    File.write(path, content) unless options[:dryrun]
+  end
+
+  def chmod(mode, path)
+    log @@state, "Permissions #{mode} on #{path}"
+    File.chmod(mode, path) unless options[:dryrun]
+  end
+
+  def mkdir(path)
+    log @@state, "Create #{path}"
+    Dir.mkdir(path) unless options[:dryrun]
+  end
+
   # show: If true, prints the stdout
   # dryrun: Allows callers to override the dryrun option for non-mutating commands
   # handle_failure: If true, doesn't exit but returns the exit code
@@ -28,7 +45,7 @@ module System
   # Returns false if the command failed
   # Returns stdout if the command succeeded
   def run(*args, show: false, dryrun: options[:dryrun], handle_failure: false, use_system: false)
-    cmd = args.join(" ")
+    cmd = args.compact.join(" ")
     log @@state, cmd
     success = false
 
@@ -76,7 +93,7 @@ module System
 
   def wait(message)
     log @@state, message if message
-    return if dryrun
+    return if options[:dryrun]
 
     gets
   end

@@ -10,8 +10,6 @@ class Setup
   NIXOS_CHAN = "https://nixos.org/channels/nixos-unstable"
   HOME_DIR = "/home/nixos"
 
-  attr_reader :options
-
   def initialize(machine, options = {}, root:, credentials:)
     @machine = machine
     @options = options
@@ -34,9 +32,9 @@ class Setup
   def github_ssh_key
     log "SSH", "Write GitHub SSH key to #{@github_ssh_key}"
     keys = @ssh.key_pair_for("github", "ed25519")
-    File.write(@github_ssh_key, keys[:private])
-    File.write("#{@github_ssh_key}.pub", keys[:public])
-    File.chmod(600, @github_ssh_key)
+    write(@github_ssh_key, keys[:private])
+    write("#{@github_ssh_key}.pub", keys[:public])
+    chmod(600, @github_ssh_key)
   end
 
   def all_ssh_keys
@@ -54,13 +52,13 @@ class Setup
     else
       log "NET", "Disconnected. Establish WIFI connection"
       network = "wifi_#{options[:wifi]}".to_sym
-      ssid, psk = @credentials[network].slice("ssid", "password")
+      ssid, psk = @credentials[network].values_at(:ssid, :password)
 
       if use_network_manager
         sudo "nmcli device wifi connect #{ssid} password #{psk}"
       else
         sudo %(sh -c 'wpa_passphrase "#{ssid}" "#{psk}" > /etc/wpa_supplicant.conf')
-        output = run "ls /sys/class/ieee80211/*/device/net/"
+        output = run "ls /sys/class/ieee80211/*/device/net/", dryrun: false
         sudo "wpa_supplicant -B -i#{output.strip} -c/etc/wpa_supplicant.conf"
       end
       wait_for_connection
@@ -82,7 +80,7 @@ class Setup
   end
 
   def wallpaper
-    Wallpaper.start(["download"])
+    Wallpaper.start(["download"]) unless dry_run?
   end
 
   def clone

@@ -3,8 +3,9 @@ require_relative "credentials"
 
 class Disks
   include System
+  include Zfs
 
-  def initialize(machine, wipe: false, root: "/", credentials: Credentials.new)
+  def initialize(machine, wipe: false, root: "/", credentials: Credentials.new, options: {})
     machines_config_path = File.join(ROOT_DIR, "config/machines.yml")
     if !File.exist?(machines_config_path)
       exit_with <<~HELP
@@ -18,12 +19,11 @@ class Disks
     @wipe = wipe # FIXME: Wipe might be related to root. As in, we'll only ever
     @root = root # wipe the disks if root is /mnt and vice versa
     @credentials = credentials
+    @options = options
   end
 
   def disks = @machines[@machine]
   def more_than_one? = disks.size > 1
-  def boot = disks.first&.dig("boot")
-  def boot_size = boot["size"]
 
   def partition
     disks.each do |_, disk|
@@ -51,7 +51,7 @@ class Disks
   end
 
   def rm_boot_entries(boot)
-    return unless @wipe && boot["remove_entries"]
+    return unless @wipe && boot&.dig("remove_entries")
 
     log "BOOT", "Removing boot entries"
     entries = run("efibootmgr")
@@ -64,15 +64,16 @@ class Disks
   def create_boot_disk(boot)
     return unless @wipe && boot
 
-    device, size = boot.slice("device", "size")
+    device, size = boot.values_at("device", "size")
 
+    log "PART", "WARNING: This will destroy all your data!!!"
     wait "Press ENTER to repartition #{device}"
 
     log "PART", "Setup boot and primary partitions"
     sudo "sgdisk -Z #{device}" # Wipe partitions
     sudo "parted -s #{device} -- mklabel gpt"
-    sudo "parted -s #{device} -- mkpart ESP fat32 0% #{boot_size}"
-    sudo "parted -s #{device} -- mkpart primary #{boot_size} 100%"
+    sudo "parted -s #{device} -- mkpart ESP fat32 0% #{size}"
+    sudo "parted -s #{device} -- mkpart primary #{size} 100%"
     sudo "parted -s #{device} -- set 1 boot on"
     sudo "partprobe #{device}"
   end
@@ -80,6 +81,7 @@ class Disks
   def create_data_disk(device)
     return unless @wipe && device
 
+    log "PART", "WARNING: This will destroy all your data!!!"
     wait "Press ENTER to repartition #{device}"
 
     log "PART", "Setup data disk"
@@ -89,12 +91,13 @@ class Disks
   def create_pool(pool)
     return unless pool
 
-    name, partition, encryption = pool.slice("name", "partition", "encryption")
-    exsits = in_zpool?(name)
+    name, partition, encryption = pool.values_at("name", "partition", "encryption")
+    exists = in_zpool?(name)
     return if !@wipe && exists
 
     log "POOL", "Setup ZFS pool"
     create = exists ? "recreate" : "create"
+    log "PART", "WARNING: This will destroy all your data!!!"
     wait "Press ENTER to #{create} zpool '#{name}'"
 
     if encryption == "on"
@@ -105,18 +108,19 @@ class Disks
         -O keylocation=prompt"
     end
 
-    run " \
-      #{password} \
-      sudo zpool create -f \
-      #{options} \
-      -o ashift=12 \
-      -O atime=off \
-      -O compression=lz4 \
-      -O mountpoint=none \
-      -O acltype=posixacl \
-      -O xattr=sa \
-      #{name} \
-      #{partition}"
+    run(
+      password,
+      "sudo zpool create -f",
+      options,
+      "-o", "ashift=12",
+      "-O", "atime=off",
+      "-O", "compression=lz4",
+      "-O", "mountpoint=none",
+      "-O", "acltype=posixacl",
+      "-O", "xattr=sa",
+      name,
+      partition
+    )
   end
 
   # Create a ZFS dataset and snapshot it in it's empty state
@@ -133,7 +137,7 @@ class Disks
       mountpoint = "#{@root}#{name}"
       mountpoint = @root if name == "root"
 
-      if !run("zfs list").include?(dataset)
+      if !run("zfs list")&.include?(dataset)
         run "zfs create -o mountpoint=legacy #{dataset}"
         run "zfs snapshot #{dataset}@blank"
       else
@@ -148,8 +152,9 @@ class Disks
   def create_fat(boot)
     return unless boot
 
-    boot_partition = boot.slice("device", "partition").join("")
+    boot_partition = boot.values_at("device", "partition").join("")
     if @wipe
+      log "PART", "WARNING: This will destroy all your data!!!"
       wait "Press ENTER to format #{boot_partition}"
       sudo "mkfs.vfat -n boot #{boot_partition} > /dev/null"
     end
@@ -167,6 +172,6 @@ class Disks
   end
 
   def disks_password
-    @credentials.dig("disks", "encryption_password")
+    @credentials.dig(:disks, :encryption_password)
   end
 end
