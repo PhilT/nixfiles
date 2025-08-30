@@ -34,7 +34,7 @@ class Setup
     keys = @ssh.key_pair_for("github", "ed25519")
     write(@github_ssh_key, keys[:private])
     write("#{@github_ssh_key}.pub", keys[:public])
-    chmod(600, @github_ssh_key)
+    chmod(0600, @github_ssh_key)
   end
 
   def all_ssh_keys

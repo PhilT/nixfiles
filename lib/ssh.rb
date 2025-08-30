@@ -25,7 +25,7 @@ class Ssh
     else
       log "SSH", "No SSH folder. Creating #{ssh_dir}"
       mkdir(ssh_dir)
-      chmod(700, ssh_dir)
+      chmod(0700, ssh_dir)
     end
 
     @ssh_keys.each do |service, machines|
