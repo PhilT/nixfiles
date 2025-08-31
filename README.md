@@ -23,9 +23,10 @@ nixx iso
 ```
 ### Test in a VM
 ```
-./bin/vm <sapling|seedling> install   # Mount install CDROM, enable display
-./bin/vm <sapling|seedling> display   # Enable display
-./bin/vm <sapling|seedling>           # Rely on VFIO display (Nvidia)
+./bin/vm <sapling|seedling> install [-f] # Mount install CDROM, enable display
+                                         # -f will delete the existing disk image
+./bin/vm <sapling|seedling> display      # Enable display
+./bin/vm <sapling|seedling>              # Rely on VFIO display (Nvidia)
 ```
 
 ### Create a USB stick with NixOS ISO (in `result/iso/`)

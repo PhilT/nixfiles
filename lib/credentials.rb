@@ -8,8 +8,8 @@ require_relative "system"
 class Credentials < Thor
   include System
 
-  CREDENTIALS_PATH = File.join(ROOT_DIR, "config/credentials.yml.enc")
-  MASTER_KEY_PATH  = File.join(ROOT_DIR, "config/master.key")
+  CREDENTIALS_PATH = File.join(APP_DIR, "config/credentials.yml.enc")
+  MASTER_KEY_PATH  = File.join(APP_DIR, "config/master.key")
 
   desc "edit", "Create/edit credentials file."
   def edit
@@ -67,7 +67,7 @@ class Credentials < Thor
   end
 
   def generate_file
-    initial_content = File.read(File.join(ROOT_DIR, "config/credentials.yml.example"))
+    initial_content = File.read(File.join(APP_DIR, "config/credentials.yml.example"))
     encrypted_file.write(initial_content)
   end
 

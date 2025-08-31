@@ -26,7 +26,7 @@ class Nixx < Thor
   desc "iso", "Build a NixOS ISO"
   def iso
     Ssh.new(nil, options).with_public_keys do
-      writeIso ROOT_DIR
+      writeIso APP_DIR
     end
   end
 
@@ -165,7 +165,7 @@ class Nixx < Thor
   def configuration_nix
     @configuration_nix ||=
       begin
-        config = File.join(ROOT_DIR, "src/machines/#{machine}/#{modul}")
+        config = File.join(APP_DIR, "src/machines/#{machine}/#{modul}")
         "NIXOS_CONFIG=#{config}"
       end
   end

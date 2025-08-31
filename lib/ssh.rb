@@ -1,4 +1,3 @@
-require "pry"
 require_relative "credentials"
 
 # Generates SSH keys and adds them to credentials file as well as

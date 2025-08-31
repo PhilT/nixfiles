@@ -6,7 +6,7 @@ class Disks
   include Zfs
 
   def initialize(machine, wipe: false, root: "/", credentials: Credentials.new, options: {})
-    machines_config_path = File.join(ROOT_DIR, "config/machines.yml")
+    machines_config_path = File.join(APP_DIR, "config/machines.yml")
     if !File.exist?(machines_config_path)
       exit_with <<~HELP
         No config/machines.yml file found.

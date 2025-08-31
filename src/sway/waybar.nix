@@ -13,7 +13,7 @@ in with colors;
       text = (builtins.toJSON {
         layer = "top";
         spacing = "8";
-        height = "30";
+        height = "40";
         modules-left = ["sway/workspaces"];
         modules-center = ["sway/window"];
         modules-right = config.waybarModules;
@@ -68,7 +68,8 @@ in with colors;
           thermal-zone = 1;
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
-          format-icons = ["" "" ""];
+          format-icons = [""];
+          max-length = 5;
         };
         network = {
           format-wifi = "{icon}";

@@ -1,6 +1,6 @@
 require "open3"
 module System
-  ROOT_DIR = Dir.pwd
+  APP_DIR = File.expand_path(File.join(__dir__, ".."))
 
   attr_reader :options
 
@@ -16,7 +16,8 @@ module System
   end
 
   def exit_with(message)
-    log "ERROR", message
+    puts "ERROR!"
+    puts message
     exit 1
   end
 
@@ -53,7 +54,7 @@ module System
       success = true
     elsif use_system
       success = system(cmd)
-      exit_code = $CHILD_STATUS.exitstatus
+      exit_code = Process.last_status.exitstatus
     else
       begin
         stdout, stderr, status = Open3.capture3(cmd)
@@ -92,9 +93,8 @@ module System
   end
 
   def wait(message)
-    log @@state, message if message
     return if options[:dryrun]
 
-    gets
+    ask(message)
   end
 end

@@ -10,6 +10,7 @@
 
 set MACHINE $argv[1]
 set option $argv[2]
+set force $argv[3]
 set dir (status dirname)
 
 if test "$MACHINE" = "seedling"
@@ -33,9 +34,10 @@ else if test "$MACHINE" = "sapling"
   set OVMF_DIR "$OVMF_MS_DIR"
   set OVMF_VARS OVMF_VARS.ms.fd
 else
-  echo "Usage: $argv[0] <machine> [install|display]"
+  echo "Usage: $argv[0] <machine> [install [-f]|display]"
   echo " machine: sapling or seedling"
   echo " install: Adding `install` will include the required installation ISOs"
+  echo "          Adding `-f` will delete & recreate the disk image"
   echo " display: Adding `display` will give a display for first time configuration"
   exit 1
 end
@@ -104,8 +106,14 @@ if $enable_ovmf && not test -f tmp/$OVMF_VARS
   chmod +w tmp/$OVMF_VARS
 end
 
-# Create a virtual drive for the machine if one doesn't exist
+# Remove existing disk image if -f is passed
 set image_path "/data/vdisks/$MACHINE.qcow2"
+if test "$force" = "-f" && test -f $image_path
+  echo "Removing existing disk image for $MACHINE ($os)"
+  trash $image_path
+end
+
+# Create a virtual drive for the machine if one doesn't exist
 if not test -f $image_path
   qemu-img create -f qcow2 $image_path 300G
 end

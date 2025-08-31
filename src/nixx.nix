@@ -4,7 +4,7 @@
 }:
 let
   fs = lib.fileset;
-  sourceFiles = ../lib;
+  sourceFiles = lib.fileset.unions [../lib ../config];
 in
 stdenv.mkDerivation {
   name = "nixx";
@@ -12,10 +12,17 @@ stdenv.mkDerivation {
     root = ../.;
     fileset = sourceFiles;
   };
+
   installPhase = ''
-    mkdir -p $out/lib
-    mkdir -p $out/bin
+    runHook preInstall
+
+    mkdir -p $out/{lib,config,bin}
+
     cp -v lib/*.rb $out/lib
+    cp -v config/*.yml* $out/config
+    cp -v config/master.key $out/config
     cp -v lib/nixx $out/bin
+
+    runHook postInstall
   '';
 }
