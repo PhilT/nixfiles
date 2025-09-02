@@ -65,6 +65,12 @@ class Setup
     end
   end
 
+  def clone
+    log "CLONE", "Cloning nixfiles repo"
+    ssh_cmd = "GIT_SSH_COMMAND='ssh -i #{@github_ssh_key}'"
+    sudo ssh_cmd, "git", "clone", @nixfiles_repo, @nixfiles_dir
+  end
+
   def add_channels
     log "CHANNELS", "Checking channels"
     channel_list = sudo("nix-channel --list", dryrun: false).split(/\n| /)
@@ -80,14 +86,11 @@ class Setup
   end
 
   def wallpaper
-    mkdir File.join(@root, "data/pictures/wallpaper")
-    Wallpaper.start(["download"]) unless dry_run?
-  end
+    wallpaper_dir = File.join(@root, "data/pictures/wallpaper")
+    sudo "mkdir -p #{wallpaper_dir}"
+    sudo "chown", "1000:users", wallpaper_dir
 
-  def clone
-    log "CLONE", "Cloning nixfiles repo"
-    ssh_cmd = "GIT_SSH_COMMAND='ssh -i #{@github_ssh_key}'"
-    sudo ssh_cmd, "git", "clone", @nixfiles_repo, @nixfiles_dir
+    Wallpaper.start(["download"]) unless dry_run?
   end
 
   def install
