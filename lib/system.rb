@@ -34,7 +34,7 @@ module System
 
   def mkdir(path)
     log @@state, "Create #{path}"
-    Dir.mkdir(path) unless options[:dryrun]
+    FileUtils.mkdir_p(path) unless options[:dryrun]
   end
 
   # show: If true, prints the stdout

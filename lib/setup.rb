@@ -80,6 +80,7 @@ class Setup
   end
 
   def wallpaper
+    mkdir File.join(@root, "data/pictures/wallpaper")
     Wallpaper.start(["download"]) unless dry_run?
   end
 
