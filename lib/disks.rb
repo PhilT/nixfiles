@@ -5,7 +5,7 @@ class Disks
   include System
   include Zfs
 
-  def initialize(machine, wipe: false, root: "/", credentials: Credentials.new, options: {})
+  def initialize(machine, thor:, wipe: false, root: "/", credentials: Credentials.new, options: {})
     machines_config_path = File.join(APP_DIR, "config/machines.yml")
     if !File.exist?(machines_config_path)
       exit_with <<~HELP
@@ -15,6 +15,7 @@ class Disks
     end
 
     @machine = machine
+    @thor = thor
     @machines = YAML.load_file(machines_config_path)
     @wipe = wipe # FIXME: Wipe might be related to root. As in, we'll only ever
     @root = root # wipe the disks if root is /mnt and vice versa
@@ -138,8 +139,8 @@ class Disks
       mountpoint = @root if name == "root"
 
       if !run("zfs list")&.include?(dataset)
-        run "zfs create -o mountpoint=legacy #{dataset}"
-        run "zfs snapshot #{dataset}@blank"
+        sudo "zfs create -o mountpoint=legacy #{dataset}"
+        sudo "zfs snapshot #{dataset}@blank"
       else
         log "DATASET", "#{dataset} exists. Skipping"
       end

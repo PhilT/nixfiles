@@ -1,8 +1,9 @@
+require "thor"
 require "open3"
 module System
   APP_DIR = File.expand_path(File.join(__dir__, ".."))
 
-  attr_reader :options
+  attr_reader :options, :thor
 
   @@state = "BOOT"
 
@@ -95,6 +96,6 @@ module System
   def wait(message)
     return if options[:dryrun]
 
-    ask(message)
+    thor.ask(message)
   end
 end

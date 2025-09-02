@@ -50,7 +50,7 @@ class Nixx < Thor
   def setup
     root = "/mnt/"
     credentials = Credentials.new
-    disks = Disks.new(machine, wipe: true, root:, credentials:, options:)
+    disks = Disks.new(machine, thor: self, wipe: true, root:, credentials:, options:)
     setup = Setup.new(machine, options, root:, credentials:)
 
     if options[:show]
@@ -89,7 +89,7 @@ class Nixx < Thor
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
     root = "/"
     credentials = Credentials.new
-    disks = Disks.new(machine, wipe: false, root:, credentials:, options:)
+    disks = Disks.new(machine, thor: self, wipe: false, root:, credentials:, options:)
     setup = Setup.new(machine, options, root:, credentials:)
     ssh = Ssh.new(machine, options, credentials)
 
@@ -130,7 +130,7 @@ class Nixx < Thor
   desc "datasets", "Create any missing datasets and mount them"
   def datasets
     credentials = Credentials.new
-    disks = Disks.new(machine, wipe: false, root: "/", credentials:, options:)
+    disks = Disks.new(machine, thor: self, wipe: false, root: "/", credentials:, options:)
     disks.partition
   end
 

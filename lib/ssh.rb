@@ -121,7 +121,7 @@ class Ssh
     keypath_pub = "#{keypath}.pub"
     log "SSH", "Writing to #{keypath} and #{keypath_pub}"
 
-    write(keypath, keys[:private])
+    write(keypath, "#{keys[:public]}\n")
     write(keypath_pub, keys[:public])
     chmod(0600, keypath)
   end

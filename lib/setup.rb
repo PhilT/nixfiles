@@ -32,7 +32,7 @@ class Setup
   def github_ssh_key
     log "SSH", "Write GitHub SSH key to #{@github_ssh_key}"
     keys = @ssh.key_pair_for("github", "ed25519")
-    write(@github_ssh_key, keys[:private])
+    write(@github_ssh_key, "#{keys[:private]}\n")
     write("#{@github_ssh_key}.pub", keys[:public])
     chmod(0600, @github_ssh_key)
   end
