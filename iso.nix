@@ -13,6 +13,7 @@
 
   environment = {
     systemPackages = with pkgs; [
+      neovim # Basic Neovim for initial editing. Custom version installed later.
       (callPackage ./src/nixx.nix {})
     ];
   };

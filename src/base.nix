@@ -14,7 +14,6 @@
       htop
       libyaml
       lsof
-      neovim
       pkg-config
       ruby_3_4
       wget
