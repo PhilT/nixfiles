@@ -12,16 +12,7 @@
   ssh.preventRootLogin = false; # Root access needed when installing in case there are display issues
 
   environment = {
-    sessionVariables = {
-      GEM_PATH = "/run/current-system/sw/lib/ruby/gems/3.4.0";
-    };
-
     systemPackages = with pkgs; [
-      neovim
-      rubyPackages_3_4.activesupport
-      rubyPackages_3_4.rake
-      rubyPackages_3_4.thor
-
       (callPackage ./src/nixx.nix {})
     ];
   };

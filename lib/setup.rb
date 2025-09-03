@@ -94,7 +94,7 @@ class Setup
   end
 
   def install
-    credentials.with_hashed_password do
+    @credentials.with_hashed_password do
       log "INSTALL", "Installing NixOS"
       sudo "mkdir -p #{@root}/etc/nixos"
       sudo "ln -fs #{@configuration_nix} #{File.join(@root, "etc/nixos/configuration.nix")}"

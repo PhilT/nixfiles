@@ -38,7 +38,7 @@ nixx usb <dev> # e.g. nixx usb sda
 
 ### Boot up NixOS ISO, then run the following command to install NixOS and reboot:
 ```
-nixx setup <machine_name>  # e.g. nixx setup spruce # to start the installer for spruce
+nixx setup -m <machine_name>  # e.g. nixx setup spruce # to start the installer for spruce
 ```
 
 After first boot, run:
