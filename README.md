@@ -41,10 +41,10 @@ nixx usb <dev> # e.g. nixx usb sda
 nixx setup -m <machine_name>  # e.g. nixx setup spruce # to start the installer for spruce
 ```
 
-After first boot, run:
+After you've logged in, run:
 ```
 cd /data/code/nixfiles
-nixx build -s            # Rebuild NixOS and switch to the new machine config
+lib/nixx build -s            # Rebuild NixOS and switch to the new machine config
 ```
 
 ## Wallpaper

@@ -37,12 +37,6 @@ class Setup
     chmod(0600, @github_ssh_key)
   end
 
-  def master_key
-    config_path = File.join(@nixfiles_dir, "config")
-    log "SSH", "Write master key to #{config_path}"
-    cp Credentials::MASTER_KEY_PATH, config_path
-  end
-
   def all_ssh_keys
     log "SSH", "Write all SSH keys to SSH dir"
     @ssh.generate_all_keys
@@ -75,6 +69,13 @@ class Setup
     log "CLONE", "Cloning nixfiles repo"
     ssh_cmd = "GIT_SSH_COMMAND='ssh -i #{@github_ssh_key}'"
     sudo ssh_cmd, "git", "clone", @nixfiles_repo, @nixfiles_dir
+    sudo "chown", "-R", "1000:users", @nixfiles_dir
+  end
+
+  def master_key
+    config_path = File.join(@nixfiles_dir, "config")
+    log "SSH", "Write master key to #{config_path}"
+    cp Credentials::MASTER_KEY_PATH, config_path
   end
 
   def add_channels
@@ -104,10 +105,9 @@ class Setup
       log "INSTALL", "Installing NixOS"
       sudo "mkdir -p #{@root}/etc/nixos"
       sudo "ln -fs #{@configuration_nix} #{File.join(@root, "etc/nixos/configuration.nix")}"
-      sudo "nixos-install", "--no-root-password"
+      sudo "nixos-install", "--no-root-password", use_system: true
       log "REBOOT", "Rebooting..."
       sudo "chown", "1000:users", File.join(@root, "data")
-      sudo "chown", "-R", "1000:users", @nixfiles_dir
       sudo "umount", "-l", @root
       sudo "zpool", "export", "-a"
       sudo "reboot"

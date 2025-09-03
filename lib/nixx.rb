@@ -60,10 +60,10 @@ class Nixx < Thor
       setup.install
     else
       setup.github_ssh_key
-      setup.master_key
       setup.wifi
       disks.partition
       setup.clone
+      setup.master_key
       setup.add_channels
       setup.wallpaper
       setup.install
@@ -117,7 +117,7 @@ class Nixx < Thor
   desc "sha URL", "Fetch a SHA256 for the given package"
   def sha(url)
     # Might need to add --unpack if we're prefetching an archive
-    run("nix-prefetch-url #{url}")
+    run("nix-prefetch-url #{url}", use_system: true)
   end
 
   desc "option OPTION", "Output value of a config option e.g. persistedHomeDir"

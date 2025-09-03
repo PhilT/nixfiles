@@ -8,7 +8,7 @@
 
 pkgs.rustPlatform.buildRustPackage rec {
   pname = "mxw";
-  version = "0.1.2";
+  version = "0.1.3";
   cargoHash = "sha256-+7/pJfC9I+ZFhBi+X7/1EIzUVHaScvrElnuFPP+4rLM=";
   useCargoVendor = true;
 
@@ -19,6 +19,6 @@ pkgs.rustPlatform.buildRustPackage rec {
     owner = "dxbednarczyk";
     repo = "mxw";
     rev = "master";
-    sha256 = "sha256-0my+kGgN5MchWvZP2vtntHAm9Wbc6EFGYQRc1nM3a3E=";
+    sha256 = "sha256-MQLigV44mztDyNVleJ+2J7WLtADDUmaDcoWf+V4O0lk=";
   };
 }
