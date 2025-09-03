@@ -11,6 +11,7 @@ class Wallpaper < Thor
 
   desc "download [SCREEN]", "Download wallpaper from Wallhaven. SCREEN can be 'left' or 'right'"
   option :apply, type: :boolean, default: false, desc: "Apply wallpaper to sway"
+  option :mnt, type: :string, default: "", desc: "Mount point"
   def download(screen = nil)
     puts "Downloading wallpapers..."
     data = fetch_json
@@ -43,7 +44,7 @@ class Wallpaper < Thor
     Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
       response = http.get(url.path)
 
-      path = File.join(SAVE_DIR, filename)
+      path = File.join(options[:mnt], SAVE_DIR, filename)
       File.open(path, 'wb') { |file| file.write(response.body) }
 
       puts "Saved wallpaper to #{path}"

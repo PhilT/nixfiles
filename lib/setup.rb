@@ -18,7 +18,7 @@ class Setup
     @settings = Settings.new
     @nixfiles_repo = @settings.nixfiles_repo
     @nixfiles_dir = File.join(@root, "data/code/nixfiles")
-    @configuration_nix = File.join(@nixfiles_dir, "src/machines", @machine, @module, ".nix")
+    @configuration_nix = File.join(@nixfiles_dir, "src/machines", @machine, @module)
     @github_ssh_key = "#{HOME_DIR}/github_ssh_key"
     @credentials = credentials
     @ssh = Ssh.new(@machine, options, @credentials)
@@ -90,13 +90,13 @@ class Setup
     sudo "mkdir -p #{wallpaper_dir}"
     sudo "chown", "1000:users", wallpaper_dir
 
-    Wallpaper.start(["download"]) unless dry_run?
+    Wallpaper.start(["download", "--mnt", @root]) unless dry_run?
   end
 
   def install
     log "INSTALL", "Installing NixOS"
     sudo "mkdir -p #{@root}/etc/nixos"
-    sudo "ln -fs #{@configuration_nix} #{@root}/etc/nixos/configuration.nix"
+    sudo "ln -fs #{@configuration_nix} #{File.join(@root, "etc/nixos/configuration.nix")}"
     sudo "nixos-install", "--no-root-password"
     log "REBOOT", "Rebooting..."
     sudo "chown", "1000:users", File.join(@root, "data")
