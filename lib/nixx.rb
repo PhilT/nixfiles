@@ -60,6 +60,7 @@ class Nixx < Thor
       setup.install
     else
       setup.github_ssh_key
+      setup.master_key
       setup.wifi
       disks.partition
       setup.clone

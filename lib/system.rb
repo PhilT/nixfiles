@@ -37,6 +37,11 @@ module System
     FileUtils.mkdir_p(path) unless options[:dryrun]
   end
 
+  def cp(source, dest)
+    log @@state, "Copy #{source} to #{dest}"
+    FileUtils.cp(source, dest) unless options[:dryrun]
+  end
+
   # show: If true, prints the stdout
   # dryrun: Allows callers to override the dryrun option for non-mutating commands
   # handle_failure: If true, doesn't exit but returns the exit code

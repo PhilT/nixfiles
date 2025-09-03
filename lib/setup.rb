@@ -37,6 +37,12 @@ class Setup
     chmod(0600, @github_ssh_key)
   end
 
+  def master_key
+    config_path = File.join(@nixfiles_dir, "config")
+    log "SSH", "Write master key to #{config_path}"
+    cp Credentials::MASTER_KEY_PATH, config_path
+  end
+
   def all_ssh_keys
     log "SSH", "Write all SSH keys to SSH dir"
     @ssh.generate_all_keys
