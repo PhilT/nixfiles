@@ -94,16 +94,18 @@ class Setup
   end
 
   def install
-    log "INSTALL", "Installing NixOS"
-    sudo "mkdir -p #{@root}/etc/nixos"
-    sudo "ln -fs #{@configuration_nix} #{File.join(@root, "etc/nixos/configuration.nix")}"
-    sudo "nixos-install", "--no-root-password"
-    log "REBOOT", "Rebooting..."
-    sudo "chown", "1000:users", File.join(@root, "data")
-    sudo "chown", "-R", "1000:users", @nixfiles_dir
-    sudo "umount", "-l", @root
-    sudo "zpool", "export", "-a"
-    sudo "reboot"
+    credentials.with_hashed_password do
+      log "INSTALL", "Installing NixOS"
+      sudo "mkdir -p #{@root}/etc/nixos"
+      sudo "ln -fs #{@configuration_nix} #{File.join(@root, "etc/nixos/configuration.nix")}"
+      sudo "nixos-install", "--no-root-password"
+      log "REBOOT", "Rebooting..."
+      sudo "chown", "1000:users", File.join(@root, "data")
+      sudo "chown", "-R", "1000:users", @nixfiles_dir
+      sudo "umount", "-l", @root
+      sudo "zpool", "export", "-a"
+      sudo "reboot"
+    end
   end
 
   private

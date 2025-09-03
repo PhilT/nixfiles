@@ -112,6 +112,7 @@ class Ssh
   def with_public_keys
     key_paths = write_public_keys_to_tmp
     yield
+  ensure
     key_paths.each { File.delete(it) if File.exist?(it) }
   end
 

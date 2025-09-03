@@ -104,10 +104,12 @@ class Nixx < Thor
     sudo("nix-channel --update") if upgrade
 
     ssh.with_public_keys do
-      sudo(
-        "#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom",
-        use_system: true
-      )
+      credentials.with_hashed_password do
+        sudo(
+          "#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom",
+          use_system: true
+        )
+      end
     end
   end
 

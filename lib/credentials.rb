@@ -53,6 +53,13 @@ class Credentials < Thor
       encrypted_file.write(credentials.deep_stringify_keys.to_yaml)
     end
 
+    def with_hashed_password
+      File.write("/tmp/hashed_password", credentials[:hashed_password])
+      yield
+    ensure
+      File.delete("/tmp/hashed_password")
+    end
+
     delegate :[], :[]=, :dig, to: :credentials
   end
 

@@ -51,7 +51,7 @@
     createHome = true;
     uid = 1000;
     description = config.fullname;
-    hashedPassword = (builtins.readFile ../secrets/hashed_password);
+    hashedPassword = (builtins.readFile /tmp/hashed_password);
     extraGroups = [
       "audio"
       "docker"
