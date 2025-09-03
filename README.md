@@ -23,10 +23,10 @@ nixx iso
 ```
 ### Test in a VM
 ```
-./bin/vm <sapling|seedling> install [-f] # Mount install CDROM, enable display
-                                         # -f will delete the existing disk image
-./bin/vm <sapling|seedling> display      # Enable display
-./bin/vm <sapling|seedling>              # Rely on VFIO display (Nvidia)
+bin/vm <sapling|seedling> install [-f] # Mount install CDROM, enable display
+                                       # -f will delete the existing disk image
+bin/vm <sapling|seedling> display      # Enable display
+bin/vm <sapling|seedling>              # Rely on VFIO display (Nvidia)
 ```
 
 ### Create a USB stick with NixOS ISO (in `result/iso/`)
@@ -45,6 +45,16 @@ After you've logged in, run:
 ```
 cd /data/code/nixfiles
 lib/nixx build -s            # Rebuild NixOS and switch to the new machine config
+```
+
+And then (if you're on a VM with VFIO):
+```
+shutdown now          # Shutdown the VM
+bin/vm seedling       # Run on the host to start with VFIO on separate display
+```
+or:
+```
+reboot                # Reboot, if you're on a physical machine
 ```
 
 ## Wallpaper
