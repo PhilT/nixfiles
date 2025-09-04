@@ -8,6 +8,20 @@
 
   virtualisation.docker.enable = true;
 
+  environment.etc."supermaven/config.json" = {
+    text = (builtins.toJSON {
+      accepted_free_version = "true";
+      api_key = "dtvwqqqlemljabfxyuzmgthixnsoexev";
+      api_key_obtained_at = "2025-07-20 13:37:29.735744544";
+      link_id = "pLd6OTY7pAKxtbXewm97XDvQKpfYfgJ7";
+      machine_id = "11554dd9-2223-4d12-9eb2-8c96853eceb3";
+    });
+  };
+
+  systemd.tmpfiles.rules = [
+    "L+ ${config.homeDir}/.supermaven/config.json - - - - /etc/supermaven/config.json"
+  ];
+
   environment = {
     systemPackages = with pkgs; [
       gcc
