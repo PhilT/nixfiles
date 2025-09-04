@@ -6,7 +6,7 @@
   environment.etc."firefox/profiles.ini".text = ''
     [Profile0]
     Name=default
-    IsRelative=1
+    IsRelative=0
     Path=${config.persistedMachineDir}/firefox
     Default=1
 
@@ -18,7 +18,7 @@
   systemd.tmpfiles.rules = [
     "d ${config.homeDir}/.mozilla - ${config.username} users"
     "d ${config.homeDir}/.mozilla/firefox - ${config.username} users"
-    "L+ ${config.homeDir}/.mozilla/firefox/profiles.ini - ${config.username} users /etc/firefox/profiles.ini"
+    "L+ ${config.homeDir}/.mozilla/firefox/profiles.ini - - - - /etc/firefox/profiles.ini"
   ];
 
   programs.firefox.preferences = {
