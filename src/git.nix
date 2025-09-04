@@ -1,27 +1,18 @@
-{ config, pkgs, lib, ... }:
-
-let
-  repos = [
-    "nixfiles"
-    "matter"
-    "cv_builder"
-    "vim-fsharp"
-    "sheetzi"
-    "rails_bootstrap"
-    "fabrik"
-  ];
-  cloneAll = lib.lists.foldr (repo: str: "git_clone '${repo}'\n${str}") "";
-in
-{
+{ config, pkgs, lib, ... }: {
   environment.systemPackages = with pkgs; [
-    (writeShellScriptBin "gitclone" ''
-      git_clone() {
-        [ -d "$CODE/$1" ] || git clone git@github.com:PhilT/$1.git $CODE/$1
-      }
-
-      ${cloneAll repos}
+    (writeShellScriptBin "git-cd" ''
+      [ -d "$CODE/$PROJ" ] || git clone git@github.com:PhilT/$PROJ.git $CODE/$PROJ
+      cd "$CODE/$PROJ"
     '')
   ];
+
+  environment.shellAliases = {
+    matter = "PROJ=matter source /run/current-system/sw/bin/git-cd";
+    cv_builder = "PROJ=cv_builder source /run/current-system/sw/bin/git-cd";
+    vim-fsharp = "PROJ=vim-fsharp source /run/current-system/sw/bin/git-cd";
+    sheetzi = "PROJ=sheetzi source /run/current-system/sw/bin/git-cd";
+    rails_bootstrap = "PROJ=rails_bootstrap source /run/current-system/sw/bin/git-cd";
+  };
 
   environment.etc = {
     "gitconfig-personal" = {

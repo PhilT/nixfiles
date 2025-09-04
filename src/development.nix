@@ -26,10 +26,10 @@
     systemPackages = with pkgs; [
       gcc
 
-      (writeShellScriptBin "matter" ''
-        cd $CODE/matter
-        nix-shell shell.nix --run "nvim -S Session.vim"
-      '')
+      #(writeShellScriptBin "matter" ''
+      #  cd $CODE/matter
+      #  nix-shell shell.nix --run "nvim -S Session.vim"
+      #'')
 
       (writeShellScriptBin "gox" ''
         cd $CODE/matter
