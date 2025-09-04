@@ -101,7 +101,7 @@ class Nixx < Thor
     switch_to_key_based_encryption if disks.more_than_one?
 
     log command, machine
-    sudo("nix-collect-garbage -d") if options[:clean]
+    sudo("nix-collect-garbage -d", use_system: true) if options[:clean]
     sudo("nix-channel --update") if upgrade
 
     ssh.with_public_keys do

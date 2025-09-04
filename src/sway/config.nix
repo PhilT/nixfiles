@@ -222,6 +222,11 @@
         # Needed for UWSM to start
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
         exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+        # Start Firefox and Thunderbird which sync their profiles with the server
+        # before starting.
+        exec ff
+        exec tb
       '';
     };
   };

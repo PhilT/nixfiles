@@ -21,6 +21,17 @@
     "L+ ${config.homeDir}/.mozilla/firefox/profiles.ini - - - - /etc/firefox/profiles.ini"
   ];
 
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "ff" ''
+      notify-send "Syncing Firefox profile from server"
+      rsync -a --delete phil@minoo:/data/home/firefox/ ${config.persistedMachineDir}/firefox/
+      swaymsg "workspace 7; exec ${config.programs.firefox.package}/bin/firefox-esr"
+      notify-send "Syncing Firefox profile to server"
+      rsync -a --delete ${config.persistedMachineDir}/firefox/ phil@minoo:/data/home/firefox/
+      notify-send "Finished Syncing Firefox profile to server"
+    '')
+  ];
+
   programs.firefox.preferences = {
     "browser.tabs.inTitlebar" = 0;
     "browser.backspace_action" = 0;
