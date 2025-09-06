@@ -23,12 +23,32 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "ff" ''
-      notify-send "Syncing Firefox profile from server"
-      rsync -a --delete phil@minoo:/data/home/firefox/ ${config.persistedMachineDir}/firefox/
-      swaymsg "workspace 7; exec ${config.programs.firefox.package}/bin/firefox-esr"
-      notify-send "Syncing Firefox profile to server"
-      rsync -a --delete ${config.persistedMachineDir}/firefox/ phil@minoo:/data/home/firefox/
-      notify-send "Finished Syncing Firefox profile to server"
+      app-sync Firefox firefox firefox-esr $@
+    '')
+
+    (writeShellScriptBin "app-sync" ''
+      name=$1
+      app=$2
+      exe=$3
+      move=$4
+
+      id=$(notify-send -p -t 18000000 "$name profile sync" "Server -> Local")
+      rsync -a --delete phil@minoo:/data/home/$app/ ${config.persistedMachineDir}/$app/
+      notify-send -r $id -t 5000 "$name profile sync" "Complete (Server -> Local)"
+
+      /run/current-system/sw/bin/$exe &
+      pid=$!
+
+      if [ "$move" = "move" ]; then
+        sleep 2
+        swaymsg "[app_id=$app] move workspace 7"
+      fi
+
+      wait $pid
+
+      id=$(notify-send -p -t 18000000 "$name profile sync" "Local -> Server")
+      rsync -a --delete ${config.persistedMachineDir}/$app/ phil@minoo:/data/home/$app/
+      notify-send -r $id -t 5000 "$name profile sync" "Complete (Local -> Server)"
     '')
   ];
 

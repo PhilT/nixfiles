@@ -40,8 +40,17 @@
         vscode-with-extensions.override {
           vscode = vscodium;
           vscodeExtensions = with vscode-extensions; [
-            supermaven.supermaven
+            asciidoctor.asciidoctor-vscode
+            catppuccin.catppuccin-vsc
+            catppuccin.catppuccin-vsc-icons
+            gencer.html-slim-scss-css-class-completion
+            ionide.ionide-fsharp
+            jnoortheen.nix-ide
+            rust-lang.rust-analyzer
             shopify.ruby-lsp
+            supermaven.supermaven
+            vscodevim.vim
+            yzhang.markdown-all-in-one
           ];
         }
       )

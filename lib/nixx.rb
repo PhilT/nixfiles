@@ -83,6 +83,8 @@ class Nixx < Thor
     desc: "Show trace"
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing keys"
+  option :nom, type: :boolean, default: true,
+    desc: "Run nixos-rebuild with nom"
   def build
     command = options[:dryrun] ? "dry-build" : "build"
     command = "switch" if options.slice(:switch, :upgrade, :clean).any?
@@ -93,6 +95,7 @@ class Nixx < Thor
     disks = Disks.new(machine, thor: self, wipe: false, root:, credentials:, options:)
     setup = Setup.new(machine, options, root:, credentials:)
     ssh = Ssh.new(machine, options, credentials)
+    nom = options[:nom] ? " |& nom" : ""
 
     setup.add_channels
     setup.all_ssh_keys # Writes any missing keys to the credentials file and to SSH dir
@@ -107,7 +110,7 @@ class Nixx < Thor
     ssh.with_public_keys do
       credentials.with_hashed_password do
         sudo(
-          "#{configuration_nix} nixos-rebuild #{command}#{trace} |& nom",
+          "#{configuration_nix} nixos-rebuild #{command}#{trace}#{nom}",
           use_system: true
         )
       end

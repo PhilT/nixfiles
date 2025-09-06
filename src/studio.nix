@@ -7,7 +7,6 @@
 
     systemPackages = with pkgs; [
       renoise
-      sunvox
       surge-XT
       stochas
       lsp-plugins

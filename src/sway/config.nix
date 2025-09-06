@@ -225,8 +225,8 @@
 
         # Start Firefox and Thunderbird which sync their profiles with the server
         # before starting.
-        exec ff
-        exec tb
+        exec ff move
+        exec tb move
       '';
     };
   };

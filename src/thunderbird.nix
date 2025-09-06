@@ -19,13 +19,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    # app-sync script is in firefox.nix
     (writeShellScriptBin "tb" ''
-      notify-send "Syncing Thunderbird profile from server"
-      rsync -a --delete phil@minoo:/data/home/thunderbird/ ${config.persistedMachineDir}/thunderbird/
-      swaymsg "workspace 8; exec ${config.programs.thunderbird.package}/bin/thunderbird"
-      notify-send "Syncing Thunderbird profile to server"
-      rsync -a --delete ${config.persistedMachineDir}/thunderbird/ phil@minoo:/data/home/thunderbird/
-      notify-send "Finished Syncing Thunderbird profile to server"
+      app-sync Thunderbird thunderbird thunderbird $@
     '')
   ];
 }
