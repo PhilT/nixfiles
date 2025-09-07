@@ -14,7 +14,6 @@
       "code/archive"
       "code/spikes"
       "documents"
-      "home"
       "music"
       "music_extra"
       "notes"

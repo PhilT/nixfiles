@@ -23,32 +23,39 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "ff" ''
-      app-sync Firefox firefox firefox-esr $@
+      app-sync Firefox firefox firefox-esr 7 $@
     '')
 
     (writeShellScriptBin "app-sync" ''
       name=$1
       app=$2
       exe=$3
-      move=$4
+      ws=$4
+      move=$5
 
-      id=$(notify-send -p -t 18000000 "$name profile sync" "Server -> Local")
-      rsync -a --delete phil@minoo:/data/home/$app/ ${config.persistedMachineDir}/$app/
-      notify-send -r $id -t 5000 "$name profile sync" "Complete (Server -> Local)"
+      sync_app() {
+        if [ -f /data/home/$app/lock ]; then
+          notify-send -u critical "Lock file found, skipping sync"
+        else
+          id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing...")
+          sync_minoo -path home/$app
+          notify-send -r $id -t 5000 "$name profile sync" "Complete"
+        fi
+      }
+
+      sync_app
 
       /run/current-system/sw/bin/$exe &
       pid=$!
 
       if [ "$move" = "move" ]; then
         sleep 2
-        swaymsg "[app_id=$app] move workspace 7"
+        swaymsg "[app_id=$app] move workspace $ws"
       fi
 
       wait $pid
 
-      id=$(notify-send -p -t 18000000 "$name profile sync" "Local -> Server")
-      rsync -a --delete ${config.persistedMachineDir}/$app/ phil@minoo:/data/home/$app/
-      notify-send -r $id -t 5000 "$name profile sync" "Complete (Local -> Server)"
+      sync_app
     '')
   ];
 

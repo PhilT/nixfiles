@@ -16,11 +16,9 @@ in
     maxthreads = 20
     fastcheck = true
     times = true
-    watch = true
 
     copyonconflict = true
     prefer = newer
-    repeat = watch
     retry = 5
 
     backupcurrent = Name *
@@ -36,11 +34,19 @@ in
     ignore = Name *~
 
     ignore = Path work/*
+    ignore = Path firefox/lock
+    ignore = Path thunderbird/lock
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
 
-    ${pathsConfig config.unison.paths}
     ${config.unison.extraConfig}
+  '';
+
+  environment.etc."unison/paths".text = ''
+    repeat = watch
+    watch = true
+
+    ${pathsConfig config.unison.paths}
   '';
 
   systemd.services.unison = {
@@ -48,7 +54,7 @@ in
     description = "Unison filesync";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "/run/current-system/sw/bin/sync_${config.unison.target}";
+      ExecStart = "/run/current-system/sw/bin/sync_${config.unison.target} -include paths";
       ExecStop = "/run/current-system/sw/bin/pkill unison";
       Restart = "always";
       RestartSec = "5";
@@ -65,6 +71,7 @@ in
   systemd.tmpfiles.rules = [
     "d ${unisonDir} - ${config.username} users -"
     "L+ ${unisonDir}/common.prf - - - - /etc/unison/common.prf"
+    "L+ ${unisonDir}/paths.prf - - - - /etc/unison/paths.prf"
 
     "d ${config.dataDir}/backups - ${config.username} users -" # Unison backup folder
   ] ++ (folders config.unison.paths);

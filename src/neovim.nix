@@ -83,6 +83,7 @@ in
 
           auto-pairs
           catppuccin-nvim
+          claude-code-nvim
           fsharp
           lualine-nvim
           nvim-lspconfig             # Language server client settings

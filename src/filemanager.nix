@@ -9,7 +9,7 @@
   environment = {
     systemPackages = with pkgs; [
       file-roller           # GUI archiver
-      lxde.lxmenu-data      # List apps to run in PCManFM
+      lxmenu-data           # List apps to run in PCManFM
     ];
 
     etc = {

@@ -25,6 +25,7 @@
   environment = {
     systemPackages = with pkgs; [
       gcc
+      claude-code
 
       #(writeShellScriptBin "matter" ''
       #  cd $CODE/matter
@@ -40,6 +41,7 @@
         vscode-with-extensions.override {
           vscode = vscodium;
           vscodeExtensions = with vscode-extensions; [
+            anthropic.claude-code
             asciidoctor.asciidoctor-vscode
             catppuccin.catppuccin-vsc
             catppuccin.catppuccin-vsc-icons
