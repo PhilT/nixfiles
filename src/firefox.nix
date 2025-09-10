@@ -100,7 +100,7 @@
     };
     Homepage.StartPage = "previous-session";
     Permissions = {
-      Camera.Allow = [ "https://*.google.com" ];
+      Camera.Allow = [ "https://*.google.com" "https://*.microsoft.com" ];
       Microphone.Allow = [ "https://*.google.com" ];
       Location.Allow = [];
       Notifications.Allow = [];
