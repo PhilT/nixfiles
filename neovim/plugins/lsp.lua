@@ -10,7 +10,6 @@ require'lspconfig'.ruby_lsp.setup{                                              
   on_attach = on_attach,
   cmd = {'devbox', 'run', 'ruby-lsp'}
 }
-require'lspconfig'.rust_analyzer.setup{on_attach = on_attach}                   -- Rust
 require'lspconfig'.terraformls.setup{}
 
 setup_lsp_keys()

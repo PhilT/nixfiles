@@ -92,13 +92,33 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {desc = 'Previous error'})
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {desc = 'Next error'})
 vim.keymap.set('n', '<Leader>g', vim.diagnostic.setqflist, {desc = 'Show errors for project'})
 
+local tab_completion = function()
+  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+  print(string.sub(line, col, col))
+
+  if vim.fn.pumvisible() == 0 then
+    local char = string.sub(line, col, col)
+    if col == 0 or char == ' ' then
+      return '<tab>'
+    else
+      return '<c-x><c-o>'
+    end
+  else
+    return '<c-n>'
+  end
+end
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
-  -- Used to be for completion but disabled for now
+  -- Enable completion triggered by <c-x><c-o> and map it to TAB
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
 function setup_lsp_keys()
+  vim.keymap.set('i', '<tab>', tab_completion, expropts)
+
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, bufopts)
@@ -120,3 +140,10 @@ end
 
 -- F#
 map('n', '<Leader>#', '<cmd>call v:lua.create_fsharp_env()<CR>')                -- Setup windows for F# development
+
+-- Rust debugger
+map('n', '<leader>db', ':lua require"dap".toggle_breakpoint()<CR>', opts)
+map('n', '<leader>dc', ':lua require"dap".continue()<CR>', opts)
+map('n', '<leader>di', ':lua require"dap".step_into()<CR>', opts)
+map('n', '<leader>do', ':lua require"dap".step_over()<CR>', opts)
+map('n', '<leader>dr', ':lua require"dap".repl.toggle()<CR>', opts)

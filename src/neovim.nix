@@ -58,19 +58,6 @@ let
   };
 in
 {
-  environment = {
-    # Language servers
-    systemPackages = with pkgs; [
-      clang-tools
-      csharp-ls
-      dotnet-sdk_8
-      fsautocomplete
-      glslls          # GLSL Language Server
-      rust-analyzer
-      terraform-ls
-    ];
-  };
-
   programs.neovim = {
     package = neovimNoThemes;
     configure = {
@@ -86,16 +73,20 @@ in
           claude-code-nvim
           fsharp
           lualine-nvim
-          nvim-lspconfig             # Language server client settings
+          nvim-dap                  # Debugging adapter
+          nvim-dap-ui               # UI for nvim-dap
+          nvim-lspconfig            # Language server client settings
           nvim-tree-lua
           nvim-treesitter
-          plenary-nvim               # Required by Telescope
+          plenary-nvim              # Required by Telescope
           quickfix-reflector-vim
+          rustaceanvim              # Forked: rust-tools.nvim, for debugger
           slim
           supermaven-nvim
           telescope-fzy-native-nvim
           telescope-nvim
           todo-txt-vim
+          toggleterm-nvim
           vader-vim
           vim-abolish
           vim-css-color
@@ -140,15 +131,18 @@ in
         luafile ${../neovim/keys.lua}
         luafile ${../neovim/autocmds.lua}
         luafile ${../neovim/plugins/ai.lua}
-        luafile ${../neovim/plugins/lualine.lua}
+        luafile ${../neovim/plugins/dap.lua}
+        luafile ${../neovim/plugins/fsharp.lua}
         luafile ${../neovim/plugins/fugitive.lua}
+        luafile ${../neovim/plugins/lualine.lua}
         luafile ${../neovim/plugins/nvimtree.lua}
         luafile ${../neovim/plugins/purescript.lua}
         luafile ${../neovim/plugins/ripgrep.lua}
         luafile ${../neovim/plugins/ruby.lua}
         luafile ${../neovim/plugins/scratch.lua}
         luafile ${../neovim/plugins/telescope.lua}
-        luafile ${../neovim/plugins/fsharp.lua}
+        luafile ${../neovim/plugins/toggleterm.lua}
+
         luafile ${../neovim/plugins/lsp.lua}
       '';
     };

@@ -26,6 +26,16 @@
     systemPackages = with pkgs; [
       gcc
       claude-code
+      lldb_21
+
+      # Language servers
+      clang-tools
+      csharp-ls
+      dotnet-sdk_8
+      fsautocomplete
+      glslls          # GLSL Language Server
+      rust-analyzer
+      terraform-ls
 
       #(writeShellScriptBin "matter" ''
       #  cd $CODE/matter
