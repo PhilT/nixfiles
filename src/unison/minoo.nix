@@ -12,8 +12,8 @@
       "books"
       "calibre_library" # TODO: Merge books and calibre_library - Just have a calibre library called books/
       "code/archive"
-      "code/spikes"
       "documents"
+      "home"
       "music"
       "music_extra"
       "notes"

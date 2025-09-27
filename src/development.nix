@@ -20,6 +20,8 @@
 
   systemd.tmpfiles.rules = [
     "L+ ${config.homeDir}/.supermaven/config.json - - - - /etc/supermaven/config.json"
+    "L+ ${config.homeDir}/.claude.json - - - - ${config.persistedHomeDir}/claude.json"
+    "L+ ${config.homeDir}/.claude - - - - ${config.persistedHomeDir}/claude"
   ];
 
   environment = {

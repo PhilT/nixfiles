@@ -42,7 +42,7 @@ in
     ${config.unison.extraConfig}
   '';
 
-  environment.etc."unison/paths".text = ''
+  environment.etc."unison/paths.prf".text = ''
     repeat = watch
     watch = true
 
