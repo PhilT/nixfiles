@@ -24,6 +24,7 @@
 
   environment = {
     systemPackages = with pkgs; [
+      jq
       gcc
       claude-code
       lldb_21
