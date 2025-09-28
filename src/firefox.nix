@@ -49,8 +49,12 @@
       pid=$!
 
       if [ "$move" = "move" ]; then
-        sleep 2
-        swaymsg "[app_id=$app] move workspace $ws"
+        # Move apps as quickly as possible but keep trying
+        # for slower machines.
+        for i in {1..4}; do
+          sleep 1
+          swaymsg "[app_id=$app] move workspace $ws"
+        done
       fi
 
       wait $pid
