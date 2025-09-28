@@ -33,11 +33,13 @@ in
     ignore = Name .*~
     ignore = Name *~
 
+    ignore = Path code/*
     ignore = Path work/*
     ignore = Path firefox/lock
     ignore = Path thunderbird/lock
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
+    ignorenot = Path code/CLAUDE.md
 
     ${config.unison.extraConfig}
   '';
