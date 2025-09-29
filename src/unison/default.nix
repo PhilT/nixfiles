@@ -32,18 +32,30 @@ in
     ignore = Name *.tmp
     ignore = Name .*~
     ignore = Name *~
+    ignorenot = Name CLAUDE.md
 
+    ignore = Path .Trash*
+    ignore = Path backups
     ignore = Path code/*
     ignore = Path work/*
+    ignore = Path downloads
+    ignore = Path etc
+    ignore = Path iso
+    ignore = Path machine
+    ignore = Path var
+    ignore = Path vdisks
     ignore = Path firefox/lock
     ignore = Path thunderbird/lock
+    ignorenot = Path code/archive
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
-    ignorenot = Path code/CLAUDE.md
 
     ${config.unison.extraConfig}
   '';
 
+  # The pathsConfig is only needed for Suuno now
+  # as we sync everything to Minoo with the above
+  # filters.
   environment.etc."unison/paths.prf".text = ''
     repeat = watch
     watch = true

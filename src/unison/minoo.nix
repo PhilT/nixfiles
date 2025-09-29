@@ -7,26 +7,7 @@
 
   unison = {
     target = "minoo";
-    paths = [
-      "Claudi"
-      "books"
-      "calibre_library" # TODO: Merge books and calibre_library - Just have a calibre library called books/
-      "code/archive"
-      "code"
-      "documents"
-      "home"
-      "music"
-      "music_extra"
-      "notes"
-      "other"
-      "pictures"
-      "screenshots"
-      "studio"
-      "sync"
-      "txt"
-      "videos"
-      "work"
-    ];
+    paths = [];
   };
 
   environment.systemPackages = with pkgs; [
