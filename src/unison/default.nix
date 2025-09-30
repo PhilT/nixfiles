@@ -21,9 +21,15 @@ in
     prefer = newer
     retry = 5
 
-    backupcurrent = Name *
+    backupcurr = Path books
+    backupcurr = Path calibre_library
+    backupcurr = Path documents
+    backupcurr = Path home
+    backupcurr = Path notes
+    backupcurr = Path sync
+    backupcurr = Path txt
     backuplocation = central
-    maxbackups = 5
+    maxbackups = 2
     backupdir = ${config.dataDir}/backups
 
     ignore = Name .thumbnails
@@ -40,12 +46,11 @@ in
     ignore = Path work/*
     ignore = Path downloads
     ignore = Path etc
-    ignore = Path iso
     ignore = Path machine
     ignore = Path var
     ignore = Path vdisks
-    ignore = Path firefox/lock
-    ignore = Path thunderbird/lock
+    ignore = Path home/firefox/lock
+    ignore = Path home/thunderbird/lock
     ignorenot = Path code/archive
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
@@ -59,6 +64,11 @@ in
   environment.etc."unison/paths.prf".text = ''
     repeat = watch
     watch = true
+
+    # These are synced when starting and stopping FF and TB with a manual unison
+    # run. See app-sync in firefox.nix.
+    ignore = Path home/firefox
+    ignore = Path home/thunderbird
 
     ${pathsConfig config.unison.paths}
   '';

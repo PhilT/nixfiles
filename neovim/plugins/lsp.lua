@@ -22,4 +22,4 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
   end,
 })
 
-require'claude-code'.setup()
+require'claudecode'.setup()

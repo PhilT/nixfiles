@@ -70,7 +70,7 @@ in
 
           auto-pairs
           catppuccin-nvim
-          claude-code-nvim
+          claudecode-nvim
           fsharp
           lualine-nvim
           nvim-dap                  # Debugging adapter
