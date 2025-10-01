@@ -35,7 +35,9 @@ in
     ignore = Name .thumbnails
     ignore = Name .devbox
     ignore = Name .direnv
+    ignore = Name logs
     ignore = Name *.tmp
+    ignore = Name *.lock
     ignore = Name .*~
     ignore = Name *~
     ignorenot = Name CLAUDE.md
@@ -54,6 +56,12 @@ in
     ignore = Path vdisks
     ignore = Path home/firefox/lock
     ignore = Path home/thunderbird/lock
+
+    # Claude Code state data to exclude
+    ignore = Path home/claude/local
+    ignore = Path home/claude/projects
+    ignore = Path home/claude/statsig
+    ignore = Path home/claude/todos
 
     # 3rd party code is not committed so we sync it to grab files such as shell.nix
     ignorenot = Path code/3rd-party
