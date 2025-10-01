@@ -3,11 +3,17 @@
   programs.firefox.package = pkgs.firefox-esr-140;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
 
+  # Firefox normally lives in ~/.mozilla/firefox with a profiles.ini
+  # which indicates where the profile is stored. We point this to
+  # /data/home/firefox so it can be synced between machines.
+  # homeDir is ~
+  # persistedHomeDir is /data/home
+
   environment.etc."firefox/profiles.ini".text = ''
     [Profile0]
     Name=default
     IsRelative=0
-    Path=${config.persistedMachineDir}/firefox
+    Path=${config.persistedHomeDir}/firefox
     Default=1
 
     [General]

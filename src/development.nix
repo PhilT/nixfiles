@@ -39,7 +39,7 @@
         # Start ollama service if not running
         if ! pgrep -x ollama >/dev/null; then
           echo "Starting Ollama service..."
-          ollama serve &
+          ollama serve >> ~/.ollama.log 2>&1 &
           sleep 3
         else
           echo "Ollama service is already running"

@@ -1,11 +1,17 @@
 { config, pkgs, ... }: {
   programs.thunderbird.enable = true;
 
+  # Thunderbird normally lives in ~/.thunderbird with a profiles.ini
+  # which indicates where the profile is stored. We point this to
+  # /data/home/thunderbird so it can be synced between machines.
+  # homeDir is ~/
+  # persistedHomeDir is /data/home/
+
   environment.etc."thunderbird/profiles.ini".text = ''
     [Profile0]
     Name=default
     IsRelative=0
-    Path=${config.persistedMachineDir}/thunderbird
+    Path=${config.persistedHomeDir}/thunderbird
     Default=1
 
     [General]
