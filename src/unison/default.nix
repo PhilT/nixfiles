@@ -40,6 +40,7 @@ in
     ignore = Name *~
     ignorenot = Name CLAUDE.md
 
+    ignore = Path milvus-vector-db # This needs to be moved to machine/
     ignore = Path .Trash*
     ignore = Path backups
     ignore = Path code/*
