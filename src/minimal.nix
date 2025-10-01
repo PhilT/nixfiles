@@ -78,4 +78,8 @@
 
     keepassxc
   ];
+
+  systemd.tmpfiles.rules = [
+    "L+ ${config.homeDir}/.config/fish - - - - ${config.persistedHomeDir}/config/fish"
+  ];
 }

@@ -1,5 +1,4 @@
 # work.nix is from work.nix.example and isn't versioned.
-# This one is synced with Unison.
 
 { config, lib, pkgs, ... }: {
   imports = [
@@ -30,6 +29,61 @@
       gcc
       claude-code
       lldb_21
+      ollama
+      nodejs_20 # Claude requires Node.js < 24
+
+      # Ollama setup script
+      (writeShellScriptBin "ollama-setup" ''
+        echo "Setting up Ollama with nomic embed model..."
+
+        # Start ollama service if not running
+        if ! pgrep -x ollama >/dev/null; then
+          echo "Starting Ollama service..."
+          ollama serve &
+          sleep 3
+        else
+          echo "Ollama service is already running"
+        fi
+
+        # Check if nomic embed model is available
+        if ! ollama list | grep -q "nomic-embed-text"; then
+          echo "Downloading nomic embed model..."
+          ollama pull nomic-embed-text
+        else
+          echo "Nomic embed model already available"
+        fi
+
+        echo ""
+        echo "Ollama setup complete!"
+        echo "- Service: http://localhost:11434"
+        echo "- Model: nomic-embed-text"
+        echo ""
+        echo "Usage:"
+        echo "  ollama run nomic-embed-text"
+        echo "  curl http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"your text\"}'"
+        echo ""
+        echo "To stop: pkill ollama"
+      '')
+
+      (writeShellScriptBin "milvus-standalone" ''
+        cd /data/milvus-vector-db
+
+        echo "Starting Milvus with docker compose..."
+        docker compose up -d
+
+        echo ""
+        echo "Milvus standalone stack started!"
+        echo "- Milvus API: localhost:19530"
+        echo "- Milvus Web UI: localhost:9091"
+        echo "- MinIO Console: localhost:9001 (minioadmin/minioadmin)"
+        echo ""
+        echo "Check status:"
+        echo "  cd /data/milvus-vector-db && docker compose logs"
+        echo "  cd /data/milvus-vector-db && docker compose ps"
+        echo ""
+        echo "To stop all:"
+        echo "  cd /data/milvus-vector-db && docker compose down"
+      '')
 
       # Language servers
       clang-tools
