@@ -40,7 +40,9 @@ in
     ignore = Name *~
     ignorenot = Name CLAUDE.md
 
-    ignore = Path milvus-vector-db # This needs to be moved to machine/
+    # This needs to be moved to machine/
+    ignore = Path milvus-vector-db
+
     ignore = Path .Trash*
     ignore = Path backups
     ignore = Path code/*
@@ -52,6 +54,10 @@ in
     ignore = Path vdisks
     ignore = Path home/firefox/lock
     ignore = Path home/thunderbird/lock
+
+    # 3rd party code is not committed so we sync it to grab files such as shell.nix
+    ignorenot = Path code/3rd-party
+
     ignorenot = Path code/archive
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
@@ -77,6 +83,7 @@ in
   systemd.services.unison = {
     enable = true;
     description = "Unison filesync";
+    startLimitIntervalSec = 0;
     serviceConfig = {
       Type = "simple";
       ExecStart = "/run/current-system/sw/bin/sync_${config.unison.target} -include paths";
