@@ -79,7 +79,7 @@
         set $mod Mod4
 
         # Set some apps to load into certain workspace
-        assign [app_id="Slack"] workspace number 6
+        assign [class="Slack"] workspace number 6
 
         # PROGRAMS
         bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef

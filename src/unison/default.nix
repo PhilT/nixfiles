@@ -42,20 +42,21 @@ in
     ignore = Name *~
     ignorenot = Name CLAUDE.md
 
-    # This needs to be moved to machine/
-    ignore = Path milvus-vector-db
-
     ignore = Path .Trash*
     ignore = Path backups
-    ignore = Path code/*
-    ignore = Path work/*
+    ignore = Path code
     ignore = Path downloads
     ignore = Path etc
+    ignore = Path home/firefox/lock
+    ignore = Path home/thunderbird/lock
     ignore = Path machine
     ignore = Path var
     ignore = Path vdisks
-    ignore = Path home/firefox/lock
-    ignore = Path home/thunderbird/lock
+    ignore = Path work
+
+    # Containers (at least milvus-vector-db) are synced manually with
+    # rsync -a --progress /data/containers phil@minoo:/data/
+    ignore = Path containers
 
     # Claude Code state data to exclude
     ignore = Path home/claude/local
@@ -63,9 +64,10 @@ in
     ignore = Path home/claude/statsig
     ignore = Path home/claude/todos
 
-    # 3rd party code is not committed so we sync it to grab files such as shell.nix
+    # 3rd party code is not committed so we sync it to local changes such as shell.nix
     ignorenot = Path code/3rd-party
 
+    # These folders/files are not versioned so we sync them
     ignorenot = Path code/archive
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync

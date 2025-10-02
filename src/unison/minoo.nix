@@ -1,5 +1,6 @@
 # Sync Unison with Minoo
 # Runs on Spruce and Aramid
+# Usage: sync_minoo -path path/to/sync
 
 { config, pkgs, lib, ... }:
 {
