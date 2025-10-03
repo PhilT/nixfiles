@@ -15,6 +15,7 @@ in
     dumbtty = true
     maxthreads = 20
     fastcheck = true
+    xferbycopying = true
     times = true
 
     copyonconflict = true
@@ -40,6 +41,29 @@ in
     ignore = Name *.lock
     ignore = Name .*~
     ignore = Name *~
+
+    # Cache and build artifacts
+    ignore = Name .cache
+    ignore = Name node_modules
+    ignore = Name target
+    ignore = Name dist
+    ignore = Name build
+    ignore = Name .gradle
+
+    # Version control
+    ignore = Name .git
+
+    # OS files
+    ignore = Name .DS_Store
+    ignore = Name Thumbs.db
+    ignore = Name desktop.ini
+
+    # Editor files
+    ignore = Name .vscode
+    ignore = Name .idea
+    ignore = Name *.swp
+    ignore = Name *.swo
+
     ignorenot = Name CLAUDE.md
 
     ignore = Path .Trash*

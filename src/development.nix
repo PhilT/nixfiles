@@ -66,7 +66,7 @@
       '')
 
       (writeShellScriptBin "milvus-standalone" ''
-        cd /data/milvus-vector-db
+        cd /data/containers/milvus-vector-db
 
         echo "Starting Milvus with docker compose..."
         docker compose up -d
@@ -78,11 +78,11 @@
         echo "- MinIO Console: localhost:9001 (minioadmin/minioadmin)"
         echo ""
         echo "Check status:"
-        echo "  cd /data/milvus-vector-db && docker compose logs"
-        echo "  cd /data/milvus-vector-db && docker compose ps"
+        echo "  cd /data/containers/milvus-vector-db && docker compose logs"
+        echo "  cd /data/containers/milvus-vector-db && docker compose ps"
         echo ""
         echo "To stop all:"
-        echo "  cd /data/milvus-vector-db && docker compose down"
+        echo "  cd /data/containers/milvus-vector-db && docker compose down"
       '')
 
       # Language servers

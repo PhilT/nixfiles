@@ -1,8 +1,9 @@
 { config, lib, pkgs, ... }: {
   programs = {
-    # Autorun nix-shell when entering a dir with a shell.nix (e.g. a Ruby or .NET project)
+    # Autorun nix-shell or devbox when entering a dir with a shell.nix (e.g. a Ruby or .NET project)
     #
     direnv.enable = true;
+    direnv.silent = true;
   };
 
   environment = {
