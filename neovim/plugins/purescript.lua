@@ -1,4 +1,4 @@
-require'lspconfig'.purescriptls.setup {
+vim.lsp.config('purescriptls', {
   --on_attach = on_attach,
   cmd = { "npx", "purescript-language-server", "--stdio" },
   settings = {
@@ -9,4 +9,5 @@ require'lspconfig'.purescriptls.setup {
   flags = {
     debounce_text_changes = 150,
   }
-}
+})
+vim.lsp.enable('purescriptls')

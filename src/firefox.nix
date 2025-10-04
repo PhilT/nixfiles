@@ -55,6 +55,7 @@
       pid=$!
 
       if [ "$move" = "move" ]; then
+        notify-send "Moving $name to $ws"
         # Move apps as quickly as possible but keep trying
         # for slower machines.
         for i in {1..4}; do

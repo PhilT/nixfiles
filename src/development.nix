@@ -24,6 +24,12 @@
   ];
 
   environment = {
+    sessionVariables = {
+      # Fix issue with TailwindCSS 3 Chokidar causing the following error:
+      # FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+      NODE_OPTIONS = "--max-old-space-size=8192";
+    };
+
     systemPackages = with pkgs; [
       jq
       gcc

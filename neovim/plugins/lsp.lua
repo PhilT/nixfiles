@@ -2,15 +2,25 @@
 -- lua print(vim.lsp.get_log_path())
 
 -- use on_attach key binds from keys.lua
-require'lspconfig'.clangd.setup{on_attach = on_attach}                          -- C/C++
-require'lspconfig'.csharp_ls.setup{on_attach = on_attach}                       -- C#
-require'lspconfig'.fsautocomplete.setup{on_attach = on_attach}                  -- F#
-require'lspconfig'.gdscript.setup{on_attach = on_attach}                        -- GD Script (Godot)
-require'lspconfig'.ruby_lsp.setup{                                              -- Ruby
+vim.lsp.config('clangd', {on_attach = on_attach})                          -- C/C++
+vim.lsp.enable('clangd')
+
+vim.lsp.config('csharp_ls', {on_attach = on_attach})                       -- C#
+vim.lsp.enable('csharp_ls')
+
+vim.lsp.config('fsautocomplete', {on_attach = on_attach})                  -- F#
+vim.lsp.enable('fsautocomplete')
+
+vim.lsp.config('gdscript', {on_attach = on_attach})                        -- GD Script (Godot)
+vim.lsp.enable('gdscript')
+
+vim.lsp.config('ruby_lsp', {                                               -- Ruby
   on_attach = on_attach,
   cmd = {'devbox', 'run', 'ruby-lsp'}
-}
-require'lspconfig'.terraformls.setup{}
+})
+vim.lsp.enable('ruby_lsp')
+
+vim.lsp.enable('terraformls')
 
 setup_lsp_keys()
 
