@@ -19,7 +19,9 @@
       wget
       which
 
-      # Ruby gems for nixx
+      # Ruby gems for nixx added here so they're available when bootstrapping
+      # a new machine. Version numbers match the Gemfile.
+      # See Gemfile if changing these.
       rubyPackages_3_4.activesupport
       rubyPackages_3_4.rake
       rubyPackages_3_4.thor

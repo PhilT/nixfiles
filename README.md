@@ -62,6 +62,14 @@ reboot                # Reboot, if you're on a physical machine
 bin/wallpaper download [left|right] [--apply]
 ```
 
+## Syncing to public repository
+
+```
+bin/sync-to-public
+```
+
+Syncs this private repository to the public version, filtering out sensitive files like credentials and machine configurations.
+
 ## SSH
 
 SSH keys are used to authenticate between clients and the server.
