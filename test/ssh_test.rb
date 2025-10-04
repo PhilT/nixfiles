@@ -62,7 +62,8 @@ class SshTest < Minitest::Test
 
   def test_generate_all_keys
     subject.stub(:generate_key_pair, new_keys) do
-      mock_credentials.expect(:save, nil, [new_credentials])
+      mock_credentials.expect(:[]=, nil, [:ssh, new_credentials[:ssh]])
+      mock_credentials.expect(:save, nil)
       subject.generate_all_keys
       assert_mock mock_credentials
     end
@@ -71,9 +72,9 @@ class SshTest < Minitest::Test
   def test_write_keys_to
     Dir.mktmpdir do |dir|
       subject.write_keys_to(dir)
-      assert_equal private_key, File.read("#{dir}/id_ed25519")
+      assert_equal "#{private_key}\n", File.read("#{dir}/id_ed25519")
       assert_equal public_key, File.read("#{dir}/id_ed25519.pub")
-      assert_equal private_key, File.read("#{dir}/id_ed25519_other")
+      assert_equal "#{private_key}\n", File.read("#{dir}/id_ed25519_other")
       assert_equal public_key, File.read("#{dir}/id_ed25519_other.pub")
     end
   end
