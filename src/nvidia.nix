@@ -1,16 +1,22 @@
 { config, lib, pkgs, ... }: {
-  boot.kernelModules = [
+  boot.initrd.kernelModules = [
     "nvidia"
-    "nvidia_uvm"
     "nvidia_modeset"
+    "nvidia_uvm"
     "nvidia_drm"
   ];
 
+  boot.blacklistedKernelModules = [ "i915" "nouveau" ];
+
   services.xserver.videoDrivers = ["nvidia"];
+
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+  ];
 
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     #forceFullCompositionPipeline = true;
     open = false;
     nvidiaSettings = true;
@@ -20,6 +26,9 @@
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 
   environment.systemPackages = with pkgs; [

@@ -71,6 +71,7 @@ in
     ignore = Path code
     ignore = Path downloads
     ignore = Path etc
+    ignore = Path games
     ignore = Path home/firefox/lock
     ignore = Path home/thunderbird/lock
     ignore = Path machine

@@ -9,7 +9,8 @@
     ../../common_gui.nix
     ../../development.nix
     ../../studio.nix
-    ../../qemu.nix
+    #../../qemu.nix
+    ../../games.nix
 
     # Sync
     ../../ssh.nix

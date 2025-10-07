@@ -25,11 +25,11 @@
         workspace 3 output DP-1 DP-3 eDP-1
         workspace 4 output DP-1 DP-3 eDP-1
         workspace 5 output DP-1 DP-3 eDP-1
-        workspace 6 output HDMI-A-1 eDP-1
-        workspace 7 output HDMI-A-1 eDP-1
-        workspace 8 output HDMI-A-1 eDP-1
-        workspace 9 output HDMI-A-1 eDP-1
-        workspace 0 output HDMI-A-1 eDP-1
+        workspace 6 output HDMI-A-1 HDMI-A-5 eDP-1
+        workspace 7 output HDMI-A-1 HDMI-A-5 eDP-1
+        workspace 8 output HDMI-A-1 HDMI-A-5 eDP-1
+        workspace 9 output HDMI-A-1 HDMI-A-5 eDP-1
+        workspace 0 output HDMI-A-1 HDMI-A-5 eDP-1
 
         xwayland enable
 
@@ -52,6 +52,7 @@
         output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
         output DP-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill
         output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
+        output HDMI-A-5 background /data/pictures/wallpaper/wallpaper-left.jpg fill
         output DP-3 background /data/pictures/wallpaper/wallpaper-right.jpg fill
 
         exec swayidle -w \

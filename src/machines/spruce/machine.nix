@@ -5,6 +5,7 @@
   fullname = "Phil Thompson";
   persistedHomeDir = "${config.dataDir}/home";
   persistedMachineDir = "${config.dataDir}/machine";
+  swayOptions = "--unsupported-gpu"; # Needed for Nvidia proprietary drivers
 
   # TODO: Switch to ZFS
   luks.enable = true;
@@ -18,8 +19,15 @@
 #    options = [ "rw" "uid=1000" ];
 #  };
 
+  boot.blacklistedKernelModules = [ "efifb" "vesafb" ];
+
+  boot.kernelParams = [
+    "video=efifb:off"
+    "video=vesafb:off"
+  ];
+
   boot.initrd.kernelModules = [
-    "i915"        # Ensure both displays are initialized so Plymouth can be displayed
+    #"i915"        # Ensure both displays are initialized so Plymouth can be displayed
     "dm-snapshot" # Used by Spruce (Can be removed when switching to ZFS)
   ];
 

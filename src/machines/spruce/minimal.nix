@@ -4,6 +4,7 @@
     ../../hardware/filesystems.nix
     ../../minimal.nix
     ../../machine.nix
+    ../../nvidia.nix
     ./machine.nix
   ];
 }
