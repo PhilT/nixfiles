@@ -19,15 +19,7 @@
 #    options = [ "rw" "uid=1000" ];
 #  };
 
-  boot.blacklistedKernelModules = [ "efifb" "vesafb" ];
-
-  boot.kernelParams = [
-    "video=efifb:off"
-    "video=vesafb:off"
-  ];
-
   boot.initrd.kernelModules = [
-    #"i915"        # Ensure both displays are initialized so Plymouth can be displayed
     "dm-snapshot" # Used by Spruce (Can be removed when switching to ZFS)
   ];
 
