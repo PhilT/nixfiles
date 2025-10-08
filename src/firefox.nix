@@ -32,6 +32,32 @@
       app-sync Firefox firefox firefox-esr 7 $@
     '')
 
+    (writeShellScriptBin "app-sync-minoo" ''
+      EXCLUDES="--exclude=cache2 --exclude=.lock --exclude=parent.lock --exclude=startupCache --exclude=crash_reports"
+
+      app=$1
+      name=$2
+      direction=$3
+      remote_path=phil@minoo:/data/home/$app/
+      local_path=/data/home/$app/
+
+      if [ $direction = to ]; then
+        to=$remote_path
+        from=$local_path
+      else
+        to=$local_path
+        from=$remote_path
+      fi
+
+      if [ -f /data/home/$app/lock ]; then
+        notify-send -u critical "Lock file found, skipping sync"
+      else
+        id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing from minoo...")
+        rsync -a --delete $EXCLUDES $from $to
+        notify-send -r $id -t 5000 "$name profile sync" "Complete"
+      fi
+    '')
+
     (writeShellScriptBin "app-sync" ''
       name=$1
       app=$2
@@ -39,21 +65,7 @@
       ws=$4
       move=$5
 
-      EXCLUDES="--exclude=cache2 --exclude=.lock --exclude=parent.lock --exclude=startupCache --exclude=crash_reports"
-
-      sync_with_minoo() {
-        from=$1
-        to=$2
-        if [ -f /data/home/$app/lock ]; then
-          notify-send -u critical "Lock file found, skipping sync"
-        else
-          id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing from minoo...")
-          rsync -a --delete $EXCLUDES $from $to
-          notify-send -r $id -t 5000 "$name profile sync" "Complete"
-        fi
-      }
-
-      sync_with_minoo phil@minoo:/data/home/$app/ /data/home/$app/
+      app-sync-minoo $app $name from
 
       /run/current-system/sw/bin/$exe &
       pid=$!
@@ -70,7 +82,7 @@
 
       wait $pid
 
-      sync_with_minoo /data/home/$app/ phil@minoo:/data/home/$app/
+      app-sync-minoo $app $name to
     '')
   ];
 
