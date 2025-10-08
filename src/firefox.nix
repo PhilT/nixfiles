@@ -39,17 +39,21 @@
       ws=$4
       move=$5
 
-      sync_app() {
+      EXCLUDES="--exclude=cache2 --exclude=.lock --exclude=parent.lock --exclude=startupCache --exclude=crash_reports"
+
+      sync_with_minoo() {
+        from=$1
+        to=$2
         if [ -f /data/home/$app/lock ]; then
           notify-send -u critical "Lock file found, skipping sync"
         else
-          id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing...")
-          sync_minoo -path home/$app
+          id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing from minoo...")
+          rsync -a --delete $EXCLUDES $from $to
           notify-send -r $id -t 5000 "$name profile sync" "Complete"
         fi
       }
 
-      sync_app
+      sync_with_minoo phil@minoo:/data/home/$app/ /data/home/$app/
 
       /run/current-system/sw/bin/$exe &
       pid=$!
@@ -66,7 +70,7 @@
 
       wait $pid
 
-      sync_app
+      sync_with_minoo /data/home/$app/ phil@minoo:/data/home/$app/
     '')
   ];
 

@@ -72,12 +72,15 @@ in
     ignore = Path downloads
     ignore = Path etc
     ignore = Path games
-    ignore = Path home/firefox/lock
-    ignore = Path home/thunderbird/lock
     ignore = Path machine
     ignore = Path var
     ignore = Path vdisks
     ignore = Path work
+
+    # These are synced when starting and stopping FF and TB with a manual rsync
+    # run. To ensure integrity we need to do a one way sync. See app-sync in firefox.nix.
+    ignore = Path home/firefox
+    ignore = Path home/thunderbird
 
     # Containers (at least milvus-vector-db) are synced manually with
     # rsync -a --progress /data/containers phil@minoo:/data/
@@ -106,11 +109,6 @@ in
   environment.etc."unison/paths.prf".text = ''
     repeat = watch
     watch = true
-
-    # These are synced when starting and stopping FF and TB with a manual unison
-    # run. See app-sync in firefox.nix.
-    ignore = Path home/firefox
-    ignore = Path home/thunderbird
 
     ${pathsConfig config.unison.paths}
   '';
