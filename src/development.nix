@@ -7,6 +7,24 @@
 
   virtualisation.docker.enable = true;
 
+  systemd.services.ollama = {
+    description = "Ollama AI Model Service";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.ollama}/bin/ollama serve";
+      Restart = "on-failure";
+      RestartSec = "5s";
+      # Run as the user to access their models directory
+      User = config.username;
+      Environment = [
+        "HOME=${config.homeDir}"
+        "OLLAMA_MODELS=${config.homeDir}/.ollama/models"
+      ];
+    };
+  };
+
   environment.etc."supermaven/config.json" = {
     text = (builtins.toJSON {
       accepted_free_version = "true";
@@ -69,26 +87,6 @@
         echo "  curl http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"your text\"}'"
         echo ""
         echo "To stop: pkill ollama"
-      '')
-
-      (writeShellScriptBin "milvus-standalone" ''
-        cd /data/containers/milvus-vector-db
-
-        echo "Starting Milvus with docker compose..."
-        docker compose up -d
-
-        echo ""
-        echo "Milvus standalone stack started!"
-        echo "- Milvus API: localhost:19530"
-        echo "- Milvus Web UI: localhost:9091"
-        echo "- MinIO Console: localhost:9001 (minioadmin/minioadmin)"
-        echo ""
-        echo "Check status:"
-        echo "  cd /data/containers/milvus-vector-db && docker compose logs"
-        echo "  cd /data/containers/milvus-vector-db && docker compose ps"
-        echo ""
-        echo "To stop all:"
-        echo "  cd /data/containers/milvus-vector-db && docker compose down"
       '')
 
       # Language servers
