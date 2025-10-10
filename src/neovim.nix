@@ -78,13 +78,11 @@ in
           nvim-lspconfig            # Language server client settings
           nvim-tree-lua
           nvim-treesitter
-          plenary-nvim              # Required by Telescope
           quickfix-reflector-vim
           rustaceanvim              # Forked: rust-tools.nvim, for debugger
           slim
           supermaven-nvim
-          telescope-fzy-native-nvim
-          telescope-nvim
+          fzf-lua
           todo-txt-vim
           toggleterm-nvim
           vader-vim
@@ -140,7 +138,7 @@ in
         luafile ${../neovim/plugins/ripgrep.lua}
         luafile ${../neovim/plugins/ruby.lua}
         luafile ${../neovim/plugins/scratch.lua}
-        luafile ${../neovim/plugins/telescope.lua}
+        luafile ${../neovim/plugins/fzf.lua}
         luafile ${../neovim/plugins/toggleterm.lua}
 
         luafile ${../neovim/plugins/lsp.lua}

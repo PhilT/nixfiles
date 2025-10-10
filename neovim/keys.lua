@@ -39,15 +39,13 @@ map('n', '<Leader>o', '<cmd>set paste!<CR>')                                    
 map('n', '<Leader>-', '<cmd>nohlsearch<CR>')                                    -- SPACE+- to turn off search highlight
 map('n', '<F6>', '<cmd>setlocal spell!<CR>')                                    -- Toggle spellcheck
 
--- Telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<C-p>', function()                                         -- CTRL+p to open fuzzy file finder
-    builtin.find_files({layout_config=calc_telescope_layout()})
-  end)
-vim.keymap.set('n', '<C-b>', builtin.buffers, {desc='Open fuzzy buffer finder'})-- CTRL+b to open fuzzy buffer finder
-vim.keymap.set('n', '<C-g>', builtin.live_grep, {desc = 'Open live grep'})      -- CTRL+g to open folder-wide live grep using Ripgrep
-vim.keymap.set('n', '<Leader>t', '<cmd>Telescope<CR>')
-vim.keymap.set('n', '<Leader>k', builtin.keymaps, {desc = 'Open keymaps'})
+-- FZF Lua
+local fzf = require('fzf-lua')
+vim.keymap.set('n', '<C-p>', fzf.files, {desc = 'Open fuzzy file finder'})      -- CTRL+p to open fuzzy file finder
+vim.keymap.set('n', '<C-b>', fzf.buffers, {desc='Open fuzzy buffer finder'})    -- CTRL+b to open fuzzy buffer finder
+vim.keymap.set('n', '<C-g>', fzf.live_grep, {desc = 'Open live grep'})          -- CTRL+g to open folder-wide live grep using Ripgrep
+vim.keymap.set('n', '<Leader>t', fzf.builtin, {desc = 'Open FZF picker'})
+vim.keymap.set('n', '<Leader>k', fzf.keymaps, {desc = 'Open keymaps'})
 
 -- Theme
 vim.keymap.set('n', '<Leader>d', set_theme_dark, {desc = 'Dark theme'})         -- SPACE+d to set dark background
