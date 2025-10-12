@@ -7,16 +7,16 @@
 
     systemPackages = with pkgs; [
       renoise
-      surge-XT
-      stochas
-      lsp-plugins
-      odin2
-      cardinal
-      fire
+      #surge-XT
+      #stochas
+      #lsp-plugins
+      #odin2
+      #cardinal
+      #fire
 
       # VST plugins
-      (callPackage ./vst/sala.nix {})
-      (callPackage ./vst/argotlunar.nix {})
+      #(callPackage ./vst/sala.nix {})
+      #(callPackage ./vst/argotlunar.nix {})
     ];
   };
 }

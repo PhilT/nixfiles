@@ -1,0 +1,35 @@
+#!/usr/bin/env fish
+
+set DRIVE /data/vdisks/simple-windows.qcow2
+set USB_CONTROLLER "0000:07:00.0"
+
+if test -f $DRIVE
+  echo "simple-windows.qcow2 already exists, continuing..."
+else
+  echo "Creating simple-windows.qcow2..."
+  qemu-img create -f qcow2 $DRIVE 50G
+  echo "When Windows Setup starts you'll need to make some changes before continuing"
+  echo "with the setup."
+  echo "- Shift + F10 to open command prompt"
+  echo "- regedit to open the registry editor"
+  echo "- Navigate to HKEY_LOCAL_MACHINE\SYSTEM\Setup"
+  echo "- Choose New -> Key, name it LabConfig"
+  echo "- Create DWORD (32-bit): BypassTPMCheck = 1"
+  echo "- Create DWORD (32-bit): BypassSecureBootCheck = 1"
+  echo "- Close everything and continue with the setup"
+end
+
+sudo bin/vfio-bind $USB_CONTROLLER vfio-pci 22
+
+qemu-system-x86_64 -machine q35,smm=on,usb=off,accel=kvm,acpi=on \
+  -m 8G -cpu host -smp cores=4 \
+  -drive file=$DRIVE,format=qcow2 -cdrom /data/iso/windows_11_ltsc.iso \
+  -device VGA,vgamem_mb=256 -net nic -net user \
+  -device qemu-xhci \
+  -device usb-tablet \
+  -device usb-host,vendorid=0x0483,productid=0x0522 \
+  -device usb-host,vendorid=0x0483,productid=0x0525 \
+  -device vfio-pci,host=$USB_CONTROLLER
+
+echo "Freeing VFIO binds"
+sudo bin/vfio-bind $USB_CONTROLLER xhci_hcd 22

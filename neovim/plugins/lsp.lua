@@ -22,6 +22,8 @@ vim.lsp.enable('ruby_lsp')
 
 vim.lsp.enable('terraformls')
 
+vim.lsp.enable('glsl_analyzer')
+
 setup_lsp_keys()
 
 -- Terraform

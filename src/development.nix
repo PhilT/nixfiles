@@ -94,7 +94,7 @@
       csharp-ls
       dotnet-sdk_8
       fsautocomplete
-      glslls          # GLSL Language Server
+      glsl_analyzer
       rust-analyzer
       terraform-ls
 

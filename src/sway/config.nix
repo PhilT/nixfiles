@@ -150,7 +150,8 @@
 
         # Switch the current container between different layout styles
         bindsym $mod+s layout stacking
-        bindsym $mod+t layout tabbed
+        # bindsym $mod+t layout tabbed
+        bindsym $mod+t layout toggle
         bindsym $mod+q layout toggle split
 
         bindsym $mod+r mode "resize"
