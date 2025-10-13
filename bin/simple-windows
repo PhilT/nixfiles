@@ -2,6 +2,9 @@
 
 set DRIVE /data/vdisks/simple-windows.qcow2
 set USB_CONTROLLER "0000:07:00.0"
+set BIGSCREEN_BEYOND "vendorid=0x35bd,productid=0x0101"
+set SIMAGIC_ALPHA_U "vendorid=0x0483,productid=0x0522"
+set SIMAGIC_PEDALS "vendorid=0x0483,productid=0x0525"
 
 if test -f $DRIVE
   echo "simple-windows.qcow2 already exists, continuing..."
@@ -19,17 +22,19 @@ else
   echo "- Close everything and continue with the setup"
 end
 
-sudo bin/vfio-bind $USB_CONTROLLER vfio-pci 22
+#sudo bin/vfio-bind $USB_CONTROLLER vfio-pci 22
 
-qemu-system-x86_64 -machine q35,smm=on,usb=off,accel=kvm,acpi=on \
+qemu-system-x86_64 -machine q35,smm=on,accel=kvm,acpi=on \
   -m 8G -cpu host -smp cores=4 \
   -drive file=$DRIVE,format=qcow2 -cdrom /data/iso/windows_11_ltsc.iso \
   -device VGA,vgamem_mb=256 -net nic -net user \
   -device qemu-xhci \
+  -device usb-kbd \
   -device usb-tablet \
-  -device usb-host,vendorid=0x0483,productid=0x0522 \
-  -device usb-host,vendorid=0x0483,productid=0x0525 \
-  -device vfio-pci,host=$USB_CONTROLLER
+  -device usb-host,${BIGSCREEN_BEYOND}
+  #  -device usb-host,$SIMAGIC_ALPHA_U \
+  #  -device usb-host,$SIMAGIC_PEDALS \
+  #  -device vfio-pci,host=$USB_CONTROLLER
 
-echo "Freeing VFIO binds"
-sudo bin/vfio-bind $USB_CONTROLLER xhci_hcd 22
+#echo "Freeing VFIO binds"
+#sudo bin/vfio-bind $USB_CONTROLLER xhci_hcd 22

@@ -19,25 +19,26 @@
       root.device = config.luks.device;
     };
 
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
     extraModulePackages = with config.boot.kernelPackages; [];
   };
 
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  # Pin to an older linux version when current NixOS one is incompatible with ZFS
-  # FIXME: Let's consider switching to an LTS kernel version once ZFS is supported in it, perhaps 6.18
-  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
-  #   argsOverride = rec {
-  #     src = pkgs.fetchurl {
-  #           url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
-  #           sha256 = "sha256-PxzNCm3JyXd8tvzvNXx35KI4bITFK21bvNp5wWrzOxs=";
-  #     };
-  #     version = "6.14.11";
-  #     modDirVersion = "6.14.11";
-  #   };
-  # });
+  #kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+  # Pin to an older linux version not available in nixpkgs. Sometimes useful
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
+    argsOverride = rec {
+      src = pkgs.fetchurl {
+            url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
+            sha256 = "sha256-iatGn8Nb2cvGxb9OXLgCWBgG1cvBT7R+XJ7cxHfmXZM=";
+      };
+      # Rollback from 6.16 to 6.15 due to shutdown delay regression with LVM+LUKS
+      # See: https://forum.manjaro.org/t/shutdown-problem-with-kernels-6-15-and-6-16/179384
+      version = "6.15.11";
+      modDirVersion = "6.15.11";
+    };
+  });
 
   programs.fish.enable = true;                # Fish! Shell
   programs.fish.package = pkgs.fish.override { usePython = false; };
@@ -46,6 +47,9 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = lib.mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
+
+  # Speed up shutdown - reduce NetworkManager stop timeout (normally takes <1s)
+  systemd.services.NetworkManager.serviceConfig.TimeoutStopSec = "10s";
   users.groups.fuse = {}; # TODO: Confirm whether this is needed (in extraGroups as well)
   users.users."${config.username}" = {
     isNormalUser = true;

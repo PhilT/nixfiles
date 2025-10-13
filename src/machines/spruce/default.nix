@@ -10,7 +10,7 @@
     ../../development.nix
     ../../studio.nix
     #../../qemu.nix
-    ../../games.nix
+    ../../gaming.nix
 
     # Sync
     ../../ssh.nix
