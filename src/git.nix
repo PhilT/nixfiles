@@ -55,7 +55,7 @@
       ci = "commit";
       br = "branch";
       co = "checkout";
-      df = "diff HEAD";
+      df = "diff HEAD -w";
       ds = "diff --staged";
       lg = "log -p";
       lo = "log --oneline --no-merges";
