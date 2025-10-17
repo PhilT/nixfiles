@@ -42,11 +42,13 @@
     ];
   };
 
-  # This only works in a console
-  # See dotfiles/sway/config for GUI setting
+  # Keyboard layout with Colemak and QWERTY GB
+  # This set keyboard layout for console and X11.
+  # See sway/config.nix for sway specific keyboard layout
   services.xserver.xkb = {
     layout = config.keyboardLayout;
-    options = "ctrl:nocaps";
+    variant = config.keyboardVarient;
+    options = config.keyboardOptions;
   };
 
   environment.enableAllTerminfo = true;

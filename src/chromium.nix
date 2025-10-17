@@ -1,6 +1,5 @@
-{ config, pkgs, ... }:
-
-{
+# Needed for some ZSA tools to work
+{ config, pkgs, ... }: {
   programs = {
     chromium = {
       enable = true;

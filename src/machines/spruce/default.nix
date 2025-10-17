@@ -49,10 +49,7 @@
   hardware.graphics.enable = true;
 
   # Support for Ploopy trackball (and supposedly GMMK 2 but isn't currently working)
-  # Via supports my new Epomaker Split65
   hardware.keyboard.qmk.enable = true;
-  environment.systemPackages = [ pkgs.via ];
-  keyboardLayout = "us";
 
   # Plymouth UI is a bit small without this
   boot.plymouth.extraConfig = "DeviceScale=2";

@@ -52,4 +52,9 @@
 
   hardware.graphics.enable = true;
   networking.networkmanager.wifi.powersave = true;
+
+  # Keyboard layout: Colemak, Qwerty
+  # (Reverses the default so we get Colemak on the laptop keyboard)
+  # Alt+Shift toggles between the two
+  keyboardVarient = ",colemak";
 }

@@ -3,14 +3,22 @@
     ./dbgate.nix
     ./filemanager.nix
     ./firefox.nix
+    ./chromium.nix
     ./keepmenu.nix
     ./kitty.nix
     ./thunderbird.nix
   ];
 
+  # Rules for Oryx (ZSA Voyager) web flashing and live training
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", ATTRS{idVendor}=="16c0", MODE="0664", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="3297", MODE="0664", GROUP="plugdev"
+  '';
+
   environment.systemPackages = with pkgs; [
     (callPackage ./spectrum.nix {})
     (callPackage ./mxw.nix {})  # Glorious Model O tool
+    keymapp                     # Key viewer for ZSA Voyager
     evince                      # PDF reader
     calibre                     # ebook manager
     libgourou                   # Needed to decrypt ACSM ebook files

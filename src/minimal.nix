@@ -60,6 +60,7 @@
   # Speed up shutdown - reduce NetworkManager stop timeout (normally takes <1s)
   systemd.services.NetworkManager.serviceConfig.TimeoutStopSec = "10s";
   users.groups.fuse = {}; # TODO: Confirm whether this is needed (in extraGroups as well)
+  users.groups.plugdev = {}; # Needed for ZSA Voyager udev rules (common_gui.nix)
   users.users."${config.username}" = {
     isNormalUser = true;
     createHome = true;
@@ -69,6 +70,7 @@
     extraGroups = [
       "audio"
       "docker"
+      "plugdev"
       "fuse"
       "networkmanager"
       "users"

@@ -42,10 +42,19 @@
       description = "Separate the /nix store for improved SSD lifespan";
     };
 
+    # Default keyboard layout Qwerty, Colemak
+    # Alt+Shift toggles between the two
     keyboardLayout = lib.mkOption {
       type = lib.types.str;
-      default = "gb";
-      description = "Used in common.nix & sway/config.nix. Spruce has a US layout";
+      default = "gb, gb";
+    };
+    keyboardVarient = lib.mkOption {
+      type = lib.types.str;
+      default = ", colemak";
+    };
+    keyboardOptions = lib.mkOption {
+      type = lib.types.str;
+      default = "grp:alt_shift_toggle,ctrl:nocaps";
     };
 
     swayOptions = lib.mkOption {

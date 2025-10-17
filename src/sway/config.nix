@@ -35,9 +35,10 @@
 
         # This only works in sway
         # See src/common.nix for console setting
-        input type:keyboard {
-          xkb_layout ${config.keyboardLayout}
-          xkb_options ctrl:nocaps
+        input * {
+          xkb_layout "${config.keyboardLayout}"
+          xkb_variant "${config.keyboardVarient}"
+          xkb_options "${config.keyboardOptions}"
         }
 
         input type:touchpad {
