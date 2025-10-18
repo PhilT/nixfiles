@@ -29,4 +29,7 @@
   #powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Enable SMART monitoring of all disks
+  services.smartd.enable = true;
 }
