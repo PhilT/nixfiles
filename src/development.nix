@@ -103,30 +103,30 @@
       #  nix-shell shell.nix --run "nvim -S Session.vim"
       #'')
 
-      (writeShellScriptBin "gox" ''
-        cd $CODE/matter
-        nix-shell shell.nix --run "gox -s 2"
-      '')
+      #(writeShellScriptBin "gox" ''
+      #  cd $CODE/matter
+      #  nix-shell shell.nix --run "gox -s 2"
+      #'')
 
-      (
-        vscode-with-extensions.override {
-          vscode = vscodium;
-          vscodeExtensions = with vscode-extensions; [
-            anthropic.claude-code
-            asciidoctor.asciidoctor-vscode
-            catppuccin.catppuccin-vsc
-            catppuccin.catppuccin-vsc-icons
-            gencer.html-slim-scss-css-class-completion
-            ionide.ionide-fsharp
-            jnoortheen.nix-ide
-            rust-lang.rust-analyzer
-            shopify.ruby-lsp
-            supermaven.supermaven
-            vscodevim.vim
-            yzhang.markdown-all-in-one
-          ];
-        }
-      )
+      #(
+      #  vscode-with-extensions.override {
+      #    vscode = vscodium;
+      #    vscodeExtensions = with vscode-extensions; [
+      #      anthropic.claude-code
+      #      asciidoctor.asciidoctor-vscode
+      #      catppuccin.catppuccin-vsc
+      #      catppuccin.catppuccin-vsc-icons
+      #      gencer.html-slim-scss-css-class-completion
+      #      ionide.ionide-fsharp
+      #      jnoortheen.nix-ide
+      #      rust-lang.rust-analyzer
+      #      shopify.ruby-lsp
+      #      supermaven.supermaven
+      #      vscodevim.vim
+      #      yzhang.markdown-all-in-one
+      #    ];
+      #  }
+      #)
     ];
   };
 }
