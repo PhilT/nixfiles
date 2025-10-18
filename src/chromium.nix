@@ -2,10 +2,9 @@
 { config, pkgs, ... }: {
   programs = {
     chromium = {
-      enable = true;
+      enable = true; # This just enables the policies. Package is added below.
       extensions = [
         "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
-        "paoafodbgcjnmijjepmpgnlhnogaahme" # Material Dark theme
       ];
       defaultSearchProviderEnabled = true;
       defaultSearchProviderSearchURL = "https://search.leptons.xyz/searxng/search?q={searchTerms}";
@@ -16,6 +15,16 @@
         "PasswordManagerEnabled" = false;
         "SpellcheckEnabled" = true;
         "SpellcheckLanguage" = [ "en-GB" ];
+        "BookmarkBarEnabled" = true;
+        "ManagedBookmarks" = [
+          {
+            "toplevel_name" = "Me";
+          }
+          {
+            "name" = "Keyboard Training";
+            "url" = "https://configure.zsa.io/train";
+          }
+        ];
       };
     };
   };
@@ -24,7 +33,7 @@
     systemPackages = with pkgs; [
       (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
 
-      chromium
+      ungoogled-chromium
     ];
   };
 }

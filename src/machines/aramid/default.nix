@@ -50,6 +50,10 @@
   # CPU power/speed optimiser https://github.com/AdnanHodzic/auto-cpufreq
   services.auto-cpufreq.enable = true;
 
+  # Enable Camera - One day this might work.
+  hardware.ipu6.enable = true;
+  hardware.ipu6.platform = "ipu6epmtl";
+
   hardware.graphics.enable = true;
   networking.networkmanager.wifi.powersave = true;
 
