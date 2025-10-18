@@ -42,7 +42,7 @@
       description = "Separate the /nix store for improved SSD lifespan";
     };
 
-    # Default keyboard layout Qwerty, Colemak
+    # Default keyboard layout Qwerty, Colemak DH
     # Alt+Shift toggles between the two
     keyboardLayout = lib.mkOption {
       type = lib.types.str;
@@ -50,7 +50,7 @@
     };
     keyboardVarient = lib.mkOption {
       type = lib.types.str;
-      default = ", colemak";
+      default = ", colemak_dh_iso";
     };
     keyboardOptions = lib.mkOption {
       type = lib.types.str;

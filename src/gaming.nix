@@ -1,14 +1,19 @@
-# To allow SteamVR to work the following command needs to be run the first time:
-#   sudo setcap CAP_SYS_NICE+ep /mnt/games/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
-# https://lvra.gitlab.io/docs/other/bigscreen-beyond-driver/
-# C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR
-
 { config, lib, pkgs, ... }: {
-  # Udev rules for Bigscreen Beyond
-  services.udev.extraRules = ''
-    # Bigscreen Beyond HMD
-    ACTION=="add", KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="35bd", ATTRS{idProduct}=="0101", TAG+="uaccess", MODE="0660"
-  '';
+  boot.kernelParams = [
+    # Turn off Variable Refresh Rate (VRR) support for NVIDIA as we don't have VRR monitors
+    # This can help with screen tearing as it uses ULMB (Ultra Low Motion Blur).
+    "nvidia-modeset.conceal_vrr_caps=1"
+  ];
+
+  # From https://github.com/Atemu/nixos-config/blob/master/modules/gaming/module.nix
+  boot.kernel.sysctl = {
+    # SteamOS/Fedora default, can help with performance.
+    "vm.max_map_count" = 2147483642;
+
+    # Not part of my threat model and I'd rather not have performance tank in
+    # poorly coded games.
+    "kernel.split_lock_mitigate" = 0;
+  };
 
   programs.steam = {
     enable = true;
@@ -35,43 +40,4 @@
       TimeoutStopSec = "10s";
     };
   };
-
-# The following allows Simagic Alpha U to work in Windows. More specifically
-# it enables VFIO passthrough for the USB controller the Alpha U is connected to.
-# However, we're planning to sell the Simagic kit so probably won't need this.
-#  boot.kernelParams = [
-#    "intel_iommu=on"
-#    "iommu=pt"          # Performance tweak
-#  ];
-#
-#  boot.kernelModules = [
-#    "vfio_pci"
-#    "vfio_iommu_type1"
-#    "vfio_virqfd"
-#    "vfio"
-#    "kvm-intel"
-#  ];
-#
-#  security.pam.loginLimits = [
-#    {
-#      domain = "*";
-#      type = "-";
-#      item = "memlock";
-#      value = "infinity";
-#    }
-#  ];
-#
-#  # These rules only apply to connected devices. E.g. If my wheel is off it won't apply the permissions
-#  # This requires Sway to be started as a systemd service so that it's managed properly
-#  services.udev.extraRules = ''
-#    SUBSYSTEM=="vfio", TAG+="uaccess"
-#    SUBSYSTEM=="usb", TAG+="uaccess"
-#  '';
-#
-#  users.groups.vfio = {};
-#  users.groups.hugepages = {};
-#  users.users."${config.username}".extraGroups = [
-#    "kvm"
-#    "vfio"
-#  ];
 }

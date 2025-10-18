@@ -60,5 +60,5 @@
   # Keyboard layout: Colemak, Qwerty
   # (Reverses the default so we get Colemak on the laptop keyboard)
   # Alt+Shift toggles between the two
-  keyboardVarient = ",colemak";
+  keyboardVarient = ",colemak_dh_iso";
 }
