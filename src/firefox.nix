@@ -74,7 +74,7 @@
         notify-send "Moving $name to $ws"
         # Move apps as quickly as possible but keep trying
         # for slower machines.
-        for i in {1..4}; do
+        for i in {1..10}; do
           sleep 1
           swaymsg "[app_id=$app] move workspace $ws"
         done
