@@ -46,11 +46,11 @@
     # Alt+Shift toggles between the two
     keyboardLayout = lib.mkOption {
       type = lib.types.str;
-      default = "gb, gb";
+      default = "gb,gb";
     };
-    keyboardVarient = lib.mkOption {
+    keyboardVariant = lib.mkOption {
       type = lib.types.str;
-      default = ", colemak_dh_iso";
+      default = ",colemak_dh";
     };
     keyboardOptions = lib.mkOption {
       type = lib.types.str;

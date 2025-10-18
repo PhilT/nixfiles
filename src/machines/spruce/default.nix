@@ -37,6 +37,7 @@
     "disk"
     "temperature"
     "bluetooth"
+    "sway/language"
     "clock"
     "tray"
   ];

@@ -38,6 +38,7 @@
     "backlight"
     "battery"
     "bluetooth"
+    "sway/language"
     "clock"
     "tray"
   ];
@@ -60,5 +61,5 @@
   # Keyboard layout: Colemak, Qwerty
   # (Reverses the default so we get Colemak on the laptop keyboard)
   # Alt+Shift toggles between the two
-  keyboardVarient = ",colemak_dh_iso";
+  keyboardVariant = ",colemak_dh";
 }

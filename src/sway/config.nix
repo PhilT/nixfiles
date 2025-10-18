@@ -37,7 +37,7 @@
         # See src/common.nix for console setting
         input * {
           xkb_layout "${config.keyboardLayout}"
-          xkb_variant "${config.keyboardVarient}"
+          xkb_variant "${config.keyboardVariant}"
           xkb_options "${config.keyboardOptions}"
         }
 

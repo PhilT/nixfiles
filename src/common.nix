@@ -47,7 +47,7 @@
   # See sway/config.nix for sway specific keyboard layout
   services.xserver.xkb = {
     layout = config.keyboardLayout;
-    variant = config.keyboardVarient;
+    variant = config.keyboardVariant;
     options = config.keyboardOptions;
   };
 

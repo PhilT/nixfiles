@@ -45,6 +45,10 @@ in with colors;
         "sway/window" = {
           max-length = 50;
         };
+        "sway/language" = {
+          format = "{short} {variant}";
+          tooltip-format = "{long}";
+        };
         battery = {
           format = "{capacity}% {icon}";
           format-icons = ["" "" "" "" ""];
@@ -197,6 +201,7 @@ in with colors;
         #idle_inhibitor,
         #custom-notification,
         #sway-scratchpad,
+        #language,
         #mpd {
           background-color: ${rgb surface1};
           padding: 0 5px;
