@@ -10,19 +10,23 @@
       defaultSearchProviderSearchURL = "https://search.leptons.xyz/searxng/search?q={searchTerms}";
       homepageLocation = "https://www.startpage.com";
       extraOpts = {
-        "BrowserSignin" = 0;
-        "SyncDisabled" = true;
-        "PasswordManagerEnabled" = false;
-        "SpellcheckEnabled" = true;
-        "SpellcheckLanguage" = [ "en-GB" ];
-        "BookmarkBarEnabled" = true;
-        "ManagedBookmarks" = [
+        BrowserSignin = 0;
+        SyncDisabled = true;
+        PasswordManagerEnabled = false;
+        SpellcheckEnabled = true;
+        SpellcheckLanguage = [ "en-GB" ];
+        BookmarkBarEnabled = true;
+        ManagedBookmarks = [
           {
-            "toplevel_name" = "Me";
+            toplevel_name = "Me";
           }
           {
-            "name" = "Keyboard Training";
-            "url" = "https://configure.zsa.io/train";
+            name = "Keyboard Training";
+            url = "https://configure.zsa.io/train/home";
+          }
+          {
+            name = "Configurator";
+            url = "https://configure.zsa.io/voyager/layouts/default/latest/0";
           }
         ];
       };
