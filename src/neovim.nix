@@ -79,6 +79,7 @@ in
           nvim-tree-lua
           nvim-treesitter
           quickfix-reflector-vim
+          render-markdown-nvim
           rustaceanvim              # Forked: rust-tools.nvim, for debugger
           slim
           supermaven-nvim
@@ -92,7 +93,6 @@ in
           vim-fugitive
           vim-glsl
           vim-indentwise
-          vim-markdown
           vim-nix
           vim-repeat
           vim-scriptease
