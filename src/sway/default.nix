@@ -60,6 +60,7 @@ in with colors; {
     overskride                  # Bluetooth GUI
     darkman
     dconf-editor                # Used to check what settings are available in dconf
+    psmisc                      # Provides pstree for finding shell processes
   ];
 
   environment.sessionVariables = {

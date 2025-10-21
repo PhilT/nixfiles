@@ -86,7 +86,8 @@
         # PROGRAMS
         bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
         bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
-        bindsym $mod+c exec kitty
+        bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'
+        bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+q kill
         bindsym $mod+Shift+Mod1+q exit
         bindsym $mod+w exec firefox-esr
@@ -144,6 +145,18 @@
         bindsym $mod+Shift+8 move container to workspace number 8
         bindsym $mod+Shift+9 move container to workspace number 9
         bindsym $mod+Shift+0 move container to workspace number 10
+
+        # Move focused container to workspace and switch to it
+        bindsym $mod+Ctrl+1 move container to workspace number 1; workspace number 1
+        bindsym $mod+Ctrl+2 move container to workspace number 2; workspace number 2
+        bindsym $mod+Ctrl+3 move container to workspace number 3; workspace number 3
+        bindsym $mod+Ctrl+4 move container to workspace number 4; workspace number 4
+        bindsym $mod+Ctrl+5 move container to workspace number 5; workspace number 5
+        bindsym $mod+Ctrl+6 move container to workspace number 6; workspace number 6
+        bindsym $mod+Ctrl+7 move container to workspace number 7; workspace number 7
+        bindsym $mod+Ctrl+8 move container to workspace number 8; workspace number 8
+        bindsym $mod+Ctrl+9 move container to workspace number 9; workspace number 9
+        bindsym $mod+Ctrl+0 move container to workspace number 10; workspace number 10
 
         # Horizontal or Vertical split
         bindsym $mod+b splith

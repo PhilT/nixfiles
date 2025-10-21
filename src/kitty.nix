@@ -7,6 +7,8 @@ in {
     systemPackages = with pkgs; [
       kitty
       kitty-themes
+      kitty-img       # View images
+      meowpdf         # PDF viewer
 
       # Run kitty-themes to preview a list of themes. For some reason
       # --config-file-name doesn't work (Possibly because it can't write to the
