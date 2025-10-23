@@ -1,4 +1,5 @@
 # Needed for some ZSA tools to work
+# https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
 { config, pkgs, ... }: {
   programs = {
     chromium = {
@@ -16,19 +17,17 @@
         SpellcheckEnabled = true;
         SpellcheckLanguage = [ "en-GB" ];
         BookmarkBarEnabled = true;
-        ManagedBookmarks = [
-          {
-            toplevel_name = "Me";
-          }
-          {
-            name = "Keyboard Training";
-            url = "https://configure.zsa.io/train/home";
-          }
-          {
-            name = "Configurator";
-            url = "https://configure.zsa.io/voyager/layouts/default/latest/0";
-          }
+        RestoreOnStartup = 4; # 4 means open a list of URLs
+        RestoreOnStartupURLs = [
+          "https://configure.zsa.io/train/home"
+          "https://configure.zsa.io/voyager/layouts/default/latest/0"
+          "https://typ.ing"
         ];
+      };
+      initialPrefs = {
+        "browser" = {
+          "custom_chrome_frame" = false; # Ensure borders and gaps are removed
+        };
       };
     };
   };
@@ -37,7 +36,13 @@
     systemPackages = with pkgs; [
       (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
 
-      ungoogled-chromium
+      (ungoogled-chromium.override {
+        commandLineArgs = [
+          "--password-store=basic"
+          "--no-first-run"
+          "--no-default-browser-check"
+        ];
+      })
     ];
   };
 }

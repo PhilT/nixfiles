@@ -86,6 +86,8 @@
         # PROGRAMS
         bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
         bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
+
+        # Open a terminal in the current directory
         bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'
         bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+q kill
@@ -111,12 +113,22 @@
         bindsym $mod+j focus down
         bindsym $mod+k focus up
         bindsym $mod+l focus right
+        # Colemak
+        bindsym $mod+n focus left
+        bindsym $mod+e focus down
+        bindsym $mod+i focus up
+        bindsym $mod+o focus right
 
         # Move focused window
         bindsym $mod+Shift+h move left
         bindsym $mod+Shift+j move down
         bindsym $mod+Shift+k move up
         bindsym $mod+Shift+l move right
+        # Colemak
+        bindsym $mod+Shift+n move left
+        bindsym $mod+Shift+e move down
+        bindsym $mod+Shift+i move up
+        bindsym $mod+Shift+o move right
 
         # Previous workspace
         bindsym $mod+tab workspace back_and_forth
@@ -222,7 +234,7 @@
 
         gaps inner 2
         gaps outer 2
-        default_border pixel 2
+        default_border pixel 3
 
         # target                 title     bg    text   indicator  border
         client.focused           $lavender $base $text  $rosewater $lavender

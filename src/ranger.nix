@@ -19,6 +19,18 @@
           set preview_images_method kitty
         '';
       };
+
+      "config/ranger/rifle.conf" = {
+        mode = "444";
+        text = ''
+          # Text files in terminal editor
+          ext json|txt|md|xml|yaml|yml|toml|conf|cfg|ini|log|nix = "$EDITOR" -- "$@"
+          mime ^text = "$EDITOR" -- "$@"
+
+          # Fallback to opening files with xdg-open
+          else = xdg-open "$@"
+        '';
+      };
     };
   };
 
@@ -29,5 +41,6 @@
     "d ${config.xdgConfigHome}/ranger - ${config.username} users -" # For some reason ranger needs write access to this dir
 
     "L+ ${config.xdgConfigHome}/ranger/rc.conf - - - - /etc/config/ranger/rc.conf"
+    "L+ ${config.xdgConfigHome}/ranger/rifle.conf - - - - /etc/config/ranger/rifle.conf"
   ];
 }

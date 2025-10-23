@@ -2,6 +2,7 @@
   programs.firefox.enable = true;
   programs.firefox.package = pkgs.firefox-esr-140;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
+  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1"; # Wayland support (Should enable WebGL)
 
   # Firefox normally lives in ~/.mozilla/firefox with a profiles.ini
   # which indicates where the profile is stored. We point this to
