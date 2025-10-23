@@ -76,6 +76,7 @@
 
         exec waybar
         exec mako -c /etc/config/mako
+        exec keymapp
 
         # Windows/Super key as main modifier
         set $mod Mod4
@@ -83,9 +84,16 @@
         # Set some apps to load into certain workspace
         assign [class="Slack"] workspace number 6
 
+        # Keymapp - floating window visible on all workspaces
+        for_window [app_id="keymapp"] floating enable
+        for_window [app_id="keymapp"] sticky enable
+        for_window [app_id="keymapp"] move to output HDMI-A-1
+        for_window [app_id="keymapp"] resize set 982 582
+        for_window [app_id="keymapp"] move position 2794 1317
+
         # PROGRAMS
-        bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
-        bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
+        #bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
+        #bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
 
         # Open a terminal in the current directory
         bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'
@@ -94,12 +102,12 @@
         bindsym $mod+Shift+Mod1+q exit
         bindsym $mod+w exec firefox-esr
         bindsym $mod+f exec thunar
-        bindsym $mod+e exec thunderbird
+        bindsym $mod+t exec thunderbird
         bindsym $mod+a exec slack
-        bindsym $mod+n exec renoise
+        bindsym $mod+r exec renoise
         bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
         bindsym $mod+p exec tofi-run -c /etc/config/tofi.ini | sh
-        bindsym $mod+o exec keepmenu -c /etc/config/keepmenu.ini &
+        bindsym $mod+m exec keepmenu -c /etc/config/keepmenu.ini &
 
         # Left-click - move, right-click - resize
         floating_modifier $mod normal
@@ -175,17 +183,17 @@
         bindsym $mod+v splitv
 
         # Switch the current container between different layout styles
-        bindsym $mod+s layout stacking
+        bindsym $mod+Ctrl+s layout stacking
         # bindsym $mod+t layout tabbed
-        bindsym $mod+t layout toggle
-        bindsym $mod+q layout toggle split
+        bindsym $mod+Ctrl+t layout toggle
+        bindsym $mod+Ctrl+q layout toggle split
 
-        bindsym $mod+r mode "resize"
+        bindsym $mod+Ctrl+r mode "resize"
         mode "resize" {
-          bindsym h resize shrink width 10px
-          bindsym j resize grow height 10px
-          bindsym k resize shrink height 10px
-          bindsym l resize grow width 10px
+          bindsym n resize shrink width 10px
+          bindsym e resize grow height 10px
+          bindsym i resize shrink height 10px
+          bindsym o resize grow width 10px
 
           # Return to default mode
           bindsym Return mode "default"
