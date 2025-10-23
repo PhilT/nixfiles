@@ -76,7 +76,7 @@
 
         exec waybar
         exec mako -c /etc/config/mako
-        exec keymapp
+        ${lib.optionalString (config.machine == "spruce") "exec keymapp"}
 
         # Windows/Super key as main modifier
         set $mod Mod4
@@ -84,12 +84,14 @@
         # Set some apps to load into certain workspace
         assign [class="Slack"] workspace number 6
 
+        ${lib.optionalString (config.machine == "spruce") ''
         # Keymapp - floating window visible on all workspaces
         for_window [app_id="keymapp"] floating enable
         for_window [app_id="keymapp"] sticky enable
         for_window [app_id="keymapp"] move to output HDMI-A-1
         for_window [app_id="keymapp"] resize set 982 582
         for_window [app_id="keymapp"] move position 2794 1317
+        ''}
 
         # PROGRAMS
         #bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
