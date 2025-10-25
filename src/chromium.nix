@@ -19,8 +19,8 @@
         BookmarkBarEnabled = true;
         RestoreOnStartup = 4; # 4 means open a list of URLs
         RestoreOnStartupURLs = [
+          "https://layout.new/"
           "https://configure.zsa.io/train/home"
-          "https://configure.zsa.io/voyager/layouts/default/latest/0"
           "https://typ.ing"
         ];
       };
