@@ -11,6 +11,8 @@ require('fzf-lua').setup({
     },
   },
   keymap = {
+    -- Arrow keys are already mapped and this is what will work with
+    -- my ZSA Colemak layout
     builtin = {
       ['<C-j>'] = 'down',
       ['<C-k>'] = 'up',

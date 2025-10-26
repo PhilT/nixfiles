@@ -1,5 +1,5 @@
+local map = vim.keymap.set
 local opts = { noremap=true, silent=true }
-local bufopts = { noremap=true, silent=true, buffer=bufnr }
 local expropts = { noremap=true, silent=true, expr=true }
 
 -- Setup
@@ -31,7 +31,7 @@ map('n', '<C-l>', '<C-w>l')                                                     
 map('n', '<C-c>', '<C-w>c')                                                     -- 'CTRL+c' to close window
 
 -- Neovim
-vim.keymap.set('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload config (Sort of working)
+map('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload config (Sort of working)
 
 -- Toggles
 map('n', '<Leader>i', '<cmd>setlocal number!<CR>')                              -- Toggle line numbers
@@ -40,16 +40,21 @@ map('n', '<Leader>-', '<cmd>nohlsearch<CR>')                                    
 map('n', '<F6>', '<cmd>setlocal spell!<CR>')                                    -- Toggle spellcheck
 
 -- FZF Lua
+-- See plugins/fzf.lua for keymaps once FZF is open
 local fzf = require('fzf-lua')
-vim.keymap.set('n', '<C-p>', fzf.files, {desc = 'Open fuzzy file finder'})      -- CTRL+p to open fuzzy file finder
-vim.keymap.set('n', '<C-b>', fzf.buffers, {desc='Open fuzzy buffer finder'})    -- CTRL+b to open fuzzy buffer finder
-vim.keymap.set('n', '<C-g>', fzf.live_grep, {desc = 'Open live grep'})          -- CTRL+g to open folder-wide live grep using Ripgrep
-vim.keymap.set('n', '<Leader>t', fzf.builtin, {desc = 'Open FZF picker'})
-vim.keymap.set('n', '<Leader>k', fzf.keymaps, {desc = 'Open keymaps'})
+map('n', '<C-p>', fzf.files, {desc = 'Open fuzzy file finder'})      -- CTRL+p to open fuzzy file finder
+map('n', '<C-b>', fzf.buffers, {desc='Open fuzzy buffer finder'})    -- CTRL+b to open fuzzy buffer finder
+map('n', '<C-g>', fzf.live_grep, {desc = 'Open live grep'})          -- CTRL+g to open folder-wide live grep using Ripgrep
+map('n', '<Leader>t', fzf.builtin, {desc = 'Open FZF picker'})
+map('n', '<Leader>k', fzf.keymaps, {desc = 'Open keymaps'})
+
+-- Ruby
+map('n', '<Leader>r', '<cmd>Dispatch rspec %<CR>')                              -- Run RSpec for given file
+map('n', '<Leader>R', '<cmd>Dispatch rspec<CR>')                                -- Run RSpec for everything
 
 -- Theme
-vim.keymap.set('n', '<Leader>d', set_theme_dark, {desc = 'Dark theme'})         -- SPACE+d to set dark background
-vim.keymap.set('n', '<Leader>l', set_theme_light, {desc = 'Light theme'})       -- SPACE+l to set light background
+map('n', '<Leader>d', set_theme_dark, {desc = 'Dark theme'})         -- SPACE+d to set dark background
+map('n', '<Leader>l', set_theme_light, {desc = 'Light theme'})       -- SPACE+l to set light background
 
 -- Session
 map('n', '<C-x>', '<cmd>wa<CR><cmd>mksession!<CR><cmd>qa<CR>')                  -- CTRL+x to save all buffers, save session and exit vim
@@ -69,31 +74,28 @@ map('n', 'tc', '<cmd>tabc<CR>')                                                 
 -- Quickfix
 local next_quickfix_entry = function()
   if vim.bo.buftype == 'quickfix' then
-    print "In quickfix"
     return '\r'
   else
-    print 'Not in quickfix'
     return '<cmd>cn<CR>'
   end
 end
-vim.keymap.set('n', '<CR>', next_quickfix_entry, expropts)                      -- Next quickfix entry (except when in quickfix window)
+map('n', '<CR>', next_quickfix_entry, expropts)                      -- Next quickfix entry (except when in quickfix window)
 map('n', '<Leader><CR>', '<cmd>cp<CR>')                                         -- Previous quickfix entry
 map('n', '<Leader>q', '<cmd>ccl<CR>')                                           -- Close quickfix window
 
 -- NvimTree
-map('n', '<C-f>', '<cmd>NvimTreeToggle<CR>')                                    -- CTRL+f to open NERDTree
-map('n', '<Leader>f', '<cmd>NvimTreeFindFile<CR>')                              -- Find and reveal the current file in NERDTree
+map('n', '<C-f>', '<cmd>NvimTreeToggle<CR>')                                    -- CTRL+f to open NvimTree
+map('n', '<Leader>f', '<cmd>NvimTreeFindFile<CR>')                              -- Find and reveal the current file in NvimTree
 
 -- LSP Client
-vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, {desc = 'Open error popup'})
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, {desc = 'Previous error'})
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, {desc = 'Next error'})
-vim.keymap.set('n', '<Leader>g', vim.diagnostic.setqflist, {desc = 'Show errors for project'})
+map('n', '<Leader>e', vim.diagnostic.open_float, {desc = 'Open error popup'})
+map('n', '[d', vim.diagnostic.goto_prev, {desc = 'Previous error'})
+map('n', ']d', vim.diagnostic.goto_next, {desc = 'Next error'})
+map('n', '<Leader>g', vim.diagnostic.setqflist, {desc = 'Show errors for project'})
 
 local tab_completion = function()
   local _, col = unpack(vim.api.nvim_win_get_cursor(0))
   local line = vim.api.nvim_get_current_line()
-  print(string.sub(line, col, col))
 
   if vim.fn.pumvisible() == 0 then
     local char = string.sub(line, col, col)
@@ -111,37 +113,37 @@ end
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o> and map it to TAB
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 end
 
 function setup_lsp_keys()
-  vim.keymap.set('i', '<tab>', tab_completion, expropts)
+  map('i', '<tab>', tab_completion, expropts)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, bufopts)
-  -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts) - Doesn't work in F#
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<Leader>wl', function()
+  map('n', 'gD', vim.lsp.buf.type_definition)
+  -- map('n', 'gD', vim.lsp.buf.declaration) - Doesn't work in F#
+  map('n', 'gd', vim.lsp.buf.definition)
+  map('n', 'gr', vim.lsp.buf.references)
+  map('n', 'K', vim.lsp.buf.hover)
+  map('n', 'gi', vim.lsp.buf.implementation)
+  map('i', '<C-k>', vim.lsp.buf.signature_help)
+  map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder)
+  map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder)
+  map('n', '<Leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<Leader>F', function() vim.lsp.buf.format { async = true } end, bufopts)
+  end)
+  map('n', '<Leader>rn', vim.lsp.buf.rename)
+  map('n', '<Leader>ca', vim.lsp.buf.code_action)
+  map('n', '<Leader>F', function() vim.lsp.buf.format { async = true } end)
 end
 
 -- F#
 map('n', '<Leader>#', '<cmd>call v:lua.create_fsharp_env()<CR>')                -- Setup windows for F# development
 
 -- Rust debugger
-map('n', '<leader>db', ':lua require"dap".toggle_breakpoint()<CR>', opts)
-map('n', '<leader>dc', ':lua require"dap".continue()<CR>', opts)
-map('n', '<leader>di', ':lua require"dap".step_into()<CR>', opts)
-map('n', '<leader>do', ':lua require"dap".step_over()<CR>', opts)
-map('n', '<leader>dr', ':lua require"dap".repl.toggle()<CR>', opts)
+map('n', '<leader>db', ':lua require"dap".toggle_breakpoint()<CR>')
+map('n', '<leader>dc', ':lua require"dap".continue()<CR>')
+map('n', '<leader>di', ':lua require"dap".step_into()<CR>')
+map('n', '<leader>do', ':lua require"dap".step_over()<CR>')
+map('n', '<leader>dr', ':lua require"dap".repl.toggle()<CR>')

@@ -15,22 +15,22 @@ opt.swapfile = false                                                            
 
 opt.autowrite = true                                                            -- Autosave files before running make
 opt.backup = false                                                              -- Don't create backups
-opt.clipboard = vim.o.clipboard..'unnamedplus'                                  -- Use system clipboard
+opt.clipboard:append('unnamedplus')                                             -- Use system clipboard
 opt.fileformats = 'unix,dos'                                                    -- Recognise unix or dos line-endings, save new files as unix
 opt.hidden = true                                                               -- hide buffers instead of closing
 opt.ignorecase = true                                                           -- See smartcase
 opt.incsearch = true                                                            -- Show matches as you type a search
 opt.laststatus = 2                                                              -- Always show the statusline
-opt.path = vim.o.path..'**'                                                     -- recursively search files
+opt.path:append('**')                                                           -- recursively search files
 opt.scrolloff = 2                                                               -- Page up/down with 2 extra lines showing above/below cursor position
-opt.shortmess = vim.o.shortmess..'c'                                            -- Don't show extra completion status messages
+opt.shortmess:append('c')                                                       -- Don't show extra completion status messages
 opt.showmode = false                                                            -- Turn off -- INSERT -- in statusline (lightline already shows it)
 opt.smartcase = true                                                            -- Case insensitive search when characters in pattern are lowercase
 opt.splitbelow = true                                                           -- Open new horizontal splits below the current one
 opt.splitright = true                                                           -- Open new vertical splits to the right of the current one
 opt.termguicolors = true                                                        -- True color support
 opt.updatetime = 100                                                            -- Bring down delay for diagnostic messages
-opt.wildignore = vim.o.wildignore..'.git/**,tmp/**,coverage/**,log/**,db/migrate/**,node_modules/**,bin/**,**/*.min.js'
+opt.wildignore:append('.git/**,tmp/**,coverage/**,log/**,db/migrate/**,node_modules/**,bin/**,**/*.min.js')
 opt.wildmenu = true                                                             -- TAB completion in COMMAND mode
 opt.writebackup = false                                                         -- Don't create backups
 
