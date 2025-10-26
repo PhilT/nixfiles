@@ -103,41 +103,7 @@ in
 
       };
       customRC = ''
-        " source ${../neovim/colors/greyscale.vim}
-
-        lua << LUADOC
-          vim.g.loaded_netrw = 1  -- Disable netrw due to race conditions with nvim-tree
-          vim.g.loaded_netrwPlugin = 1
-
-          -- SPACE+; to get original cmdline mode, incase anything goes wrong with plugins
-          vim.keymap.set('n', '<Leader>;', ':', { noremap = true })
-
-          function ReloadConfig()
-            for name,_ in pairs(package.loaded) do
-              package.loaded[name] = nil
-            end
-
-            dofile(vim.env.MYVIMRC)
-            vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
-          end
-        LUADOC
-
-        luafile ${../neovim/opts.lua}
-        luafile ${../neovim/theme.lua}
-        luafile ${../neovim/keys.lua}
-        luafile ${../neovim/autocmds.lua}
-        luafile ${../neovim/plugins/ai.lua}
-        luafile ${../neovim/plugins/dap.lua}
-        luafile ${../neovim/plugins/fugitive.lua}
-        luafile ${../neovim/plugins/lualine.lua}
-        luafile ${../neovim/plugins/nvimtree.lua}
-        luafile ${../neovim/plugins/purescript.lua}
-        luafile ${../neovim/plugins/ripgrep.lua}
-        luafile ${../neovim/plugins/scratch.lua}
-        luafile ${../neovim/plugins/fzf.lua}
-        luafile ${../neovim/plugins/toggleterm.lua}
-
-        luafile ${../neovim/plugins/lsp.lua}
+        lua dofile('/data/code/nixfiles/neovim/init.lua')
       '';
     };
   };

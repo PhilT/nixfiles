@@ -1,5 +1,4 @@
 local map = vim.keymap.set
-local opts = { noremap=true, silent=true }
 local expropts = { noremap=true, silent=true, expr=true }
 
 -- Setup
