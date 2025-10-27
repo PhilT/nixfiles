@@ -12,24 +12,24 @@ map('n', 't', 'o')                                                              
 map('n', 'T', 'O')                                                              -- Open a new line above
 
 
--- Movement keys (normal, visual, operator-pending modes)
-map('nvo', 'n', 'j')
-map('nvo', 'e', 'k')
-map('nvo', 'i', 'l')
-map('nvo', 'm', 'h')
+-- Movement keys (normal, visual modes only - exclude operator-pending to preserve text objects)
+map({'n', 'v'}, 'n', 'j')
+map({'n', 'v'}, 'e', 'k')
+map({'n', 'v'}, 'i', 'l')
+map({'n', 'v'}, 'm', 'h')
 map('n', '<C-n>', '<C-w>j')                                                     -- CTRL+(neio) to navigate splits from NORMAL mode
 map('n', '<C-e>', '<C-w>k')                                                     --
 map('n', '<C-i>', '<C-w>l')                                                     --
 map('n', '<C-c>', '<C-w>c')                                                     -- 'CTRL+c' to close window
 
 -- Remap displaced Vim functionality
-map('nvo', 'k', 'n')                                                            -- Next search result
-map('nvo', 'K', 'N')                                                            -- Previous search result
-map('nvo', 'l', 'e')                                                            -- End of word
-map('nvo', 'L', 'E')                                                            -- End of WORD
+map({'n', 'v', 'o'}, 'k', 'n')                                                  -- Next search result
+map({'n', 'v', 'o'}, 'K', 'N')                                                  -- Previous search result
+map({'n', 'v', 'o'}, 'l', 'e')                                                  -- End of word
+map({'n', 'v', 'o'}, 'L', 'E')                                                  -- End of WORD
 map('n', 'S', 'I')                                                              -- Insert at start of line
 map('n', 'h', 'm')                                                              -- Set mark
-map('nvo', 'z', 'b')                                                            -- Back by word (b remapped for split leader)
+map({'n', 'v', 'o'}, 'z', 'b')                                                  -- Back by word (b remapped for split leader)
 
 -- Split keyboard leaders for ergonomics
 -- Left hand: qazwrxfscptdbgv + Enter

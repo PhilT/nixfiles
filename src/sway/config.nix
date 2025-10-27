@@ -109,7 +109,7 @@
         bindsym $mod+r exec renoise
         bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
         bindsym $mod+p exec tofi-run -c /etc/config/tofi.ini | sh
-        bindsym $mod+m exec keepmenu -c /etc/config/keepmenu.ini &
+        bindsym $mod+o exec keepmenu -c /etc/config/keepmenu.ini &
 
         # Left-click - move, right-click - resize
         floating_modifier $mod normal
@@ -124,10 +124,10 @@
         bindsym $mod+k focus up
         bindsym $mod+l focus right
         # Colemak
-        bindsym $mod+n focus left
-        bindsym $mod+e focus down
-        bindsym $mod+i focus up
-        bindsym $mod+o focus right
+        bindsym $mod+m focus left
+        bindsym $mod+n focus down
+        bindsym $mod+e focus up
+        bindsym $mod+i focus right
 
         # Move focused window
         bindsym $mod+Shift+h move left
@@ -135,10 +135,10 @@
         bindsym $mod+Shift+k move up
         bindsym $mod+Shift+l move right
         # Colemak
-        bindsym $mod+Shift+n move left
-        bindsym $mod+Shift+e move down
-        bindsym $mod+Shift+i move up
-        bindsym $mod+Shift+o move right
+        bindsym $mod+Shift+m move left
+        bindsym $mod+Shift+n move down
+        bindsym $mod+Shift+e move up
+        bindsym $mod+Shift+i move right
 
         # Previous workspace
         bindsym $mod+tab workspace back_and_forth
