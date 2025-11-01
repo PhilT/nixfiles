@@ -1,5 +1,8 @@
 local map = vim.keymap.set
 
+-- Disable vim-dispatch default mappings (conflicts with Colemak 'm' mapping)
+vim.g.dispatch_no_maps = 1
+
 -- Setup
 map('n', '<C-z>', '<Nop>')                                                      -- Turn off stupid CTRL keys
 map('n', '<C-s>', '<Nop>')                                                      -- Turn off stupid CTRL keys

@@ -23,9 +23,19 @@ class Wallpaper < Thor
 
   private
 
+  def configure_ssl(http)
+    http.use_ssl = true
+    http.cert_store = OpenSSL::X509::Store.new
+    http.cert_store.set_default_paths
+    http.cert_store.flags = 0  # Disable CRL checking
+  end
+
   def fetch_json
-    response = Net::HTTP.get(API_URL)
-    json = JSON.parse(response)
+    http = Net::HTTP.new(API_URL.host, API_URL.port)
+    configure_ssl(http)
+
+    response = http.get(API_URL.request_uri)
+    json = JSON.parse(response.body)
     data = json && json["data"]
     raise "No wallpaper found" unless data&.any?
     data
@@ -41,14 +51,15 @@ class Wallpaper < Thor
   end
 
   def download_wallpaper(url, filename)
-    Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
-      response = http.get(url.path)
+    http = Net::HTTP.new(url.host, url.port)
+    configure_ssl(http)
 
-      path = File.join(options[:mnt], SAVE_DIR, filename)
-      File.open(path, 'wb') { |file| file.write(response.body) }
+    response = http.get(url.path)
 
-      puts "Saved wallpaper to #{path}"
-    end
+    path = File.join(options[:mnt], SAVE_DIR, filename)
+    File.open(path, 'wb') { |file| file.write(response.body) }
+
+    puts "Saved wallpaper to #{path}"
   end
 
   def update_sway_wallpaper
