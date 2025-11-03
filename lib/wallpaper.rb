@@ -64,8 +64,7 @@ class Wallpaper < Thor
 
   def update_sway_wallpaper
     `swaymsg output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill`
-    `swaymsg output DP-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill`
-    `swaymsg output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill`
+    `swaymsg output DP-2 background /data/pictures/wallpaper/wallpaper-left.jpg fill`
     `swaymsg output DP-3 background /data/pictures/wallpaper/wallpaper-right.jpg fill`
   end
 end

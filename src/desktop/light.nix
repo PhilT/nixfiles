@@ -12,13 +12,11 @@
       elif [[ "$1" == "down" ]]; then
         amount="- 5"
       elif [[ "$1" == "off" ]]; then
-        swaymsg "output HDMI-A-1 power off"
-        swaymsg "output DP-1 power off"
+        swaymsg "output DP-2 power off"
         swaymsg "output DP-3 power off"
         exit 0
       elif [[ "$1" == "on" ]]; then
-        swaymsg "output HDMI-A-1 power on"
-        swaymsg "output DP-1 power on"
+        swaymsg "output DP-2 power on"
         swaymsg "output DP-3 power on"
         exit 0
       else

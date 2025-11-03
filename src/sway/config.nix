@@ -12,24 +12,22 @@
         output * pos 0 0
 
         # Spruce
-        output DP-1 scale 1
-        output HDMI-A-1 scale 1
-        output HDMI-A-1 pos 0 0
-        output DP-1 pos 3840 0
+        output DP-2 scale 1
+        output DP-2 pos 0 0
 
         # Seedling
         output DP-3 pos 3840 0
 
-        workspace 1 output DP-1 DP-3 eDP-1
-        workspace 2 output DP-1 DP-3 eDP-1
-        workspace 3 output DP-1 DP-3 eDP-1
-        workspace 4 output DP-1 DP-3 eDP-1
-        workspace 5 output DP-1 DP-3 eDP-1
-        workspace 6 output HDMI-A-1 HDMI-A-5 eDP-1
-        workspace 7 output HDMI-A-1 HDMI-A-5 eDP-1
-        workspace 8 output HDMI-A-1 HDMI-A-5 eDP-1
-        workspace 9 output HDMI-A-1 HDMI-A-5 eDP-1
-        workspace 0 output HDMI-A-1 HDMI-A-5 eDP-1
+        workspace 1 output DP-3 eDP-1
+        workspace 2 output DP-3 eDP-1
+        workspace 3 output DP-3 eDP-1
+        workspace 4 output DP-3 eDP-1
+        workspace 5 output DP-3 eDP-1
+        workspace 6 output DP-2 eDP-1
+        workspace 7 output DP-2 eDP-1
+        workspace 8 output DP-2 eDP-1
+        workspace 9 output DP-2 eDP-1
+        workspace 0 output DP-2 eDP-1
 
         xwayland enable
 
@@ -51,9 +49,7 @@
         focus_follows_mouse yes
 
         output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
-        output DP-1 background /data/pictures/wallpaper/wallpaper-right.jpg fill
-        output HDMI-A-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill
-        output HDMI-A-5 background /data/pictures/wallpaper/wallpaper-left.jpg fill
+        output DP-2 background /data/pictures/wallpaper/wallpaper-left.jpg fill
         output DP-3 background /data/pictures/wallpaper/wallpaper-right.jpg fill
 
         exec swayidle -w \
@@ -88,7 +84,7 @@
         # Keymapp - floating window visible on all workspaces
         for_window [app_id="keymapp"] floating enable
         for_window [app_id="keymapp"] sticky enable
-        for_window [app_id="keymapp"] move to output HDMI-A-1
+        for_window [app_id="keymapp"] move to output DP-2
         for_window [app_id="keymapp"] resize set 982 582
         for_window [app_id="keymapp"] move position 2794 1317
         ''}
