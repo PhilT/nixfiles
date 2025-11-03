@@ -88,10 +88,11 @@ supported by the SSH Server on Suuno.
 ## Naming of devices
 * Spruce - As the case was originally made of wood (14900K, RTX4090 PC) [ACTIVE]
 * Aramid - Strong synthetic fibres (X1 Carbon Gen 12) [ACTIVE]
-* Sapling - Windows 11 Guest VM running on Spruce [ACTIVE]
-* Seedling - NixOS Guest VM running on Spruce [DEVELOPING]
 * Minoo - Some combination of Mini and N100 (File server) [ACTIVE]
 * Suuno - A play on the previous phone name (Samsung A15) [ACTIVE]
+* Miller - Hetzner server. Hetzner -> Hetzel -> Hermann -> Herman Miller -> Miller [ACTIVE]
+* Sapling - Windows 11 Guest VM running on Spruce [RETIRED]
+* Seedling - NixOS Guest VM running on Spruce [RETIRED]
 * Darko - From Donnie Darko (Razer Blade 2019) [RETIRED]
 * Mev - Mobile Electric Visions (Huawei P30 Pro) [RETIRED]
 * Sirius - Brightest star in the galaxy (Starlabs Starlite V) [RETIRED]
