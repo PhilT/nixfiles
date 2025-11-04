@@ -30,15 +30,16 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "ff" ''
-      app-sync Firefox firefox firefox-esr 7 $@
+      app-sync firefox firefox-esr 7 $@
     '')
 
+    # Example for syncing Firefox profile to minoo:
+    # app-sync-minoo firefox to
     (writeShellScriptBin "app-sync-minoo" ''
       EXCLUDES="--exclude=cache2 --exclude=.lock --exclude=parent.lock --exclude=startupCache --exclude=crash_reports"
 
       app=$1
-      name=$2
-      direction=$3
+      direction=$2
       remote_path=phil@minoo:/data/home/$app/
       local_path=/data/home/$app/
 
@@ -53,26 +54,25 @@
       if [ -f /data/home/$app/lock ]; then
         notify-send -u critical "Lock file found, skipping sync"
       else
-        id=$(notify-send -p -t 18000000 "$name profile sync" "Syncing $direction minoo...")
+        id=$(notify-send -p -t 18000000 "$app profile sync" "Syncing $direction minoo...")
         rsync -a --delete $EXCLUDES $from $to
-        notify-send -r $id -t 5000 "$name profile sync" "Complete"
+        notify-send -r $id -t 5000 "$app profile sync" "Complete"
       fi
     '')
 
     (writeShellScriptBin "app-sync" ''
-      name=$1
-      app=$2
-      exe=$3
-      ws=$4
-      move=$5
+      app=$1
+      exe=$2
+      ws=$3
+      move=$4
 
-      app-sync-minoo $app $name from
+      app-sync-minoo $app from
 
       /run/current-system/sw/bin/$exe &
       pid=$!
 
       if [ "$move" = "move" ]; then
-        notify-send "Moving $name to $ws"
+        notify-send "Moving $app to $ws"
         # Move apps as quickly as possible but keep trying
         # for slower machines.
         for i in {1..10}; do
@@ -83,7 +83,7 @@
 
       wait $pid
 
-      app-sync-minoo $app $name to
+      app-sync-minoo $app to
     '')
   ];
 
