@@ -1,10 +1,9 @@
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: {
   fonts = {
     packages = with pkgs; [
       corefonts
-      atkinson-hyperlegible
+      atkinson-hyperlegible-next
+      atkinson-hyperlegible-mono
       noto-fonts
       noto-fonts-emoji
       source-sans
@@ -13,12 +12,13 @@
       nerd-fonts.ubuntu-mono
       nerd-fonts.jetbrains-mono
     ];
+
     fontconfig = {
       enable = true;
       defaultFonts = {
-	      monospace = [ "JetBrainsMono Nerd Font" ];
-	      serif = [ "Atkinson Hyperlegible" ];
-	      sansSerif = [ "Atkinson Hyperlegible" ];
+	      monospace = [ "Atkinson Hyperlegible Mono" ];
+	      serif = [ "Atkinson Hyperlegible Next" ];
+	      sansSerif = [ "Atkinson Hyperlegible Next" ];
       };
     };
   };
