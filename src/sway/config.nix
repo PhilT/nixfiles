@@ -56,10 +56,10 @@
           timeout 300 'light dim' resume 'light bright' \
           timeout 600 'light off' resume 'light on && sleep 3 && light bright' \
           after-resume 'light on'
+        #timeout 300 'swaylock -f -c 363a4f'
 
 
         #timeout 900 'systemctl suspend'
-        #before-sleep 'swaylock -f -c 363a4f'
 
         # Ensure folder icons are configured
         exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-macchiato-lavender'"
@@ -80,14 +80,12 @@
         # Set some apps to load into certain workspace
         assign [class="Slack"] workspace number 6
 
-        ${lib.optionalString (config.machine == "spruce") ''
         # Keymapp - floating window visible on all workspaces
         for_window [app_id="keymapp"] floating enable
         for_window [app_id="keymapp"] sticky enable
         for_window [app_id="keymapp"] move to output DP-2
         for_window [app_id="keymapp"] resize set 982 582
         for_window [app_id="keymapp"] move position 2794 1317
-        ''}
 
         # PROGRAMS
         #bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
@@ -232,6 +230,7 @@
         bindsym --release $mod+Shift+backspace exec systemctl suspend
         bindsym $mod+Ctrl+backspace exec shutdown now
         bindsym $mod+Ctrl+Shift+backspace exec reboot
+        bindsym $mod+Ctrl+l exec swaylock -f -c 363a4f
 
         # Styling
 

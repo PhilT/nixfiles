@@ -146,3 +146,6 @@ map('n', '<leader>dc', ':lua require"dap".continue()<CR>')
 map('n', '<leader>di', ':lua require"dap".step_into()<CR>')
 map('n', '<leader>do', ':lua require"dap".step_over()<CR>')
 map('n', '<leader>dr', ':lua require"dap".repl.toggle()<CR>')
+
+--map({'n', 'x', 'o'}, 'l', '<Plug>(leap)')
+--map('n', 'L', '<Plug>(leap-from-window)')

@@ -17,7 +17,7 @@
 
   environment = {
     shellAliases = {
-      l = "ls -alh";
+      l = "ls -alh --time-style=+%y-%m-%d";
       ss = "imv -t 15 -f";
       fd = "fd -H";
       ls-packages = "nix-store --query --requisites /run/current-system | cut -d- -f2- | sort | uniq";

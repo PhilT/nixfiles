@@ -72,6 +72,7 @@ in
           catppuccin-nvim
           claudecode-nvim
           fsharp
+          leap-nvim
           lualine-nvim
           nvim-dap                  # Debugging adapter
           nvim-dap-ui               # UI for nvim-dap
