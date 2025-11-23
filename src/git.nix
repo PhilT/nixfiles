@@ -1,17 +1,73 @@
 { config, pkgs, lib, ... }: {
   environment.systemPackages = with pkgs; [
-    (writeShellScriptBin "git-cd" ''
+    (writeShellScriptBin "g-cd" ''
       [ -d "$CODE/$PROJ" ] || git clone git@github.com:PhilT/$PROJ.git $CODE/$PROJ
       cd "$CODE/$PROJ"
+    '')
+
+    (writeShellScriptBin "g-dirty" ''
+      if [ -z "$CODE" ]; then
+        echo "ERROR: \$CODE environment variable not set"
+        exit 1
+      fi
+
+      # Ignore list - repositories to skip
+      ignore_list=("nixfiles-clone")
+
+      for dir in "$CODE"/*; do
+        if [ -d "$dir/.git" ]; then
+          cd "$dir" || continue
+          repo_name=$(basename "$dir")
+
+          # Skip if in ignore list
+          if [[ " ''${ignore_list[@]} " =~ " ''${repo_name} " ]]; then
+            continue
+          fi
+
+          has_issues=false
+
+          # Check for uncommitted changes (modified, staged, or untracked files)
+          if ! git diff-index --quiet HEAD -- 2>/dev/null || \
+             [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            echo "DIRTY: $repo_name"
+            has_issues=true
+          fi
+
+          # Check current branch for unpushed commits
+          branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+          if [ -n "$branch" ]; then
+            upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+            if [ -n "$upstream" ]; then
+              unpushed=$(git rev-list @{u}..HEAD --count 2>/dev/null)
+              if [ "$unpushed" -gt 0 ]; then
+                echo "UNPUSHED: $repo_name ($branch: $unpushed commits)"
+                has_issues=true
+              fi
+            fi
+          fi
+
+          # Check for branches without upstream (not pushed to remote)
+          while IFS= read -r line; do
+            local_branch=$(echo "$line" | awk '{print $1}')
+            upstream_branch=$(echo "$line" | awk '{print $2}')
+            if [ -z "$upstream_branch" ]; then
+              echo "NO REMOTE: $repo_name ($local_branch)"
+              has_issues=true
+            fi
+          done < <(git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads)
+
+          [ "$has_issues" = true ] && echo ""
+        fi
+      done
     '')
   ];
 
   environment.shellAliases = {
-    matter = "PROJ=matter source /run/current-system/sw/bin/git-cd";
-    cv_builder = "PROJ=cv_builder source /run/current-system/sw/bin/git-cd";
-    vim-fsharp = "PROJ=vim-fsharp source /run/current-system/sw/bin/git-cd";
-    sheetzi = "PROJ=sheetzi source /run/current-system/sw/bin/git-cd";
-    rails_bootstrap = "PROJ=rails_bootstrap source /run/current-system/sw/bin/git-cd";
+    matter = "PROJ=matter source /run/current-system/sw/bin/g-cd";
+    cv_builder = "PROJ=cv_builder source /run/current-system/sw/bin/g-cd";
+    vim-fsharp = "PROJ=vim-fsharp source /run/current-system/sw/bin/g-cd";
+    sheetzi = "PROJ=sheetzi source /run/current-system/sw/bin/g-cd";
+    rails_bootstrap = "PROJ=rails_bootstrap source /run/current-system/sw/bin/g-cd";
   };
 
   environment.etc = {
