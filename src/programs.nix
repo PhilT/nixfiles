@@ -24,13 +24,21 @@
       ls-references = "nix-store --query --roots "; # add /nix/store/<hash>-package-name from fd package-name /
       ls-generations = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
       rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
-      rm = "trash";
       nixx = "${config.codeDir}/nixfiles/lib/nixx";
     };
 
     systemPackages = with pkgs; [
       # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
+
+      (writeShellScriptBin "rm" ''
+        if [ "$1" = "-F" ]; then
+          shift
+          rm "$@"
+        else
+          trash "$@"
+        fi
+      '')
 
       (writeShellScriptBin "sw-generation" ''
         if [ -z "$1" ]; then

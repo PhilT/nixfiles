@@ -60,6 +60,20 @@
       fi
     '')
 
+    (writeShellScriptBin "move-window" ''
+      app=$1
+      shift
+      what=$@
+
+      notify-send "Moving $app to $what"
+      # Move apps as quickly as possible but keep trying
+      # for slower machines.
+      for i in {1..10}; do
+        sleep 1
+        swaymsg "[app_id=$app] move $what"
+      done
+    '')
+
     (writeShellScriptBin "app-sync" ''
       app=$1
       exe=$2
@@ -72,13 +86,7 @@
       pid=$!
 
       if [ "$move" = "move" ]; then
-        notify-send "Moving $app to $ws"
-        # Move apps as quickly as possible but keep trying
-        # for slower machines.
-        for i in {1..10}; do
-          sleep 1
-          swaymsg "[app_id=$app] move workspace $ws"
-        done
+        move-window $app workspace $ws
       fi
 
       wait $pid

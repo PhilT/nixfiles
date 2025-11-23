@@ -92,9 +92,10 @@
         for_window [app_id="colemak"] move to output DP-2
         for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
 
+        # Run keymapp & Neovim shortcut cheatsheet
         ${lib.optionalString (config.machine == "spruce") ''
-          exec sh -c 'keymapp && sleep 2 && swaymsg "[app_id=keymapp] move absolute position 1 45"'
-          exec sh -c 'kitty --app-id=colemak glow -t -w 0 -s $CODE/nixfiles/dotfiles/glow.json $CODE/nixfiles/COLEMAK.md && swaymsg "[app_id=colemak] move absolute position 1 630"'
+          exec keymapp
+          exec kitty --app-id=colemak glow -t -w 0 -s $CODE/nixfiles/dotfiles/glow.json $CODE/nixfiles/COLEMAK.md
         ''}
 
         # Open a terminal in the current directory
@@ -266,6 +267,10 @@
         # before starting.
         exec ff move
         exec tb move
+
+        # move-window is currently defined in src/firefox.nix
+        exec move-window keymapp absolute position 1 45
+        exec move-window colemak absolute position 1 630
       '';
     };
   };
