@@ -32,6 +32,10 @@ map('n', '<C-c>', '<C-w>c')                                                     
 -- Neovim
 map('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload config (Sort of working)
 
+-- NvimTree
+map('n', '<C-f>', '<cmd>NvimTreeToggle<CR>', {desc = 'Open File true'})
+map('n', 'F', '<cmd>NvimTreeFindFile<CR>', {desc = 'Find file in tree'})
+
 -- Toggles
 map('n', '<Leader>i', '<cmd>setlocal number!<CR>')                              -- Toggle line numbers
 map('n', '<Leader>o', '<cmd>set paste!<CR>')                                    -- Toggle paste formatting
@@ -81,10 +85,6 @@ end
 map('n', '<CR>', next_quickfix_entry, expropts)                      -- Next quickfix entry (except when in quickfix window)
 map('n', '<Leader><CR>', '<cmd>cp<CR>')                                         -- Previous quickfix entry
 map('n', '<Leader>q', '<cmd>ccl<CR>')                                           -- Close quickfix window
-
--- NvimTree
-map('n', '<C-f>', '<cmd>NvimTreeToggle<CR>')                                    -- CTRL+f to open NvimTree
-map('n', '<Leader>f', '<cmd>NvimTreeFindFile<CR>')                              -- Find and reveal the current file in NvimTree
 
 -- LSP Client
 map('n', '<Leader>e', vim.diagnostic.open_float, {desc = 'Open error popup'})

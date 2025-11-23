@@ -72,7 +72,6 @@
 
         exec waybar
         exec mako -c /etc/config/mako
-        ${lib.optionalString (config.machine == "spruce") "exec keymapp"}
 
         # Windows/Super key as main modifier
         set $mod Mod4
@@ -80,16 +79,23 @@
         # Set some apps to load into certain workspace
         assign [app_id="Slack"] workspace number 6
 
-        # Keymapp - floating window visible on all workspaces
-        for_window [app_id="keymapp"] floating enable
-        for_window [app_id="keymapp"] sticky enable
-        for_window [app_id="keymapp"] move to output DP-2
-        for_window [app_id="keymapp"] resize set 982 582
-        for_window [app_id="keymapp"] move position 2794 1317
+        # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
+        workspace 6 gaps left 982
+        workspace 7 gaps left 982
+        workspace 8 gaps left 982
+        workspace 9 gaps left 982
+        workspace 0 gaps left 982
 
-        # PROGRAMS
-        #bindsym $mod+y exec cd /data/code/nixfiles && bin/vm sapling deadbeef
-        #bindsym $mod+u exec cd /data/code/nixfiles && bin/vm seedling deadbeee
+        # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
+        for_window [app_id="keymapp"] move to output DP-2
+        for_window [app_id="keymapp"] floating enable, sticky enable, resize set 981 581, move position 1 45
+        for_window [app_id="colemak"] move to output DP-2
+        for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
+
+        ${lib.optionalString (config.machine == "spruce") ''
+          exec sh -c 'keymapp && sleep 2 && swaymsg "[app_id=keymapp] move absolute position 1 45"'
+          exec sh -c 'kitty --app-id=colemak glow -t -w 0 -s $CODE/nixfiles/dotfiles/glow.json $CODE/nixfiles/COLEMAK.md && swaymsg "[app_id=colemak] move absolute position 1 630"'
+        ''}
 
         # Open a terminal in the current directory
         bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'

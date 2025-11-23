@@ -48,10 +48,6 @@
       NODE_OPTIONS = "--max-old-space-size=8192";
     };
 
-    shellAliases = {
-      mcd = "mkdir $1 && cd $1";
-    };
-
     systemPackages = with pkgs; [
       jq
       gcc

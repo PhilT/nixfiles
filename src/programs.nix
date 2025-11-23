@@ -95,6 +95,8 @@
       zip
 
       tipp10                # Typing Tutor
+
+      glow                  # To view markdown files in the terminal
     ];
   };
 }

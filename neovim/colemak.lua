@@ -1,10 +1,17 @@
 local map = vim.keymap.set
 
+-- Split keyboard leaders for ergonomics
+-- Left hand: qazwrxfscptdbgv + Enter
+-- Right hand: jmklnhue,yi.;o/
+local L = 'b'  -- Left-hand leader (for right-side target keys)
+local R = 'j'  -- Right-hand leader (for left-side target keys)
+
+
 -- Disable vim-dispatch default mappings (conflicts with Colemak 'm' mapping)
 vim.g.dispatch_no_maps = 1
 
--- Disable winresizer default mappings (conflicts with CTRL+e window movement)
-vim.g.winresizer_start_key = '<Leader>wr'
+-- Use alternate winresizer mappings (conflicts with CTRL+e window movement)
+vim.g.winresizer_start_key = R..'m'
 
 -- Setup
 map('n', '<C-z>', '<Nop>')                                                      -- Turn off stupid CTRL keys
@@ -35,12 +42,6 @@ map('n', 'S', 'I')                                                              
 map('n', 'h', 'm')                                                              -- Set mark
 map({'n', 'v', 'o'}, 'z', 'b')                                                  -- Back by word (b remapped for split leader)
 
--- Split keyboard leaders for ergonomics
--- Left hand: qazwrxfscptdbgv + Enter
--- Right hand: jmklnhue,yi.;o/
-local L = 'b'  -- Left-hand leader (for right-side target keys)
-local R = 'j'  -- Right-hand leader (for left-side target keys)
-
 -- Neovim
 map('n', R..'a', ReloadConfig, {desc = 'Reload Neovim config'})
 
@@ -66,24 +67,21 @@ map('n', L..'l', set_theme_light, {desc = 'Light theme'})
 map('n', R..'<CR>', '<cmd>cp<CR>', {desc = 'Previous quickfix entry'})
 map('n', R..'q', '<cmd>ccl<CR>', {desc = 'Close quickfix window'})
 
--- NvimTree
-map('n', R..'f', '<cmd>NvimTreeFindFile<CR>', {desc = 'Find file in tree'})
-
 -- LSP Client
 map('n', L..'e', vim.diagnostic.open_float, {desc = 'Open error popup'})
 map('n', R..'g', vim.diagnostic.setqflist, {desc = 'Show errors for project'})
 
 -- LSP (from setup_lsp_keys function)
-map('n', R..'w'..'a', vim.lsp.buf.add_workspace_folder, {desc = 'Add workspace folder'})
-map('n', R..'w'..'r', vim.lsp.buf.remove_workspace_folder, {desc = 'Remove workspace folder'})
-map('n', R..'w'..'l', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, {desc = 'List workspace folders'})
-map('n', R..'r'..'n', vim.lsp.buf.rename, {desc = 'LSP rename'})
-map('n', R..'c'..'a', vim.lsp.buf.code_action, {desc = 'Code action'})
+map('n', R..'wa', vim.lsp.buf.add_workspace_folder, {desc = 'Add workspace folder'})
+map('n', R..'wr', vim.lsp.buf.remove_workspace_folder, {desc = 'Remove workspace folder'})
+map('n', R..'wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, {desc = 'List workspace folders'})
+map('n', R..'rn', vim.lsp.buf.rename, {desc = 'LSP rename'})
+map('n', R..'ca', vim.lsp.buf.code_action, {desc = 'Code action'})
 map('n', R..'F', function() vim.lsp.buf.format { async = true } end, {desc = 'Format buffer'})
 
 -- Rust debugger
-map('n', R..'d'..'b', ':lua require"dap".toggle_breakpoint()<CR>', {desc = 'Toggle breakpoint'})
-map('n', R..'d'..'c', ':lua require"dap".continue()<CR>', {desc = 'Continue debugging'})
-map('n', R..'d'..'i', ':lua require"dap".step_into()<CR>', {desc = 'Step into'})
-map('n', R..'d'..'o', ':lua require"dap".step_over()<CR>', {desc = 'Step over'})
-map('n', R..'d'..'r', ':lua require"dap".repl.toggle()<CR>', {desc = 'Toggle REPL'})
+map('n', R..'db', ':lua require"dap".toggle_breakpoint()<CR>', {desc = 'Toggle breakpoint'})
+map('n', R..'dc', ':lua require"dap".continue()<CR>', {desc = 'Continue debugging'})
+map('n', R..'di', ':lua require"dap".step_into()<CR>', {desc = 'Step into'})
+map('n', R..'do', ':lua require"dap".step_over()<CR>', {desc = 'Step over'})
+map('n', R..'dr', ':lua require"dap".repl.toggle()<CR>', {desc = 'Toggle REPL'})
