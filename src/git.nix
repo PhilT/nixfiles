@@ -13,6 +13,7 @@
 
       # Ignore list - repositories to skip
       ignore_list=("nixfiles-clone")
+      found_issues=false
 
       for dir in "$CODE"/*; do
         if [ -d "$dir/.git" ]; then
@@ -53,9 +54,14 @@
           # Output repo and branches if any issues found
           if [ ''${#branches[@]} -gt 0 ]; then
             echo "$repo_name: ''${branches[*]}"
+            found_issues=true
           fi
         fi
       done
+
+      if [ "$found_issues" = false ]; then
+        echo "Everything is clean!"
+      fi
     '')
   ];
 
