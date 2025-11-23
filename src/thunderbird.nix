@@ -27,7 +27,7 @@
   environment.systemPackages = with pkgs; [
     # app-sync script is in firefox.nix
     (writeShellScriptBin "tb" ''
-      app-sync Thunderbird thunderbird thunderbird 8 $@
+      app-sync thunderbird thunderbird 8 $@
     '')
   ];
 }

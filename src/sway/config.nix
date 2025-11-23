@@ -78,7 +78,7 @@
         set $mod Mod4
 
         # Set some apps to load into certain workspace
-        assign [class="Slack"] workspace number 6
+        assign [app_id="Slack"] workspace number 6
 
         # Keymapp - floating window visible on all workspaces
         for_window [app_id="keymapp"] floating enable

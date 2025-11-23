@@ -3,6 +3,9 @@ local map = vim.keymap.set
 -- Disable vim-dispatch default mappings (conflicts with Colemak 'm' mapping)
 vim.g.dispatch_no_maps = 1
 
+-- Disable winresizer default mappings (conflicts with CTRL+e window movement)
+vim.g.winresizer_start_key = '<Leader>wr'
+
 -- Setup
 map('n', '<C-z>', '<Nop>')                                                      -- Turn off stupid CTRL keys
 map('n', '<C-s>', '<Nop>')                                                      -- Turn off stupid CTRL keys
@@ -11,16 +14,14 @@ map('n', '<Space>', '<Nop>')                                                    
 
 -- Remap keys that will be used for movement
 map('n', 's','i')                                                               -- inSert mode
-map('n', 't', 'o')                                                              -- Open a new line below
-map('n', 'T', 'O')                                                              -- Open a new line above
-
 
 -- Movement keys (normal, visual modes only - exclude operator-pending to preserve text objects)
 map({'n', 'v'}, 'n', 'j')
 map({'n', 'v'}, 'e', 'k')
 map({'n', 'v'}, 'i', 'l')
 map({'n', 'v'}, 'm', 'h')
-map('n', '<C-n>', '<C-w>j')                                                     -- CTRL+(neio) to navigate splits from NORMAL mode
+map('n', '<C-m>', '<C-w>h')                                                     -- CTRL+(mnei) to navigate splits from NORMAL mode
+map('n', '<C-n>', '<C-w>j')                                                     --
 map('n', '<C-e>', '<C-w>k')                                                     --
 map('n', '<C-i>', '<C-w>l')                                                     --
 map('n', '<C-c>', '<C-w>c')                                                     -- 'CTRL+c' to close window
@@ -46,7 +47,7 @@ map('n', R..'a', ReloadConfig, {desc = 'Reload Neovim config'})
 -- Toggles
 map('n', L..'i', '<cmd>setlocal number!<CR>', {desc = 'Toggle line numbers'})
 map('n', L..'o', '<cmd>set paste!<CR>', {desc = 'Toggle paste'})
-map('n', L..'-', '<cmd>nohlsearch<CR>', {desc = 'Clear search highlight'})
+map('n', L.."'", '<cmd>nohlsearch<CR>', {desc = 'Clear search highlight'})
 
 -- FZF Lua
 local fzf = require('fzf-lua')
