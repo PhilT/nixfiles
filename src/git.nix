@@ -24,39 +24,36 @@
             continue
           fi
 
-          has_issues=false
+          branches=()
 
           # Check for uncommitted changes (modified, staged, or untracked files)
           if ! git diff-index --quiet HEAD -- 2>/dev/null || \
              [ -n "$(git ls-files --others --exclude-standard)" ]; then
-            echo "DIRTY: $repo_name"
-            has_issues=true
+            branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+            [ -n "$branch" ] && branches+=("$branch")
           fi
 
-          # Check current branch for unpushed commits
-          branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-          if [ -n "$branch" ]; then
-            upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
-            if [ -n "$upstream" ]; then
-              unpushed=$(git rev-list @{u}..HEAD --count 2>/dev/null)
-              if [ "$unpushed" -gt 0 ]; then
-                echo "UNPUSHED: $repo_name ($branch: $unpushed commits)"
-                has_issues=true
-              fi
-            fi
-          fi
-
-          # Check for branches without upstream (not pushed to remote)
+          # Check for branches with unpushed commits or no remote
           while IFS= read -r line; do
             local_branch=$(echo "$line" | awk '{print $1}')
             upstream_branch=$(echo "$line" | awk '{print $2}')
+
             if [ -z "$upstream_branch" ]; then
-              echo "NO REMOTE: $repo_name ($local_branch)"
-              has_issues=true
+              # Branch has no remote
+              [[ ! " ''${branches[@]} " =~ " ''${local_branch} " ]] && branches+=("$local_branch")
+            else
+              # Check for unpushed commits
+              unpushed=$(git rev-list "$upstream_branch..$local_branch" --count 2>/dev/null)
+              if [ "$unpushed" -gt 0 ]; then
+                [[ ! " ''${branches[@]} " =~ " ''${local_branch} " ]] && branches+=("$local_branch")
+              fi
             fi
           done < <(git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads)
 
-          [ "$has_issues" = true ] && echo ""
+          # Output repo and branches if any issues found
+          if [ ''${#branches[@]} -gt 0 ]; then
+            echo "$repo_name: ''${branches[*]}"
+          fi
         fi
       done
     '')
