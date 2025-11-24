@@ -273,7 +273,7 @@
         exec move-window colemak absolute position 1 630
 
         # Run g-dirty on startup and leave shell open
-        exec kitty --app-id=first-kitty --hold g-dirty
+        exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b
         exec move-window first-kitty workspace 1
       '';
     };

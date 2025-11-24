@@ -1,6 +1,21 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "g-dirty" ''
+      OPT_BOLD="-b"
+      OPT_CD="-s"
+      OPT_HELP="--help"
+
+      opts=$1
+
+      if [ "$opts" = "$OPT_HELP" ]; then
+        echo "Usage: g-dirty [$OPT_CD] [$OPT_BOLD]"
+        echo "  $OPT_CD Return the first dirty repo to facilite cleaning"
+        echo "  $OPT_BOLD Highlight first dirty repo to facilite cleaning"
+        exit
+      fi
+
+      [ "$opts" = "$OPT_CD" ] || echo "Changes in $CODE projects:"
+
       if [ -z "$CODE" ]; then
         echo "ERROR: \$CODE environment variable not set"
         exit 1
@@ -8,7 +23,8 @@
 
       # Ignore list - repositories to skip
       ignore_list=("nixfiles-clone")
-      found_issues=false
+      normal='\033[0m'
+      first_repo=""
 
       for dir in "$CODE"/*; do
         if [ -d "$dir/.git" ]; then
@@ -48,14 +64,23 @@
 
           # Output repo and branches if any issues found
           if [ ''${#branches[@]} -gt 0 ]; then
-            echo "$repo_name: ''${branches[*]}"
-            found_issues=true
+            if [ "$opts" = "$OPT_BOLD" ]; then
+              bold='\033[1m'
+            else
+              bold='\033[0m'
+            fi
+
+            [ "$opts" = "$OPT_CD" ] || echo -e "| $bold$repo_name: ''${branches[*]}$normal"
+            bold=$normal
+            [ -z "$first_repo" ] && first_repo=$repo_name
           fi
         fi
       done
 
-      if [ "$found_issues" = false ]; then
-        echo "Everything is clean!"
+      if [ "$opts" = "$OPT_CD" ]; then
+        echo "$first_repo"
+      elif [ "$first_repo" = "" ]; then
+        echo "All projects are clean!"
       fi
     '')
   ];
