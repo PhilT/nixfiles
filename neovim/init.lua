@@ -38,6 +38,7 @@ dofile(config_path .. '/plugins/ripgrep.lua')
 dofile(config_path .. '/plugins/scratch.lua')
 dofile(config_path .. '/plugins/fzf.lua')
 dofile(config_path .. '/plugins/toggleterm.lua')
+dofile(config_path .. '/plugins/treesitter.lua')
 dofile(config_path .. '/plugins/lsp.lua')
 
 -- Conditional Colemak layout loading

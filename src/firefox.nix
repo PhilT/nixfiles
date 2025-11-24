@@ -1,4 +1,8 @@
 { config, pkgs, ... }: {
+  imports = [
+    ./scripts/move-window.nix
+  ];
+
   programs.firefox.enable = true;
   programs.firefox.package = pkgs.firefox-esr-140;
   environment.sessionVariables.MOZ_USE_XINPUT2 = "1"; # Smooth scrolling
@@ -43,6 +47,12 @@
       remote_path=phil@minoo:/data/home/$app/
       local_path=/data/home/$app/
 
+      # Check if minoo is reachable
+      if ! ${pkgs.openssh}/bin/ssh -q -o BatchMode=yes -o ConnectTimeout=5 minoo exit 2>/dev/null; then
+        notify-send -u critical "$app profile sync" "minoo is not reachable, skipping sync"
+        exit 1
+      fi
+
       if [ $direction = to ]; then
         to=$remote_path
         from=$local_path
@@ -58,20 +68,6 @@
         rsync -a --delete $EXCLUDES $from $to
         notify-send -r $id -t 5000 "$app profile sync" "Complete"
       fi
-    '')
-
-    (writeShellScriptBin "move-window" ''
-      app=$1
-      shift
-      what=$@
-
-      notify-send "Moving $app to $what"
-      # Move apps as quickly as possible but keep trying
-      # for slower machines.
-      for i in {1..10}; do
-        sleep 1
-        swaymsg "[app_id=$app] move $what"
-      done
     '')
 
     (writeShellScriptBin "app-sync" ''

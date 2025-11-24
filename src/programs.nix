@@ -1,6 +1,13 @@
 # TODO: Consider merging with common.nix mirroring common_gui.nix
 # Or perhaps split things up into more specific files.
 { config, pkgs, ... }: {
+  imports = [
+    ./scripts/sw-generation.nix
+    ./scripts/v.nix
+    ./scripts/note.nix
+    ./scripts/resetperms.nix
+  ];
+
   programs = {
     starship.enable = true; # Starship - Highly configurable shell prompt
     neovim.enable = true;
@@ -30,40 +37,6 @@
     systemPackages = with pkgs; [
       # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
-
-      (writeShellScriptBin "rm" ''
-        if [ "$1" = "-F" ]; then
-          shift
-          rm "$@"
-        else
-          trash "$@"
-        fi
-      '')
-
-      (writeShellScriptBin "sw-generation" ''
-        if [ -z "$1" ]; then
-          echo "$0 <generation>"
-          exit 1
-        fi
-        sudo nix-env --switch-generation $1 -p /nix/var/nix/profiles/system
-        sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
-      '')
-
-      # Load Neovim with previous session setup
-      (writeShellScriptBin "v" ''
-        nvim -S Session.vim
-      '')
-
-      # Start Neovim with todays date as filename
-      (writeShellScriptBin "note" ''
-        cd $NOTES/log && nvim $(date +%Y-%m-%d).md
-      '')
-
-      # Reset file/folder permissions
-      (writeShellScriptBin "resetperms" ''
-        find . -type d -print0 | xargs -0 chmod 755
-        find . -type f -print0 | xargs -0 chmod 644
-      '')
 
       # Helper script to merge passwords with Phone database
       (writeShellScriptBin "mergepasswords" ''

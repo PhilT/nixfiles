@@ -271,6 +271,10 @@
         # move-window is currently defined in src/firefox.nix
         exec move-window keymapp absolute position 1 45
         exec move-window colemak absolute position 1 630
+
+        # Run g-dirty on startup and leave shell open
+        exec kitty --app-id=first-kitty --hold g-dirty
+        exec move-window first-kitty workspace 1
       '';
     };
   };

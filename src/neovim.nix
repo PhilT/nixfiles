@@ -79,6 +79,7 @@ in
           nvim-lspconfig            # Language server client settings
           nvim-tree-lua
           nvim-treesitter
+          nvim-treesitter.withAllGrammars  # Include all tree-sitter parsers
           quickfix-reflector-vim
           render-markdown-nvim
           rustaceanvim              # Forked: rust-tools.nvim, for debugger
