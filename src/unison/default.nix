@@ -91,6 +91,7 @@ in
     ignore = Path home/claude/projects
     ignore = Path home/claude/statsig
     ignore = Path home/claude/todos
+    ignore = Path home/claude/debug
 
     # 3rd party code is not committed so we sync it to local changes such as shell.nix
     ignorenot = Path code/3rd-party

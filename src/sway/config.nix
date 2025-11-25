@@ -80,11 +80,13 @@
         assign [app_id="Slack"] workspace number 6
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
-        workspace 6 gaps left 982
-        workspace 7 gaps left 982
-        workspace 8 gaps left 982
-        workspace 9 gaps left 982
-        workspace 0 gaps left 982
+        ${lib.optionalString (config.machine == "spruce") ''
+          workspace 6 gaps left 982
+          workspace 7 gaps left 982
+          workspace 8 gaps left 982
+          workspace 9 gaps left 982
+          workspace 0 gaps left 982
+        ''}
 
         # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
         for_window [app_id="keymapp"] move to output DP-2
