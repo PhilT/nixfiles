@@ -65,6 +65,7 @@ in
     ignore = Name *.swo
 
     ignorenot = Name CLAUDE.md
+    ignorenot = Name UNISON_NOTES.md
 
     ignore = Path .Trash*
     ignore = Path backups
