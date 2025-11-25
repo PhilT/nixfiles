@@ -85,7 +85,7 @@
           workspace 7 gaps left 982
           workspace 8 gaps left 982
           workspace 9 gaps left 982
-          workspace 0 gaps left 982
+          workspace 10 gaps left 982
         ''}
 
         # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
