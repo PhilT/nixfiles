@@ -119,6 +119,7 @@
 
         bindsym $mod+Shift+space fullscreen toggle
         bindsym $mod+space floating toggle
+        bindsym $mod+Shift+f focus mode_toggle
         bindsym $mod+Shift+r reload
 
         # Move your focus
