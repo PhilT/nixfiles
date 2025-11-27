@@ -51,5 +51,4 @@ Modifier: `$mod` = Super/Windows key
 - `$mod+Ctrl+l` Lock screen
 
 ## Mouse
-- `$mod+Left-click` Move floating window
-- `$mod+Right-click` Resize floating window
+- `$mod+Left/Right-click` Move/Resize floating window
