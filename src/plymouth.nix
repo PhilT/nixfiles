@@ -8,7 +8,7 @@
   };
 
   catppuccin.plymouth.enable = true;
-  catppuccin.plymouth.flavor = "macchiato";
+  catppuccin.plymouth.flavor = "mocha";
 
   # Reduce boot logging to prevent Plymouth falling back to text mode
   boot.consoleLogLevel = 3;

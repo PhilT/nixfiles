@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ../macchiato.nix lib;
+  colors = import ../catppuccin.nix lib;
 in with colors;
 {
   programs.sway.extraPackages = with pkgs; [

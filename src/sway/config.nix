@@ -62,7 +62,7 @@
         #timeout 900 'systemctl suspend'
 
         # Ensure folder icons are configured
-        exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-macchiato-lavender'"
+        exec dconf write /org/gnome/desktop/interface/icon-theme "'cat-mocha-lavender'"
         exec dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
         exec dconf write /org/gnome/desktop/interface/text-scaling-factor "2.0"
         exec dconf write /org/gnome/desktop/interface/cursor-size "48"
@@ -260,7 +260,7 @@
         client.background        $base
 
         # Cursors
-        seat * xcursor_theme catppuccin-macchiato-lavender-cursors 48
+        seat * xcursor_theme catppuccin-mocha-lavender-cursors 48
 
         # Needed for UWSM to start
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway

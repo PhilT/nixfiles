@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ../macchiato.nix lib;
+  colors = import ../catppuccin.nix lib;
   accent = "lavender";
-  variant = "macchiato";
-  catppuccin-gtk-macchiato = pkgs.catppuccin-gtk.override ({
+  variant = "mocha";
+  catppuccin-gtk-mocha = pkgs.catppuccin-gtk.override ({
     accents = [ accent ];
     variant = variant;
   });
@@ -45,9 +45,9 @@ in with colors; {
   };
 
   environment.systemPackages = with pkgs; [
-    catppuccin-gtk-macchiato
+    catppuccin-gtk-mocha
     catppuccin-papirus-folders
-    catppuccin-cursors.macchiatoLavender
+    catppuccin-cursors.mochaLavender
   ];
 
   programs.sway.extraPackages = with pkgs; [
@@ -64,7 +64,7 @@ in with colors; {
   ];
 
   environment.sessionVariables = {
-    GTK_THEME = "catppuccin-macchiato-lavender-standard";
+    GTK_THEME = "catppuccin-mocha-lavender-standard";
 
     QT_SCALE_FACTOR = "2"; # Fixes KeePassXC
     NIXOS_OZONE_WL = "1"; # hint electron apps to use wayland: Fixes Slack
@@ -73,8 +73,8 @@ in with colors; {
   };
 
   environment.etc = {
-    "sway/config.d/catppuccin-macchiato" = {
-      source = ../../dotfiles/sway/catppuccin-macchiato; mode = "444";
+    "sway/config.d/catppuccin-mocha" = {
+      source = ../../dotfiles/sway/catppuccin-mocha; mode = "444";
     };
 
     "gtk-3.0/settings.ini" = {
@@ -91,8 +91,8 @@ in with colors; {
     "d ${config.xdgDataHome}/icons - ${config.username} users -"
 
     # Fix for cursors in Waybar/Firefox
-    "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.macchiatoLavender}/share/icons/catppuccin-macchiato-lavender-cursors"
+    "L+ ${config.xdgDataHome}/icons/default - - - - ${pkgs.catppuccin-cursors.mochaLavender}/share/icons/catppuccin-mocha-lavender-cursors"
 
-    "L+ ${config.xdgDataHome}/icons/cat-macchiato-lavender - - - - /run/current-system/sw/share/icons/Papirus-Dark"
+    "L+ ${config.xdgDataHome}/icons/cat-mocha-lavender - - - - /run/current-system/sw/share/icons/Papirus-Dark"
   ];
 }
