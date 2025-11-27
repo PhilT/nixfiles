@@ -94,10 +94,10 @@
         for_window [app_id="colemak"] move to output DP-2
         for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
 
-        # Run keymapp & Neovim shortcut cheatsheet
+        # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
           exec keymapp
-          exec kitty --app-id=colemak glow -t -w 0 -s $CODE/nixfiles/dotfiles/glow.json $CODE/nixfiles/COLEMAK.md
+          exec kitty --app-id=colemak -d $CODE/nixfiles glow -t -w 0 -s dotfiles/glow.json
         ''}
 
         # Open a terminal in the current directory
