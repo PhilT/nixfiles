@@ -77,7 +77,9 @@
 
       tipp10                # Typing Tutor
 
+      # File viewers
       glow                  # To view markdown files in the terminal
+      termpdfpy             # To view PDF files in the terminal
     ];
   };
 }

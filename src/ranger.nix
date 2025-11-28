@@ -10,6 +10,13 @@
     systemPackages = with pkgs; [
       shared-mime-info      # Recognise different file types
       ranger                # Terminal file manager
+
+      # Supporting packages for ranger
+      ffmpeg                # View videos
+      file                  # Determine file type
+      imagemagick_light     # Rotate images
+      librsvg               # View SVGs
+      bat                   # Syntax highlighting for cat
     ];
 
     etc = {
@@ -27,8 +34,13 @@
           ext json|txt|md|xml|yaml|yml|toml|conf|cfg|ini|log|nix = "$EDITOR" -- "$@"
           mime ^text = "$EDITOR" -- "$@"
 
+          # Use termpdf to view PDFs
+          ext pdf = "termpdf.py" "$@"
+          mime ^application/pdf = "termpdf.py" "$@"
+
           # Fallback to opening files with xdg-open
-          else = xdg-open "$@"
+          # FIXME: This is disabled as it's opening Calibre at the moment
+          # else = xdg-open "$@"
         '';
       };
     };
