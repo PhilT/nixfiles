@@ -6,8 +6,9 @@ require('nvim-treesitter.configs').setup({
     additional_vim_regex_highlighting = false,
   },
 
-  -- Enable indentation
+  -- Enable indentation (but disable for Rust due to bugs)
   indent = {
     enable = true,
+    disable = { "rust" },
   },
 })
