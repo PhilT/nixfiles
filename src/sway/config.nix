@@ -27,7 +27,7 @@
         workspace 7 output DP-2 eDP-1
         workspace 8 output DP-2 eDP-1
         workspace 9 output DP-2 eDP-1
-        workspace 0 output DP-2 eDP-1
+        workspace 10 output DP-2 eDP-1
 
         xwayland enable
 

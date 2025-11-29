@@ -13,3 +13,11 @@ autocmd('BufRead', glsl_options)
 local jb_options = { pattern = '*.jb', command='set ft=ruby' }
 autocmd('BufNewFile', jb_options)
 autocmd('BufRead', jb_options)
+
+-- Enable word-boundary wrapping for markdown files
+autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    vim.opt_local.linebreak = true
+  end
+})
