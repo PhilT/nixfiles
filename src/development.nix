@@ -42,6 +42,10 @@
   ];
 
   environment = {
+    shellAliases = {
+      rs = "rust-script";
+    };
+
     sessionVariables = {
       # Fix issue with TailwindCSS 3 Chokidar causing the following error:
       # FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
