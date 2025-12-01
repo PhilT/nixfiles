@@ -3,6 +3,7 @@
 { config, lib, pkgs, ... }: {
   imports = [
     ./devbox.nix
+    ./scripts/watcher.nix
   ] ++ lib.optional (builtins.pathExists /data/work/work.nix) /data/work/work.nix;
 
   virtualisation.docker.enable = true;
