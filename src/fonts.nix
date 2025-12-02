@@ -5,7 +5,7 @@
       atkinson-hyperlegible-next
       atkinson-hyperlegible-mono
       noto-fonts
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       source-sans
       roboto-mono
       nerd-fonts.ubuntu

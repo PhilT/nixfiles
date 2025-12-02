@@ -7,9 +7,6 @@
   system.stateVersion = "24.05";
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-    (import ./overlays/overskride.nix)
-  ];
 
   boot = {
     loader = {

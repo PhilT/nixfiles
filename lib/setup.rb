@@ -7,7 +7,7 @@ class Setup
   ALL_CHANNELS = %w[catppuccin nixos-hardware nixos]
   CATPPUCCIN_CHAN = "https://github.com/catppuccin/nix/archive/main.tar.gz"
   HARDWARE_CHAN = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz"
-  NIXOS_CHAN = "https://nixos.org/channels/nixos-unstable"
+  NIXOS_CHAN = "https://nixos.org/channels/nixos-25.11"
   HOME_DIR = "/home/nixos"
 
   def initialize(machine, options = {}, root:, credentials:)

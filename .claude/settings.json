@@ -1,12 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Read(//data/machine/unison/**)",
-      "Bash(nix-env:*)",
-      "mcp__claude-context__index_codebase",
-      "mcp__claude-context__get_indexing_status",
       "Bash(docker:*)",
-      "Bash(nvim:*)"
+      "Bash(nix-channel --list:*)",
+      "Bash(nix-env:*)",
+      "Bash(nvim:*)",
+      "Read(//data/machine/unison/**)",
+      "mcp__claude-context__get_indexing_status",
+      "mcp__claude-context__index_codebase"
     ],
     "deny": [],
     "ask": []
