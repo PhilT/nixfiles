@@ -3,21 +3,23 @@
     # Watch directory for changes and run command, killing and restarting on new changes
     (writeShellScriptBin "watcher" ''
       if [ $# -lt 2 ]; then
-          echo "Usage: watcher <directory>... -- <command>"
-          echo "Watches one or more directories for changes and runs the specified command."
+          echo "Usage: watcher <path>... -- <command>"
+          echo "Watches files, directories, or glob patterns for changes and runs the specified command."
           echo "If changes occur while running, kills and restarts the command."
           echo ""
           echo "Examples:"
           echo "  watcher src/ -- 'cargo t'"
           echo "  watcher src/ posts/ -- 'cargo build'"
+          echo "  watcher src/*.rs -- 'cargo test'"
+          echo "  watcher src/main.rs Cargo.toml -- 'cargo check'"
           exit 1
       fi
 
-      DIRS=()
+      PATHS=()
       COMMAND_PARTS=()
       FOUND_SEPARATOR=0
 
-      # Parse arguments: directories before --, command after --
+      # Parse arguments: paths before --, command after --
       for arg in "$@"; do
           if [ "$arg" = "--" ]; then
               FOUND_SEPARATOR=1
@@ -25,14 +27,14 @@
           fi
 
           if [ $FOUND_SEPARATOR -eq 0 ]; then
-              DIRS+=("$arg")
+              PATHS+=("$arg")
           else
               COMMAND_PARTS+=("$arg")
           fi
       done
 
-      if [ ''${#DIRS[@]} -eq 0 ]; then
-          echo "Error: No directories specified"
+      if [ ''${#PATHS[@]} -eq 0 ]; then
+          echo "Error: No paths specified"
           exit 1
       fi
 
@@ -43,17 +45,9 @@
 
       COMMAND="''${COMMAND_PARTS[*]}"
 
-      # Validate directories
-      for dir in "''${DIRS[@]}"; do
-          if [ ! -d "$dir" ]; then
-              echo "Error: Directory '$dir' does not exist."
-              exit 1
-          fi
-      done
-
-      echo "Watching directories:"
-      for dir in "''${DIRS[@]}"; do
-          echo "  - $dir"
+      echo "Watching paths:"
+      for path in "''${PATHS[@]}"; do
+          echo "  - $path"
       done
       echo "Command: $COMMAND"
       echo "Press Ctrl+C to stop"
@@ -76,8 +70,8 @@
       # Run once initially
       run_command
 
-      # Monitor for changes in all directories
-      ${inotify-tools}/bin/inotifywait -m -r -e modify,create,delete,move "''${DIRS[@]}" 2>/dev/null | while read line; do
+      # Monitor for changes (inotifywait handles files, directories, and globs natively)
+      ${inotify-tools}/bin/inotifywait -m -r -e modify,create,delete,move "''${PATHS[@]}" 2>/dev/null | while read line; do
           echo ""
           echo "Change detected!"
           run_command
