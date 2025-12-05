@@ -34,7 +34,7 @@ map('n', '<Leader>a', ReloadConfig, {desc = 'Reload Neovim config'}) -- Reload c
 
 -- NvimTree
 map('n', '<C-f>', '<cmd>NvimTreeToggle<CR>', {desc = 'Open File true'})
-map('n', 'F', '<cmd>NvimTreeFindFile<CR>', {desc = 'Find file in tree'})
+map('n', '<Leader>f', '<cmd>NvimTreeFindFile<CR>', {desc = 'Find file in tree'})
 
 -- Toggles
 map('n', '<Leader>i', '<cmd>setlocal number!<CR>')                              -- Toggle line numbers

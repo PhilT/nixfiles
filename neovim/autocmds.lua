@@ -21,3 +21,12 @@ autocmd('FileType', {
     vim.opt_local.linebreak = true
   end
 })
+
+-- Disable auto-insertion of comment leaders on Enter/o/O
+-- This runs for all filetypes after ftplugins have set their formatoptions
+autocmd('FileType', {
+  pattern = '*',
+  callback = function()
+    vim.opt_local.formatoptions:remove({ 'c', 'r', 'o' })
+  end
+})
