@@ -35,8 +35,11 @@
     };
 
     systemPackages = with pkgs; [
-      # yt-dlp -x --audio-format mp3 https://URL
       yt-dlp
+
+      (writeShellScriptBin "get-music" ''
+        yt-dlp -x --audio-format mp3 --audio-quality 0 $1
+      '')
 
       # Helper script to merge passwords with Phone database
       (writeShellScriptBin "mergepasswords" ''

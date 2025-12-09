@@ -30,7 +30,21 @@ vim.lsp.enable('gdscript')
 
 vim.lsp.config('ruby_lsp', {                                               -- Ruby
   on_attach = on_attach,
-  cmd = {'devbox', 'run', 'ruby-lsp'}
+  cmd = {'bundle', 'exec', 'ruby-lsp'},
+  root_dir = function(bufnr, on_dir)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    -- Find all Gemfiles going upward, use the outermost one
+    -- This allows a parent wrapper Gemfile to be the root for monorepos
+    local gemfiles = vim.fs.find('Gemfile', {
+      path = vim.fs.dirname(fname),
+      upward = true,
+      limit = math.huge,
+    })
+    local gemfile = gemfiles[#gemfiles]  -- Last one is the outermost
+    if gemfile then
+      on_dir(vim.fs.dirname(gemfile))
+    end
+  end,
 })
 vim.lsp.enable('ruby_lsp')
 

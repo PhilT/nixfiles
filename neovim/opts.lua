@@ -38,4 +38,3 @@ opt.conceallevel = 2                                                            
 opt.cursorline = true                                                           -- Turn on highlight on cursor line (Uses color of CursorLine)
 opt.foldenable = false                                                          -- Turn off code folding
 opt.number = false                                                              -- Hide line numbers
---opt.signcolumn = 'yes'                                                          -- Keeps sign column visable to stop edit window shifting left and right

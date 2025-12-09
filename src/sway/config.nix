@@ -94,6 +94,10 @@
         for_window [app_id="colemak"] move to output DP-2
         for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
 
+        # Monkeytype floating window on workspace 5
+        for_window [app_id="monkeytype"] move to workspace 5
+        for_window [app_id="firefox" title="^Monkeytype.*"] floating enable, resize set 2539 2120, move workspace 5, move position 1 45
+
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
           exec keymapp
@@ -278,6 +282,10 @@
         # Run g-dirty on startup and leave shell open
         exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b
         exec move-window first-kitty workspace 1
+
+        # Move monkeytype to workspace 5
+        exec move-window "firefox title='^Monkeytype.*'" workspace 5
+        exec move-window "firefox title='^Monkeytype.*'" position 1 45
       '';
     };
   };
