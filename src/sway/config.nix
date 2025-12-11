@@ -77,7 +77,7 @@
         set $mod Mod4
 
         # Set some apps to load into certain workspace
-        assign [app_id="Slack"] workspace number 6
+        assign [app_id="Slack"] workspace number 7
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
         ${lib.optionalString (config.machine == "spruce") ''
@@ -95,8 +95,7 @@
         for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
 
         # Monkeytype floating window on workspace 5
-        for_window [app_id="monkeytype"] move to workspace 5
-        for_window [app_id="firefox" title="^Monkeytype.*"] floating enable, resize set 2539 2120, move workspace 5, move position 1 45
+        for_window [app_id="firefox" title="^Monkeytype.*"] floating enable, resize set 2539 2110
 
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
@@ -282,10 +281,6 @@
         # Run g-dirty on startup and leave shell open
         exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b
         exec move-window first-kitty workspace 1
-
-        # Move monkeytype to workspace 5
-        exec move-window "firefox title='^Monkeytype.*'" workspace 5
-        exec move-window "firefox title='^Monkeytype.*'" position 1 45
       '';
     };
   };

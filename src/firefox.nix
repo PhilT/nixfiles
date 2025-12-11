@@ -34,7 +34,7 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "ff" ''
-      app-sync firefox firefox-esr 7 $@
+      app-sync firefox firefox-esr 6 $@
     '')
 
     # Example for syncing Firefox profile to minoo:
@@ -82,7 +82,15 @@
       pid=$!
 
       if [ "$move" = "move" ]; then
-        move-window $app workspace $ws
+        if [ "$app" = "firefox" ]; then
+          move-window 'firefox title="^(?!Monkeytype).*$"' workspace $ws &
+
+          # Move monkeytype to workspace 5
+          move-window 'firefox title="^Monkeytype.*"' position 1 1
+          move-window 'firefox title="^Monkeytype.*"' workspace 5 &
+        else
+          move-window $app workspace $ws &
+        fi
       fi
 
       wait $pid
