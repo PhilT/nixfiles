@@ -95,7 +95,7 @@
         for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
 
         # Monkeytype floating window on workspace 5
-        for_window [app_id="firefox" title="^Monkeytype.*"] floating enable, resize set 2539 2110
+        for_window [app_id="firefox" title=Monkeytype] floating enable, resize set 2539 2110
 
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''

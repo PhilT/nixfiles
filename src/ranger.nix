@@ -10,6 +10,8 @@
     systemPackages = with pkgs; [
       shared-mime-info      # Recognise different file types
       ranger                # Terminal file manager
+      android-tools         # Used to sync with phone
+      adbfs-rootless
 
       # Supporting packages for ranger
       ffmpeg                # View videos
@@ -17,6 +19,33 @@
       imagemagick_light     # Rotate images
       librsvg               # View SVGs
       bat                   # Syntax highlighting for cat
+
+      # Connect to my phone via adb and use ranger to view files.
+      # Extract the IP address of Suuno (also used in src/common.nix)
+      (writeShellScriptBin "ranger-adb" ''
+        sudo mkdir -p /mnt/android
+        sudo chown phil:users /mnt/android
+        adb connect 192.168.1.205:5555
+        if [ "$?" = "0" ]; then
+          echo "Connected to Android device"
+        else
+          echo "Failed to connect to Android device"
+          echo "Enter port number (Settings->Developer Options->Wireless Debugging)"
+          port=$(read)
+          adb connect 192.168.1.205:$port
+          adb tcpip 5555
+          adb connect 192.168.1.205:5555
+          if $?; then
+            echo "Connected to Android device"
+          else
+            echo "Still failing to connect to Android device"
+            exit 1
+          fi
+        fi
+        adbfs /mnt/android
+        ranger /mnt/android
+        fusermount -u /mnt/android
+      '')
     ];
 
     etc = {

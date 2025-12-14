@@ -83,11 +83,12 @@
 
       if [ "$move" = "move" ]; then
         if [ "$app" = "firefox" ]; then
-          move-window 'firefox title="^(?!Monkeytype).*$"' workspace $ws &
+          move-window 'firefox title=(?!Monkeytype)' workspace $ws &
 
           # Move monkeytype to workspace 5
-          move-window 'firefox title="^Monkeytype.*"' position 1 1
-          move-window 'firefox title="^Monkeytype.*"' workspace 5 &
+          move-window 'firefox title=Monkeytype' absolute position 3841 45 &
+          sleep 1
+          move-window 'firefox title=Monkeytype' window to workspace 5
         else
           move-window $app workspace $ws &
         fi
