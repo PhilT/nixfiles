@@ -53,6 +53,12 @@
         mode = "444";
         text = ''
           set preview_images_method kitty
+
+          # Colemak movement keys
+          map m move left=1
+          map n move down=1
+          map e move up=1
+          map i move right=1
         '';
       };
 
@@ -63,13 +69,54 @@
           ext json|txt|md|xml|yaml|yml|toml|conf|cfg|ini|log|nix = "$EDITOR" -- "$@"
           mime ^text = "$EDITOR" -- "$@"
 
-          # Use termpdf to view PDFs
-          ext pdf = "termpdf.py" "$@"
-          mime ^application/pdf = "termpdf.py" "$@"
+          # Use fancy-cat to view PDFs
+          ext pdf = "meowpdf" "$@"
+          mime ^application/pdf = "meowpdf" "$@"
 
           # Fallback to opening files with xdg-open
           # FIXME: This is disabled as it's opening Calibre at the moment
           # else = xdg-open "$@"
+        '';
+      };
+
+      "config/meowpdf" = {
+        mode = "444";
+        text = ''
+          [viewer]
+          scroll_speed = 100.0
+          render_precision = 3.0
+          memory_limit = 314572800
+          scale_min = 0.2
+          scale_default = 0.3
+          scale_amount = 0.5
+          margin_bottom = 10.0
+          pages_preloaded = 3
+          inverse_scroll = false
+
+          [viewer.uri_hint]
+          enabled = true
+          background = "blue"
+          foreground = "white"
+          width = 0.2
+
+          [bindings]
+          "Ctrl+a" = "ToggleAlpha"
+          "Ctrl+o" = "ToggleInverse"
+          "C" = "CenterViewer"
+          "m" = "MoveLeft"
+          "n" = "MoveUp"
+          "e" = "MoveDown"
+          "i" = "MoveRight"
+          "Up" = "MoveDown"
+          "Left" = "MoveLeft"
+          "Right" = "MoveRight"
+          "Down" = "MoveUp"
+          "Plus" = "ZoomIn"
+          "-" = "ZoomOut"
+          "g g" = "JumpFirstPage"
+          "G" = "JumpLastPage"
+          "q" = "Quit"
+          "Q" = "Quit"
         '';
       };
     };
@@ -83,5 +130,6 @@
 
     "L+ ${config.xdgConfigHome}/ranger/rc.conf - - - - /etc/config/ranger/rc.conf"
     "L+ ${config.xdgConfigHome}/ranger/rifle.conf - - - - /etc/config/ranger/rifle.conf"
+    "L+ ${config.xdgConfigHome}/meowpdf - - - - /etc/config/meowpdf"
   ];
 }

@@ -82,7 +82,7 @@
 
       # File viewers
       glow                  # To view markdown files in the terminal
-      termpdfpy             # To view PDF files in the terminal
+      meowpdf               # To view PDF files in the terminal
 
       # Productivity
       himalaya              # Email client
