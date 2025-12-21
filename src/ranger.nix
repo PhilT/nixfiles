@@ -83,12 +83,12 @@
         mode = "444";
         text = ''
           [viewer]
-          scroll_speed = 100.0
+          scroll_speed = 20.0
           render_precision = 3.0
           memory_limit = 314572800
           scale_min = 0.2
           scale_default = 0.3
-          scale_amount = 0.5
+          scale_amount = 0.1
           margin_bottom = 10.0
           pages_preloaded = 3
           inverse_scroll = false
@@ -107,10 +107,12 @@
           "n" = "MoveUp"
           "e" = "MoveDown"
           "i" = "MoveRight"
-          "Up" = "MoveDown"
+          "Up" = "MoveUp"
           "Left" = "MoveLeft"
           "Right" = "MoveRight"
-          "Down" = "MoveUp"
+          "Down" = "MoveDown"
+          "PageUp" = "PrevPage"
+          "PageDown" = "NextPage"
           "Plus" = "ZoomIn"
           "-" = "ZoomOut"
           "g g" = "JumpFirstPage"
