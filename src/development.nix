@@ -8,23 +8,44 @@
 
   virtualisation.docker.enable = true;
 
-  systemd.services.ollama = {
-    description = "Ollama AI Model Service";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.ollama}/bin/ollama serve";
-      Restart = "on-failure";
-      RestartSec = "5s";
-      # Run as the user to access their models directory
-      User = config.username;
-      Environment = [
-        "HOME=${config.homeDir}"
-        "OLLAMA_MODELS=${config.homeDir}/.ollama/models"
-      ];
-    };
-  };
+  nixpkgs.overlays = [
+    (final: prev: {
+      claude-code = prev.buildNpmPackage rec {
+        pname = "claude-code";
+        version = "2.1.14";
+
+        src = prev.fetchzip {
+          url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
+          hash = "sha256-QiBvRm1iMtO3mmlu5a/aKaJzcAQxeBW7yLK4R4k6SU0=";
+        };
+
+        npmDepsHash = "sha256-PIhayi4wNoP4XxWpEIH7/Ycq1mBAMcE4vDuLCTW7/bE=";
+
+        postPatch = let
+          packageLock = prev.fetchurl {
+            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-unstable/pkgs/by-name/cl/claude-code/package-lock.json";
+            hash = "sha256-buhxQ4er16KAwBRzkmT1nE/puPdkgwkV3/vzqYSZ88I=";
+          };
+        in ''
+          cp ${packageLock} package-lock.json
+          substituteInPlace cli.js --replace-warn '#!/bin/bash' '#!/usr/bin/env bash'
+        '';
+
+        dontNpmBuild = true;
+        env.AUTHORIZED = "1";
+
+        postInstall = ''
+          wrapProgram $out/bin/claude \
+            --set DISABLE_AUTOUPDATER 1 \
+            --unset DEV \
+            --prefix PATH : ${prev.lib.makeBinPath ([prev.procps]
+              ++ prev.lib.optionals prev.stdenv.hostPlatform.isLinux [prev.bubblewrap prev.socat])}
+        '';
+
+        meta = prev.claude-code.meta or {};
+      };
+    })
+  ];
 
   environment.etc."supermaven/config.json" = {
     text = (builtins.toJSON {
@@ -58,41 +79,8 @@
       gcc
       claude-code
       lldb_21
-      ollama
       nodejs_20 # Claude requires Node.js < 24
-
-      # Ollama setup script
-      (writeShellScriptBin "ollama-setup" ''
-        echo "Setting up Ollama with nomic embed model..."
-
-        # Start ollama service if not running
-        if ! pgrep -x ollama >/dev/null; then
-          echo "Starting Ollama service..."
-          ollama serve >> ~/.ollama.log 2>&1 &
-          sleep 3
-        else
-          echo "Ollama service is already running"
-        fi
-
-        # Check if nomic embed model is available
-        if ! ollama list | grep -q "nomic-embed-text"; then
-          echo "Downloading nomic embed model..."
-          ollama pull nomic-embed-text
-        else
-          echo "Nomic embed model already available"
-        fi
-
-        echo ""
-        echo "Ollama setup complete!"
-        echo "- Service: http://localhost:11434"
-        echo "- Model: nomic-embed-text"
-        echo ""
-        echo "Usage:"
-        echo "  ollama run nomic-embed-text"
-        echo "  curl http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"your text\"}'"
-        echo ""
-        echo "To stop: pkill ollama"
-      '')
+      uv        # Needed for Serena MCP
 
       # Language servers
       clang-tools

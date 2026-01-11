@@ -1,5 +1,11 @@
 # My NixOS Setup
 
+This project uses the system Ruby. When upgrading, once Ruby is installed, do:
+```
+rm -rf ~/.local/share/gem/ruby/3.4.0
+bundle install
+```
+
 ## Nixx
 
 New commandline tool to build NixOS. type `nixx` to see a list of commands
