@@ -101,6 +101,8 @@ in
     ignorenot = Path code/archive
     ignorenot = Path work/work.nix
     ignorenot = Path work/sync
+    ignorenot = Path work/zuno
+    ignore = Path work/zuno/mono
 
     ${config.unison.extraConfig}
   '';
