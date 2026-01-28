@@ -106,6 +106,7 @@
     "browser.warnOnQuit" = false;
     "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
     "apz.gtk.kinetic_scroll.enabled" = false;
+    "media.webrtc.camera.allow-pipewire" = true;  # Enable PipeWire camera for Wayland
   };
 
   # https://mozilla.github.io/policy-templates
