@@ -12,19 +12,19 @@
     (final: prev: {
       claude-code = prev.buildNpmPackage rec {
         pname = "claude-code";
-        version = "2.1.34";
+        version = "2.1.39";
 
         src = prev.fetchzip {
           url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-          hash = "sha256-J3kltFY5nR3PsRWbW310VqD/6hhfMbVSvynv0eaIi3M=";
+          hash = "sha256-NLLiaJkU91ZnEcQUWIAX9oUTt+C5fnWXFFPelTtWmdo=";
         };
 
-        npmDepsHash = "sha256-n762einDxLUUXWMsfdPVhA/kn0ywlJgFQ2ZGoEk3E68=";
+        npmDepsHash = "sha256-VWw1bYkFch95JDlOwKoTAQYOr8R80ICJ8QUI4E64W7o=";
 
         postPatch = let
           packageLock = prev.fetchurl {
             url = "https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-unstable/pkgs/by-name/cl/claude-code/package-lock.json";
-            hash = "sha256-9v4RRE/qbE1Em1Zrx//G5GbuyU9F7S8ksqEAqfH5SKo=";
+            hash = "sha256-oVgT4TMmVS5EI6qZD5Has9BXc5HDRdWUdTBdUmDmnT4=";
           };
         in ''
           cp ${packageLock} package-lock.json
