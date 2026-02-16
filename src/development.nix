@@ -12,11 +12,11 @@
     (final: prev: {
       claude-code = prev.buildNpmPackage rec {
         pname = "claude-code";
-        version = "2.1.14";
+        version = "2.1.34";
 
         src = prev.fetchzip {
           url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-          hash = "sha256-QiBvRm1iMtO3mmlu5a/aKaJzcAQxeBW7yLK4R4k6SU0=";
+          hash = "sha256-J3kltFY5nR3PsRWbW310VqD/6hhfMbVSvynv0eaIi3M=";
         };
 
         npmDepsHash = "sha256-aUqPXF5L78wZ34pNRvpEJi6l2wl15Og1yCEvVoeV0tE=";
@@ -28,7 +28,6 @@
           };
         in ''
           cp ${packageLock} package-lock.json
-          substituteInPlace cli.js --replace-warn '#!/bin/bash' '#!/usr/bin/env bash'
         '';
 
         dontNpmBuild = true;
@@ -37,6 +36,7 @@
         postInstall = ''
           wrapProgram $out/bin/claude \
             --set DISABLE_AUTOUPDATER 1 \
+            --set DISABLE_INSTALLATION_CHECKS 1 \
             --unset DEV \
             --prefix PATH : ${prev.lib.makeBinPath ([prev.procps]
               ++ prev.lib.optionals prev.stdenv.hostPlatform.isLinux [prev.bubblewrap prev.socat])}

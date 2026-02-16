@@ -1,4 +1,31 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let
+  ws = import ./workspaces.nix;
+  resolveOutput = key: ws.outputs.${key};
+
+  # Generate: workspace 1 output DP-3 eDP-1
+  workspaceOutputLines = lib.concatStringsSep "\n" (lib.mapAttrsToList (num: outputKey:
+    "workspace ${num} output ${resolveOutput outputKey} ${ws.outputs.fallback}"
+  ) ws.assignments);
+
+  # Generate: workspace 6 gaps left 982
+  workspaceGapLines = lib.concatStringsSep "\n" (lib.filter (s: s != "") (lib.mapAttrsToList (num: outputKey:
+    if outputKey == "primary"
+    then "workspace ${num} gaps left ${toString ws.leftGap}"
+    else ""
+  ) ws.assignments));
+
+  # Generate for_window rules for floating windows
+  floatingWindowRules = lib.concatStringsSep "\n" (map (fw: ''
+    for_window [app_id="${fw.appId}"] move to output ${resolveOutput "primary"}
+    for_window [app_id="${fw.appId}"] floating enable, sticky enable, resize set ${toString fw.width} ${toString fw.height}, move position ${toString fw.x} ${toString fw.y}''
+  ) ws.floatingWindows);
+
+  # Generate exec move-window commands for floating windows
+  floatingWindowExecs = lib.concatStringsSep "\n" (map (fw:
+    "exec move-window ${fw.appId} absolute position ${toString fw.x} ${toString fw.y}"
+  ) ws.floatingWindows);
+in {
   environment.etc = {
     "sway/config" = {
       mode = "444";
@@ -18,16 +45,7 @@
         # Seedling
         output DP-3 pos 3840 0
 
-        workspace 1 output DP-3 eDP-1
-        workspace 2 output DP-3 eDP-1
-        workspace 3 output DP-3 eDP-1
-        workspace 4 output DP-3 eDP-1
-        workspace 5 output DP-3 eDP-1
-        workspace 6 output DP-2 eDP-1
-        workspace 7 output DP-2 eDP-1
-        workspace 8 output DP-2 eDP-1
-        workspace 9 output DP-2 eDP-1
-        workspace 10 output DP-2 eDP-1
+        ${workspaceOutputLines}
 
         xwayland enable
 
@@ -58,6 +76,9 @@
           after-resume 'light on'
         #timeout 300 'swaylock -f -c 363a4f'
 
+        # Prevent screen timeout when windows are fullscreen (e.g., gaming)
+        for_window [app_id=".*"] inhibit_idle fullscreen
+
 
         #timeout 900 'systemctl suspend'
 
@@ -81,18 +102,11 @@
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
         ${lib.optionalString (config.machine == "spruce") ''
-          workspace 6 gaps left 982
-          workspace 7 gaps left 982
-          workspace 8 gaps left 982
-          workspace 9 gaps left 982
-          workspace 10 gaps left 982
+          ${workspaceGapLines}
         ''}
 
         # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
-        for_window [app_id="keymapp"] move to output DP-2
-        for_window [app_id="keymapp"] floating enable, sticky enable, resize set 981 581, move position 1 45
-        for_window [app_id="colemak"] move to output DP-2
-        for_window [app_id="colemak"] floating enable, sticky enable, resize set 981 1527, move position 1 630
+        ${floatingWindowRules}
 
         # Monkeytype floating window on workspace 5
         for_window [app_id="firefox" title=Monkeytype] floating enable, resize set 2539 2110
@@ -275,8 +289,12 @@
         exec tb move
 
         # move-window is currently defined in src/firefox.nix
-        exec move-window keymapp absolute position 1 45
-        exec move-window colemak absolute position 1 630
+        ${floatingWindowExecs}
+
+        # Restore workspaces when outputs reconnect (e.g. after suspend)
+        ${lib.optionalString (config.machine == "spruce") ''
+          exec sway-output-listener
+        ''}
 
         # Run g-dirty on startup and leave shell open
         exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b

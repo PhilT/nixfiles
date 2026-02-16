@@ -10,6 +10,7 @@ let
 in with colors; {
   imports = [
     ./config.nix
+    ../scripts/restore-workspaces.nix
   ];
 
   xdg.portal = {
