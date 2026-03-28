@@ -15,6 +15,8 @@
           text-color = #cad3f5
           prompt-color = #ed8796
           selection-color = #eed49f
+          selection-background = #45475a
+          selection-background-padding = 0,-1
           background-color = #181926dd
 
           outline-width = 0
