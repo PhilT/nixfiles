@@ -69,14 +69,14 @@ in
 
     ignore = Path .Trash*
     ignore = Path backups
-    ignore = Path code
+    ignore = Regex ^code/[^/][^/]*$
     ignore = Path downloads
     ignore = Path etc
     ignore = Path games
     ignore = Path machine
     ignore = Path var
     ignore = Path vdisks
-    ignore = Path work
+    ignore = Regex ^work/[^/][^/]*$
 
     # These are synced when starting and stopping FF and TB with a manual rsync
     # run. To ensure integrity we need to do a one way sync. See app-sync in firefox.nix.
