@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
   imports = [
     <catppuccin/modules/nixos>
+    ../../catppuccin_compat.nix
 
     ./minimal.nix
     ../../hardware/bluetooth.nix

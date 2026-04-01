@@ -9,7 +9,7 @@
 pkgs.rustPlatform.buildRustPackage rec {
   pname = "mxw";
   version = "0.1.3";
-  cargoHash = "sha256-yNoUnfxU3+N7hWoDxxJ3Nz6Qk8YvThqDCARFNBfS/Es=";
+  cargoHash = "sha256-mlOfRMrb1Cia4ezFh60LluoQxBVBaTkPl2F+h8dHalw=";
   useCargoVendor = true;
 
   buildInputs = with pkgs; [ libudev-zero ];
@@ -18,7 +18,7 @@ pkgs.rustPlatform.buildRustPackage rec {
   src = pkgs.fetchFromGitHub {
     owner = "dxbednarczyk";
     repo = "mxw";
-    rev = "master";
-    sha256 = "sha256-qqOEN3f4r/x3KS8MaLEApx1l0B9snX6SZyVndYGU8xw=";
+    rev = "6978ea2355c47961e838cbbc99d2853ee354396f";
+    sha256 = "sha256-07KLWBxDU0pXlq5afkJRebSWbQl+VfoHKK19OLnwW7g=";
   };
 }

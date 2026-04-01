@@ -37,8 +37,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "simeji";
       repo = "winresizer";
-      rev = "master";
-      sha256 = "5LR9A23BvpCBY9QVSF9PadRuDSBjv+knHSmdQn/3mH0=";
+      rev = "299076f7f79e2e2f7706b2dfacbb3c074ce53257";
+      sha256 = "sha256-rTTe6hFgEz9CFPJFDUjoD3SQr97V5E5Lg6J4c8mU+6s=";
     };
   };
   slim = pkgs.vimUtils.buildVimPlugin {
