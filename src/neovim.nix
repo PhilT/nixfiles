@@ -51,15 +51,9 @@ let
       sha256 = "mPv0tiggGExEZNshDlHtT4ipv/5Q0ahkcVw4irJ8l3o=";
     };
   };
-  neovimNoThemes = pkgs.neovim-unwrapped.overrideAttrs {
-    postUnpack = ''
-      rm source/runtime/colors/*
-    '';
-  };
 in
 {
   programs.neovim = {
-    package = neovimNoThemes;
     configure = {
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
