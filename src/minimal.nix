@@ -34,20 +34,21 @@
   time.timeZone = "Europe/London";
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
+
   # Pin to an older linux version not available in nixpkgs. Sometimes useful
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
-    argsOverride = rec {
-      src = pkgs.fetchurl {
-            url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
-            sha256 = "sha256-qwa7qIUeS2guiDT2+Q5W0y3PmNjGLNU3Z2EEz9dXqPI=";
-      };
-      # See: https://forum.manjaro.org/t/shutdown-problem-with-kernels-6-15-and-6-16/179384
-      # Problems with kernel 6.17 and nvidia drivers
-      version = "6.16.10";
-      modDirVersion = "6.16.10";
-    };
-  });
+  #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_6.override {
+  #  argsOverride = rec {
+  #    src = pkgs.fetchurl {
+  #          url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
+  #          sha256 = "sha256-qwa7qIUeS2guiDT2+Q5W0y3PmNjGLNU3Z2EEz9dXqPI=";
+  #    };
+  #    # See: https://forum.manjaro.org/t/shutdown-problem-with-kernels-6-15-and-6-16/179384
+  #    # Problems with kernel 6.17 and nvidia drivers
+  #    version = "6.16.10";
+  #    modDirVersion = "6.16.10";
+  #  };
+  #});
 
   programs.fish.enable = true;                # Fish! Shell
   programs.fish.package = pkgs.fish.override { usePython = false; };
