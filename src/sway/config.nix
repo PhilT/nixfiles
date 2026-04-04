@@ -99,6 +99,7 @@ in {
 
         # Set some apps to load into certain workspace
         assign [app_id="Slack"] workspace number 7
+        assign [title="Claude"] workspace number 6
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
         ${lib.optionalString (config.machine == "spruce") ''
@@ -107,9 +108,6 @@ in {
 
         # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
         ${floatingWindowRules}
-
-        # Monkeytype floating window on workspace 5
-        for_window [app_id="firefox" title=Monkeytype] floating enable, resize set 2539 2110
 
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
@@ -122,7 +120,7 @@ in {
         bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+q kill
         bindsym $mod+Shift+Mod1+q exit
-        bindsym $mod+w exec firefox-esr
+        bindsym $mod+w exec ch
         bindsym $mod+f exec thunar
         bindsym $mod+t exec thunderbird
         bindsym $mod+a exec slack
@@ -283,12 +281,13 @@ in {
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
         exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-        # Start Firefox and Thunderbird which sync their profiles with the server
+        # Start Chromium and Thunderbird which sync their profiles with the server
         # before starting.
-        exec ff move
+        exec ch move
         exec tb move
+        exec chromium --app=https://claude.ai
 
-        # move-window is currently defined in src/firefox.nix
+        # move-window is currently defined in src/chromium.nix
         ${floatingWindowExecs}
 
         # Restore workspaces when outputs reconnect (e.g. after suspend)

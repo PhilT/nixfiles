@@ -78,9 +78,9 @@ in
     ignore = Path vdisks
     ignore = Regex ^work/[^/][^/]*$
 
-    # These are synced when starting and stopping FF and TB with a manual rsync
-    # run. To ensure integrity we need to do a one way sync. See app-sync in firefox.nix.
-    ignore = Path home/firefox
+    # These are synced when starting and stopping Chromium and TB with a manual rsync
+    # run. To ensure integrity we need to do a one way sync. See app-sync in chromium.nix.
+    ignore = Path home/chromium
     ignore = Path home/thunderbird
 
     # Containers (at least milvus-vector-db) are synced manually with

@@ -20,9 +20,7 @@
   ];
 
   # Non-sticky floating windows that need size restoration after output changes
-  restoreWindows = [
-    { appId = "firefox"; title = "Monkeytype"; width = 2539; height = 2110; }
-  ];
+  restoreWindows = [];
 
   # Gap size on primary-output workspaces to make room for floating windows
   leftGap = 982;

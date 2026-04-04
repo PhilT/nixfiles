@@ -2,7 +2,6 @@
   imports = [
     ./dbgate.nix
     ./filemanager.nix
-    ./firefox.nix
     ./chromium.nix
     ./keepmenu.nix
     ./kitty.nix
