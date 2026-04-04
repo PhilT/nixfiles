@@ -14,10 +14,10 @@ map({'n', 'v'}, 'n', 'j')
 map({'n', 'v'}, 'e', 'k')
 map({'n', 'v'}, 'i', 'l')
 map({'n', 'v'}, 'm', 'h')
-map('n', '<C-m>', '<C-w>h')                                                     -- CTRL+(mnei) to navigate splits from NORMAL mode
-map('n', '<C-n>', '<C-w>j')                                                     --
-map('n', '<C-e>', '<C-w>k')                                                     --
-map('n', '<C-i>', '<C-w>l')                                                     --
+map('n', '<A-m>', '<C-w>h')                                                     -- ALT+(mnei) to navigate splits from NORMAL mode
+map('n', '<A-n>', '<C-w>j')                                                     --
+map('n', '<A-e>', '<C-w>k')                                                     --
+map('n', '<A-i>', '<C-w>l')                                                     --
 map('n', '<C-c>', '<C-w>c')                                                     -- 'CTRL+c' to close window
 
 -- Remap displaced Vim functionality

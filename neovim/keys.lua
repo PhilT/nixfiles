@@ -124,7 +124,7 @@ function setup_lsp_keys()
   -- map('n', 'gD', vim.lsp.buf.declaration) - Doesn't work in F#
   map('n', 'gd', vim.lsp.buf.definition)
   map('n', 'gr', vim.lsp.buf.references)
-  map('n', 'K', vim.lsp.buf.hover)
+  map('n', 'gh', vim.lsp.buf.hover)
   map('n', 'gi', vim.lsp.buf.implementation)
   map('i', '<C-k>', vim.lsp.buf.signature_help)
   map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder)
