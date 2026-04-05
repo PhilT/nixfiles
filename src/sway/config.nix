@@ -98,8 +98,10 @@ in {
         set $mod Mod4
 
         # Set some apps to load into certain workspace
-        assign [app_id="Slack"] workspace number 7
-        assign [title="Claude"] workspace number 6
+        assign [app_id="Slack"] workspace number 6
+        assign [app_id="thunderbird"] workspace number 7
+        assign [app_id="chromium"] workspace number 8
+        assign [title="Claude"] workspace number 9
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
         ${lib.optionalString (config.machine == "spruce") ''
@@ -112,7 +114,7 @@ in {
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
           exec keymapp
-          exec kitty --app-id=colemak -d $CODE/nixfiles glow -t -w 0 -s dotfiles/glow.json
+          exec kitty --app-id=colemak -d ${config.codeDir}/nixfiles glow -t -w 0 -s dotfiles/glow.json
         ''}
 
         # Open a terminal in the current directory

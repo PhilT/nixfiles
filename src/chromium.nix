@@ -46,7 +46,7 @@
       (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
 
       (writeShellScriptBin "ch" ''
-        app-sync chromium chromium 6 $@
+        app-sync chromium chromium 8 $@
       '')
 
       (writeShellScriptBin "app-sync-minoo" ''
