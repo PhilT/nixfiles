@@ -10,7 +10,7 @@ This is a personal NixOS configuration repository that manages multiple machines
 
 ### Core Structure
 - **`src/`**: Contains all NixOS configuration modules
-  - `machines/`: Machine-specific configurations (aramid, spruce, seedling, minoo)
+  - `machines/`: Machine-specific configurations (aramid, spruce, seedling, minoo, vellum)
   - `scripts/`: Custom utility scripts (g-dirty, g-cd, move-window, note, etc.)
   - Individual modules for specific functionality (neovim.nix, firefox.nix, etc.)
 - **`lib/`**: Ruby library files for the nixx tool
@@ -27,6 +27,7 @@ The repository manages several machines:
 - **aramid**: Laptop (X1 Carbon Gen 12) - Uses ephemeral OS
 - **seedling**: Development VM running on spruce
 - **minoo**: File server (N100-based)
+- **vellum**: Boox Note Max e-ink tablet
 
 ### Key Concepts
 - **Ephemeral OS**: Some machines (aramid, seedling) wipe `/etc` on boot for security

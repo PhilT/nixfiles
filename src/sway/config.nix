@@ -114,7 +114,7 @@ in {
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
           exec keymapp
-          exec kitty --app-id=colemak -d ${config.codeDir}/nixfiles glow -t -w 0 -s dotfiles/glow.json
+          exec kitty --app-id=colemak --hold -d ${config.codeDir}/nixfiles glow -t -w 0 -s dotfiles/glow.json
         ''}
 
         # Open a terminal in the current directory
