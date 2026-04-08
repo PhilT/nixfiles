@@ -29,7 +29,6 @@
           file://${config.dataDir}/software software
           file://${config.dataDir}/sync sync
           file://${config.dataDir}/notes notes
-          file://${config.dataDir}/notes notes
           file://${config.dataDir}/studio studio
         '';
       };

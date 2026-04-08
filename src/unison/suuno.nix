@@ -20,7 +20,6 @@ in
       "pictures/showcase"
       "pictures/camera"
       "sync"
-      "txt"
     ];
     extraConfig = ''
       perms = 0

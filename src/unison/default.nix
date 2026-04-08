@@ -26,9 +26,9 @@ in
     backupcurr = Path calibre_library
     backupcurr = Path documents
     backupcurr = Path home
-    backupcurr = Path notes
+    backupcurr = Path imported_notes
     backupcurr = Path sync
-    backupcurr = Path txt
+    backupcurr = Path notes
     backuplocation = central
     maxbackups = 2
     backupdir = ${config.dataDir}/backups
