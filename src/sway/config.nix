@@ -122,6 +122,7 @@ in {
         bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+q kill
         bindsym $mod+Shift+Mod1+q exit
+        bindsym ctrl+q exec sh -c 'if swaymsg -t get_tree | jq -e ".. | select(.focused?) | select(.app_id? == \"chromium\")" > /dev/null 2>&1; then pkill -SIGTERM chromium; fi'
         bindsym $mod+w exec ch
         bindsym $mod+f exec thunar
         bindsym $mod+t exec thunderbird
