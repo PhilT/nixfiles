@@ -12,7 +12,7 @@
         "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
       ];
       defaultSearchProviderEnabled = true;
-      defaultSearchProviderSearchURL = "https://searx.be/search?q={searchTerms}";
+      defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
       homepageLocation = "https://claude.ai";
       extraOpts = {
         BrowserSignin = 0;
@@ -43,7 +43,7 @@
 
   environment = {
     systemPackages = with pkgs; [
-      (writeShellScriptBin "s" ''chromium --force-dark-mode https://www.startpage.com/sp/search?query="$@" &'')
+      (writeShellScriptBin "s" ''chromium --force-dark-mode "https://duckduckgo.com/?q=$@" &'')
 
       (writeShellScriptBin "ch" ''
         app-sync chromium chromium 8 $@

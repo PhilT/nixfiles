@@ -87,15 +87,15 @@ class Nixx < Thor
     desc: "Run nixos-rebuild with nom"
   def build
     command = options[:dryrun] ? "dry-build" : "build"
-    command = "switch" if options.slice(:switch, :upgrade, :clean).any?
-    command = "boot" if options[:boot]
+    command = "switch" if !options[:dryrun] && options.slice(:switch, :upgrade, :clean).any? { |_, v| v }
+    command = "boot" if !options[:dryrun] && options[:boot]
     etc_dir = ephemeral_os? ? "/data/etc" : "/etc"
     root = "/"
     credentials = Credentials.new
     disks = Disks.new(machine, thor: self, wipe: false, root:, credentials:, options:)
     setup = Setup.new(machine, options, root:, credentials:)
     ssh = Ssh.new(machine, options, credentials)
-    nom = options[:nom] ? " |& nom" : ""
+    nom = options[:nom] && $stdout.isatty ? " |& nom" : ""
 
     setup.add_channels
     setup.all_ssh_keys # Writes any missing keys to the credentials file and to SSH dir

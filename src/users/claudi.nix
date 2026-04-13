@@ -54,11 +54,10 @@
       enable = true;
       extensions = [
         "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
-        "cdkhedhmncjnpabolpjceohohlefegak" # Startpage privacy protection
       ];
       defaultSearchProviderEnabled = true;
-      defaultSearchProviderSearchURL = "https://www.startpage.com/sp/search?query={searchTerms}";
-      homepageLocation = "https://www.startpage.com";
+      defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+      homepageLocation = "https://duckduckgo.com";
       extraOpts = {
         "SpellcheckEnabled" = true;
         "SpellcheckLanguage" = [ "en-GB" ];

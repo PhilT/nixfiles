@@ -4,6 +4,7 @@
   imports = [
     <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
     <catppuccin/modules/nixos>
+    ../../catppuccin_compat.nix
 
     ./minimal.nix
     ../../hardware/bluetooth.nix

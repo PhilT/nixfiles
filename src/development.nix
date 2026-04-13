@@ -19,12 +19,12 @@
           hash = "sha256-CLLCtVK3TeXFZ8wBnRRHNc2MoUt7lTdMJwz8sZHpkFM=";
         };
 
-        npmDepsHash = "sha256-izy3dQProZIdUF5Z11fvGQOm/TBcWGhDK8GvNs8gG5E=";
+        npmDepsHash = "sha256-5LvH7fG5pti2SiXHQqgRxfFpxaXxzrmGxIoPR4dGE+8=";
 
         postPatch = let
           packageLock = prev.fetchurl {
             url = "https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-unstable/pkgs/by-name/cl/claude-code/package-lock.json";
-            hash = "sha256-CFWp5NIivzsuNi4xgkwwtO/o2O1YEYkV7JD/TkY2Cb4=";
+            hash = "sha256-4k5WBVwNSHdU8k1oam6QT5NhvHfJ43ZJtmAxIkTxe54=";
           };
         in ''
           cp ${packageLock} package-lock.json
