@@ -24,5 +24,6 @@ in {
     "x-scheme-handler/http" = "chromium-tab.desktop";
     "x-scheme-handler/https" = "chromium-tab.desktop";
     "text/html" = "chromium-tab.desktop";
+    "application/pdf" = "org.gnome.Evince.desktop";
   };
 }
