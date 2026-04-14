@@ -109,6 +109,13 @@
           "--user-data-dir=/data/home/chromium"
         ];
       })
+
+      (writeShellScriptBin "quit-chromium" ''
+        focused=$(swaymsg -t get_tree | jq -r 'recurse(.nodes[]?, .floating_nodes[]?) | select(.focused) | .app_id')
+        if echo "$focused" | grep -q chromium; then
+          swaymsg kill
+        fi
+      '')
     ];
   };
 }
