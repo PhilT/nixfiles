@@ -27,9 +27,10 @@
     "vm.transparent_hugepages" = "always"; # Better performance for Gaming in VMs
   };
 
-  # FIXME: This didn't seem to work - as in, when ignoring the LUKS password prompt on
-  # the machine and trying to SSH in remotely, I got host not found.
-  # Be good to test again once I've switched to ZFS
+  # FIXME: Remote LUKS unlock via SSH - hasn't been tested successfully yet.
+  # With systemd stage 1, cryptsetup-askpass is not available. The approach is:
+  # ssh <host> -o RequestTTY=force, then run `systemctl default`.
+  # TODO: May also need boot.initrd.systemd.network instead of boot.initrd.network once on ZFS.
   boot.initrd.network = {
     enable = true;
     ssh.enable = true;

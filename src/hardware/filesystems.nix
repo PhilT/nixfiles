@@ -1,6 +1,6 @@
 { lib, config, ... }: {
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
+    device = "/dev/mapper/root";
     fsType = "ext4";
   };
 
