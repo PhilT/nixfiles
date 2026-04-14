@@ -120,9 +120,8 @@ in {
         # Open a terminal in the current directory
         bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'
         bindsym $mod+Shift+c exec kitty
-        bindsym $mod+Shift+q kill
         bindsym $mod+Shift+Mod1+q exit
-        bindsym ctrl+q exec quit-chromium
+        bindsym ctrl+q kill
         bindsym $mod+w exec ch
         bindsym $mod+f exec thunar
         bindsym $mod+t exec thunderbird
