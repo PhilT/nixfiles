@@ -86,6 +86,7 @@ in
           vim-abolish
           vim-css-color
           vim-dispatch
+          gitsigns-nvim
           vim-fugitive
           vim-glsl
           vim-indentwise
