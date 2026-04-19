@@ -6,7 +6,7 @@
     };
 
     systemPackages = with pkgs; [
-      renoise
+      (callPackage ./renoise.nix {})
       #surge-XT
       #stochas
       #lsp-plugins

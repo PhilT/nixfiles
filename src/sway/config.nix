@@ -122,7 +122,7 @@ in {
         bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+Mod1+q exit
         bindsym ctrl+q kill
-        bindsym $mod+w exec ch
+        bindsym $mod+w exec chromium
         bindsym $mod+f exec thunar
         bindsym $mod+t exec thunderbird
         bindsym $mod+a exec slack
