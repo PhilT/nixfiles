@@ -24,6 +24,9 @@
 
     # Running webservers
     ../../devbox.nix
+
+    # UPS monitoring
+    ../../ups.nix
   ];
 
   # How do we supply the key?
