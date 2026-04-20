@@ -100,7 +100,6 @@ in {
         # Set some apps to load into certain workspace
         assign [app_id="Slack"] workspace number 6
         assign [app_id="thunderbird"] workspace number 7
-        assign [app_id="chromium"] workspace number 8
         assign [title="Claude"] workspace number 9
 
         # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
@@ -121,7 +120,7 @@ in {
         bindsym $mod+c exec sh -c 'kitty_pid=$(swaymsg -t get_tree | jq ".. | select(.focused?) | .pid"); shell_pid=$(pstree -p $kitty_pid | grep -oE "(fish|bash|zsh|sh)\([0-9]+\)" | head -1 | grep -oP "\d+"); cwd=$(readlink /proc/$shell_pid/cwd 2>/dev/null || echo ~); kitty -d "$cwd"'
         bindsym $mod+Shift+c exec kitty
         bindsym $mod+Shift+Mod1+q exit
-        bindsym ctrl+q kill
+        bindsym ctrl+q exec quit-chromium
         bindsym $mod+w exec chromium
         bindsym $mod+f exec thunar
         bindsym $mod+t exec thunderbird
@@ -287,7 +286,6 @@ in {
         # before starting.
         exec ch move
         exec tb move
-        exec chromium --app=https://claude.ai
 
         # move-window is currently defined in src/chromium.nix
         ${floatingWindowExecs}

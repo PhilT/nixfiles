@@ -50,7 +50,6 @@
       '')
 
       (writeShellScriptBin "app-sync-minoo" ''
-        EXCLUDES="--exclude=Cache --exclude=Code\ Cache --exclude=GPUCache --exclude=SingletonLock"
 
         app=$1
         direction=$2
@@ -75,7 +74,7 @@
           notify-send -u critical "Lock file found, skipping sync"
         else
           id=$(notify-send -p -t 18000000 "$app profile sync" "Syncing $direction minoo...")
-          rsync -a --delete $EXCLUDES $from $to
+          rsync -a --delete --exclude=Cache --exclude="Code Cache" --exclude=GPUCache --exclude=SingletonLock $from $to
           notify-send -r $id -t 5000 "$app profile sync" "Complete"
         fi
       '')
@@ -85,6 +84,11 @@
         exe=$2
         ws=$3
         move=$4
+
+        if pgrep -x $exe > /dev/null; then
+          notify-send "$app" "Already running, skipping sync"
+          exit 0
+        fi
 
         app-sync-minoo $app from
 
@@ -101,6 +105,7 @@
       '')
 
       (ungoogled-chromium.override {
+        enableWideVine = true;
         commandLineArgs = [
           "--password-store=basic"
           "--no-first-run"
@@ -113,6 +118,8 @@
       (writeShellScriptBin "quit-chromium" ''
         focused=$(swaymsg -t get_tree | jq -r 'recurse(.nodes[]?, .floating_nodes[]?) | select(.focused) | .app_id')
         if echo "$focused" | grep -q chromium; then
+          pkill chromium
+        else
           swaymsg kill
         fi
       '')
