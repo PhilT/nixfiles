@@ -254,8 +254,8 @@ in {
 
         # OS
         bindsym --release $mod+Shift+backspace exec systemctl suspend
-        bindsym $mod+Ctrl+backspace exec shutdown now
-        bindsym $mod+Ctrl+Shift+backspace exec reboot
+        bindsym $mod+Ctrl+backspace exec stop-machine shutdown
+        bindsym $mod+Ctrl+Shift+backspace exec stop-machine reboot
         bindsym $mod+Ctrl+l exec swaylock -f -c 363a4f
 
         # Styling
@@ -282,10 +282,8 @@ in {
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
         exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-        # Start Chromium and Thunderbird which sync their profiles with the server
-        # before starting.
-        exec ch move
-        exec tb move
+        # Start Chromium and Thunderbird, prompting to sync from minoo first
+        exec start-apps
 
         # move-window is currently defined in src/chromium.nix
         ${floatingWindowExecs}

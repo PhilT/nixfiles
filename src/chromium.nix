@@ -86,11 +86,9 @@
         move=$4
 
         if pgrep -x $exe > /dev/null; then
-          notify-send "$app" "Already running, skipping sync"
+          notify-send "$app" "Already running"
           exit 0
         fi
-
-        app-sync-minoo $app from
 
         /run/current-system/sw/bin/$exe &
         pid=$!
@@ -100,8 +98,44 @@
         fi
 
         wait $pid
+      '')
 
-        app-sync-minoo $app to
+      (writeShellScriptBin "start-apps" ''
+        result=$(printf "Yes\nNo" | tofi -c /etc/config/tofi.ini --prompt-text "Sync from minoo? ")
+
+        # Escape pressed - empty result means cancel
+        if [ -z "$result" ]; then
+          exit 0
+        fi
+
+        if [ "$result" = "Yes" ]; then
+          app-sync-minoo thunderbird from
+          app-sync-minoo chromium from
+        fi
+
+        /run/current-system/sw/bin/thunderbird &
+        /run/current-system/sw/bin/chromium &
+
+        move-window thunderbird workspace 7 &
+        move-window chromium workspace 8 &
+      '')
+
+      (writeShellScriptBin "stop-machine" ''
+        result=$(printf "Yes\nNo" | tofi -c /etc/config/tofi.ini --prompt-text "Sync to minoo? ")
+
+        if [ -z "$result" ]; then
+          exit 0
+        fi
+
+        if [ "$result" = "Yes" ]; then
+          app-sync-minoo chromium to
+          app-sync-minoo thunderbird to
+        fi
+
+        case $1 in
+          shutdown) shutdown now ;;
+          reboot) reboot ;;
+        esac
       '')
 
       (ungoogled-chromium.override {
