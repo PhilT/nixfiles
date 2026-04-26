@@ -13,6 +13,7 @@
     ../../common.nix
     ../../common_gui.nix
     ../../development.nix
+    ../../steam.nix
     ../../studio.nix
 
     # Sync
@@ -48,9 +49,6 @@
     pamixer           # Control volume with laptop media keys
     playerctl         # Control playback with laptop media keys
   ];
-
-  # CPU power/speed optimiser https://github.com/AdnanHodzic/auto-cpufreq
-  services.auto-cpufreq.enable = true;
 
   # Enable Camera - One day this might work.
   hardware.ipu6.enable = true;
