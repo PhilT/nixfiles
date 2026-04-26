@@ -58,34 +58,7 @@
   };
 
   environment.etc."serena/serena_config.yml" = {
-    text = ''
-      language_backend: LSP
-      gui_log_window: false
-      web_dashboard: true
-      web_dashboard_listen_address: 127.0.0.1
-      web_dashboard_open_on_launch: false
-      log_level: 20
-      trace_lsp_communication: false
-      ls_specific_settings: {}
-      tool_timeout: 240
-      excluded_tools: []
-      included_optional_tools: []
-      fixed_tools: []
-      default_max_tool_answer_chars: 150000
-      token_count_estimator: CHAR_COUNT
-      projects: []
-      base_modes:
-      default_modes:
-      - interactive
-      - editing
-      ignored_paths: []
-      symbol_info_budget: 10.0
-      read_only_memory_patterns: []
-      project_serena_folder_location: $projectDir/.serena
-      line_ending: native
-      ignored_memory_patterns: []
-      web_dashboard_interface:
-    '';
+    text = builtins.readFile ../dotfiles/serena_config.yml;
   };
 
   system.activationScripts.serenaConfig = ''
