@@ -63,8 +63,11 @@ class Wallpaper < Thor
   end
 
   def update_sway_wallpaper
+    FileUtils.touch('/tmp/sway-wallpaper-changing')
     `swaymsg output eDP-1 background /data/pictures/wallpaper/wallpaper-left.jpg fill`
     `swaymsg output DP-2 background /data/pictures/wallpaper/wallpaper-left.jpg fill`
     `swaymsg output DP-3 background /data/pictures/wallpaper/wallpaper-right.jpg fill`
+    sleep 1
+    FileUtils.rm_f('/tmp/sway-wallpaper-changing')
   end
 end

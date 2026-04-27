@@ -64,9 +64,8 @@ in
     (writeShellScriptBin "sway-output-listener" ''
       while true; do
         ${sway}/bin/swaymsg -t subscribe -m '["output"]' | while read -r event; do
-          # Ignore background-only changes (e.g. from swaymsg output ... background ...)
-          change=$(echo "$event" | ${jq}/bin/jq -r '.change // empty')
-          [ "$change" = "bg" ] && continue
+          # Ignore wallpaper changes (flag file set by nixx wallpaper --apply)
+          [ -f /tmp/sway-wallpaper-changing ] && continue
 
           # Debounce: wait for outputs to settle, skip redundant events
           sleep 2
