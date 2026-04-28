@@ -6,6 +6,7 @@
     ./scripts/v.nix
     ./scripts/note.nix
     ./scripts/resetperms.nix
+    ./scripts/payslips.nix
   ];
 
   programs = {
