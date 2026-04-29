@@ -10,36 +10,32 @@
 
   nixpkgs.overlays = [
     (final: prev: {
-      claude-code = prev.buildNpmPackage rec {
+      claude-code = prev.stdenvNoCC.mkDerivation rec {
         pname = "claude-code";
-        version = "2.1.92";
+        version = "2.1.123";
 
-        src = prev.fetchzip {
-          url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-          hash = "sha256-CLLCtVK3TeXFZ8wBnRRHNc2MoUt7lTdMJwz8sZHpkFM=";
+        src = prev.fetchurl {
+          url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/${version}/linux-x64/claude";
+          hash = "sha256-WngTm2eahqiKCsVHbHBqZMMQW/am1DW6EPOqP7Y1vbI=";
         };
 
-        npmDepsHash = "sha256-5LvH7fG5pti2SiXHQqgRxfFpxaXxzrmGxIoPR4dGE+8=";
+        dontUnpack = true;
+        dontBuild = true;
+        dontStrip = true;
 
-        postPatch = let
-          packageLock = prev.fetchurl {
-            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/nixos-unstable/pkgs/by-name/cl/claude-code/package-lock.json";
-            hash = "sha256-4k5WBVwNSHdU8k1oam6QT5NhvHfJ43ZJtmAxIkTxe54=";
-          };
-        in ''
-          cp ${packageLock} package-lock.json
-        '';
+        nativeBuildInputs = [ prev.installShellFiles prev.makeBinaryWrapper prev.autoPatchelfHook ];
 
-        dontNpmBuild = true;
-        env.AUTHORIZED = "1";
-
-        postInstall = ''
+        installPhase = ''
+          runHook preInstall
+          install -Dm755 $src $out/bin/claude
           wrapProgram $out/bin/claude \
             --set DISABLE_AUTOUPDATER 1 \
+            --set-default FORCE_AUTOUPDATE_PLUGINS 1 \
             --set DISABLE_INSTALLATION_CHECKS 1 \
-            --unset DEV \
-            --prefix PATH : ${prev.lib.makeBinPath ([prev.procps]
+            --set USE_BUILTIN_RIPGREP 0 \
+            --prefix PATH : ${prev.lib.makeBinPath ([prev.procps prev.ripgrep]
               ++ prev.lib.optionals prev.stdenv.hostPlatform.isLinux [prev.bubblewrap prev.socat])}
+          runHook postInstall
         '';
 
         meta = prev.claude-code.meta or {};
