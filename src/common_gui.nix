@@ -6,6 +6,10 @@
     ./keepmenu.nix
     ./kitty.nix
     ./thunderbird.nix
+    ./scripts/app-sync.nix
+    ./scripts/move-window.nix
+    ./scripts/start-apps.nix
+    ./scripts/stop-machine.nix
   ];
 
   hardware.keyboard.zsa.enable = true;

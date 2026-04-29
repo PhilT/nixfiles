@@ -282,20 +282,15 @@ in {
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
         exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-        # Start Chromium and Thunderbird, prompting to sync from minoo first
+        # Start Chromium, Thunderbird and kitty, prompting to sync from minoo first
         exec start-apps
 
-        # move-window is currently defined in src/chromium.nix
         ${floatingWindowExecs}
 
         # Restore workspaces when outputs reconnect (e.g. after suspend)
         ${lib.optionalString (config.machine == "spruce") ''
           exec sway-output-listener
         ''}
-
-        # Run g-dirty on startup and leave shell open
-        exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b
-        exec move-window first-kitty workspace 1
       '';
     };
   };
