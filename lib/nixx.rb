@@ -103,8 +103,6 @@ class Nixx < Thor
 
     switch_to_key_based_encryption if disks.more_than_one?
 
-    check_managed_configs
-
     log command, machine
     sudo("nix-collect-garbage -d", use_system: true) if options[:clean]
     sudo("nix-channel --update") if upgrade
@@ -182,22 +180,4 @@ class Nixx < Thor
     %w[aramid seedling].include?(machine)
   end
 
-  # NixOS-managed config files that are copied (not symlinked) so apps can
-  # write to them at runtime. Check that they haven't drifted from the
-  # managed version and warn if they have.
-  MANAGED_CONFIGS = {
-    "/etc/serena/serena_config.yml" => "/data/home/serena/serena_config.yml"
-  }
-
-  def check_managed_configs
-    MANAGED_CONFIGS.each do |source, runtime|
-      next unless File.exist?(source) && File.exist?(runtime)
-
-      diff = `diff -u #{source} #{runtime} 2>/dev/null`.strip
-      next if diff.empty?
-
-      log "CONFIG", "#{runtime} has diverged from #{source}:"
-      diff.lines.each { log nil, it }
-    end
-  end
 end

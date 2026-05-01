@@ -53,22 +53,10 @@
     });
   };
 
-  environment.etc."serena/serena_config.yml" = {
-    text = builtins.readFile ../dotfiles/serena_config.yml;
-  };
-
-  system.activationScripts.serenaConfig = ''
-    cp --dereference /etc/serena/serena_config.yml ${config.persistedHomeDir}/serena/serena_config.yml
-    chown ${config.username}:users ${config.persistedHomeDir}/serena/serena_config.yml
-    chmod 644 ${config.persistedHomeDir}/serena/serena_config.yml
-  '';
-
   systemd.tmpfiles.rules = [
     "L+ ${config.homeDir}/.supermaven/config.json - - - - /etc/supermaven/config.json"
     "L+ ${config.homeDir}/.claude.json - - - - ${config.persistedHomeDir}/claude.json"
     "L+ ${config.homeDir}/.claude - - - - ${config.persistedHomeDir}/claude"
-    "d ${config.persistedHomeDir}/serena - ${config.username} users -"
-    "L+ ${config.homeDir}/.serena - - - - ${config.persistedHomeDir}/serena"
   ];
 
   environment = {
@@ -88,7 +76,6 @@
       claude-code
       lldb_21
       nodejs_20 # Claude requires Node.js < 24
-      uv        # Needed for Serena MCP
 
       # Language servers
       clang-tools
