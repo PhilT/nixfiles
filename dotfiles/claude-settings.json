@@ -1,0 +1,48 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash:*",
+      "WebSearch",
+      "WebFetch",
+      "WebFetch(domain:docs.rs)",
+      "WebFetch(domain:packages.guix.gnu.org)",
+      "WebFetch(domain:gitlab.freedesktop.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:unix.stackexchange.com)",
+      "mcp__context7__get-library-docs",
+      "mcp__RustDocs__search_crates",
+      "mcp__RustDocs__lookup_crate",
+      "mcp__RustDocs__lookup_item",
+      "mcp__claude-context__get_indexing_status",
+      "mcp__claude-context__search_code"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(tee:*)",
+      "Bash(sudo:*)",
+      "Bash:*>*"
+    ],
+    "defaultMode": "auto"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "serena@claude-plugins-official": false,
+    "code-simplifier@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "ruby-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true,
+  "defaultMode": "plan",
+  "additionalDirectories": [
+    "/data/screenshots"
+  ],
+  "skipAutoPermissionPrompt": true
+}

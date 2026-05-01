@@ -53,6 +53,8 @@
     });
   };
 
+  environment.etc."claude-code/managed-settings.json".source = ../dotfiles/claude-settings.json;
+
   systemd.tmpfiles.rules = [
     "L+ ${config.homeDir}/.supermaven/config.json - - - - /etc/supermaven/config.json"
     "L+ ${config.homeDir}/.claude.json - - - - ${config.persistedHomeDir}/claude.json"
@@ -85,6 +87,7 @@
       glsl_analyzer
       rust-analyzer
       terraform-ls
+      typescript-language-server
 
       #(writeShellScriptBin "matter" ''
       #  cd $CODE/matter
