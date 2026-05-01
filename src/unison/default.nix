@@ -93,6 +93,19 @@ in
     ignore = Path home/claude/statsig
     ignore = Path home/claude/todos
     ignore = Path home/claude/debug
+    ignore = Path home/claude/file-history
+    ignore = Path home/claude/plugins
+    ignore = Path home/claude/telemetry
+    ignore = Path home/claude/sessions
+    ignore = Path home/claude/session-env
+    ignore = Path home/claude/shell-snapshots
+    ignore = Path home/claude/paste-cache
+    ignore = Path home/claude/cache
+    ignore = Path home/claude/backups
+    ignore = Path home/claude/ide
+    ignore = Path home/claude/history.jsonl
+    ignore = Path home/claude/stats-cache.json
+    ignore = Path home/claude/mcp-needs-auth-cache.json
 
     # 3rd party code is not committed so we sync it to local changes such as shell.nix
     ignorenot = Path code/3rd-party
