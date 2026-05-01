@@ -18,7 +18,7 @@ class Setup
     @settings = Settings.new
     @nixfiles_repo = @settings.nixfiles_repo
     @nixfiles_dir = File.join(@root, "data/code/nixfiles")
-    @configuration_nix = File.join(@nixfiles_dir, "src/machines", @machine, @module)
+    @configuration_nix = File.join(@nixfiles_dir, "hosts", @machine, @module)
     @github_ssh_key = "#{HOME_DIR}/github_ssh_key"
     @credentials = credentials
     @ssh = Ssh.new(@machine, options, @credentials)

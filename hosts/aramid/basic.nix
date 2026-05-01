@@ -10,14 +10,14 @@
     <catppuccin/modules/nixos>
 
     ./machine.nix
-    ../../hardware/default.nix
-    ../../hardware/filesystems.nix
-    ../../hardware/bluetooth.nix
-    ../../minimal.nix
-    ../../common.nix
+    ../../modules/hardware/default.nix
+    ../../modules/hardware/filesystems.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/minimal.nix
+    ../../modules/common.nix
 
     # Windowing
-    ../../sway/default.nix
+    ../../modules/sway/default.nix
   ];
 
   environment.systemPackages = with pkgs; [

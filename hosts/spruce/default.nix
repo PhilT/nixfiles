@@ -1,33 +1,33 @@
 { config, lib, pkgs, ... }: {
   imports = [
     <catppuccin/modules/nixos>
-    ../../catppuccin_compat.nix
+    ../../modules/catppuccin_compat.nix
 
     ./minimal.nix
-    ../../hardware/bluetooth.nix
-    ../../plymouth.nix
-    ../../common.nix
-    ../../common_gui.nix
-    ../../development.nix
-    ../../studio.nix
-    #../../qemu.nix
-    ../../gaming.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/plymouth.nix
+    ../../modules/common.nix
+    ../../modules/common_gui.nix
+    ../../modules/development.nix
+    ../../modules/studio.nix
+    #../../modules/qemu.nix
+    ../../modules/gaming.nix
 
     # Sync
-    ../../ssh.nix
-    ../../unison/minoo.nix
+    ../../modules/ssh.nix
+    ../../modules/unison/minoo.nix
 
     # Windowing
-    ../../sway/mako.nix
-    ../../sway/tofi.nix
-    ../../sway/waybar.nix
-    ../../sway/default.nix
+    ../../modules/sway/mako.nix
+    ../../modules/sway/tofi.nix
+    ../../modules/sway/waybar.nix
+    ../../modules/sway/default.nix
 
     # Desktop
-    ../../desktop/light.nix
+    ../../modules/desktop/light.nix
 
     # Windows
-    # ../../windows_backup.nix
+    # ../../modules/windows_backup.nix
   ];
 
   waybarModules = [

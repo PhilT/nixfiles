@@ -171,7 +171,7 @@ class Nixx < Thor
   def configuration_nix
     @configuration_nix ||=
       begin
-        config = File.join(APP_DIR, "src/machines/#{machine}/#{modul}")
+        config = File.join(APP_DIR, "hosts/#{machine}/#{modul}")
         "NIXOS_CONFIG=#{config}"
       end
   end

@@ -36,7 +36,7 @@
     ssh.enable = true;
     ssh.hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
     ssh.authorizedKeys = [
-      (builtins.readFile ../../../secrets/id_ed25519_spruce.pub)
+      (builtins.readFile ../../secrets/id_ed25519_spruce.pub)
     ];
   };
 }

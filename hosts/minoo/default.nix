@@ -5,28 +5,28 @@
     <catppuccin/modules/nixos>
 
     ./minimal.nix
-    ../../hardware/bluetooth.nix
-    ../../common.nix
+    ../../modules/hardware/bluetooth.nix
+    ../../modules/common.nix
 
     # Sync
     # Not only does this provide a sync command to my phone but also
     # makes the unison command available for other machines to use.
-    ../../unison/suuno.nix
-    ../../ssh.nix
+    ../../modules/unison/suuno.nix
+    ../../modules/ssh.nix
 
     # Media Server/Player
     ./kodi_module.nix
     ./kodi.nix
 
     # Desktop
-    ../../desktop/default.nix
-    ../../desktop/light.nix
+    ../../modules/desktop/default.nix
+    ../../modules/desktop/light.nix
 
     # Running webservers
-    ../../devbox.nix
+    ../../modules/devbox.nix
 
     # UPS monitoring
-    ../../ups.nix
+    ../../modules/ups.nix
   ];
 
   # How do we supply the key?

@@ -3,9 +3,9 @@
   imports = [
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
     <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
-    src/base.nix
-    src/options.nix
-    src/ssh.nix
+    modules/base.nix
+    modules/options.nix
+    modules/ssh.nix
   ];
 
   username = "nixos";
@@ -14,7 +14,7 @@
   environment = {
     systemPackages = with pkgs; [
       neovim # Basic Neovim for initial editing. Custom version installed later.
-      (callPackage ./src/nixx.nix {})
+      (callPackage ./modules/nixx.nix {})
     ];
   };
 }

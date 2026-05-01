@@ -1,7 +1,7 @@
 result
 secrets/*
 !secrets/*.template
-src/work.nix
+modules/work.nix
 tmp
 master.key
 credentials.yml.enc
