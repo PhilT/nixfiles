@@ -5,3 +5,5 @@ modules/work.nix
 tmp
 master.key
 credentials.yml.enc
+.direnv
+target/

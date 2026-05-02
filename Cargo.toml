@@ -1,0 +1,25 @@
+[package]
+name = "nixx"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "nixx"
+path = "src/main.rs"
+
+[dependencies]
+aes-gcm = "0.10"
+anyhow = "1"
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yml = "0.0.12"
+tempfile = "3"
+ureq = { version = "2", default-features = false, features = ["tls", "json"] }
+
+[profile.release]
+lto = "thin"
+strip = true

@@ -1,28 +1,21 @@
-{
-  lib
-, stdenv
+{ lib
+, rustPlatform
 }:
 let
   fs = lib.fileset;
-  sourceFiles = lib.fileset.unions [../lib ../config];
 in
-stdenv.mkDerivation {
-  name = "nixx";
+rustPlatform.buildRustPackage {
+  pname = "nixx";
+  version = "0.1.0";
+
   src = fs.toSource {
     root = ../.;
-    fileset = sourceFiles;
+    fileset = fs.unions [
+      ../Cargo.toml
+      ../Cargo.lock
+      ../src
+    ];
   };
 
-  installPhase = ''
-    runHook preInstall
-
-    mkdir -p $out/{lib,config,bin}
-
-    cp -v lib/*.rb $out/lib
-    cp -v config/*.yml* $out/config
-    cp -v config/master.key $out/config
-    cp -v lib/nixx $out/bin
-
-    runHook postInstall
-  '';
+  cargoLock.lockFile = ../Cargo.lock;
 }

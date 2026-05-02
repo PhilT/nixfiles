@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a personal NixOS configuration repository that manages multiple machines using a custom Ruby-based tool called `nixx`. The repository contains NixOS configurations, machine-specific setups, and automation tools for system deployment and management.
+This is a personal NixOS configuration repository that manages multiple machines using a custom Rust-based tool called `nixx`. The repository contains NixOS configurations, machine-specific setups, and automation tools for system deployment and management.
 
 ## Architecture
 
 ### Core Structure
-- **`src/`**: Contains all NixOS configuration modules
-  - `machines/`: Machine-specific configurations (aramid, spruce, seedling, minoo, vellum)
+- **`src/`**: Rust source for the `nixx` CLI (Cargo project at the repo root)
+- **`modules/`**: Shared NixOS modules
   - `scripts/`: Custom utility scripts (g-dirty, g-cd, move-window, note, etc.)
   - Individual modules for specific functionality (neovim.nix, firefox.nix, etc.)
-- **`lib/`**: Ruby library files for the nixx tool
-- **`bin/`**: Executable scripts and VM management tools
+- **`hosts/`**: Machine-specific configurations (aramid, spruce, seedling, minoo)
+- **`bin/`**: Executable shell scripts and VM management tools
 - **`config/`**: YAML configuration files for machines and settings
 - **`dotfiles/`**: Configuration files for various applications
 - **`neovim/`**: Neovim Lua configuration files
@@ -38,34 +38,34 @@ The repository manages several machines:
 
 ### Building and Deploying
 ```bash
-lib/nixx build                    # Build NixOS configuration
-lib/nixx build -s                 # Build and switch to new configuration
-lib/nixx build -b                 # Build for next boot
-lib/nixx build -u                 # Upgrade channels and switch
-lib/nixx build --clean            # Run garbage collection before build
-lib/nixx build -m <machine>       # Build for specific machine
+nixx build                    # Build NixOS configuration
+nixx build -s                 # Build and switch to new configuration
+nixx build -b                 # Build for next boot
+nixx build -u                 # Upgrade channels and switch
+nixx build --clean            # Run garbage collection before build
+nixx build -m <machine>       # Build for specific machine
 ```
 
 ### Machine Setup
 ```bash
-lib/nixx setup -m <machine>       # Install NixOS on new machine
-lib/nixx setup --show             # Show hardware configuration
-lib/nixx iso                      # Build NixOS installation ISO
-lib/nixx usb <device>             # Create bootable USB (e.g., nixx usb sda)
+nixx setup -m <machine>       # Install NixOS on new machine
+nixx setup --show             # Show hardware configuration
+nixx iso                      # Build NixOS installation ISO
+nixx usb <device>             # Create bootable USB (e.g., nixx usb sda)
 ```
 
 ### SSH and Credentials
 ```bash
-lib/nixx credentials edit         # Edit encrypted credentials file
-lib/nixx credentials show         # Display credentials
-lib/nixx keys                     # Generate missing SSH keys
+nixx credentials edit         # Edit encrypted credentials file
+nixx credentials show         # Display credentials
+nixx keys                     # Generate missing SSH keys
 ```
 
 ### Development Tools
 ```bash
-lib/nixx diff                     # Show differences between system generations
-lib/nixx option <option>          # Query NixOS configuration option
-lib/nixx sha <url>                # Fetch SHA256 for package URL
+nixx diff                     # Show differences between system generations
+nixx option <option>          # Query NixOS configuration option
+nixx sha <url>                # Fetch SHA256 for package URL
 ```
 
 ### VM Management
@@ -77,7 +77,7 @@ bin/vm <machine>               # Start VM with VFIO passthrough
 
 ### Testing
 ```bash
-rake test                      # Run Ruby test suite
+nix-shell --run "cargo test"   # Run the Rust test suite
 ```
 
 ## Configuration Management
@@ -87,37 +87,39 @@ rake test                      # Run Ruby test suite
 - `config/settings.yml`: Contains repository settings and remote URLs
 
 ### NixOS Module Structure
-- `src/base.nix`: Core packages and Ruby environment for nixx tool
-- `src/minimal.nix`: Minimal system configuration
-- `src/common.nix`: Common system settings
-- `src/machines/<machine>/`: Machine-specific configurations
+- `modules/base.nix`: Core packages, including the `nixx` binary
+- `modules/minimal.nix`: Minimal system configuration
+- `modules/common.nix`: Common system settings
+- `hosts/<machine>/`: Machine-specific configurations
   - `default.nix`: Full desktop configuration
   - `minimal.nix`: Minimal configuration for setup
   - `machine.nix`: Hardware-specific settings
 
 ### Key Modules
-- `src/development.nix`: Development tools and environments
-- `src/neovim.nix`: Neovim configuration with debugging support (loads configs from `neovim/`)
-- `src/sway/`: Sway window manager configuration
-- `src/firefox.nix` & `src/thunderbird.nix`: Browser and email setup
-- `src/unison/`: File synchronization configuration
-- `src/scripts/`: Custom utility scripts including:
+- `modules/development.nix`: Development tools and environments
+- `modules/neovim.nix`: Neovim configuration with debugging support (loads configs from `neovim/`)
+- `modules/sway/`: Sway window manager configuration
+- `modules/firefox.nix` & `modules/thunderbird.nix`: Browser and email setup
+- `modules/unison/`: File synchronization configuration
+- `modules/scripts/`: Custom utility scripts including:
   - `g-dirty.nix`: Check for dirty git repositories
   - `g-cd.nix`: Git repository navigation
   - `move-window.nix`: Sway window management
   - `note.nix`: Quick note-taking script
   - `sw-generation.nix`: System generation management
+- `modules/nixx.nix`: `buildRustPackage` derivation for the `nixx` CLI
 
 ## Development Workflow
 
-1. Make changes to NixOS configurations in `src/`
+1. Make changes to NixOS configurations in `modules/` or `hosts/`
 2. Test with `nixx build` (dry run by default)
 3. Apply changes with `nixx build -s`
 4. For new machines, use `nixx setup -m <machine>`
 
+For changes to `nixx` itself: enter the dev shell (`nix-shell` or via direnv) and run `cargo build` / `cargo test`. The `modules/nixx.nix` derivation rebuilds the binary as part of the system.
+
 ## Important Notes
 
-- The nixx tool requires Ruby 3.4 and specific gems (thor, activesupport)
 - SSH keys are managed automatically and stored in encrypted credentials
 - ZFS encryption is used on most machines with automatic key management
 - Some machines use ephemeral root filesystems that reset on boot
@@ -125,7 +127,8 @@ rake test                      # Run Ruby test suite
 
 ## File Locations
 
-- NixOS configurations: `/data/code/nixfiles/src/`
+- NixOS configurations: `/data/code/nixfiles/modules/` and `/data/code/nixfiles/hosts/`
+- Rust source for nixx: `/data/code/nixfiles/src/`
 - Persistent data: `/data/` (home directories, code, etc.)
 - SSH keys: Generated and managed by nixx tool
 - Credentials: Encrypted file managed via `nixx credentials`

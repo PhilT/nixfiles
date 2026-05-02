@@ -1,15 +1,13 @@
 # My NixOS Setup
 
-This project uses the system Ruby. When upgrading, once Ruby is installed, do:
-```
-rm -rf ~/.local/share/gem/ruby/3.4.0
-bundle install
-```
-
 ## Nixx
 
-New commandline tool to build NixOS. type `nixx` to see a list of commands
-(you might need to do `lib/nixx` if you're not using the my configuration).
+Custom commandline tool to build NixOS, written in Rust. Type `nixx` to
+see a list of commands. The binary is built from `src/` via
+`modules/nixx.nix` and shipped in `modules/base.nix`.
+
+For local development of `nixx` itself, drop into the dev shell with
+`nix-shell` (or via `direnv`) and use `cargo build` / `cargo test`.
 
 ## Initializing a new machine
 
@@ -50,7 +48,7 @@ nixx setup -m <machine_name>  # e.g. nixx setup spruce # to start the installer 
 After you've logged in, run:
 ```
 cd /data/code/nixfiles
-lib/nixx build -s            # Rebuild NixOS and switch to the new machine config
+nixx build -s            # Rebuild NixOS and switch to the new machine config
 ```
 
 And then (if you're on a VM with VFIO):
