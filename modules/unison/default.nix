@@ -28,7 +28,6 @@ in
     backupcurr = Path home
     backupcurr = Path imported_notes
     backupcurr = Path sync
-    backupcurr = Path notes
     backuplocation = central
     maxbackups = 2
     backupdir = ${config.dataDir}/backups
@@ -74,6 +73,7 @@ in
     ignore = Path etc
     ignore = Path games
     ignore = Path machine
+    ignore = Path notes
     ignore = Path var
     ignore = Path vdisks
     ignore = Regex ^work/[^/][^/]*$
