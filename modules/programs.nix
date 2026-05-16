@@ -34,6 +34,7 @@
       rm-generations = "sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations";
       colemak-on = "touch ~/.config/nvim/use-colemak";
       colemak-off = "rm -f ~/.config/nvim/use-colemak";
+      minoot = "ssh minoo -t 'tmux new -A -s main'";
     };
 
     systemPackages = with pkgs; [

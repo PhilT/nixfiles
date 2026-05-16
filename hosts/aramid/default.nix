@@ -50,6 +50,10 @@
     playerctl         # Control playback with laptop media keys
   ];
 
+  environment.shellAliases = {
+    sprucet = "ssh spruce -t 'tmux new -A -s main'";
+  };
+
   # Enable Camera - One day this might work.
   hardware.ipu6.enable = true;
   hardware.ipu6.platform = "ipu6epmtl";
