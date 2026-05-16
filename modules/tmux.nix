@@ -29,6 +29,13 @@
       # Get rid of annoying pause in Vim when exiting Insert mode
       set -sg escape-time 0
 
+      # Pass through extended key sequences (e.g. Shift+Enter in Claude Code)
+      set -s extended-keys on
+      set -as terminal-features 'xterm*:extkeys'
+
+      # Forward terminal focus events to programs (e.g. Neovim :checktime)
+      set -g focus-events on
+
       # Start from 1, 0 is too far away
       set -g base-index 1
 
