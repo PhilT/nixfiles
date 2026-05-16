@@ -14,6 +14,7 @@
       which
 
       (callPackage ./nixx.nix {})
+      (callPackage ./cratedocs-mcp.nix {})
     ];
   };
 }
