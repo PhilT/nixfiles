@@ -1,13 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   colors = import ../catppuccin.nix lib;
-  ws = import ./workspaces.nix;
-  resolveOutput = key: ws.outputs.${key};
-
-  # Generate: { "1" = ["DP-3" "eDP-1"]; ... }
-  persistentWorkspaces = lib.mapAttrs (_: outputKey:
-    [ (resolveOutput outputKey) ws.outputs.fallback ]
-  ) ws.assignments;
 in with colors;
 {
   programs.sway.extraPackages = with pkgs; [
@@ -36,7 +29,6 @@ in with colors;
             "10" = "0";
           };
           sort-by-number = true;
-          persistent-workspaces = persistentWorkspaces;
         };
         "sway/window" = {
           max-length = 50;

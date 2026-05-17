@@ -13,15 +13,9 @@
     "9"  = "primary";    "10" = "primary";
   };
 
-  # Sticky floating windows positioned in the left gap on primary output
-  floatingWindows = [
-    { appId = "keymapp"; width = 981; height = 581;  x = 1; y = 45;  }
-    { appId = "colemak"; width = 981; height = 1527; x = 1; y = 630; }
+  # Reference windows kept in the scratchpad. Toggle via $mod+<key>.
+  scratchpadWindows = [
+    { appId = "keymapp"; mark = "keymapp"; key = "q"; keepFocus = false; width = 981;  height = 581;  }
+    { appId = "colemak"; mark = "colemak"; key = "g"; keepFocus = true;  width = 1962; height = 1527; }
   ];
-
-  # Non-sticky floating windows that need size restoration after output changes
-  restoreWindows = [];
-
-  # Gap size on primary-output workspaces to make room for floating windows
-  leftGap = 982;
 }

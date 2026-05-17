@@ -2,30 +2,17 @@
 let
   ws = import ../sway/workspaces.nix;
 
-  # Resolve output key to actual output name
   resolveOutput = key: ws.outputs.${key};
+  swapKey = key: if key == "primary" then "secondary" else "primary";
 
-  # Build workspace move commands for restore-workspaces
-  workspaceMoveCommands = lib.concatStringsSep "\n" (lib.mapAttrsToList (num: outputKey:
+  moveLinesFor = assignments: lib.concatStringsSep "\n" (lib.mapAttrsToList (num: outputKey:
     let output = resolveOutput outputKey;
     in ''    swaymsg "workspace ${num}; move workspace to output ${output}"''
-  ) ws.assignments);
+  ) assignments);
 
-  # Build floating window resize + reposition commands
-  floatingWindowCommands = lib.concatStringsSep "\n" (map (fw: ''
-    swaymsg "[app_id=${fw.appId}] move to output ${resolveOutput "primary"}"
-    swaymsg "[app_id=${fw.appId}] resize set ${toString fw.width} ${toString fw.height}"
-    swaymsg "[app_id=${fw.appId}] move absolute position ${toString fw.x} ${toString fw.y}"''
-  ) ws.floatingWindows);
+  normalMoveCommands  = moveLinesFor ws.assignments;
+  swappedMoveCommands = moveLinesFor (lib.mapAttrs (_: swapKey) ws.assignments);
 
-  # Build restore-only window commands (resize without repositioning)
-  restoreWindowCommands = lib.concatStringsSep "\n" (map (rw:
-    let
-      criteria = "[app_id=\"${rw.appId}\" title=\"${rw.title}\"]";
-    in ''    swaymsg '${criteria} resize set ${toString rw.width} ${toString rw.height}' ''
-  ) (ws.restoreWindows or []));
-
-  # Expected output names for the poll loop
   expectedOutputs = lib.unique (lib.mapAttrsToList (_: key: resolveOutput key) ws.assignments);
   expectedOutputChecks = lib.concatStringsSep " && " (map (o:
     ''echo "$outputs" | grep -q '${o}' ''
@@ -43,20 +30,17 @@ in
         sleep 1
       done
 
-      # Save currently focused workspace
-      focused=$(${sway}/bin/swaymsg -t get_workspaces | ${jq}/bin/jq -r '.[] | select(.focused) | .num')
+      focused=$(${sway}/bin/swaymsg -t get_workspaces \
+        | ${jq}/bin/jq -r '.[] | select(.focused) | .num')
 
-      # Move each workspace to its correct output
-  ${workspaceMoveCommands}
+      # If the swap override file is present, apply the swapped layout
+      if [ -s "$HOME/.config/sway/overrides/workspaces.conf" ]; then
+  ${swappedMoveCommands}
+      else
+  ${normalMoveCommands}
+      fi
 
-      # Resize and reposition floating windows
-  ${floatingWindowCommands}
-
-      # Resize restore-only windows
-  ${restoreWindowCommands}
-
-      # Restore focus
-      ${sway}/bin/swaymsg "workspace $focused"
+      ${sway}/bin/swaymsg "workspace number $focused"
 
       ${libnotify}/bin/notify-send "Workspaces restored"
     '')

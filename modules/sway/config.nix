@@ -8,23 +8,16 @@ let
     "workspace ${num} output ${resolveOutput outputKey} ${ws.outputs.fallback}"
   ) ws.assignments);
 
-  # Generate: workspace 6 gaps left 982
-  workspaceGapLines = lib.concatStringsSep "\n" (lib.filter (s: s != "") (lib.mapAttrsToList (num: outputKey:
-    if outputKey == "primary"
-    then "workspace ${num} gaps left ${toString ws.leftGap}"
-    else ""
-  ) ws.assignments));
+  # Stash scratchpad windows on launch, tag with a mark, and set size
+  scratchpadRules = lib.concatStringsSep "\n" (map (sw:
+    ''for_window [app_id="${sw.appId}"] mark "${sw.mark}", resize set ${toString sw.width} ${toString sw.height}, move scratchpad''
+  ) ws.scratchpadWindows);
 
-  # Generate for_window rules for floating windows
-  floatingWindowRules = lib.concatStringsSep "\n" (map (fw: ''
-    for_window [app_id="${fw.appId}"] move to output ${resolveOutput "primary"}
-    for_window [app_id="${fw.appId}"] floating enable, sticky enable, resize set ${toString fw.width} ${toString fw.height}, move position ${toString fw.x} ${toString fw.y}''
-  ) ws.floatingWindows);
-
-  # Generate exec move-window commands for floating windows
-  floatingWindowExecs = lib.concatStringsSep "\n" (map (fw:
-    "exec move-window ${fw.appId} absolute position ${toString fw.x} ${toString fw.y}"
-  ) ws.floatingWindows);
+  # Toggle binding: show on the non-focused output (or hide if visible)
+  scratchpadBindings = lib.concatStringsSep "\n" (map (sw:
+    let flags = lib.optionalString sw.keepFocus " --keep-focus";
+    in ''bindsym $mod+${sw.key} exec scratchpad-toggle${flags} ${sw.mark}''
+  ) ws.scratchpadWindows);
 in {
   environment.etc = {
     "sway/config" = {
@@ -44,6 +37,12 @@ in {
 
         # Seedling
         output DP-3 pos 3840 0
+
+        # Per-user overrides (used by swap-workspaces). Loaded BEFORE the
+        # static assignments so its outputs appear first in sway's
+        # "first available" ordering. The glob silently matches nothing
+        # when no overrides are present.
+        include $HOME/.config/sway/overrides/*.conf
 
         ${workspaceOutputLines}
 
@@ -102,13 +101,9 @@ in {
         assign [app_id="thunderbird"] workspace number 7
         assign [title="Claude"] workspace number 9
 
-        # Set a gap on the left of all workspaces on the left so we add our keymap and Colemak Neovim cheatsheet.
-        ${lib.optionalString (config.machine == "spruce") ''
-          ${workspaceGapLines}
-        ''}
-
-        # Keymapp & Neovim Shortcuts: floating windows visible on all workspaces on left output, placed in the gap made above
-        ${floatingWindowRules}
+        # Reference windows live in the scratchpad. Toggle via $mod+<key>.
+        ${scratchpadRules}
+        ${scratchpadBindings}
 
         # Run keymapp & Glow markdown viewer
         ${lib.optionalString (config.machine == "spruce") ''
@@ -284,8 +279,6 @@ in {
 
         # Start Chromium, Thunderbird and kitty, prompting to sync from minoo first
         exec start-apps
-
-        ${floatingWindowExecs}
 
         # Restore workspaces when outputs reconnect (e.g. after suspend)
         ${lib.optionalString (config.machine == "spruce") ''

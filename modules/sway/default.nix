@@ -11,6 +11,8 @@ in with colors; {
   imports = [
     ./config.nix
     ../scripts/restore-workspaces.nix
+    ../scripts/swap-workspaces.nix
+    ../scripts/scratchpad-toggle.nix
   ];
 
   xdg.portal = {

@@ -28,6 +28,20 @@ rustPlatform.buildRustPackage rec {
   buildInputs = [ openssl ]
     ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Security ];
 
+  # cratedocs writes its log to ./logs/ relative to CWD (hardcoded).
+  # Wrap so it always logs to $XDG_STATE_HOME/cratedocs.
+  postInstall = ''
+    mv $out/bin/cratedocs $out/bin/.cratedocs-unwrapped
+    cat > $out/bin/cratedocs <<EOF
+    #!/bin/sh
+    log_dir="\''${XDG_STATE_HOME:-\$HOME/.local/state}/cratedocs"
+    mkdir -p "\$log_dir"
+    cd "\$log_dir"
+    exec $out/bin/.cratedocs-unwrapped "\$@"
+    EOF
+    chmod +x $out/bin/cratedocs
+  '';
+
   meta = with lib; {
     description = "Rust documentation MCP server for LLM crate assistance";
     homepage = "https://github.com/lnay/cratedocs-mcp";
