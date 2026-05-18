@@ -13,6 +13,23 @@ let
   normalMoveCommands  = moveLinesFor ws.assignments;
   swappedMoveCommands = moveLinesFor (lib.mapAttrs (_: swapKey) ws.assignments);
 
+  # Lowest workspace number per output key, used to ensure each output
+  # has its default workspace visible at startup. Sway only auto-creates
+  # one workspace per output on init and may pick the "wrong" one when
+  # our swap override fights with the static fallback list.
+  lowestNumForOutput = assignments: outputKey:
+    let
+      nums = lib.attrNames (lib.filterAttrs (_: k: k == outputKey) assignments);
+      sorted = lib.sort (a: b: (lib.toInt a) < (lib.toInt b)) nums;
+    in lib.head sorted;
+
+  defaultsFor = assignments: lib.concatStringsSep "\n" (map (k:
+    ''    swaymsg "workspace number ${lowestNumForOutput assignments k}"''
+  ) [ "primary" "secondary" ]);
+
+  normalDefaultCommands  = defaultsFor ws.assignments;
+  swappedDefaultCommands = defaultsFor (lib.mapAttrs (_: swapKey) ws.assignments);
+
   expectedOutputs = lib.unique (lib.mapAttrsToList (_: key: resolveOutput key) ws.assignments);
   expectedOutputChecks = lib.concatStringsSep " && " (map (o:
     ''echo "$outputs" | grep -q '${o}' ''
@@ -36,8 +53,10 @@ in
       # If the swap override file is present, apply the swapped layout
       if [ -s "$HOME/.config/sway/overrides/workspaces.conf" ]; then
   ${swappedMoveCommands}
+  ${swappedDefaultCommands}
       else
   ${normalMoveCommands}
+  ${normalDefaultCommands}
       fi
 
       ${sway}/bin/swaymsg "workspace number $focused"
