@@ -14,27 +14,19 @@
       mkdir -p "$overrides_dir"
 
       if [ -s "$overrides_file" ]; then
-        # Currently swapped -> restore default
         rm -f "$overrides_file"
-        left_nums="6 7 8 9 10"   # DP-2 (left)
-        right_nums="1 2 3 4 5"   # DP-3 (right)
         mode="default"
       else
-        # Currently default -> apply swap
         {
           for n in 1 2 3 4 5;  do echo "workspace $n output DP-2"; done
           for n in 6 7 8 9 10; do echo "workspace $n output DP-3"; done
         } > "$overrides_file"
-        left_nums="1 2 3 4 5"
-        right_nums="6 7 8 9 10"
         mode="swapped"
       fi
 
+      # The reload fires output events that sway-output-listener catches,
+      # which invokes restore-workspaces. No need to call it explicitly.
       ${sway}/bin/swaymsg reload
-
-      # restore-workspaces consults the override file and applies the
-      # correct layout (workspace moves + floating window repositioning).
-      restore-workspaces
 
       ${libnotify}/bin/notify-send "Workspaces $mode"
     '')
