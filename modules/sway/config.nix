@@ -132,6 +132,8 @@ in {
         bindsym $mod+space floating toggle
         bindsym $mod+Shift+f focus mode_toggle
         bindsym $mod+Shift+r reload
+        bindsym $mod+x exec swap-workspace-contents
+        bindsym $mod+Shift+x exec swap-workspaces
 
         # Move your focus
         bindsym $mod+h focus left
@@ -283,6 +285,7 @@ in {
         # Restore workspaces when outputs reconnect (e.g. after suspend)
         ${lib.optionalString (config.machine == "spruce") ''
           exec sway-output-listener
+          exec sway-workspace-nudge
         ''}
       '';
     };

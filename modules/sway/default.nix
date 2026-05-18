@@ -12,6 +12,8 @@ in with colors; {
     ./config.nix
     ../scripts/restore-workspaces.nix
     ../scripts/swap-workspaces.nix
+    ../scripts/swap-workspace-contents.nix
+    ../scripts/workspace-nudge.nix
     ../scripts/scratchpad-toggle.nix
   ];
 
