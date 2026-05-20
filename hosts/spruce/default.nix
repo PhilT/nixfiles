@@ -55,4 +55,8 @@
 
   # Plymouth UI is a bit small without this
   boot.plymouth.extraConfig = "DeviceScale=2";
+
+  environment.shellAliases = {
+    sprucet = "tmux new -A -s main";
+  };
 }
