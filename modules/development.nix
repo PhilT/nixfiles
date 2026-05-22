@@ -74,6 +74,7 @@
 
     systemPackages = with pkgs; [
       jq
+      gh
       gcc
       claude-code
       lldb_21
