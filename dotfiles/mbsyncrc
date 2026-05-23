@@ -1,0 +1,23 @@
+IMAPAccount namecheap
+Host mail.privateemail.com
+Port 993
+User @EMAIL@
+PassCmd "nixx credentials show email_password"
+TLSType IMAPS
+AuthMechs LOGIN
+
+IMAPStore namecheap-remote
+Account namecheap
+
+MaildirStore namecheap-local
+Subfolders Verbatim
+Path /data/mail/namecheap/
+Inbox /data/mail/namecheap/INBOX
+
+Channel namecheap
+Far :namecheap-remote:
+Near :namecheap-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *

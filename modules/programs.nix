@@ -2,6 +2,7 @@
 # Or perhaps split things up into more specific files.
 { config, pkgs, ... }: {
   imports = [
+    ./mail.nix
     ./scripts/sw-generation.nix
     ./scripts/v.nix
     ./scripts/note.nix
@@ -89,7 +90,9 @@
       (import ./meowpdf.nix { inherit pkgs; })
 
       # Productivity
-      himalaya              # Email client
+      (himalaya.override { withFeatures = [ "notmuch" ]; })  # Email client
+      isync                 # Mailbox synchronization (mbsync)
+      notmuch               # Email indexing and tagging
     ];
   };
 }

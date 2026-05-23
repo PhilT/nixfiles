@@ -1,0 +1,16 @@
+[database]
+path=/data/mail/namecheap
+
+[user]
+name=Phil Thompson
+primary_email=@EMAIL@
+
+[new]
+tags=unread;inbox;
+ignore=
+
+[search]
+exclude_tags=deleted;spam;
+
+[maildir]
+synchronize_flags=true

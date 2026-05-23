@@ -195,10 +195,22 @@ fn encrypt(yaml: &[u8], key: &[u8; 16]) -> Result<Vec<u8>> {
     Ok(body.into_bytes())
 }
 
-pub fn cmd_show(app_dir: &Path) -> Result<()> {
+pub fn cmd_show(app_dir: &Path, key: &str) -> Result<()> {
     let creds = Credentials::load(app_dir)?;
-    let text = creds.show()?;
-    print!("{text}");
+    let path: Vec<&str> = key.split('.').collect();
+    let value = creds
+        .get(&path)
+        .with_context(|| format!("key not found: {key}"))?;
+    match value {
+        serde_yml::Value::String(s) => println!("{s}"),
+        serde_yml::Value::Bool(b) => println!("{b}"),
+        serde_yml::Value::Number(n) => println!("{n}"),
+        serde_yml::Value::Null => println!(),
+        other => {
+            let yaml = serde_yml::to_string(other).context("serialising value")?;
+            print!("{yaml}");
+        }
+    }
     Ok(())
 }
 

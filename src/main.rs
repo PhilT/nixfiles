@@ -150,8 +150,11 @@ enum Commands {
 
 #[derive(Subcommand)]
 enum CredentialsCmd {
-    /// Decrypt and print credentials.yml.enc
-    Show,
+    /// Decrypt and print a single credential by dot-separated key (e.g. wifi_mobile.ssid)
+    Show {
+        /// Dot-separated path into the credentials YAML
+        key: String,
+    },
     /// Open credentials in $EDITOR, validate YAML, and re-encrypt
     Edit,
 }
@@ -193,7 +196,7 @@ fn main() -> Result<()> {
             }
         },
         Commands::Credentials { command } => match command {
-            CredentialsCmd::Show => credentials::cmd_show(&app_dir),
+            CredentialsCmd::Show { key } => credentials::cmd_show(&app_dir, &key),
             CredentialsCmd::Edit => credentials::cmd_edit(&app_dir),
         },
         Commands::Keys { overwrite } => {
@@ -327,6 +330,7 @@ impl Ctx {
 }
 
 /// Walk up from CWD looking for `config/settings.yml` — the repo root marker.
+/// Falls back to `$SRC` if CWD is outside the repo.
 fn find_app_dir() -> Result<PathBuf> {
     let mut dir = std::env::current_dir().context("getting current directory")?;
     loop {
@@ -334,9 +338,16 @@ fn find_app_dir() -> Result<PathBuf> {
             return Ok(dir);
         }
         if !dir.pop() {
-            bail!("could not locate repo root (no config/settings.yml found walking up from CWD)");
+            break;
         }
     }
+    if let Ok(src) = std::env::var("SRC") {
+        let p = PathBuf::from(src);
+        if p.join("config/settings.yml").is_file() {
+            return Ok(p);
+        }
+    }
+    bail!("could not locate repo root (no config/settings.yml found walking up from CWD or via $SRC)");
 }
 
 fn hostname() -> Result<String> {

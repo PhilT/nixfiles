@@ -1,0 +1,25 @@
+[accounts.electricvisions]
+default = true
+email = "@EMAIL@"
+display-name = "Phil Thompson"
+downloads-dir = "/data/downloads"
+signature-delim = "-- \n"
+signature = """
+Regards
+Phil Thompson
+Director
+Electric Visions Ltd
+Tel: @PHONE@
+"""
+
+backend.type = "notmuch"
+backend.database-path = "/data/mail/namecheap"
+backend.maildir-path = "/data/mail/namecheap"
+
+message.send.backend.type = "smtp"
+message.send.backend.host = "mail.privateemail.com"
+message.send.backend.port = 465
+message.send.backend.login = "@EMAIL@"
+message.send.backend.encryption.type = "tls"
+message.send.backend.auth.type = "password"
+message.send.backend.auth.cmd = "nixx credentials show email_password"
