@@ -9,17 +9,14 @@
       fi
 
       if [ "$result" = "Yes" ]; then
-        app-sync-minoo thunderbird from
         app-sync-minoo chromium from
       fi
 
-      /run/current-system/sw/bin/thunderbird &
       /run/current-system/sw/bin/chromium &
 
       # Run g-dirty on startup and leave shell open
       swaymsg exec kitty -d $(g-dirty -s) --app-id=first-kitty --hold g-dirty -b
 
-      move-window thunderbird workspace 7 &
       move-window chromium workspace 8 &
       move-window first-kitty workspace 1 &
     '')

@@ -5,7 +5,6 @@
     ./chromium.nix
     ./keepmenu.nix
     ./kitty.nix
-    ./thunderbird.nix
     ./scripts/app-sync.nix
     ./scripts/move-window.nix
     ./scripts/start-apps.nix

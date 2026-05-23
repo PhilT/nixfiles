@@ -4,7 +4,7 @@ Modifier: `$mod` = Super/Windows key
 
 ## Applications
 - `$mod+c` Terminal (current dir) | `$mod+Shift+c` New terminal
-- `$mod+w` Firefox     | `$mod+f` Thunar   | `$mod+t` Thunderbird
+- `$mod+w` Firefox     | `$mod+f` Thunar
 - `$mod+a` Slack       | `$mod+r` Renoise  | `$mod+p` App launcher
 - `$mod+o` KeePassXC   | `$mod+Shift+s` Screenshot
 

@@ -9,7 +9,6 @@
 
       if [ "$result" = "Yes" ]; then
         app-sync-minoo chromium to
-        app-sync-minoo thunderbird to
       fi
 
       case $1 in

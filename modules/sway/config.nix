@@ -98,7 +98,6 @@ in {
 
         # Set some apps to load into certain workspace
         assign [app_id="Slack"] workspace number 6
-        assign [app_id="thunderbird"] workspace number 7
         assign [title="Claude"] workspace number 9
 
         # Reference windows live in the scratchpad. Toggle via $mod+<key>.
@@ -118,7 +117,6 @@ in {
         bindsym ctrl+q exec quit-chromium
         bindsym $mod+w exec chromium
         bindsym $mod+f exec thunar
-        bindsym $mod+t exec thunderbird
         bindsym $mod+a exec slack
         bindsym $mod+r exec renoise
         bindsym $mod+Shift+s exec slurp | grim -g - /data/screenshots/$(date +"%Y%m%d-%H%M%S").png
@@ -279,7 +277,7 @@ in {
         exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
         exec uwsm finalize DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-        # Start Chromium, Thunderbird and kitty, prompting to sync from minoo first
+        # Start Chromium and kitty, prompting to sync from minoo first
         exec start-apps
 
         # Restore workspaces when outputs reconnect (e.g. after suspend)

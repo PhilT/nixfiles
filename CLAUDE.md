@@ -99,7 +99,8 @@ nix-shell --run "cargo test"   # Run the Rust test suite
 - `modules/development.nix`: Development tools and environments
 - `modules/neovim.nix`: Neovim configuration with debugging support (loads configs from `neovim/`)
 - `modules/sway/`: Sway window manager configuration
-- `modules/firefox.nix` & `modules/thunderbird.nix`: Browser and email setup
+- `modules/firefox.nix`: Browser setup
+- `modules/mail.nix`: Email setup (mbsync, notmuch, himalaya)
 - `modules/unison/`: File synchronization configuration
 - `modules/scripts/`: Custom utility scripts including:
   - `g-dirty.nix`: Check for dirty git repositories
