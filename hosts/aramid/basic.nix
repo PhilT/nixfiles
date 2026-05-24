@@ -7,7 +7,7 @@
 { config, lib, pkgs, ... }: {
   imports = [
     <nixos-hardware/lenovo/thinkpad/x1/12th-gen>
-    <catppuccin/modules/nixos>
+    ../../modules/catppuccin.nix
 
     ./machine.nix
     ../../modules/hardware/default.nix

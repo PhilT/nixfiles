@@ -25,14 +25,6 @@ Upload to GitHub/GitLab etc.
 ```
 nixx iso
 ```
-### Test in a VM
-```
-bin/vm <sapling|seedling> install [-f] # Mount install CDROM, enable display
-                                       # -f will delete the existing disk image
-bin/vm <sapling|seedling> display      # Enable display
-bin/vm <sapling|seedling>              # Rely on VFIO display (Nvidia)
-```
-
 ### Create a USB stick with NixOS ISO (in `result/iso/`)
 
 This will wipe the USB stick and copy the ISO with 2 partitions.
@@ -51,14 +43,9 @@ cd /data/code/nixfiles
 nixx build -s            # Rebuild NixOS and switch to the new machine config
 ```
 
-And then (if you're on a VM with VFIO):
+And then reboot:
 ```
-shutdown now          # Shutdown the VM
-bin/vm seedling       # Run on the host to start with VFIO on separate display
-```
-or:
-```
-reboot                # Reboot, if you're on a physical machine
+reboot
 ```
 
 ## Wallpaper
@@ -96,8 +83,6 @@ supported by the SSH Server on Suuno.
 * Suuno - A play on the previous phone name (Samsung A15) [ACTIVE]
 * Miller - Hetzner server. Hetzner -> Hetzel -> Hermann -> Herman Miller [ACTIVE]
 * Vellum - Writing surface predating paper (Boox Note Max) [ACTIVE]
-* Sapling - Windows 11 Guest VM running on Spruce [RETIRED]
-* Seedling - NixOS Guest VM running on Spruce [RETIRED]
 * Darko - From Donnie Darko (Razer Blade 2019) [RETIRED]
 * Mev - Mobile Electric Visions (Huawei P30 Pro) [RETIRED]
 * Sirius - Brightest star in the galaxy (Starlabs Starlite V) [RETIRED]

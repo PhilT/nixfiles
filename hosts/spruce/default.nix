@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }: {
   imports = [
-    ../../modules/catppuccin.nix
-
     ./minimal.nix
     ../../modules/hardware/bluetooth.nix
     ../../modules/plymouth.nix
@@ -9,7 +7,6 @@
     ../../modules/common_gui.nix
     ../../modules/development.nix
     ../../modules/studio.nix
-    #../../modules/qemu.nix
     ../../modules/gaming.nix
 
     # Sync
@@ -24,9 +21,6 @@
 
     # Desktop
     ../../modules/desktop/light.nix
-
-    # Windows
-    # ../../modules/windows_backup.nix
   ];
 
   waybarModules = [

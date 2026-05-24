@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }: {
   imports = [
+    ./catppuccin.nix
     ./dbgate.nix
     ./filemanager.nix
     ./chromium.nix

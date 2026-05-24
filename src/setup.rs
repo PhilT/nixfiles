@@ -241,7 +241,7 @@ fn wait_for_connection(ctx: &Ctx) -> Result<()> {
 
 /// Checks if the current machine is "ephemeral OS" (root wipes on boot).
 pub fn ephemeral_os(machine: &str) -> bool {
-    matches!(machine, "aramid" | "seedling")
+    machine == "aramid"
 }
 
 /// Returns NIXOS_CONFIG=<path-to-host-module>.

@@ -13,8 +13,8 @@ This is a personal NixOS configuration repository that manages multiple machines
 - **`modules/`**: Shared NixOS modules
   - `scripts/`: Custom utility scripts (g-dirty, g-cd, move-window, note, etc.)
   - Individual modules for specific functionality (neovim.nix, firefox.nix, etc.)
-- **`hosts/`**: Machine-specific configurations (aramid, spruce, seedling, minoo)
-- **`bin/`**: Executable shell scripts and VM management tools
+- **`hosts/`**: Machine-specific configurations (aramid, spruce, minoo)
+- **`bin/`**: Executable shell scripts
 - **`config/`**: YAML configuration files for machines and settings
 - **`dotfiles/`**: Configuration files for various applications
 - **`neovim/`**: Neovim Lua configuration files
@@ -25,12 +25,11 @@ This is a personal NixOS configuration repository that manages multiple machines
 The repository manages several machines:
 - **spruce**: Desktop PC (14900K, RTX4090) - Primary development machine
 - **aramid**: Laptop (X1 Carbon Gen 12) - Uses ephemeral OS
-- **seedling**: Development VM running on spruce
 - **minoo**: File server (N100-based)
 - **vellum**: Boox Note Max e-ink tablet
 
 ### Key Concepts
-- **Ephemeral OS**: Some machines (aramid, seedling) wipe `/etc` on boot for security
+- **Ephemeral OS**: aramid wipes `/etc` on boot for security
 - **ZFS**: Uses ZFS for storage with encryption and dataset management
 - **Module System**: Hierarchical NixOS module system with machine-specific overrides
 
@@ -66,13 +65,6 @@ nixx keys                     # Generate missing SSH keys
 nixx diff                     # Show differences between system generations
 nixx option <option>          # Query NixOS configuration option
 nixx sha <url>                # Fetch SHA256 for package URL
-```
-
-### VM Management
-```bash
-bin/vm <machine> install [-f]  # Start VM with install ISO
-bin/vm <machine> display       # Start VM with display
-bin/vm <machine>               # Start VM with VFIO passthrough
 ```
 
 ### Testing

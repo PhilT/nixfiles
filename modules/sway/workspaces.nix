@@ -1,7 +1,7 @@
 {
   outputs = {
-    primary = "DP-2";     # spruce left monitor
-    secondary = "DP-3";   # seedling right monitor
+    primary = "DP-2";     # left monitor
+    secondary = "DP-3";   # right monitor
     fallback = "eDP-1";   # laptop display
   };
 

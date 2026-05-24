@@ -30,7 +30,7 @@ struct MachineOpts {
     #[arg(short = 'o', long)]
     module: Option<String>,
 
-    /// Operate on a different machine (aramid/minoo/seedling/spruce)
+    /// Operate on a different machine (aramid/minoo/spruce)
     #[arg(short = 'm', long)]
     machine: Option<String>,
 }

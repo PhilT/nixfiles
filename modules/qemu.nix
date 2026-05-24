@@ -31,16 +31,6 @@ in {
         "$@"
     '')
 
-    # vm-cmd <seedling|sapling> <save|restore>
-    (writeShellScriptBin "vm-cmd" ''
-      machine=$1
-      cmd=$2
-      {
-        echo '{"execute":"qmp_capabilities"}';
-        sleep 0.1;  # Optional short delay to ensure order
-        echo '{"execute":"human-monitor-command","arguments":{"command-line":"''${cmd} /data/vdisks/''${machine}_snapshot"}}';
-      } | socat UNIX-CONNECT:/tmp/$${machine}-qmp.sock -
-    '')
   ];
 
   security.pam.loginLimits = [
