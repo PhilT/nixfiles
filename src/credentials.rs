@@ -96,7 +96,7 @@ impl Credentials {
         let hashed = self
             .get(&["hashed_password"])
             .and_then(|v| v.as_str())
-            .context("hashed_password missing from credentials")?;
+            .context("hashed_password missing from credentials — run `nixx credentials regenerate-hashed`")?;
         let path = std::path::PathBuf::from("/tmp/hashed_password");
         std::fs::write(&path, hashed)?;
         Ok(HashedPasswordGuard { path })
@@ -197,14 +197,9 @@ fn encrypt(yaml: &[u8], key: &[u8; 16]) -> Result<Vec<u8>> {
 
 const SSH_KEY_TYPES: &[&str] = &["ed25519", "ecdsa", "rsa", "dsa"];
 
-enum RotateKind {
-    SshKey(String),
-    Format(String),
-}
-
 struct RotateTask {
     path: Vec<String>,
-    kind: RotateKind,
+    keytype: String,
 }
 
 pub fn cmd_rotate(app_dir: &Path, key: &str) -> Result<()> {
@@ -217,22 +212,16 @@ pub fn cmd_rotate(app_dir: &Path, key: &str) -> Result<()> {
         .clone();
 
     let mut tasks: Vec<RotateTask> = Vec::new();
-    collect_rotatables(&target, path.clone(), &creds, &mut tasks);
+    collect_rotatables(&target, path.clone(), &mut tasks);
 
     if tasks.is_empty() {
-        bail!(
-            "nothing rotatable at {key}: no ssh keypairs and no '_format' siblings under this path"
-        );
+        bail!("nothing rotatable at {key}: no ssh keypairs found under this path");
     }
 
     if tasks.len() > 1 {
-        println!("Will rotate {} entries under {key}:", tasks.len());
+        println!("Will rotate {} ssh keypairs under {key}:", tasks.len());
         for t in &tasks {
-            let kind = match &t.kind {
-                RotateKind::SshKey(kt) => format!("ssh {kt}"),
-                RotateKind::Format(fmt) => format!("scalar {fmt}"),
-            };
-            println!("  {} ({})", t.path.join("."), kind);
+            println!("  {} (ssh {})", t.path.join("."), t.keytype);
         }
         print!("Proceed? [y/N] ");
         use std::io::Write;
@@ -249,19 +238,12 @@ pub fn cmd_rotate(app_dir: &Path, key: &str) -> Result<()> {
     for task in tasks {
         let refs: Vec<&str> = task.path.iter().map(String::as_str).collect();
         let dotted = task.path.join(".");
-        match task.kind {
-            RotateKind::SshKey(keytype) => {
-                let pair = crate::ssh::generate_key_pair(&keytype)?;
-                let mut map = serde_yml::Mapping::new();
-                map.insert(serde_yml::Value::from("public"), serde_yml::Value::from(pair.public.clone()));
-                map.insert(serde_yml::Value::from("private"), serde_yml::Value::from(pair.private));
-                set_at_path(creds.yaml_mut(), &refs, serde_yml::Value::Mapping(map))?;
-                pubkeys.push((dotted.clone(), pair.public));
-            }
-            RotateKind::Format(format) => {
-                set_at_path(creds.yaml_mut(), &refs, generate_scalar(&format)?)?;
-            }
-        }
+        let pair = crate::ssh::generate_key_pair(&task.keytype)?;
+        let mut map = serde_yml::Mapping::new();
+        map.insert(serde_yml::Value::from("public"), serde_yml::Value::from(pair.public.clone()));
+        map.insert(serde_yml::Value::from("private"), serde_yml::Value::from(pair.private));
+        set_at_path(creds.yaml_mut(), &refs, serde_yml::Value::Mapping(map))?;
+        pubkeys.push((dotted.clone(), pair.public));
         println!("Rotated {dotted}");
     }
     creds.save()?;
@@ -272,35 +254,25 @@ pub fn cmd_rotate(app_dir: &Path, key: &str) -> Result<()> {
     Ok(())
 }
 
-/// Walk `node` under `path` and append every rotatable target to `out`.
-/// A node is rotatable if it's an ssh keypair (leaf is a key type, value has
-/// public + private) or a scalar with a sibling `<leaf>_format` entry.
+/// Walk `node` under `path` and append every ssh keypair found to `out`.
 fn collect_rotatables(
     node: &serde_yml::Value,
     path: Vec<String>,
-    creds: &Credentials,
     out: &mut Vec<RotateTask>,
 ) {
     let refs: Vec<&str> = path.iter().map(String::as_str).collect();
 
     if is_ssh_keypair(&refs, node) {
         let keytype = path.last().cloned().unwrap_or_default();
-        out.push(RotateTask { path, kind: RotateKind::SshKey(keytype) });
-        return;
-    }
-    if let Some(fmt) = format_for(creds, &refs) {
-        out.push(RotateTask { path, kind: RotateKind::Format(fmt) });
+        out.push(RotateTask { path, keytype });
         return;
     }
     let Some(map) = node.as_mapping() else { return };
     for (k, v) in map {
         let Some(name) = k.as_str() else { continue };
-        if name.ends_with("_format") {
-            continue;
-        }
         let mut child = path.clone();
         child.push(name.to_owned());
-        collect_rotatables(v, child, creds, out);
+        collect_rotatables(v, child, out);
     }
 }
 
@@ -316,44 +288,54 @@ fn is_ssh_keypair(path: &[&str], value: &serde_yml::Value) -> bool {
         && map.contains_key(serde_yml::Value::from("private"))
 }
 
-/// Look for a `<leaf>_format` sibling of the target path and return its string.
-fn format_for(creds: &Credentials, path: &[&str]) -> Option<String> {
-    let leaf = path.last()?;
-    let format_key = format!("{leaf}_format");
-    let mut parent_path: Vec<&str> = path[..path.len() - 1].to_vec();
-    parent_path.push(&format_key);
-    creds
-        .get(&parent_path)
+/// Hash `main_password` with `mkpasswd -m yescrypt` and write the result to the
+/// `hashed_password` field, overwriting any existing value.
+pub fn cmd_regenerate_hashed(app_dir: &Path) -> Result<()> {
+    use std::io::Write;
+    use std::process::{Command, Stdio};
+
+    let mut creds = Credentials::load(app_dir)?;
+    let password = creds
+        .get(&["main_password"])
         .and_then(|v| v.as_str())
-        .map(|s| s.to_owned())
-}
+        .context("main_password missing from credentials")?
+        .to_owned();
 
-/// Parse a format spec like "alphanumeric-10" or "hex-32" and generate a value.
-fn generate_scalar(format: &str) -> Result<serde_yml::Value> {
-    let (kind, len_str) = format
-        .split_once('-')
-        .with_context(|| format!("invalid format '{format}': expected '<kind>-<length>'"))?;
-    let len: usize = len_str
-        .parse()
-        .with_context(|| format!("invalid length in format '{format}'"))?;
+    let mut child = Command::new("mkpasswd")
+        .args(["-m", "yescrypt", "-s"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::inherit())
+        .spawn()
+        .context("spawning mkpasswd (is it installed?)")?;
+    child
+        .stdin
+        .as_mut()
+        .context("mkpasswd stdin")?
+        .write_all(password.as_bytes())?;
+    let output = child.wait_with_output().context("waiting on mkpasswd")?;
+    if !output.status.success() {
+        bail!("mkpasswd exited with status {}", output.status);
+    }
+    let hashed = String::from_utf8(output.stdout)
+        .context("mkpasswd output not UTF-8")?
+        .trim()
+        .to_owned();
+    if hashed.is_empty() {
+        bail!("mkpasswd produced empty output");
+    }
 
-    let charset: &[u8] = match kind {
-        "alphanumeric" => b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-        "hex" => b"0123456789abcdef",
-        other => bail!("unknown format kind '{other}' (supported: alphanumeric, hex)"),
-    };
-
-    let mut rng = rand::thread_rng();
-    let s: String = (0..len)
-        .map(|_| {
-            let mut b = [0u8; 1];
-            // Rejection-free: pick uniformly from charset length (small bias for non-power-of-2 sets
-            // is acceptable for password generation here).
-            rng.fill_bytes(&mut b);
-            charset[b[0] as usize % charset.len()] as char
-        })
-        .collect();
-    Ok(serde_yml::Value::from(s))
+    let root = creds
+        .yaml_mut()
+        .as_mapping_mut()
+        .context("credentials root is not a mapping")?;
+    root.insert(
+        serde_yml::Value::from("hashed_password"),
+        serde_yml::Value::from(hashed),
+    );
+    creds.save()?;
+    println!("[CREDS     ] Regenerated hashed_password");
+    Ok(())
 }
 
 /// Replace the value at `path` in the YAML tree. Errors if any intermediate

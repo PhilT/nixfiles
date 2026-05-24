@@ -155,12 +155,14 @@ enum CredentialsCmd {
         /// Dot-separated path into the credentials YAML
         key: String,
     },
-    /// Rotate a credential in place. Works for SSH keypairs (ed25519/ecdsa/rsa)
-    /// and for scalars with a sibling `<name>_format` entry (e.g. alphanumeric-10).
+    /// Rotate SSH keypairs (ed25519/ecdsa/rsa) under the given path.
     Rotate {
-        /// Dot-separated path to the value (or ssh keypair) to rotate
+        /// Dot-separated path to the keypair (or a subtree containing keypairs) to rotate
         key: String,
     },
+    /// Hash main_password with mkpasswd -m yescrypt and write to hashed_password
+    /// (overwriting any existing value).
+    RegenerateHashed,
     /// Open credentials in $EDITOR, validate YAML, and re-encrypt
     Edit,
 }
@@ -204,6 +206,7 @@ fn main() -> Result<()> {
         Commands::Credentials { command } => match command {
             CredentialsCmd::Show { key } => credentials::cmd_show(&app_dir, &key),
             CredentialsCmd::Rotate { key } => credentials::cmd_rotate(&app_dir, &key),
+            CredentialsCmd::RegenerateHashed => credentials::cmd_regenerate_hashed(&app_dir),
             CredentialsCmd::Edit => credentials::cmd_edit(&app_dir),
         },
         Commands::Keys { overwrite } => {

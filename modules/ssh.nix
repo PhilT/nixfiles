@@ -55,6 +55,7 @@ in {
       IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519_github
 
     Host *
+      AddKeysToAgent yes
       IdentitiesOnly yes
       PreferredAuthentications publickey
       IdentityFile ${config.persistedMachineDir}/ssh/id_ed25519

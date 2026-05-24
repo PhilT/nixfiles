@@ -86,7 +86,6 @@
 
     # Comms
     vesktop               # Discord replacement that works in native Wayland
-    element-desktop       # Matrix chat client
     libreoffice
     slack
   ];

@@ -154,9 +154,9 @@ impl<'a> Disks<'a> {
         let (password, encryption_opts): (Option<&str>, &str) = if encryption == "on" {
             let pw = self
                 .credentials
-                .get(&["disks", "encryption_password"])
+                .get(&["main_password"])
                 .and_then(|v| v.as_str())
-                .context("missing disks.encryption_password in credentials")?;
+                .context("missing main_password in credentials")?;
             (
                 Some(pw),
                 " -O encryption=on -O keyformat=passphrase -O keylocation=prompt",

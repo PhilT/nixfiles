@@ -32,7 +32,7 @@ in with colors; {
   catppuccin.enable = true;
   catppuccin.flavor = variant;
 
-  services.gnome.gnome-keyring.enable = true;
+  programs.ssh.startAgent = true;
   services.greetd = {
     enable = true;
     settings = rec {
