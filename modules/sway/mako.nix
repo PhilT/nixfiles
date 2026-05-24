@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ../catppuccin.nix lib;
+  colors = import ./palette.nix lib;
 in with colors; {
   programs.sway.extraPackages = with pkgs; [
     mako

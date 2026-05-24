@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  colors = import ../catppuccin.nix lib;
+  colors = import ./palette.nix lib;
   accent = "lavender";
   variant = "mocha";
   catppuccin-gtk-mocha = pkgs.catppuccin-gtk.override ({
