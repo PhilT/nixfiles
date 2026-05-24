@@ -219,9 +219,9 @@ impl Drop for PublicKeysGuard {
     }
 }
 
-struct KeyPair {
-    public: String,
-    private: String,
+pub struct KeyPair {
+    pub public: String,
+    pub private: String,
 }
 
 impl KeyPair {
@@ -233,7 +233,7 @@ impl KeyPair {
     }
 }
 
-fn generate_key_pair(keytype: &str) -> Result<KeyPair> {
+pub fn generate_key_pair(keytype: &str) -> Result<KeyPair> {
     let mut suffix = [0u8; 10];
     rand::thread_rng().fill_bytes(&mut suffix);
     let private_path = PathBuf::from(format!("/tmp/id_{keytype}{}", hex::encode(suffix)));

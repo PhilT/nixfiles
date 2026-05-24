@@ -66,8 +66,6 @@ in {
   users.users."${config.username}".openssh.authorizedKeys.keys = [
     (builtins.readFile /tmp/id_ed25519_spruce.pub)
     (builtins.readFile /tmp/id_ed25519_aramid.pub)
-    (builtins.readFile /tmp/id_ed25519_sapling.pub)
-    (builtins.readFile /tmp/id_ed25519_seedling.pub)
     (builtins.readFile /tmp/id_ed25519_minoo.pub)
   ];
 }

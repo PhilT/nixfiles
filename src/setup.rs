@@ -175,9 +175,9 @@ pub fn add_channels(ctx: &Ctx) -> Result<()> {
     Ok(())
 }
 
-pub fn all_ssh_keys(creds: &mut Credentials, machine: &str) -> Result<()> {
+pub fn all_ssh_keys(creds: &mut Credentials, machine: &str, overwrite: bool) -> Result<()> {
     log("SSH", "Write all SSH keys to SSH dir");
-    let ssh = Ssh::new(false);
+    let ssh = Ssh::new(overwrite);
     ssh.generate_all_keys(creds)?;
 
     let persisted_machine_dir = if std::path::Path::new("/data/machine").is_dir() {

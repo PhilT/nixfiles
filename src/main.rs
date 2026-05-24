@@ -155,6 +155,12 @@ enum CredentialsCmd {
         /// Dot-separated path into the credentials YAML
         key: String,
     },
+    /// Rotate a credential in place. Works for SSH keypairs (ed25519/ecdsa/rsa)
+    /// and for scalars with a sibling `<name>_format` entry (e.g. alphanumeric-10).
+    Rotate {
+        /// Dot-separated path to the value (or ssh keypair) to rotate
+        key: String,
+    },
     /// Open credentials in $EDITOR, validate YAML, and re-encrypt
     Edit,
 }
@@ -197,6 +203,7 @@ fn main() -> Result<()> {
         },
         Commands::Credentials { command } => match command {
             CredentialsCmd::Show { key } => credentials::cmd_show(&app_dir, &key),
+            CredentialsCmd::Rotate { key } => credentials::cmd_rotate(&app_dir, &key),
             CredentialsCmd::Edit => credentials::cmd_edit(&app_dir),
         },
         Commands::Keys { overwrite } => {
@@ -283,8 +290,7 @@ fn cmd_build(
     let disks = disks::Disks::load(&ctx.app_dir, &ctx.machine, false, "/", &disks_creds)?;
 
     setup::add_channels(ctx)?;
-    let _ = overwrite; // generate_all_keys never overwrites; the flag is for write_keys_to
-    setup::all_ssh_keys(&mut creds, &ctx.machine)?;
+    setup::all_ssh_keys(&mut creds, &ctx.machine, overwrite)?;
     setup::wifi(ctx, &creds, wifi)?;
 
     if disks.more_than_one() {
