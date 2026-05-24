@@ -17,7 +17,7 @@ Inbox /data/mail/namecheap/INBOX
 Channel namecheap
 Far :namecheap-remote:
 Near :namecheap-local:
-Patterns *
+Patterns * !Spam
 Create Both
 Expunge Both
 SyncState *

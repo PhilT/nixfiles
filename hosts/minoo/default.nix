@@ -19,7 +19,6 @@
     ./kodi.nix
 
     # Desktop
-    ../../modules/desktop/default.nix
     ../../modules/desktop/light.nix
 
     # Running webservers
