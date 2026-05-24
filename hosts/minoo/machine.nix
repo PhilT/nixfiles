@@ -35,6 +35,12 @@
       fsType = "zfs";
     };
 
+    "/movies" = {
+      device = "/dev/disk/by-label/Movies";
+      fsType = "ntfs";
+      options = [ "rw" "uid=1001" ];
+    };
+
     "/boot" = {
       device = "/dev/disk/by-label/boot";
       fsType = "vfat";

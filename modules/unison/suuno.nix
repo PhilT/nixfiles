@@ -41,6 +41,7 @@ in
     options = [
       "port=2222"
       "reconnect"
+      "workaround=rename"
       "ServerAliveInterval=15"
       "ServerAliveCountMax=3"
       "allow_other"

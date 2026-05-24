@@ -293,6 +293,10 @@ in
           "video"
           "input"
           "render"
+          "wheel"
+          "users"
+          "disk"
+          "storage"
         ];
         description = "Kodi player user";
         home = cfg.dataDir;
