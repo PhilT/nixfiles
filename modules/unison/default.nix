@@ -82,6 +82,10 @@ in
     # ensure integrity we need to do a one way sync. See app-sync in chromium.nix.
     ignore = Path home/chromium
 
+    # Mail is owned by the dedicated mail-sync cycle (see modules/mail.nix).
+    # The general /data sync must not touch it.
+    ignore = Path mail
+
     # Containers (at least milvus-vector-db) are synced manually with
     # rsync -a --progress /data/containers phil@minoo:/data/
     ignore = Path containers

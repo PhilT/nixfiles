@@ -37,4 +37,10 @@
   # via SSH.
 
   hardware.graphics.enable = true; # TODO: Move into generic config
+
+  # Unison watch on /data exceeds the default inotify ceiling.
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+    "fs.inotify.max_user_instances" = 512;
+  };
 }
