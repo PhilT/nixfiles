@@ -155,6 +155,10 @@ in
 
   systemd.tmpfiles.rules = [
     "d ${unisonDir} - ${config.username} users -"
+    # ~/.unison is unison's default archive location, used when no UNISON env
+    # var is in scope (e.g. spruce -> minoo server invocations over ssh).
+    # Point it at the persisted location so archives don't drift.
+    "L+ ${config.homeDir}/.unison - - - - ${unisonDir}"
     "L+ ${unisonDir}/common.prf - - - - /etc/unison/common.prf"
     "L+ ${unisonDir}/paths.prf - - - - /etc/unison/paths.prf"
 
