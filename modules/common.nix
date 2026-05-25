@@ -51,6 +51,8 @@
     options = config.keyboardOptions;
   };
 
+  environment.enableAllTerminfo = true;
+
   # DHCP Reservations setup on Linksys Router
   # Used mainly for Unison sync and SSH
   networking.hosts = {
