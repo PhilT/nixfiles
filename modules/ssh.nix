@@ -33,7 +33,7 @@ in {
     "${HETZNER_SERVER_IP}".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKlgfZNBF36xlaSr0HXIV/vt4IebE4+p88zIoI9aCRBB";
     "github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
     "gitlab.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
-    "minoo".publicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOWkHHuzy/5g47M7vI1FPL6lnZPGKJF1sd6m39y19Skp2gIPnlcyLt8671QgVDeXWisB78Bgm75XHatm0r5ECqc=";
+    "minoo".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGR9XFTdYSj2RkPy4OaAVJvzP5D5o9JbUUYzlK2zc/aX";
     "suuno".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJGGiHFo6GiqCA3YKp58oP7RELGJ362G0aJyR0NgViu5";
   };
 
