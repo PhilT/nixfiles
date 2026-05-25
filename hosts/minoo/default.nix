@@ -26,6 +26,8 @@
     ../../modules/notify.nix
   ];
 
+  systemd.services.unison.unitConfig.OnFailure = [ "notify-email@%n.service" ];
+
   # How do we supply the key?
   # Need to change to keyfile instead of prompt?
   # Maybe not though, if permanently on and connected to the TV that

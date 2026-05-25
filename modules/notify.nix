@@ -81,7 +81,11 @@ in {
     description = "Email notification for failed unit %i";
     serviceConfig = {
       Type = "oneshot";
-      Environment = "SRC=/data/code/nixfiles";
+      # himalaya runs auth.cmd via Command::new("sh"); needs sh on PATH.
+      Environment = [
+        "SRC=/data/code/nixfiles"
+        "PATH=/run/current-system/sw/bin"
+      ];
       ExecStart = "${notifyUnit}/bin/notify-email-unit %i";
     };
   };
@@ -92,5 +96,8 @@ in {
     ZED_EMAIL_PROG = "${zedMail}/bin/notify-email-zed";
     ZED_NOTIFY_VERBOSE = true;
   };
-  systemd.services.zfs-zed.serviceConfig.Environment = "SRC=/data/code/nixfiles";
+  systemd.services.zfs-zed.serviceConfig.Environment = [
+    "SRC=/data/code/nixfiles"
+    "PATH=/run/current-system/sw/bin"
+  ];
 }
