@@ -28,6 +28,10 @@
 
   systemd.services.unison.unitConfig.OnFailure = [ "notify-email@%n.service" ];
 
+  # kmscon (enabled in modules/fonts.nix) takes tty1 with --no-switchvt and
+  # blocks kodi from claiming the console. Disable it here.
+  services.kmscon.enable = lib.mkForce false;
+
   # How do we supply the key?
   # Need to change to keyfile instead of prompt?
   # Maybe not though, if permanently on and connected to the TV that
