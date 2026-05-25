@@ -19,5 +19,5 @@ Far :namecheap-remote:
 Near :namecheap-local:
 Patterns * !Spam !Archive/2014 !Archive/2015 !Archive/2016 !Archive/2017 !Archive/2018 !Archive/2019 !Archive/2020
 Create Both
-Expunge Both
+Expunge Near
 SyncState *
