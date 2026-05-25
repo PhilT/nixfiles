@@ -47,16 +47,44 @@ pub fn sudo_capture(cmd: &str, section: &str) -> Result<String> {
 /// Run a command via sudo (if needed), inheriting stdio. Use for commands
 /// whose progress output should reach the user (nixos-rebuild, etc).
 pub fn sudo_system(ctx: &Ctx, cmd: &str, section: &str) -> Result<()> {
+    sudo_system_redacted(ctx, cmd, section, &[])
+}
+
+/// Like `sudo_system`, but replaces each string in `secrets` with `<REDACTED>`
+/// in the logged command and in any error message. The command itself is
+/// still executed verbatim.
+pub fn sudo_system_redacted(
+    ctx: &Ctx,
+    cmd: &str,
+    section: &str,
+    secrets: &[&str],
+) -> Result<()> {
     let full = format!("{}{cmd}", sudo_prefix());
-    log(section, &full);
+    let display = redact(&full, secrets);
+    log(section, &display);
     if ctx.dryrun {
         return Ok(());
     }
     let status = Command::new("sh").arg("-c").arg(&full).status()?;
     if !status.success() {
-        bail!("sudo command failed (exit {:?}): {full}", status.code());
+        bail!("sudo command failed (exit {:?}): {display}", status.code());
     }
     Ok(())
+}
+
+fn redact(s: &str, secrets: &[&str]) -> String {
+    let mut out = s.to_owned();
+    for secret in secrets {
+        if !secret.is_empty() {
+            out = out.replace(secret, "<REDACTED>");
+        }
+    }
+    out
+}
+
+/// Quote `s` for safe inclusion in a `sh -c` command line, using single quotes.
+pub fn sh_quote(s: &str) -> String {
+    format!("'{}'", s.replace('\'', "'\\''"))
 }
 
 /// Prompt the user, blocking until they hit ENTER. Skipped in dryrun.

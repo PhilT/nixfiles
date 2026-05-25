@@ -9,7 +9,7 @@ use std::process::Command;
 
 use crate::credentials::Credentials;
 use crate::ssh::Ssh;
-use crate::system::{log, sudo_capture, sudo_prefix, sudo_system};
+use crate::system::{log, sh_quote, sudo_capture, sudo_prefix, sudo_system, sudo_system_redacted};
 use crate::{wallpaper, Ctx};
 
 const ALL_CHANNELS: &[&str] = &["catppuccin", "nixos-hardware", "nixos"];
@@ -136,14 +136,16 @@ pub fn wifi_wpa_supplicant(ctx: &Ctx, creds: &Credentials, network: &str) -> Res
         .get("password")
         .and_then(|v| v.as_str())
         .context("missing wifi password")?;
-    sudo_system(
-        ctx,
-        &format!(
-            "{}sh -c 'wpa_passphrase \"{ssid}\" \"{psk}\" > /etc/wpa_supplicant.conf'",
-            sudo_prefix()
-        ),
-        "NET",
-    )?;
+    let cmd = format!(
+        "{}sh -c {}",
+        sudo_prefix(),
+        sh_quote(&format!(
+            "wpa_passphrase {} {} > /etc/wpa_supplicant.conf",
+            sh_quote(ssid),
+            sh_quote(psk),
+        )),
+    );
+    sudo_system_redacted(ctx, &cmd, "NET", &[psk])?;
     let iface = std::process::Command::new("sh")
         .arg("-c")
         .arg("ls /sys/class/ieee80211/*/device/net/")
@@ -205,11 +207,12 @@ pub fn wifi(ctx: &Ctx, creds: &Credentials, network: &str) -> Result<()> {
         .get("password")
         .and_then(|v| v.as_str())
         .context("missing wifi password")?;
-    sudo_system(
-        ctx,
-        &format!("nmcli device wifi connect {ssid} password {psk}"),
-        "NET",
-    )?;
+    let cmd = format!(
+        "nmcli device wifi connect {} password {} wifi-sec.key-mgmt wpa-psk",
+        sh_quote(ssid),
+        sh_quote(psk),
+    );
+    sudo_system_redacted(ctx, &cmd, "NET", &[psk])?;
     wait_for_connection(ctx)?;
     Ok(())
 }
