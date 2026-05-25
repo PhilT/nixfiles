@@ -14,7 +14,7 @@ let
     email = "${recipient}"
 
     backend.type = "maildir"
-    backend.maildir-path = "/var/lib/notify/maildir"
+    backend.root-dir = "/var/lib/notify/maildir"
 
     message.send.backend.type = "smtp"
     message.send.backend.host = "mail.privateemail.com"
@@ -23,6 +23,7 @@ let
     message.send.backend.encryption.type = "tls"
     message.send.backend.auth.type = "password"
     message.send.backend.auth.cmd = "/run/current-system/sw/bin/nixx credentials show email_password"
+    message.send.save-copy = false
   '';
 
   # notify-email "Subject" ["Body"]   — body defaults to stdin
