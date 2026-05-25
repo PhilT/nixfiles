@@ -46,6 +46,12 @@ in
         ignore = Name .notmuch
         ignore = Name *.tmp
         ignore = Name *.lock
+        # mbsync state is per-machine — letting unison sync it across hosts
+        # can clobber a live state file with a stale copy from the replica,
+        # which then makes mbsync error out (duplicate UID / UID beyond max).
+        # Each client maintains its own state via its own mbsync runs.
+        ignore = Name .mbsyncstate
+        ignore = Name .uidvalidity
       '';
     };
 
