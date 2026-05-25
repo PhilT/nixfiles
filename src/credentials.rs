@@ -97,33 +97,36 @@ impl Credentials {
             .get(&["hashed_password"])
             .and_then(|v| v.as_str())
             .context("hashed_password missing from credentials — run `nixx credentials regenerate-hashed`")?;
-        warn_if_hash_differs_from_system(hashed);
+        let needs_rotation_reminder = hash_differs_from_system(hashed);
         let path = std::path::PathBuf::from("/tmp/hashed_password");
         std::fs::write(&path, hashed)?;
-        Ok(HashedPasswordGuard { path })
+        Ok(HashedPasswordGuard { path, needs_rotation_reminder })
     }
 }
 
-/// If the credentials hash differs from the live hash in /etc/shadow for the
-/// current user, print rotation reminders. Best-effort: needs cached sudo to
-/// read shadow; if we can't, stay silent.
-fn warn_if_hash_differs_from_system(current: &str) {
-    let Ok(user) = std::env::var("USER") else { return };
-    let output = std::process::Command::new("sudo")
+/// True if the credentials hash differs from the live hash in /etc/shadow for
+/// the current user. Best-effort: needs cached sudo to read shadow; if we
+/// can't, returns false (stay silent).
+fn hash_differs_from_system(current: &str) -> bool {
+    let Ok(user) = std::env::var("USER") else { return false };
+    let Ok(out) = std::process::Command::new("sudo")
         .args(["-n", "getent", "shadow", &user])
-        .output();
-    let Ok(out) = output else { return };
+        .output()
+    else {
+        return false;
+    };
     if !out.status.success() {
-        return;
+        return false;
     }
     let line = String::from_utf8_lossy(&out.stdout);
-    let Some(system_hash) = line.split(':').nth(1) else { return };
-    if system_hash.trim() == current.trim() {
-        return;
-    }
+    let Some(system_hash) = line.split(':').nth(1) else { return false };
+    system_hash.trim() != current.trim()
+}
+
+fn print_rotation_reminder() {
     println!();
-    println!("[CREDS     ] hashed_password differs from /etc/shadow on this machine.");
-    println!("If main_password rotated, you may also need to:");
+    println!("[CREDS     ] hashed_password rotated on this machine.");
+    println!("If main_password also changed, you may need to:");
     for dev in luks_devices() {
         println!("  - LUKS disk: sudo cryptsetup luksAddKey {dev}");
         println!("               (reboot to verify, then luksRemoveKey for the old slot)");
@@ -160,10 +163,11 @@ fn luks_devices() -> Vec<String> {
     devs
 }
 
-/// Return the encryption-root datasets on this machine (best-effort).
+/// Return the encryption-root datasets that prompt for a passphrase
+/// (file-backed keys are skipped — they don't need user-driven rotation).
 fn zfs_encryption_roots() -> Vec<String> {
     let Ok(out) = std::process::Command::new("zfs")
-        .args(["get", "-H", "-o", "name,value", "encryptionroot"])
+        .args(["get", "-H", "-o", "name,property,value", "encryptionroot,keylocation"])
         .output()
     else {
         return Vec::new();
@@ -171,27 +175,42 @@ fn zfs_encryption_roots() -> Vec<String> {
     if !out.status.success() {
         return Vec::new();
     }
-    let mut roots: Vec<String> = String::from_utf8_lossy(&out.stdout)
-        .lines()
-        .filter_map(|l| {
-            let mut parts = l.split('\t');
-            let name = parts.next()?;
-            let root = parts.next()?;
-            (name == root).then(|| name.to_owned())
+    let mut by_name: std::collections::BTreeMap<String, (Option<String>, Option<String>)> =
+        Default::default();
+    for line in String::from_utf8_lossy(&out.stdout).lines() {
+        let mut parts = line.split('\t');
+        let (Some(name), Some(prop), Some(value)) = (parts.next(), parts.next(), parts.next())
+        else {
+            continue;
+        };
+        let entry = by_name.entry(name.to_owned()).or_default();
+        match prop {
+            "encryptionroot" => entry.0 = Some(value.to_owned()),
+            "keylocation" => entry.1 = Some(value.to_owned()),
+            _ => {}
+        }
+    }
+    by_name
+        .into_iter()
+        .filter_map(|(name, (root, keyloc))| {
+            let root = root?;
+            let keyloc = keyloc?;
+            (root == name && keyloc.starts_with("prompt")).then_some(name)
         })
-        .collect();
-    roots.sort();
-    roots.dedup();
-    roots
+        .collect()
 }
 
 pub struct HashedPasswordGuard {
     path: std::path::PathBuf,
+    needs_rotation_reminder: bool,
 }
 
 impl Drop for HashedPasswordGuard {
     fn drop(&mut self) {
         let _ = std::fs::remove_file(&self.path);
+        if self.needs_rotation_reminder {
+            print_rotation_reminder();
+        }
     }
 }
 
