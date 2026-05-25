@@ -97,10 +97,38 @@ impl Credentials {
             .get(&["hashed_password"])
             .and_then(|v| v.as_str())
             .context("hashed_password missing from credentials — run `nixx credentials regenerate-hashed`")?;
+        warn_if_hash_differs_from_system(hashed);
         let path = std::path::PathBuf::from("/tmp/hashed_password");
         std::fs::write(&path, hashed)?;
         Ok(HashedPasswordGuard { path })
     }
+}
+
+/// If the credentials hash differs from the live hash in /etc/shadow for the
+/// current user, print rotation reminders. Best-effort: needs cached sudo to
+/// read shadow; if we can't, stay silent.
+fn warn_if_hash_differs_from_system(current: &str) {
+    let Ok(user) = std::env::var("USER") else { return };
+    let output = std::process::Command::new("sudo")
+        .args(["-n", "getent", "shadow", &user])
+        .output();
+    let Ok(out) = output else { return };
+    if !out.status.success() {
+        return;
+    }
+    let line = String::from_utf8_lossy(&out.stdout);
+    let Some(system_hash) = line.split(':').nth(1) else { return };
+    if system_hash.trim() == current.trim() {
+        return;
+    }
+    println!();
+    println!("[CREDS     ] hashed_password differs from /etc/shadow on this machine.");
+    println!("If main_password rotated, you may also need to:");
+    println!("  - LUKS disk: sudo cryptsetup luksAddKey <device>");
+    println!("               (reboot to verify, then luksRemoveKey for the old slot)");
+    println!("  - ZFS pool:  sudo zfs change-key <pool>");
+    println!("  - KeePassXC: keepassxc-cli db-edit --set-password /data/sync/HomeDatabase.kdbx");
+    println!();
 }
 
 pub struct HashedPasswordGuard {
