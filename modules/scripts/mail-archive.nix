@@ -37,10 +37,13 @@
           exit 1
         fi
 
-        # mv within the same filesystem is atomic; mbsync on next cycle sees
-        # the source as deleted and the dest as new, then reconciles to IMAP.
-        ${pkgs.coreutils}/bin/mv "$src" "$dest/"
-        echo "archived to Archive/$year: $(basename "$src")"
+        # Strip the source folder's UID hint (",U=N") from the basename — each
+        # Maildir has its own UID namespace, so reusing the INBOX UID in
+        # Archive would collide. mbsync re-pairs on next sync.
+        base=$(basename "$src")
+        stripped=$(echo "$base" | ${pkgs.gnused}/bin/sed 's/,U=[0-9]\+//')
+        ${pkgs.coreutils}/bin/mv "$src" "$dest/$stripped"
+        echo "archived to Archive/$year: $stripped"
       done
 
       exec /run/current-system/sw/bin/mail-sync
