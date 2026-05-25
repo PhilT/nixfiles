@@ -144,7 +144,9 @@ in
       Restart = "always";
       RestartSec = "5";
       RestartSteps = "10";
-      RestartMaxDelaySec = "1800";
+      # Cap at 2 min so a reconnect-after-long-outage doesn't sit in a
+      # 30-minute backoff window before the next attempt.
+      RestartMaxDelaySec = "120";
       User = config.username;
       Group = "users";
     };
