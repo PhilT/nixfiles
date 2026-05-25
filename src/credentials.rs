@@ -124,11 +124,65 @@ fn warn_if_hash_differs_from_system(current: &str) {
     println!();
     println!("[CREDS     ] hashed_password differs from /etc/shadow on this machine.");
     println!("If main_password rotated, you may also need to:");
-    println!("  - LUKS disk: sudo cryptsetup luksAddKey <device>");
-    println!("               (reboot to verify, then luksRemoveKey for the old slot)");
-    println!("  - ZFS pool:  sudo zfs change-key <pool>");
+    for dev in luks_devices() {
+        println!("  - LUKS disk: sudo cryptsetup luksAddKey {dev}");
+        println!("               (reboot to verify, then luksRemoveKey for the old slot)");
+    }
+    for root in zfs_encryption_roots() {
+        println!("  - ZFS:       sudo zfs change-key {root}");
+    }
     println!("  - KeePassXC: keepassxc-cli db-edit --set-password /data/sync/HomeDatabase.kdbx");
     println!();
+}
+
+/// Return the underlying block devices for any active LUKS volumes.
+fn luks_devices() -> Vec<String> {
+    let Ok(out) = std::process::Command::new("lsblk")
+        .args(["-l", "-p", "-n", "-o", "FSTYPE,NAME"])
+        .output()
+    else {
+        return Vec::new();
+    };
+    if !out.status.success() {
+        return Vec::new();
+    }
+    let mut devs: Vec<String> = String::from_utf8_lossy(&out.stdout)
+        .lines()
+        .filter_map(|l| {
+            let mut parts = l.split_whitespace();
+            let fstype = parts.next()?;
+            let name = parts.next()?;
+            (fstype == "crypto_LUKS").then(|| name.to_owned())
+        })
+        .collect();
+    devs.sort();
+    devs.dedup();
+    devs
+}
+
+/// Return the encryption-root datasets on this machine (best-effort).
+fn zfs_encryption_roots() -> Vec<String> {
+    let Ok(out) = std::process::Command::new("zfs")
+        .args(["get", "-H", "-o", "name,value", "encryptionroot"])
+        .output()
+    else {
+        return Vec::new();
+    };
+    if !out.status.success() {
+        return Vec::new();
+    }
+    let mut roots: Vec<String> = String::from_utf8_lossy(&out.stdout)
+        .lines()
+        .filter_map(|l| {
+            let mut parts = l.split('\t');
+            let name = parts.next()?;
+            let root = parts.next()?;
+            (name == root).then(|| name.to_owned())
+        })
+        .collect();
+    roots.sort();
+    roots.dedup();
+    roots
 }
 
 pub struct HashedPasswordGuard {
