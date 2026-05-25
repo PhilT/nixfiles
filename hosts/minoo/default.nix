@@ -21,6 +21,9 @@
 
     # Running webservers
     ../../modules/devbox.nix
+
+    # Email notifications for ZFS / systemd failures
+    ../../modules/notify.nix
   ];
 
   # How do we supply the key?
