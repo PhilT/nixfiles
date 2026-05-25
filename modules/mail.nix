@@ -27,9 +27,15 @@ in
       "notmuch/config".source = ../dotfiles/notmuch-config;
       "himalaya/config.toml".source = ../dotfiles/himalaya-config.toml;
 
-      # Dedicated profile for syncing /data/mail to minoo. Invoked on demand
-      # by the mail-sync cycle (lock -> unison -> mbsync -> notmuch -> unison).
-      # The notmuch index is per-machine, so .notmuch is excluded.
+      # Cold-archive backup profile for `sync_minoo_mail`. Live mbsync-managed
+      # folders are deliberately NOT included — letting their per-client
+      # filenames (with `,U=N` UID hints) cross machines via the server caused
+      # mbsync state drift ("UID N beyond highest assigned"). IMAP is the only
+      # transport for live mail.
+      #
+      # Only the Archive years excluded from mbsync's Patterns are synced
+      # here. Add new years to this list (and to mbsyncrc Patterns) when the
+      # cutoff moves.
       "unison/mail.prf".text = ''
         root = /data/mail
         root = ssh://minoo//data/mail
@@ -43,13 +49,17 @@ in
         copyonconflict = true
         retry = 5
 
+        path = namecheap/Archive/2014
+        path = namecheap/Archive/2015
+        path = namecheap/Archive/2016
+        path = namecheap/Archive/2017
+        path = namecheap/Archive/2018
+        path = namecheap/Archive/2019
+        path = namecheap/Archive/2020
+
         ignore = Name .notmuch
         ignore = Name *.tmp
         ignore = Name *.lock
-        # mbsync state is per-machine — letting unison sync it across hosts
-        # can clobber a live state file with a stale copy from the replica,
-        # which then makes mbsync error out (duplicate UID / UID beyond max).
-        # Each client maintains its own state via its own mbsync runs.
         ignore = Name .mbsyncstate
         ignore = Name .uidvalidity
       '';
@@ -62,16 +72,13 @@ in
     ];
   };
 
-  # Periodic sync + trailing push on session/shutdown.
-  # Per-user units so the cycle runs in the user's environment (XDG_RUNTIME_DIR,
-  # ssh agent socket, notmuch DB perms). The local flock inside mail-sync makes
-  # overlap between the timer, the shutdown unit, and manual invocation safe.
-  # TODO: gate the timer on user-idle so an unattended-but-on machine releases
-  # the field to the other host.
+  # Periodic mbsync. User unit so it runs in the user's environment
+  # (XDG_RUNTIME_DIR, notmuch DB perms). The local flock inside mail-sync
+  # keeps overlapping timer ticks and manual invocations safe.
   systemd.user.services.mail-sync = {
-    description = "Mail sync cycle (unison <-> mbsync <-> notmuch)";
-    # mbsync's PassCmd shells out to `nixx`; ssh / notmuch / unison need the
-    # standard NixOS PATH too. User units don't inherit the shell's PATH.
+    description = "Mail sync cycle (mbsync + notmuch)";
+    # mbsync's PassCmd shells out to `nixx`; user units don't inherit the
+    # shell's PATH.
     environment.PATH = lib.mkForce "/run/wrappers/bin:/run/current-system/sw/bin";
     serviceConfig = {
       Type = "oneshot";
@@ -87,19 +94,6 @@ in
       OnUnitActiveSec = "2min";
       AccuracySec = "30s";
       RandomizedDelaySec = "30s";
-    };
-  };
-
-  systemd.user.services.mail-sync-shutdown = {
-    description = "Trailing mail sync on session shutdown";
-    wantedBy = [ "default.target" ];
-    environment.PATH = lib.mkForce "/run/wrappers/bin:/run/current-system/sw/bin";
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.coreutils}/bin/true";
-      ExecStop = "/run/current-system/sw/bin/mail-sync";
-      TimeoutStopSec = "180";
     };
   };
 }
