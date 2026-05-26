@@ -49,9 +49,8 @@
   # Plymouth UI is a bit small without this
   boot.plymouth.extraConfig = "DeviceScale=2";
 
-  # Mail-sync invariant: while the laptop is out, the desktop must NOT come
-  # back to life unattended and start mbsyncing against IMAP without holding
-  # the lock. Disable Wake-on-LAN on the wired NIC.
+  # Defensive: disable Wake-on-LAN on the wired NIC so the desktop doesn't
+  # come back to life unattended for stray magic packets.
   systemd.services.disable-wol-enp5s0 = {
     description = "Disable Wake-on-LAN on enp5s0";
     wantedBy = [ "multi-user.target" ];

@@ -5,7 +5,6 @@ in
 {
   imports = [
     ./scripts/mail-sync.nix
-    ./scripts/mail-lock.nix
     ./scripts/mail-archive.nix
     ./scripts/mail-expunge-old.nix
   ];

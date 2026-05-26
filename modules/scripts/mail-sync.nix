@@ -11,12 +11,10 @@
 
       LOCAL_LOCK="''${XDG_RUNTIME_DIR:-/tmp}/mail-sync.lock"
 
-      log() { echo "[mail-sync $(date +%H:%M:%S)] $*"; }
-
       # Local re-entrancy: overlapping timer ticks become no-ops.
       exec 7>"$LOCAL_LOCK"
       if ! ${pkgs.util-linux}/bin/flock -n 7; then
-        log "another mail-sync is already running locally, exiting"
+        echo "another mail-sync is already running locally, exiting"
         exit 0
       fi
 

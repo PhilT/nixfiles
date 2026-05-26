@@ -4,10 +4,11 @@
       set -euo pipefail
 
       # Phase 7 reclaim: move messages older than 5 years from live folders
-      # (INBOX, Newsletters, Sent) into Archive/<year>/, then run mbsync with
-      # a one-shot `Expunge Both` override to actually purge the originals
-      # from IMAP. Run MANUALLY — never on a timer. Run on one client at a
-      # time, then `sync_minoo_mail` on the others to converge.
+      # (Newsletters, Sent, and live Archive/<year> subdirs) into the cold
+      # Archive/<year>/, then run mbsync with a one-shot `Expunge Both`
+      # override to actually purge the originals from IMAP. Run MANUALLY —
+      # never on a timer. Run on one client at a time, then `sync_minoo_mail`
+      # on the others to converge.
       #
       # Usage:
       #   mail-expunge-old [--dry-run]
