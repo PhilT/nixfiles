@@ -49,7 +49,7 @@
   ];
 
   environment.shellAliases = {
-    sprucet = "ssh spruce -t 'tmux new -A -s main'";
+    sprucet = "ssh spruce -t 'tmux -L shared new -A -s main'";
   };
 
   # Enable Camera - One day this might work.
