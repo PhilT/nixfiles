@@ -7,6 +7,7 @@ in
     ./scripts/mail-sync.nix
     ./scripts/mail-archive.nix
     ./scripts/mail-expunge-old.nix
+    ./scripts/mail-triage.nix
   ];
 
   systemd.tmpfiles.rules = [
