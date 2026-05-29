@@ -49,6 +49,7 @@ in {
           scrollback_lines -1
           scrollback_pager_history_size 0
           scrollback_pager /run/current-system/sw/bin/less -R
+          show_hyperlink_targets yes
 
           # Support Shift+Enter in Claude Code
           map --when-focus-on title:claude shift+enter send_text normal,application \\\n
