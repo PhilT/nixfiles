@@ -1,12 +1,57 @@
 # Needed for some ZSA tools to work
 # https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }:
+let
+  # ungoogled-chromium has no Web Store, so each extension is fetched
+  # as a CRX, unpacked into the nix store, and symlinked to a stable
+  # path under the home dir. Install once via:
+  #   chrome://extensions → Developer mode → Load unpacked → <path>
+  #
+  # When upstream updates, the build will fail with a hash mismatch;
+  # replace the sha256 with the value nix reports.
+  unpackExtension = { name, id, sha256 }: pkgs.stdenvNoCC.mkDerivation {
+    pname = "chromium-ext-${name}";
+    version = id;
+    src = pkgs.fetchurl {
+      url = "https://clients2.google.com/service/update2/crx"
+        + "?response=redirect&acceptformat=crx2,crx3&prodversion=120.0.0.0"
+        + "&x=id%3D${id}%26uc";
+      inherit sha256;
+    };
+    nativeBuildInputs = [ pkgs.unzip pkgs.jq ];
+    unpackPhase = "unzip -o $src -d ext || true"; # CRX header trips unzip; payload extracts fine
+    installPhase = ''
+      mkdir -p $out
+      cp -r ext/* $out/
+      # Chromium refuses to load unpacked extensions containing _metadata/
+      # or a "key" field in the manifest (both are CRX-signing artifacts).
+      rm -rf $out/_metadata
+      if [ -f $out/manifest.json ]; then
+        chmod +w $out/manifest.json
+        jq 'del(.key, .update_url)' $out/manifest.json > $out/manifest.json.tmp
+        mv $out/manifest.json.tmp $out/manifest.json
+      fi
+    '';
+  };
+
+  extensions = [
+    {
+      name = "ublock-origin";
+      id = "cgbcahbpdhpcegmbfconppldiemgcoii";
+      sha256 = "15mxrk09xbis748lfmnbk3wzsrwawjbkkd8is5v5dck9n9zj5k7z";
+    }
+    {
+      name = "garmin-workouts";
+      id = "odgdfpclpfmmemajpmgfipfdfmjgihac";
+      sha256 = "0sc51myq7a3dl38l9bsqk3my94zg0rnssmxpj50iqfkj96177npk";
+    }
+  ];
+
+  extensionsDir = "${config.persistedHomeDir}/chromium-extensions";
+in {
   programs = {
     chromium = {
       enable = true; # This just enables the policies. Package is added below.
-      extensions = [
-        "cgbcahbpdhpcegmbfconppldiemgcoii" # ublock origin
-      ];
       defaultSearchProviderEnabled = true;
       defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
       homepageLocation = "https://claude.ai";
@@ -35,7 +80,10 @@
 
   systemd.tmpfiles.rules = [
     "d ${config.persistedHomeDir}/chromium - ${config.username} users -"
-  ];
+    "d ${extensionsDir} - ${config.username} users -"
+  ] ++ map (e:
+    "L+ ${extensionsDir}/${e.name} - - - - ${unpackExtension e}"
+  ) extensions;
 
   environment = {
     systemPackages = with pkgs; [
