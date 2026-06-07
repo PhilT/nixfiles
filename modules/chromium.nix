@@ -51,7 +51,7 @@
           "--password-store=basic"
           "--no-first-run"
           "--no-default-browser-check"
-          "--ozone-platform=wayland"
+          "--ozone-platform-hint=auto"
           "--user-data-dir=/data/home/chromium"
         ];
       })
