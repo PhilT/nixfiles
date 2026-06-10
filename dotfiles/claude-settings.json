@@ -2,7 +2,7 @@
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
-      "Bash:*",
+      "Bash",
       "WebSearch",
       "WebFetch",
       "WebFetch(domain:docs.rs)",
