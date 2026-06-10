@@ -38,7 +38,7 @@ let
     {
       name = "ublock-origin";
       id = "cgbcahbpdhpcegmbfconppldiemgcoii";
-      sha256 = "15mxrk09xbis748lfmnbk3wzsrwawjbkkd8is5v5dck9n9zj5k7z";
+      sha256 = "sha256-ixZHkkqcL8QJyzemKLr8Qnn6m55inFFLkIvtMeT17p0=";
     }
     {
       name = "garmin-workouts";
