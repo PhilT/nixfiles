@@ -5,11 +5,6 @@
       "Bash",
       "WebSearch",
       "WebFetch",
-      "WebFetch(domain:docs.rs)",
-      "WebFetch(domain:packages.guix.gnu.org)",
-      "WebFetch(domain:gitlab.freedesktop.org)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:unix.stackexchange.com)",
       "mcp__context7__get-library-docs",
       "mcp__RustDocs__search_crates",
       "mcp__RustDocs__lookup_crate",
@@ -20,7 +15,6 @@
     "deny": [],
     "ask": [
       "Bash(rm:*)",
-      "Bash(mv:*)",
       "Bash(tee:*)",
       "Bash(sudo:*)",
       "Bash:*>*"
@@ -38,9 +32,7 @@
     "ruby-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true
   },
-  "effortLevel": "medium",
   "skipDangerousModePermissionPrompt": true,
-  "defaultMode": "plan",
   "additionalDirectories": [
     "/data/screenshots"
   ],
