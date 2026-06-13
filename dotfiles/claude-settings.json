@@ -13,12 +13,7 @@
       "mcp__claude-context__search_code"
     ],
     "deny": [],
-    "ask": [
-      "Bash(rm:*)",
-      "Bash(tee:*)",
-      "Bash(sudo:*)",
-      "Bash:*>*"
-    ],
+    "ask": [],
     "defaultMode": "auto"
   },
   "enabledPlugins": {
