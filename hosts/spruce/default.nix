@@ -64,6 +64,6 @@
   };
 
   environment.shellAliases = {
-    sprucet = "tmux -L shared new -A -s main";
+    sprucet = "tmux -S /tmp/tmux-1000/shared new -A -s main";
   };
 }
