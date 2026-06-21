@@ -1,6 +1,27 @@
 # Copy of Sirius config, tweaked to work with the Lenovo X1 Carbon.
 
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let
+  # Suuno is my phone, so it drops off the network constantly and unison fails
+  # as expected. Only email when suuno is actually reachable but unison still
+  # failed — a genuine problem (e.g. SSH/port 2222 down) rather than the phone
+  # simply being away. notify-email comes from modules/notify.nix (on PATH).
+  unisonFailureGate = pkgs.writeShellApplication {
+    name = "unison-failure-gate";
+    runtimeInputs = [ pkgs.iputils pkgs.coreutils pkgs.systemd ];
+    text = ''
+      if ! ping -c1 -W3 suuno >/dev/null 2>&1; then
+        exit 0  # phone offline — expected, stay silent
+      fi
+      port_state="reachable"
+      if ! timeout 3 bash -c 'exec 3<>/dev/tcp/suuno/2222' >/dev/null 2>&1; then
+        port_state="UNREACHABLE"
+      fi
+      body=$(journalctl -u unison.service --no-pager -n 50 2>&1 || echo "(no journal)")
+      notify-email "Service failed: unison (suuno up, port 2222 $port_state)" "$body"
+    '';
+  };
+in {
   imports = [
     ./minimal.nix
     ../../modules/hardware/bluetooth.nix
@@ -26,7 +47,17 @@
     ../../modules/notify.nix
   ];
 
-  systemd.services.unison.unitConfig.OnFailure = [ "notify-email@%n.service" ];
+  # Gate unison failure emails on suuno actually being reachable (see above).
+  systemd.services.unison.unitConfig.OnFailure = [ "unison-failure-notify.service" ];
+  systemd.services.unison-failure-notify = {
+    description = "Gated email notification for unison failures (silent when suuno is offline)";
+    serviceConfig = {
+      Type = "oneshot";
+      # notify-email's himalaya auth.cmd runs via sh; needs sw/bin on PATH.
+      Environment = [ "PATH=/run/current-system/sw/bin" ];
+      ExecStart = "${unisonFailureGate}/bin/unison-failure-gate";
+    };
+  };
 
   # kmscon (enabled in modules/fonts.nix) takes tty1 with --no-switchvt and
   # blocks kodi from claiming the console. Disable it here.
