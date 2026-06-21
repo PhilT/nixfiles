@@ -284,6 +284,7 @@ in {
         ${lib.optionalString (config.machine == "spruce") ''
           exec sway-output-listener
           exec sway-workspace-nudge
+          exec sway-syncobj-guard-watch
         ''}
       '';
     };

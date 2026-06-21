@@ -7,3 +7,4 @@ master.key
 credentials.yml.enc
 .direnv
 target/
+.claude/settings.local.json

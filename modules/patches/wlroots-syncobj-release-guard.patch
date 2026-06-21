@@ -1,0 +1,36 @@
+Replace a fatal assert() with a graceful skip in the explicit-sync
+(linux-drm-syncobj-v1) buffer-release path, and log when it triggers.
+
+On NVIDIA, when a client (e.g. Kitty) is slow to ack a configure on map,
+sway's transaction handler times out and force-applies the transaction.
+The scene reconfigure path then re-signals release on a buffer whose lock
+count has already dropped to 0, tripping `assert(buffer->n_locks > 0)` and
+aborting the entire compositor. The sole caller (types/scene/surface.c)
+ignores the return value, and a buffer with n_locks == 0 is already being
+released, so skipping the extra release signal is safe.
+
+This suppresses the symptom (the abort) rather than fixing the underlying
+buffer-lifetime race upstream, so it logs a WLR_ERROR marker when it fires.
+
+--- a/types/wlr_linux_drm_syncobj_v1.c	2026-06-13 12:33:44.513345270 +0100
++++ b/types/wlr_linux_drm_syncobj_v1.c	2026-06-13 13:09:10.474515546 +0100
+@@ -487,7 +487,18 @@
+ 
+ bool wlr_linux_drm_syncobj_v1_state_signal_release_with_buffer(
+ 		struct wlr_linux_drm_syncobj_surface_v1_state *state, struct wlr_buffer *buffer) {
+-	assert(buffer->n_locks > 0);
++	if (buffer->n_locks == 0) {
++		// Upstream invariant violation: wlroots asserts n_locks > 0 here.
++		// Under a forced transaction (a client slow to ack a configure on
++		// map) the scene reconfigure path can re-signal release on a buffer
++		// already being released. This guard suppresses the symptom (a full
++		// compositor abort) rather than fixing the root lifetime bug; the
++		// sole caller (types/scene/surface.c) ignores our return value. Log
++		// so we notice when it fires and can drop this once wlroots fixes it.
++		wlr_log(WLR_ERROR, "linux-drm-syncobj-v1: skipped buffer release with "
++			"n_locks==0 (averted compositor abort; local workaround patch)");
++		return false;
++	}
+ 	if (state->release_timeline == NULL) {
+ 		// This can happen if an existing surface with a buffer has a
+ 		// syncobj_surface_v1_state created but no new buffer with release

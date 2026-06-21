@@ -10,6 +10,7 @@ let
 in with colors; {
   imports = [
     ./config.nix
+    ../wlroots-syncobj-fix.nix
     ../scripts/restore-workspaces.nix
     ../scripts/swap-workspaces.nix
     ../scripts/swap-workspace-contents.nix
@@ -37,7 +38,10 @@ in with colors; {
     enable = true;
     settings = rec {
       initial_session = {
-        command = "${pkgs.sway}/bin/sway ${config.swayOptions}";
+        # Wrapped in systemd-cat so sway/wlroots stderr reaches the journal
+        # (greetd otherwise sends session stdio to the VT). This makes the
+        # linux-drm-syncobj-v1 guard marker visible to sway-syncobj-guard-watch.
+        command = "${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway ${config.swayOptions}";
         user = config.username;
       };
       default_session = initial_session;
