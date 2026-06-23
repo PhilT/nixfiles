@@ -45,7 +45,13 @@ nixx build --clean            # Run garbage collection before build
 nixx build -m <machine>       # Build for specific machine
 ```
 
-**minoo builds must run on minoo itself** — building/switching minoo from spruce (`nixx build -m minoo` on spruce) does not work. SSH to minoo and run the build there (`ssh minoo 'nixx build -s -m minoo'`). The nixfiles repo is available at `/data/code/nixfiles` on minoo.
+**minoo changes must be built and tested on minoo, not spruce.** minoo cannot be built from spruce (`nixx build -m minoo` there does not work), so a minoo change can only be validated on minoo itself. Workflow:
+
+1. Edit on spruce as usual.
+2. Copy the changed file(s) to minoo's checkout: `scp <file> minoo:/data/code/nixfiles/<file>`
+3. Verify on minoo: `ssh minoo 'nixx build -s -m minoo'` — only proceed once it builds cleanly.
+4. Commit and push from spruce.
+5. Finalize minoo: `ssh minoo 'git -C /data/code/nixfiles checkout -- <file> && git -C /data/code/nixfiles pull'` — discards the synced copy and fast-forwards to the pushed commit, leaving a clean tree.
 
 ### Machine Setup
 ```bash
