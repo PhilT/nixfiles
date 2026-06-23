@@ -45,6 +45,8 @@ nixx build --clean            # Run garbage collection before build
 nixx build -m <machine>       # Build for specific machine
 ```
 
+**minoo builds must run on minoo itself** — building/switching minoo from spruce (`nixx build -m minoo` on spruce) does not work. SSH to minoo and run the build there (`ssh minoo 'nixx build -s -m minoo'`). The nixfiles repo is available at `/data/code/nixfiles` on minoo.
+
 ### Machine Setup
 ```bash
 nixx setup -m <machine>       # Install NixOS on new machine

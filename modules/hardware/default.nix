@@ -32,4 +32,8 @@
 
   # Enable SMART monitoring of all disks
   services.smartd.enable = true;
+  # smartd runs the daemon but doesn't put the CLI on PATH; add it for ad-hoc
+  # checks. Note: do not SMART-poll minoo's dpool USB enclosure (0781:55ae) —
+  # the bridge mishandles pass-through and resets the link (see hosts/minoo).
+  environment.systemPackages = [ pkgs.smartmontools ];
 }
