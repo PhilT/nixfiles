@@ -201,7 +201,8 @@ in {
 
         # Switch the current container between different layout styles
         bindsym $mod+Ctrl+s layout stacking
-        # bindsym $mod+t layout tabbed
+        # Set a title on the current workspace ("N.title" in waybar)
+        bindsym $mod+t exec name-workspace
         bindsym $mod+Ctrl+t layout toggle
         bindsym $mod+Ctrl+q layout toggle split
 

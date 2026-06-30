@@ -9,6 +9,7 @@
     ./scripts/resetperms.nix
     ./scripts/payslips.nix
     ./scripts/moxel.nix
+    ./scripts/name-workspace.nix
   ];
 
   programs = {

@@ -23,11 +23,8 @@ in with colors;
         };
         "sway/workspaces" = {
           window-rewrite = {};
-          format = "{icon}";
+          format = "{name}";
           on-click = "activate";
-          format-icons = {
-            "10" = "0";
-          };
           sort-by-number = true;
         };
         "sway/window" = {
