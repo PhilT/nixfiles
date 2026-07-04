@@ -23,12 +23,14 @@ let
     installPhase = ''
       mkdir -p $out
       cp -r ext/* $out/
-      # Chromium refuses to load unpacked extensions containing _metadata/
-      # or a "key" field in the manifest (both are CRX-signing artifacts).
+      # _metadata/ holds CRX-signing verification data Chromium can't
+      # validate for an unpacked load. Keep "key" though: it's what makes
+      # Chromium assign the same extension ID as the Web Store listing,
+      # which extensions doing origin-checked auth (e.g. Claude) require.
       rm -rf $out/_metadata
       if [ -f $out/manifest.json ]; then
         chmod +w $out/manifest.json
-        jq 'del(.key, .update_url)' $out/manifest.json > $out/manifest.json.tmp
+        jq 'del(.update_url)' $out/manifest.json > $out/manifest.json.tmp
         mv $out/manifest.json.tmp $out/manifest.json
       fi
     '';
@@ -38,12 +40,17 @@ let
     {
       name = "ublock-origin";
       id = "cgbcahbpdhpcegmbfconppldiemgcoii";
-      sha256 = "sha256-6ZpVwQ+x9uhEQGg0+3bxB+rnQ6xudLJ4Hnsc8Z8d+Fw=";
+      sha256 = "sha256-h15R+BVJTNps/7WHkE+6xf9deJJkL8gsfZiVmzllYPg=";
     }
     {
       name = "garmin-workouts";
       id = "odgdfpclpfmmemajpmgfipfdfmjgihac";
       sha256 = "0sc51myq7a3dl38l9bsqk3my94zg0rnssmxpj50iqfkj96177npk";
+    }
+    {
+      name = "claude";
+      id = "fcoeoabgfenejglbffodgkkbkcdhcgfn";
+      sha256 = "sha256-nVsBVscJKPpYSulTeuOGq74lOvB9GdIPJZIIECB+YbM=";
     }
   ];
 
