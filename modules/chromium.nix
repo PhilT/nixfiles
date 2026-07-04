@@ -101,6 +101,9 @@ in {
           "--no-default-browser-check"
           "--ozone-platform-hint=auto"
           "--user-data-dir=/data/home/chromium"
+          # NVIDIA's VAAPI WebRTC decode path produces corrupted ("noise")
+          # video tiles in Google Meet. Force software video decode.
+          "--disable-accelerated-video-decode"
         ];
       })
 
