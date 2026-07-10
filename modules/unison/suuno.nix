@@ -11,23 +11,23 @@ in
 
   unison = {
     target = "suuno";
+    # Only the small bidirectional paths stay on unison. The large one-way
+    # trees (music, music_extra, pictures/showcase, books) are pushed by rsync
+    # over the same mount (hosts/minoo/suuno-rsync.nix): rsync compares
+    # mtime+size, so unlike unison it never re-reads the tree after a remount
+    # churns sshfs's synthetic inodes. pictures/camera stays here because the
+    # filing workflow relies on minoo->phone deletion propagation.
     paths = [
-      "books"
       "documents"
-      "music"
-      "music_extra"
       "notes"
-      "pictures/showcase"
-      "pictures/camera"
       "sync"
+      "pictures/camera"
     ];
     extraConfig = ''
       perms = 0
       dontchmod = true
 
       ${mountsConfig config.unison.paths}
-      forcepartial = Path pictures/showcase /data
-      forcepartial = Path music /data
     '';
     waitFor = [ "network-online.target" "mnt-suuno.mount" ];
   };
@@ -42,6 +42,8 @@ in
       "port=2222"
       "reconnect"
       "workaround=rename"
+      # suuno is a phone that drops off wifi constantly, so favour fast reconnect:
+      # 15s * 3 = 45s of silence before ssh tears down and reconnects.
       "ServerAliveInterval=15"
       "ServerAliveCountMax=3"
       "allow_other"

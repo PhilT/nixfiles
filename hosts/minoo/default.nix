@@ -31,6 +31,7 @@ in {
     # Not only does this provide a sync command to my phone but also
     # makes the unison command available for other machines to use.
     ../../modules/unison/suuno.nix
+    ../../modules/unison/suuno-rsync.nix
     ../../modules/ssh.nix
 
     # Media Server/Player
