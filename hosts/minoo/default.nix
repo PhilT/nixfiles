@@ -68,6 +68,14 @@ in {
   # blocks kodi from claiming the console. Disable it here.
   services.kmscon.enable = lib.mkForce false;
 
+  # minoo is internet-exposed (router forwards 80/443 for pacent), so require a
+  # password for sudo rather than the global passwordless default in base.nix:
+  # code-exec as phil shouldn't be one step from root. Trade-off: non-interactive
+  # `ssh minoo 'nixx build -s'` no longer works (sudo needs a tty); build with
+  # `ssh -t` or at the console. NOTE: phil is still in the docker group here, which
+  # is passwordless-root-equivalent, so this closes the sudo path but not that one.
+  security.sudo.wheelNeedsPassword = lib.mkForce true;
+
   # How do we supply the key?
   # Need to change to keyfile instead of prompt?
   # Maybe not though, if permanently on and connected to the TV that
