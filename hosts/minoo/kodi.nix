@@ -2,7 +2,10 @@
 {
   services.kodi = {
     enable = true;
-    openFirewall = true;
+    # Kodi's built-in web server is disabled (nothing listens on 8080), so keep the
+    # firewall closed rather than opening a port to nothing. Re-enable if the web
+    # server / a remote-control app is ever turned on.
+    openFirewall = false;
     package = pkgs.kodi-gbm.withPackages (p: [
       # video
       p.a4ksubtitles

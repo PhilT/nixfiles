@@ -13,5 +13,10 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 2586 ];
+  # Accept 2586 only on the LAN interface (minoo is on wlan0). Local senders
+  # (modules/notify.nix) use localhost, which the firewall always allows on lo, so
+  # they're unaffected. This keeps ntfy off the docker bridges and any future
+  # interface (e.g. a VPN). ntfy has no auth, so the control against internet
+  # exposure remains "only forward 80/443 at the router", never 2586.
+  networking.firewall.interfaces.wlan0.allowedTCPPorts = [ 2586 ];
 }

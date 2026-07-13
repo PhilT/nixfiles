@@ -29,22 +29,60 @@ let
     '';
   };
 in {
-  # Docker engine for Kamal; phil deploys as a non-root user in the docker group.
-  virtualisation.docker.enable = true;
-  users.users.${config.username}.extraGroups = [ "docker" ];
+  # Docker engine for Kamal. NixOS defaults the log driver to journald, but Kamal
+  # passes `--log-opt max-size=10m` (a json-file/local option) to the proxy and app
+  # containers, which journald rejects. json-file supports it and gives log rotation.
+  virtualisation.docker = {
+    enable = true;
+    logDriver = "json-file";
+  };
+
+  # Dedicated deploy user for Kamal. Kamal runs its SSH commands through the login
+  # shell and emits POSIX/bash syntax (e.g. `... || (echo; exit 1)`) that phil's
+  # fish shell can't parse, so deploy uses bash. It authenticates with the same
+  # keys as phil (openssh.authorizedKeysFiles is system-wide) and joins the docker
+  # group to run the containers. The containers run as uid 987 (see below), so the
+  # volume ownership is unaffected by which user invokes Docker.
+  users.users.deploy = {
+    isNormalUser = true;
+    shell = pkgs.bashInteractive;
+    extraGroups = [ "docker" ];
+    # Same keys as phil (nixx drops these pubkeys to /tmp during the build), so
+    # Kamal reaches deploy@minoo from spruce with the existing key.
+    openssh.authorizedKeys.keys = [
+      (builtins.readFile /tmp/id_ed25519_spruce.pub)
+      (builtins.readFile /tmp/id_ed25519_aramid.pub)
+      (builtins.readFile /tmp/id_ed25519_minoo.pub)
+    ];
+  };
 
   # Public web ports. kamal-proxy terminates TLS (Let's Encrypt) on 443 and serves
   # the HTTP-01 challenge on 80.
+  #
+  # This line only governs a non-container process binding 80/443. Docker publishes
+  # kamal-proxy's ports with a DNAT rule evaluated before the nixos-fw (INPUT)
+  # chain, so the container ports are reachable regardless of this setting; the
+  # DOCKER-USER chain (currently empty) is where per-source filtering would go.
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  # Persistent volume directories, bind-mounted into the container as uid 1000
-  # (its rails user). App state (SQLite DBs, Garmin tokens) on the internal NVMe;
-  # backups on the second disk (/data) so a backup and its source aren't on the
-  # same drive. 0700 so only the container user can read them.
+  # Dedicated unprivileged service user the pacent container runs as (uid 987 in
+  # its image; see USER in the pacent Dockerfile). Deliberately NOT uid 1000: that
+  # is phil, who has passwordless sudo and docker-group access, so a container
+  # break-out as 1000 would land on the host as root. 987 owns only the volume
+  # dirs below and has no shell, no groups and no sudo.
+  users.groups.pacent.gid = 987;
+  users.users.pacent = {
+    isSystemUser = true;
+    group = "pacent";
+    uid = 987;
+  };
+
+  # Persistent volume directory, bind-mounted into the container as /rails/storage
+  # and owned by the pacent service user (uid 987, matching USER in the image). App
+  # state (SQLite DBs, Garmin tokens) lives on the internal NVMe. 0700 so only pacent
+  # can read it.
   systemd.tmpfiles.rules = [
-    "d /var/lib/pacent 0700 1000 1000 -"
-    "d /data/pacent 0755 1000 1000 -"
-    "d /data/pacent/backups 0700 1000 1000 -"
+    "d /var/lib/pacent 0700 987 987 -"
   ];
 
   # Dynamic DNS: keep pacent.fit pointed at the home IP as it changes.
