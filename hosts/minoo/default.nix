@@ -47,6 +47,9 @@ in {
     # Push notifications (ntfy server + system-alert senders)
     ../../modules/ntfy.nix
     ../../modules/notify.nix
+
+    # Pacent production (Docker/Kamal host, web ports, volumes, dynamic DNS)
+    ./pacent.nix
   ];
 
   # Gate unison failure notifications on suuno actually being reachable (see above).
