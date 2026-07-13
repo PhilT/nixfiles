@@ -49,7 +49,7 @@ nixx build -m <machine>       # Build for specific machine
 
 1. Edit on spruce as usual.
 2. Copy the changed file(s) to minoo's checkout: `scp <file> minoo:/data/code/nixfiles/<file>`
-3. Verify on minoo: `ssh minoo 'nixx build -s -m minoo'` — only proceed once it builds cleanly.
+3. Verify on minoo — **Phil runs this step**, because sudo on minoo now requires a password (`security.sudo.wheelNeedsPassword = true`). Build interactively with `ssh -t minoo 'nixx build -s -m minoo'` and enter the password at the prompt, or build at the console. Non-interactive `ssh minoo 'nixx build -s -m minoo'` fails (sudo has no tty), so Claude cannot do this step. Only proceed once it builds cleanly.
 4. Commit and push from spruce.
 5. Finalize minoo: `ssh minoo 'git -C /data/code/nixfiles checkout -- <file> && git -C /data/code/nixfiles pull'` — discards the synced copy and fast-forwards to the pushed commit, leaving a clean tree.
 
