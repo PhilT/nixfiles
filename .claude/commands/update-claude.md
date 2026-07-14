@@ -1,6 +1,6 @@
 ---
 description: Update the claude-code pin in modules/development.nix to the latest release
-allowed-tools: Bash(curl:*), Bash(nix:*), Bash(jq:*), Read, Edit
+allowed-tools: Bash(curl:*), Bash(nix:*), Bash(jq:*), Bash(awk:*), Read, Edit
 ---
 
 Update the `claude-code` overlay derivation in `modules/development.nix` to the latest published release.
@@ -31,9 +31,16 @@ Steps:
 
 5. Edit `modules/development.nix`: update the `version` line and the `hash` line with the new values.
 
-6. Report the version bump (old → new).
+6. Fetch the changelog entries for every release in the jump. The upstream `CHANGELOG.md` has one `## X.Y.Z` heading per release, newest first, so an `awk` range from the new heading down to (but excluding) the old heading yields exactly the releases between them:
+   ```
+   curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md \
+     | awk -v old="<OLD_VERSION>" -v new="<NEW_VERSION>" '$0=="## "new{p=1} $0=="## "old{p=0} p'
+   ```
+   If it returns nothing (e.g. the changelog hasn't published the new version yet), note that and carry on.
 
-7. Build and switch to the new configuration:
+7. Report the version bump (old → new), followed by the changelog entries from step 6 grouped by version.
+
+8. Build and switch to the new configuration:
    ```
    nixx build -s
    ```
