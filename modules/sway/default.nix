@@ -31,6 +31,7 @@ in with colors; {
   programs.dconf.enable = true;             # Used in sway config to set some themes
 
   catppuccin.enable = true;
+  catppuccin.autoEnable = true;   # match enable; silences the upcoming autoEnable-default change warning
   catppuccin.flavor = variant;
 
   programs.ssh.startAgent = true;

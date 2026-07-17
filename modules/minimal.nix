@@ -52,7 +52,7 @@
 
   programs.fish.enable = true;                # Fish! Shell
   programs.fish.package = pkgs.fish.override { usePython = false; };
-  documentation.man.generateCaches = false;   # Stops painfully slow builds when using Fish
+  documentation.man.cache.enable = false;   # Stops painfully slow builds when using Fish
   networking.hostName = config.machine;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = lib.mkForce [];
