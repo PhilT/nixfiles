@@ -78,7 +78,7 @@
       gcc
       claude-code
       lldb_21
-      nodejs_20 # Claude requires Node.js < 24
+      nodejs_22 # Claude requires Node.js < 24 (nodejs_20 is EOL/insecure in 26.05)
 
       # Language servers
       clang-tools

@@ -15,7 +15,7 @@ use crate::{wallpaper, Ctx};
 const ALL_CHANNELS: &[&str] = &["catppuccin", "nixos-hardware", "nixos"];
 const CATPPUCCIN_CHAN: &str = "https://github.com/catppuccin/nix/archive/main.tar.gz";
 const HARDWARE_CHAN: &str = "https://github.com/NixOS/nixos-hardware/archive/master.tar.gz";
-const NIXOS_CHAN: &str = "https://nixos.org/channels/nixos-25.11";
+const NIXOS_CHAN: &str = "https://nixos.org/channels/nixos-26.05";
 const HOME_DIR: &str = "/home/nixos";
 
 pub struct SetupPaths {

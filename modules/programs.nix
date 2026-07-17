@@ -91,7 +91,7 @@
       (import ./meowpdf.nix { inherit pkgs; })
 
       # Productivity
-      (himalaya.override { withFeatures = [ "notmuch" ]; })  # Email client
+      (himalaya.override { buildFeatures = [ "notmuch" ]; })  # Email client
       isync                 # Mailbox synchronization (mbsync)
       notmuch               # Email indexing and tagging
     ];
