@@ -58,6 +58,86 @@
   networking.networkmanager.plugins = lib.mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
 
+  # nmcli colours, themed to Catppuccin Macchiato. nmcli reads
+  # terminal-colors.d(5); its default faint (^[[2m) rows are near-invisible.
+  environment.etc."terminal-colors.d/nmcli.scheme".text = ''
+    # Catppuccin Macchiato -- truecolor 38;2;R;G;B
+    connection-activated       38;2;166;218;149
+    connection-activating      38;2;238;212;159
+    connection-disconnecting   38;2;237;135;150
+    connection-external        38;2;198;160;246
+    connection-invisible       38;2;147;154;183
+    connection-deprecated      38;2;245;169;127
+    connectivity-full          38;2;166;218;149
+    connectivity-limited       38;2;238;212;159
+    connectivity-none          38;2;237;135;150
+    connectivity-portal        38;2;245;169;127
+    connectivity-unknown       38;2;147;154;183
+    device-activated           38;2;166;218;149
+    device-activating          38;2;238;212;159
+    device-disconnected        38;2;237;135;150
+    device-external            38;2;198;160;246
+    device-firmware-missing    38;2;245;169;127
+    device-plugin-missing      38;2;245;169;127
+    device-unavailable         38;2;147;154;183
+    device-disabled            38;2;147;154;183
+    manager-running            38;2;166;218;149
+    manager-starting           38;2;238;212;159
+    manager-stopped            38;2;237;135;150
+    permission-auth            38;2;238;212;159
+    permission-no              38;2;237;135;150
+    permission-yes             38;2;166;218;149
+    prompt                     38;2;138;173;244
+    state-asleep               38;2;147;154;183
+    state-connected-global     38;2;166;218;149
+    state-connected-local      38;2;238;212;159
+    state-connected-site       38;2;139;213;202
+    state-connecting           38;2;238;212;159
+    state-disconnected         38;2;237;135;150
+    state-disconnecting        38;2;237;135;150
+    wifi-signal-excellent      38;2;166;218;149
+    wifi-signal-good           38;2;139;213;202
+    wifi-signal-fair           38;2;238;212;159
+    wifi-signal-poor           38;2;245;169;127
+    wifi-signal-unknown        38;2;147;154;183
+    wifi-deprecated            38;2;245;169;127
+    disabled                   38;2;147;154;183
+    enabled                    38;2;166;218;149
+  '';
+
+  # nmtui (and any other libnewt/whiptail TUI) themed to Catppuccin Macchiato.
+  # newt only knows the 16 named ANSI colours, but kitty maps those to the
+  # Macchiato palette, so e.g. "blue" renders as #8aadf4. Entry format is
+  # key=fg,bg with NO internal spaces (newt splits on whitespace); defaults
+  # are root=white,blue -- the grey-on-blue this replaces.
+  environment.etc."newt/palette.macchiato".text = ''
+    # Catppuccin Macchiato for libnewt / nmtui
+    root=white,black
+    roottext=lightgray,black
+    border=blue,black
+    window=white,black
+    shadow=black,black
+    title=blue,black
+    button=black,blue
+    actbutton=black,cyan
+    compactbutton=lightgray,black
+    checkbox=white,black
+    actcheckbox=black,cyan
+    entry=white,black
+    disentry=gray,black
+    label=lightgray,black
+    listbox=white,black
+    actlistbox=black,blue
+    sellistbox=black,cyan
+    actsellistbox=black,blue
+    textbox=white,black
+    acttextbox=black,blue
+    helpline=lightgray,black
+    emptyscale=white,gray
+    fullscale=white,blue
+  '';
+  environment.variables.NEWT_COLORS_FILE = "/etc/newt/palette.macchiato";
+
   # Speed up shutdown - reduce NetworkManager stop timeout (normally takes <1s)
   systemd.services.NetworkManager.serviceConfig.TimeoutStopSec = "10s";
   users.groups.fuse = {}; # TODO: Confirm whether this is needed (in extraGroups as well)
