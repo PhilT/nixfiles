@@ -12,11 +12,11 @@
     (final: prev: {
       claude-code = prev.stdenvNoCC.mkDerivation rec {
         pname = "claude-code";
-        version = "2.1.209";
+        version = "2.1.218";
 
         src = prev.fetchurl {
           url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/${version}/linux-x64/claude";
-          hash = "sha256-uIL0uLJ3cviXVA31DyQAAgb0OpQm6PfRm9BllZtp6d0=";
+          hash = "sha256-4SBxdRqTNrivEBLBAzWP8ErBj5qv9Kc4z/e6XN+vY/I=";
         };
 
         dontUnpack = true;
