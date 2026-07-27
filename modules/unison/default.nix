@@ -127,8 +127,8 @@ in
   # as we sync everything to Minoo with the above
   # filters.
   environment.etc."unison/paths.prf".text = ''
-    repeat = watch
-    watch = true
+    repeat = ${config.unison.repeat}
+    watch = ${lib.boolToString (config.unison.repeat == "watch")}
 
     ${pathsConfig config.unison.paths}
   '';
@@ -137,10 +137,16 @@ in
     enable = true;
     description = "Unison filesync";
     startLimitIntervalSec = 0;
+    restartTriggers = [
+      config.environment.etc."unison/common.prf".text
+      config.environment.etc."unison/paths.prf".text
+    ];
     serviceConfig = {
       Type = "simple";
       ExecStart = "/run/current-system/sw/bin/sync_${config.unison.target} -include paths";
-      ExecStop = "/run/current-system/sw/bin/pkill unison";
+      # Scoped to this profile's invocation so it doesn't kill other unison
+      # services (unison-camera on minoo).
+      ExecStop = "/run/current-system/sw/bin/pkill -f 'unison .*-include paths'";
       Restart = "always";
       RestartSec = "5";
       RestartSteps = "10";

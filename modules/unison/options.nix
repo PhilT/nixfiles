@@ -17,6 +17,12 @@
         default = "";
       };
 
+      repeat = lib.mkOption {
+        type = lib.types.str;
+        description = "Unison repeat mode: \"watch\" for fsmonitor-driven sync, or an interval in seconds between full scans";
+        default = "watch";
+      };
+
       waitFor = lib.mkOption {
         type = with lib.types; listOf str;
         description = "Used as the after directive in the Unison systemd service";

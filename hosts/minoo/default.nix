@@ -54,6 +54,7 @@ in {
 
   # Gate unison failure notifications on suuno actually being reachable (see above).
   systemd.services.unison.unitConfig.OnFailure = [ "unison-failure-notify.service" ];
+  systemd.services.unison-camera.unitConfig.OnFailure = [ "unison-failure-notify.service" ];
   systemd.services.unison-failure-notify = {
     description = "Gated ntfy notification for unison failures (silent when suuno is offline)";
     serviceConfig = {
