@@ -2,6 +2,7 @@
   imports = [
     ./minimal.nix
     ../../modules/hardware/bluetooth.nix
+    ../../modules/scripts/bt-sync-windows.nix
     ../../modules/plymouth.nix
     ../../modules/common.nix
     ../../modules/common_gui.nix
