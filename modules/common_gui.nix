@@ -43,7 +43,9 @@
       echo "$ADD_OUT"
       IDS=$(echo "$ADD_OUT" | grep "book ids:" | sed 's/.*book ids: //' | tr ', ' ' ' | tr -s ' ')
       echo "Verify ebooks have been added to Calibre and can be read"
-      echo "Also connect Boox so ebooks can be copied to it"
+      echo "Be sure to close Calibre before continuing"
+      echo "Also connect Boox via USB so ebooks can be copied to it"
+      echo "ADB Debugging must be enabled (Apps->Burger menu->App Management->USB Debug Mode)"
       read -p "Press ENTER to export"
       EXPORT_TMP=$(mktemp -d)
       for ID in $IDS; do
