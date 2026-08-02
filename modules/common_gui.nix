@@ -79,6 +79,7 @@
     imv                   # Image viewer
     inkscape
     mpv                   # Video player
+    tauon                 # Music player, album art gallery view
     digikam               # Photo manager
     wf-recorder           # Screen recorder
 
