@@ -10,6 +10,7 @@
     ./scripts/move-window.nix
     ./scripts/start-apps.nix
     ./scripts/stop-machine.nix
+    ./scripts/tools.nix
   ];
 
   hardware.keyboard.zsa.enable = true;
