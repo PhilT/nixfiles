@@ -97,7 +97,7 @@ in {
         set $mod Mod4
 
         # Set some apps to load into certain workspace
-        assign [app_id="Slack"] workspace number 6
+        assign [app_id="(?i)slack"] workspace number 6
         assign [title="Claude"] workspace number 9
 
         # Reference windows live in the scratchpad. Toggle via $mod+<key>.
