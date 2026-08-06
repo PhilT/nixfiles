@@ -16,7 +16,7 @@
 
         src = prev.fetchurl {
           url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/${version}/linux-x64/claude";
-          hash = "sha256-Z09h8g/zBvMQDPkgDkw2xLcCeLW+8ohFSYGblCqJyGM=";
+          hash = "sha256-mCJkdPgC4wlNaobFreiIPBYgbQ/LXEALdAHIAAY+mdc=";
         };
 
         dontUnpack = true;
