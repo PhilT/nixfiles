@@ -133,6 +133,26 @@ pub fn run_capture(ctx: &Ctx, cmd: &str, section: &str, show_stdout: bool) -> Re
     Ok(())
 }
 
+/// Run a command (no sudo), logging it under `section` and returning its
+/// captured stdout. For read-only commands whose output the caller parses.
+pub fn capture(cmd: &str, section: &str) -> Result<String> {
+    log(section, cmd);
+    let out = Command::new("sh")
+        .arg("-c")
+        .arg(cmd)
+        .stdin(Stdio::null())
+        .output()
+        .context("spawning command")?;
+    if !out.status.success() {
+        bail!(
+            "command failed (exit {:?}): {cmd}\nstderr: {}",
+            out.status.code(),
+            String::from_utf8_lossy(&out.stderr).trim()
+        );
+    }
+    Ok(String::from_utf8(out.stdout)?)
+}
+
 /// Shell out without logging or capturing — for fire-and-forget calls
 /// (e.g. swaymsg) where the caller doesn't care about the output.
 pub fn run_capture_quiet(cmd: &str) -> Result<()> {

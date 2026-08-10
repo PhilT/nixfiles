@@ -3,6 +3,7 @@ use clap::{Args, Parser, Subcommand};
 use std::path::PathBuf;
 use std::process::Command;
 
+mod claude_code;
 mod credentials;
 mod disks;
 mod iso;
@@ -146,6 +147,14 @@ enum Commands {
         #[arg(long, default_value = "home")]
         wifi: String,
     },
+    /// Bump the claude-code overlay pin to the latest release, then build+switch
+    UpdateClaude {
+        #[command(flatten)]
+        machine_opts: MachineOpts,
+        /// Don't write changes or build; just log what would happen
+        #[arg(long)]
+        dryrun: bool,
+    },
 }
 
 #[derive(Subcommand)]
@@ -248,6 +257,13 @@ fn main() -> Result<()> {
         } => {
             let ctx = Ctx::new(app_dir.clone(), machine_opts.machine, machine_opts.module, dryrun)?;
             cmd_build(&ctx, switch, boot, upgrade, clean, trace, overwrite, !no_nom, &wifi)
+        }
+        Commands::UpdateClaude { machine_opts, dryrun } => {
+            let ctx = Ctx::new(app_dir.clone(), machine_opts.machine, machine_opts.module, dryrun)?;
+            if claude_code::update(&ctx)? {
+                cmd_build(&ctx, true, false, false, false, false, false, true, "home")?;
+            }
+            Ok(())
         }
     }
 }
