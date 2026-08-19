@@ -40,7 +40,7 @@ let
     {
       name = "ublock-origin";
       id = "cgbcahbpdhpcegmbfconppldiemgcoii";
-      sha256 = "sha256-bBZwpd2WjDqve9mTXo1iwAF32DSaBOiQTk/Xs95WqKc=";
+      sha256 = "sha256-7A+qW8ryoUpimRvOgffQtUY6AbUCgWvEELvArADzZFI=";
     }
     {
       name = "garmin-workouts";
@@ -50,7 +50,7 @@ let
     {
       name = "claude";
       id = "fcoeoabgfenejglbffodgkkbkcdhcgfn";
-      sha256 = "sha256-qE1R4SousMAjFeblDNqGX12SxA9ywV6vMLXeBn/1We0=";
+      sha256 = "sha256-XBwTGKzxC7Rji+EprjT53+couGenDGAzgvieZqXQi+M=";
     }
   ];
 
