@@ -282,8 +282,8 @@ in {
         exec start-apps
 
         # Restore workspaces when outputs reconnect (e.g. after suspend)
+        # (sway-output-listener disabled for now)
         ${lib.optionalString (config.machine == "spruce") ''
-          exec sway-output-listener
           exec sway-syncobj-guard-watch
         ''}
       '';
