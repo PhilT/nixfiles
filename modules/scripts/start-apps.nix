@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "start-apps" ''
-      result=$(printf "Yes\nNo" | tofi -c /etc/config/tofi.ini --prompt-text "Sync from minoo? ")
+      result=$(printf "No\nYes" | tofi -c /etc/config/tofi.ini --prompt-text "Sync from minoo? ")
 
       # Escape pressed - empty result means cancel
       if [ -z "$result" ]; then
