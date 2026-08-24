@@ -25,12 +25,22 @@
 
     (writeShellScriptBin "de-acsm" ''
       echo "Go to https://www.kobo.com/gb/en/library/books and download the ebook you want to decrypt"
-      echo "It should be placed in /data/downloads/URLLink.acsm"
+      echo "It should be placed in /data/downloads/URLLink.acsm (URLLink (1).acsm etc. are also picked up)"
       read -p "Press ENTER to decrypt"
+      shopt -s nullglob
+      ACSMS=(/data/downloads/URLLink*.acsm)
+      if [ ''${#ACSMS[@]} -eq 0 ]; then
+        echo "No URLLink*.acsm files in /data/downloads"
+        exit 1
+      fi
       mkdir -p /tmp/acsm
       cd /tmp/acsm
-      acsmdownloader -D /data/home/adept /data/downloads/URLLink.acsm
-      echo "Downloaded epub to $(pwd)"
+      rm -f ./*.epub
+      for ACSM in "''${ACSMS[@]}"; do
+        echo "Decrypting $ACSM"
+        acsmdownloader -D /data/home/adept "$ACSM"
+      done
+      echo "Downloaded ''${#ACSMS[@]} epub(s) to $(pwd)"
       if [ ! -f /data/home/Adobe_PrivateLicenseKey--anonymous.der ]; then
         cd /data/home
         acsmdownloader -D /data/home/adept --export-private-key
@@ -68,8 +78,8 @@
       done
 
       rm -rf "$EXPORT_TMP"
-      rm *.epub
-      rm /data/downloads/URLLink.acsm
+      rm ./*.epub
+      rm -- "''${ACSMS[@]}"
     '')
 
     # Audio/visual tools
