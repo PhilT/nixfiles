@@ -45,6 +45,13 @@
 
   # Holds the Supermaven api_key, so it lives in a file bin/sync-to-public filters out of
   # the public repository rather than inline here where publishing would carry it.
+  #
+  # To rotate the key: ~/.supermaven/config.json is a symlink to this file (tmpfiles rule
+  # below) and /etc/supermaven/config.json points into the nix store, so sm-agent's write
+  # fails and it keeps the old key. Delete the symlink, open Neovim so sm-agent registers
+  # and writes a fresh ~/.supermaven/config.json, copy that over config/supermaven.json,
+  # then `nixx build -s`. If the symlink doesn't come back, `sudo systemd-tmpfiles --create`
+  # restores it.
   environment.etc."supermaven/config.json".source = ../config/supermaven.json;
 
   environment.etc."claude-code/managed-settings.json".source = ../dotfiles/claude-settings.json;
