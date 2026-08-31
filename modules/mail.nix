@@ -2,12 +2,15 @@
 let
   unisonDir = "${config.persistedMachineDir}/unison";
 
-  # The address is substituted in at build time rather than written into the dotfiles,
-  # because bin/sync-to-public filters config/email out of the public repository and the
-  # dotfiles themselves are published. mbsync, notmuch and himalaya all read a static file
-  # and expand nothing, so this has to happen before the file reaches /etc.
-  email = lib.removeSuffix "\n" (builtins.readFile ../config/email);
-  withEmail = path: builtins.replaceStrings [ "@EMAIL@" ] [ email ] (builtins.readFile path);
+  # The address and phone number are substituted in at build time rather than written into
+  # the dotfiles, because bin/sync-to-public filters config/email and config/phone out of the
+  # public repository and the dotfiles themselves are published. mbsync, notmuch and himalaya
+  # all read a static file and expand nothing, so this has to happen before it reaches /etc.
+  private = name: lib.removeSuffix "\n" (builtins.readFile (../config + "/${name}"));
+  withPrivate = path: builtins.replaceStrings
+    [ "@EMAIL@" "@PHONE@" ]
+    [ (private "email") (private "phone") ]
+    (builtins.readFile path);
 in
 {
   imports = [
@@ -31,9 +34,9 @@ in
 
   environment = {
     etc = {
-      "mbsyncrc".text = withEmail ../dotfiles/mbsyncrc;
-      "notmuch/config".text = withEmail ../dotfiles/notmuch-config;
-      "himalaya/config.toml".text = withEmail ../dotfiles/himalaya-config.toml;
+      "mbsyncrc".text = withPrivate ../dotfiles/mbsyncrc;
+      "notmuch/config".text = withPrivate ../dotfiles/notmuch-config;
+      "himalaya/config.toml".text = withPrivate ../dotfiles/himalaya-config.toml;
 
       # Cold-archive backup profile for `sync_minoo_mail`. Live mbsync-managed
       # folders are deliberately NOT included — letting their per-client
