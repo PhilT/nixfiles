@@ -92,6 +92,10 @@ in
 
     # Claude Code state data to exclude
     ignore = Path home/claude/local
+    # Built into each machine from claude/hooks in this repository, so what sits here is a
+    # symlink into /etc that only resolves on a machine that has them.
+    ignore = Path home/claude/hooks
+
     ignore = Path home/claude/projects
     ignore = Path home/claude/statsig
     ignore = Path home/claude/todos

@@ -55,10 +55,17 @@
 
   environment.etc."claude-code/managed-settings.json".source = ../dotfiles/claude-settings.json;
 
+  # Claude Code's hooks: the scripts that decide what every session in every repository is
+  # allowed to do. They live here so a change to them is reviewed and has a history like the
+  # rest of the machine. ~/.claude/hooks is a symlink to this, so settings.json keeps
+  # invoking $HOME/.claude/hooks/<name>.sh, and an edit takes effect on `nixx build -s`.
+  environment.etc."claude-code/hooks".source = ../claude/hooks;
+
   systemd.tmpfiles.rules = [
     "L+ ${config.homeDir}/.supermaven/config.json - - - - /etc/supermaven/config.json"
     "L+ ${config.homeDir}/.claude.json - - - - ${config.persistedHomeDir}/claude.json"
     "L+ ${config.homeDir}/.claude - - - - ${config.persistedHomeDir}/claude"
+    "L+ ${config.persistedHomeDir}/claude/hooks - - - - /etc/claude-code/hooks"
   ];
 
   environment = {

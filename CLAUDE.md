@@ -17,6 +17,9 @@ This is a personal NixOS configuration repository that manages multiple machines
 - **`bin/`**: Executable shell scripts
 - **`config/`**: YAML configuration files for machines and settings
 - **`dotfiles/`**: Configuration files for various applications
+- **`claude/hooks/`**: Claude Code's hooks and their tests, built into `/etc/claude-code/hooks`
+  and symlinked from `~/.claude/hooks` (`modules/development.nix`). A change here takes effect
+  on `nixx build -s`, not on save; run `bash claude/hooks/tests/run-all.sh` before switching.
 - **`neovim/`**: Neovim Lua configuration files
   - `init.lua`: Main Neovim initialization
   - `plugins/`: Plugin-specific configuration files
