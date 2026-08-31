@@ -43,15 +43,9 @@
     })
   ];
 
-  environment.etc."supermaven/config.json" = {
-    text = (builtins.toJSON {
-      accepted_free_version = "true";
-      api_key = "dtvwqqqlemljabfxyuzmgthixnsoexev";
-      api_key_obtained_at = "2025-07-20 13:37:29.735744544";
-      link_id = "pLd6OTY7pAKxtbXewm97XDvQKpfYfgJ7";
-      machine_id = "11554dd9-2223-4d12-9eb2-8c96853eceb3";
-    });
-  };
+  # Holds the Supermaven api_key, so it lives in a file bin/sync-to-public filters out of
+  # the public repository rather than inline here where publishing would carry it.
+  environment.etc."supermaven/config.json".source = ../config/supermaven.json;
 
   environment.etc."claude-code/managed-settings.json".source = ../dotfiles/claude-settings.json;
 
